@@ -13,55 +13,60 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         .init = function(){
 
 
-            ##initialize the centroids table:
+            ##initialize the centroids of cluster table-------------
+            
             tab2 <- self$results$centroids
             vars <- self$options$vars
-            vars <- factor(vars,levels=vars)#reset the order in the order specified
+            vars <- factor(vars,levels=vars)
             nVars <- length(vars)
             k <- self$options$k
 
-            tab2$addColumn(name="cluster",title="Cluster No",type='integer')
+            tab2$addColumn(name="cluster",title="Cluster No",type='Integer')
 
-            for(i in 1:nVars)
-            {
+            for(i in seq_along(vars)){
+                
                 var <- vars[[i]]
+                
                 tab2$addColumn(name = paste0(var),
-                               index = i,
+                               # index = i,
                                type= 'number',
-                               format='zto',visible=TRUE)
+                                format='zto')
 
             }
 
 
             values <- list(cluster=1)
 
-            for(i in 1:nVars)
-            {
+            for(i in 1:nVars){
+                
                 values[[paste0(vars[[i]])]]  <- '\u2014'
             }
 
             ##add dummy values to table:
+            
             for(j in 1:k)
             {
                 values[["cluster"]]<-j
                 tab2$setRow(rowNo=j,values)
             }
-            print("done initializing")
+            
         },
 
 
  ########################################################
  
         .run = function() {
-            print('.runnig"')
-            text <- "started"
+            # print('.runnig"')
+            # text <- "started"
 
             if(!is.null(self$options$vars))
             {
 
                 dat2 <- jmvcore::select(self$data,self$options$vars)
 
-                ##standardize/normalize if necessary.
+                
+                #standardize variables-------------
+                
                 if(self$options$stand)
                 {
                     for(var in 1:ncol(dat2))
@@ -72,6 +77,7 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     }
                 }
 
+                
                 if(dim(dat2)[2]>0)
                 {
                     model <- stats::kmeans(dat2,
@@ -100,7 +106,8 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     }
                     
                     
-                    ##the centroids table:
+            ##The centroids of clusters table------------
+                    
                     tab2 <- self$results$centroids
                     vars <- self$options$vars
                     vars <- factor(vars,levels=vars)
@@ -120,6 +127,9 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     self$results$text1$setContent(SSW)
                     self$results$text2$setContent(SSB)
                     self$results$text3$setContent(SST)
+                    
+                    
+                    # plot data function---------
                     
                     plotData <- data.frame(
                         cluster=as.factor(rep(1:k,nVars)),
