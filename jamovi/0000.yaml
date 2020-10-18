@@ -15,6 +15,12 @@ analyses:
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: K-means clustering
+datasets:
+  - name: kmeans
+    path: iris.omv
+    description: kmeans data
+    tags:
+      - kmeans
 usesNative: true
 minApp: 1.0.8
 
