@@ -21,6 +21,8 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             private$..vars <- jmvcore::OptionVariables$new(
                 "vars",
                 vars,
+                suggested=list(
+                    "continuous"),
                 permitted=list(
                     "numeric"))
             private$..k <- jmvcore::OptionInteger$new(
@@ -69,6 +71,10 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
 kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
+        text = function() private$.items[["text"]],
+        text1 = function() private$.items[["text1"]],
+        text2 = function() private$.items[["text2"]],
+        text3 = function() private$.items[["text3"]],
         clustering = function() private$.items[["clustering"]],
         centroids = function() private$.items[["centroids"]],
         plot = function() private$.items[["plot"]]),
@@ -79,6 +85,22 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="",
                 title="K-means clustering")
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text",
+                title="Clustering vector"))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text1",
+                title="Within cluster sum of squares"))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text2",
+                title="Between cluster sum of squares"))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text3",
+                title="Total sum of squares"))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="clustering",
@@ -86,7 +108,7 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 columns=list(
                     list(
                         `name`="cluster", 
-                        `title`="Cluster ID", 
+                        `title`="Cluster No", 
                         `type`="text"),
                     list(
                         `name`="count", 
@@ -106,7 +128,7 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Plot of means across groups",
+                title="Plot of means across clusters",
                 width=400,
                 height=500,
                 renderFun=".plot"))}))
@@ -135,13 +157,17 @@ kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'
 #' 
 #' @param data .
-#' @param vars The variables to use.
+#' @param vars .
 #' @param k .
 #' @param algo .
 #' @param nstart .
 #' @param stand .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$text2} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$text3} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$clustering} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$centroids} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr

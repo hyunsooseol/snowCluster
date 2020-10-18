@@ -1,4 +1,4 @@
-title: K-means clustering
+title: Cluster Analysis
 name: kmeans
 jus: '3.0'
 stage: 0
@@ -14,22 +14,26 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  - type: LayoutBox
-    margin: large
+  - type: CollapseBox
+    label: K-means Analysis
+    margin: normal
+    collapsed: true
     children:
-      - name: k
-        type: TextBox
-        label: Number of groups (k)
-        format: number
-      - name: algo
-        type: ComboBox
-      - name: nstart
-        type: TextBox
-        label: Number of random starting configurations
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - name: stand
-        type: CheckBox
-        label: Standardize Variables
+      - type: LayoutBox            
+        margin: large
+        children:
+          - name: k
+            type: TextBox
+            format: number
+          - name: algo
+            type: ComboBox
+          - name: nstart
+            type: TextBox
+            format: number
+      - type: LayoutBox
+        margin: large
+        children:
+          - name: stand
+            type: CheckBox
+ 
+        

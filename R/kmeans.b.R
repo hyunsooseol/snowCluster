@@ -2,6 +2,7 @@
 # This file is a generated template, your changes will not be overwritten
 
 #' @import ggplot2
+#' @import NbClust NbClust
 #' @export
 
 
@@ -19,7 +20,7 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             nVars <- length(vars)
             k <- self$options$k
 
-            tab2$addColumn(name="cluster",title="Cluster ID",type='integer')
+            tab2$addColumn(name="cluster",title="Cluster No",type='integer')
 
             for(i in 1:nVars)
             {
@@ -49,6 +50,8 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         },
 
 
+ ########################################################
+ 
         .run = function() {
             print('.runnig"')
             text <- "started"
@@ -64,7 +67,7 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     for(var in 1:ncol(dat2))
                     {
                         tmp <- dat2[,var]
-                        dat2[,var] <- (tmp - mean(tmp,na.rm=T))/sd(tmp,na.rm=T)
+                        dat2[,var] <- (tmp - mean(tmp,na.rm=TRUE))/sd(tmp,na.rm=TRUE)
 
                     }
                 }
@@ -74,8 +77,14 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     model <- stats::kmeans(dat2,
                                            centers=self$options$k,
                                            nstart=self$options$nstart,
-                                           algorithm=self$options$algo,
-                    )
+                                           algorithm=self$options$algo)
+                    
+                   
+                    cluster <- model$cluster
+                    SSW<- model$withinss
+                    SSB<- model$betweenss
+                    SST<- model$totss
+                    
 
                     tab <- self$results$clustering
                     tab$deleteRows()
@@ -89,6 +98,8 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                         tab$addRow(rowKey=paste("Cluster",i),
                                    values=list(cluster=i,count=clusters[i]))
                     }
+                    
+                    
                     ##the centroids table:
                     tab2 <- self$results$centroids
                     vars <- self$options$vars
@@ -105,9 +116,11 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     }
 
 
-                    text <- print(model)
-
-
+                    self$results$text$setContent(cluster)
+                    self$results$text1$setContent(SSW)
+                    self$results$text2$setContent(SSB)
+                    self$results$text3$setContent(SST)
+                    
                     plotData <- data.frame(
                         cluster=as.factor(rep(1:k,nVars)),
                         var=rep(vars,each=k),
@@ -133,6 +146,7 @@ kmeansClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
             }
 
+            
         },
 
 

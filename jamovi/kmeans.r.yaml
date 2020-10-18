@@ -4,13 +4,29 @@ title: K-means clustering
 jrs:   '1.1'
 
 items:
+    - name:  text
+      title: Clustering vector
+      type:  Preformatted
+    
+    - name:  text1
+      title: Within cluster sum of squares 
+      type:  Preformatted  
+      
+    - name:  text2
+      title: Between cluster sum of squares
+      type:  Preformatted
+      
+    - name:  text3
+      title: Total sum of squares
+      type:  Preformatted
+      
     - name: clustering
       title: Clustering Table
       type: Table
 
       columns:
         - name: cluster
-          title: 'Cluster ID'
+          title: 'Cluster No'
           type: text
 
         - name: count
@@ -29,7 +45,7 @@ items:
             content: ($key)
 
     - name:  plot
-      title: Plot of means across groups
+      title: Plot of means across clusters
       type:  Image
       width: 400
       height: 500

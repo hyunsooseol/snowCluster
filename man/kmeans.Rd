@@ -9,7 +9,7 @@ kmeans(data, vars, k = 2, algo = "Hartigan-Wong", nstart = 10, stand = FALSE)
 \arguments{
 \item{data}{.}
 
-\item{vars}{The variables to use.}
+\item{vars}{.}
 
 \item{k}{.}
 
@@ -22,6 +22,10 @@ kmeans(data, vars, k = 2, algo = "Hartigan-Wong", nstart = 10, stand = FALSE)
 \value{
 A results object containing:
 \tabular{llllll}{
+  \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$text2} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$text3} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$clustering} \tab \tab \tab \tab \tab a table \cr
   \code{results$centroids} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr

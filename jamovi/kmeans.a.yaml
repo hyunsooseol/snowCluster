@@ -10,14 +10,15 @@ options:
       type: Data
 
     - name: vars
-      title: Variables to cluster
+      title: Variables
       type: Variables
+      suggested:
+         - continuous
       permitted:
-        - numeric
-      description: The variables to use.
+        - numeric  
 
     - name: k
-      title: Number of groups (k)
+      title: Number of clusters
       default: 2
       type: Integer
       min: 1
@@ -33,13 +34,15 @@ options:
       default: Hartigan-Wong
 
     - name: nstart
-      title: Number of random starting configurations
+      title: Number of random starting values
       type: Integer
       default: 10
 
 
     - name: stand
-      title: Normalize Variables
+      title: Standardize variables
       type: Bool
       default: FALSE
-...
+...      
+
+ 
