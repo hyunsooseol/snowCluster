@@ -1,17 +1,17 @@
 Package: snowCluster
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.0.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Cluster Analysis
+Version: 1.0.0
+Author: Hyunsoo Seol
+Maintainer: Hyunsoo Seol <snow@cau.ac.kr>
+Description: This module allows users to analyze k-means clustering.
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Imports:
-    jmvcore (>= 0.8.5), 
+    jmvcore (>= 0.8), 
     R6,
+    stats,
     ggplot2
     
