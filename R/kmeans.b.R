@@ -182,7 +182,11 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                                    group = cluster,
                                    colour = cluster
                                )) +
-                        geom_path(size = 1.2) + geom_point(size = 4) + labs(xlab ="Variable", ylab = "Mean value")
+                        geom_path(size = 1.2) + 
+                        geom_point(size = 4) + 
+                        xlab("Variable") + 
+                        ylab("Mean value")
+                    
                     print(plot)
                 }
                 TRUE
