@@ -177,13 +177,12 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     plot <-
                         ggplot(plotData,
                                aes(
-                                   x = centers,
-                                   y = var,
+                                   x = var,
+                                   y = centers,
                                    group = cluster,
                                    colour = cluster
                                )) +
-                        geom_path(size = 1.2) + geom_point(size = 4) + labs(xlab =
-                                                                                "Mean value", ylab = "Feature")
+                        geom_path(size = 1.2) + geom_point(size = 4) + labs(xlab ="Variable", ylab = "Mean value")
                     print(plot)
                 }
                 TRUE
