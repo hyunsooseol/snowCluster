@@ -10,6 +10,7 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             k = 2,
             algo = "Hartigan-Wong",
             nstart = 10,
+            plot = TRUE,
             stand = FALSE, ...) {
 
             super$initialize(
@@ -43,6 +44,10 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "nstart",
                 nstart,
                 default=10)
+            private$..plot <- jmvcore::OptionBool$new(
+                "plot",
+                plot,
+                default=TRUE)
             private$..stand <- jmvcore::OptionBool$new(
                 "stand",
                 stand,
@@ -52,6 +57,7 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..k)
             self$.addOption(private$..algo)
             self$.addOption(private$..nstart)
+            self$.addOption(private$..plot)
             self$.addOption(private$..stand)
         }),
     active = list(
@@ -59,12 +65,14 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         k = function() private$..k$value,
         algo = function() private$..algo$value,
         nstart = function() private$..nstart$value,
+        plot = function() private$..plot$value,
         stand = function() private$..stand$value),
     private = list(
         ..vars = NA,
         ..k = NA,
         ..algo = NA,
         ..nstart = NA,
+        ..plot = NA,
         ..stand = NA)
 )
 
@@ -131,7 +139,8 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="plot",
                 title="Plot of means across clusters",
-                width=400,
+                visible="(plot)",
+                width=700,
                 height=500,
                 renderFun=".plot"))}))
 
@@ -163,6 +172,7 @@ kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param k .
 #' @param algo .
 #' @param nstart .
+#' @param plot .
 #' @param stand .
 #' @return A results object containing:
 #' \tabular{llllll}{
@@ -188,6 +198,7 @@ kmeans <- function(
     k = 2,
     algo = "Hartigan-Wong",
     nstart = 10,
+    plot = TRUE,
     stand = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
@@ -205,6 +216,7 @@ kmeans <- function(
         k = k,
         algo = algo,
         nstart = nstart,
+        plot = plot,
         stand = stand)
 
     analysis <- kmeansClass$new(

@@ -35,7 +35,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 
                 values <- list(cluster = 1)
                 
-                for (i in 1:nVars) {
+                for (i in seq_len(nVars)) {
                     values[[paste0(vars[[i]])]]  <- '\u2014'
                 }
                 
@@ -152,7 +152,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     
                     
                 } else {
-                    text <- cat(text, "Error in clustering analysis")
+                 #   text <- cat(text, "Error in clustering analysis")
                     image <- self$results$plot
                     image$setState(NULL)
                     

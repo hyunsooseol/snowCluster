@@ -4,7 +4,15 @@
 \alias{kmeans}
 \title{K-means clustering}
 \usage{
-kmeans(data, vars, k = 2, algo = "Hartigan-Wong", nstart = 10, stand = FALSE)
+kmeans(
+  data,
+  vars,
+  k = 2,
+  algo = "Hartigan-Wong",
+  nstart = 10,
+  stand = FALSE,
+  plot = TRUE
+)
 }
 \arguments{
 \item{data}{.}
@@ -18,6 +26,8 @@ kmeans(data, vars, k = 2, algo = "Hartigan-Wong", nstart = 10, stand = FALSE)
 \item{nstart}{.}
 
 \item{stand}{.}
+
+\item{plot}{.}
 }
 \value{
 A results object containing:

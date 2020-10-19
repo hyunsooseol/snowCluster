@@ -49,7 +49,8 @@ items:
     - name:  plot
       title: Plot of means across clusters
       type:  Image
-      width: 400
+      visible: (plot)
+      width: 700
       height: 500
       renderFun: .plot
 

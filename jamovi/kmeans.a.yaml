@@ -37,12 +37,19 @@ options:
       title: Number of random starting values
       type: Integer
       default: 10
-
+      
+    - name: plot
+      title: Plot of means across clusters
+      type: Bool
+      default: TRUE
 
     - name: stand
       title: Standardize variables
       type: Bool
       default: FALSE
+      
+
+      
 ...      
 
  

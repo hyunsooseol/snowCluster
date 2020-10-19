@@ -33,7 +33,10 @@ children:
       - type: LayoutBox
         margin: large
         children:
+          - name: plot
+            type: CheckBox
           - name: stand
             type: CheckBox
- 
+         
+            
         
