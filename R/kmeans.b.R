@@ -185,7 +185,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         geom_path(size = 1.2) + 
                         geom_point(size = 4) + 
                         xlab("Variable") + 
-                        ylab("Mean value")
+                        ylab("Mean value")+
+                        ggtheme
                     
                     print(plot)
                 }

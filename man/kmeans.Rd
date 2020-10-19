@@ -10,8 +10,8 @@ kmeans(
   k = 2,
   algo = "Hartigan-Wong",
   nstart = 10,
-  stand = FALSE,
-  plot = TRUE
+  plot = TRUE,
+  stand = FALSE
 )
 }
 \arguments{
@@ -25,9 +25,9 @@ kmeans(
 
 \item{nstart}{.}
 
-\item{stand}{.}
-
 \item{plot}{.}
+
+\item{stand}{.}
 }
 \value{
 A results object containing:
