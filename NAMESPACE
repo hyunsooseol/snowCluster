@@ -2,5 +2,4 @@
 
 export(kmeans)
 export(kmeansClass)
-import(NbClust)
 import(ggplot2)

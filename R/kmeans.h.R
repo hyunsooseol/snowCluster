@@ -105,6 +105,7 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="clustering",
                 title="Clustering Table",
+                refs="snowCluster",
                 columns=list(
                     list(
                         `name`="cluster", 
@@ -119,6 +120,7 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 name="centroids",
                 title="Centroids of clusters",
                 rows="(k)",
+                refs="snowCluster",
                 columns=list(
                     list(
                         `name`=".name[x]", 

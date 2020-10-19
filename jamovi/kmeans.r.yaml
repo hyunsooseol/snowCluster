@@ -23,6 +23,7 @@ items:
     - name: clustering
       title: Clustering Table
       type: Table
+      refs: snowCluster
 
       columns:
         - name: cluster
@@ -37,6 +38,7 @@ items:
       title: Centroids of clusters
       type:  Table
       rows: (k)
+      refs: snowCluster
 
       columns:
           - name: .name[x]
