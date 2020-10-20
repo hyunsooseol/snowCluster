@@ -33,9 +33,7 @@ kmeans(
 A results object containing:
 \tabular{llllll}{
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
-  \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
-  \code{results$text2} \tab \tab \tab \tab \tab a preformatted \cr
-  \code{results$text3} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$ss} \tab \tab \tab \tab \tab a table \cr
   \code{results$clustering} \tab \tab \tab \tab \tab a table \cr
   \code{results$centroids} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
@@ -43,9 +41,9 @@ A results object containing:
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 
-\code{results$clustering$asDF}
+\code{results$ss$asDF}
 
-\code{as.data.frame(results$clustering)}
+\code{as.data.frame(results$ss)}
 }
 \description{
 K-means clustering

@@ -6,6 +6,6 @@
         `type`="software", 
         `author`="Seol, H.", 
         `year`=2020, 
-        `title`="snowCluster: Cluster Analysis for jamovi", 
+        `title`="snowCluster: Cluster Analysis", 
         `publisher`="[jamovi module]. Retrieved from https://github.com/hyunsooseol/snowCluster/", 
         `url`="https://github.com/hyunsooseol/snowCluster"))

@@ -11,6 +11,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         inherit = kmeansBase,
         private = list(
             .init = function() {
+                
                 ##initialize the centroids of cluster table-------------
                 
                 tab2 <- self$results$centroids
@@ -47,14 +48,28 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     tab2$setRow(rowNo = j, values)
                 }
                 
+                ss <- self$results$ss
+                for (j in seq_len(k))
+                
+                ss$addRow(rowKey=j, values=list(source=paste('Cluster', j)))
+                
+                ss$addRow(rowKey='between', values=list(source='Between clusters'))
+                
+                ss$addFormat(rowKey='between', col=1, jmvcore::Cell.BEGIN_END_GROUP)
+                
+                ss$addRow(rowKey='total', values=list(source='Total'))
+                
+                ss$addFormat(rowKey='total', col=1, jmvcore::Cell.BEGIN_END_GROUP)
+                
+                
+               
             },
             
             
             ########################################################
             
             .run = function() {
-                # print('.runnig"')
-                # text <- "started"
+               
                 
                 if (!is.null(self$options$vars))
                 {
@@ -125,9 +140,17 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         
                         
                         self$results$text$setContent(cluster)
-                        self$results$text1$setContent(SSW)
-                        self$results$text2$setContent(SSB)
-                        self$results$text3$setContent(SST)
+                        
+                        ### Sum of squares Table----------
+                        
+                        ss <- self$results$ss
+                        
+                        ss$setRow(rowKey='between', values=list(value=SSB))
+                        
+                        ss$setRow(rowKey='total', values=list(value=SST))
+                        
+                        for (i in seq_len(k))
+                            ss$setRow(rowKey=i, values=list(value=SSW[i]))
                         
                         
                         # plot data function---------

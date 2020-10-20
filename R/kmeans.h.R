@@ -80,9 +80,7 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         text = function() private$.items[["text"]],
-        text1 = function() private$.items[["text1"]],
-        text2 = function() private$.items[["text2"]],
-        text3 = function() private$.items[["text3"]],
+        ss = function() private$.items[["ss"]],
         clustering = function() private$.items[["clustering"]],
         centroids = function() private$.items[["centroids"]],
         plot = function() private$.items[["plot"]]),
@@ -97,18 +95,20 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="text",
                 title="Clustering vector"))
-            self$add(jmvcore::Preformatted$new(
+            self$add(jmvcore::Table$new(
                 options=options,
-                name="text1",
-                title="Within cluster sum of squares"))
-            self$add(jmvcore::Preformatted$new(
-                options=options,
-                name="text2",
-                title="Between cluster sum of squares"))
-            self$add(jmvcore::Preformatted$new(
-                options=options,
-                name="text3",
-                title="Total sum of squares"))
+                name="ss",
+                title="Sum of squares Table",
+                rows=0,
+                refs="snowCluster",
+                columns=list(
+                    list(
+                        `name`="source", 
+                        `title`="", 
+                        `type`="text"),
+                    list(
+                        `name`="value", 
+                        `title`="Value"))))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="clustering",
@@ -126,7 +126,7 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="centroids",
-                title="Centroids of clusters",
+                title="Centroids of clusters Table",
                 rows="(k)",
                 refs="snowCluster",
                 columns=list(
@@ -177,9 +177,7 @@ kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
-#'   \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
-#'   \code{results$text2} \tab \tab \tab \tab \tab a preformatted \cr
-#'   \code{results$text3} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$ss} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$clustering} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$centroids} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
@@ -187,9 +185,9 @@ kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 #'
-#' \code{results$clustering$asDF}
+#' \code{results$ss$asDF}
 #'
-#' \code{as.data.frame(results$clustering)}
+#' \code{as.data.frame(results$ss)}
 #'
 #' @export
 kmeans <- function(

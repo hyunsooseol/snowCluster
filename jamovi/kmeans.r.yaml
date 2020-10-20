@@ -8,17 +8,19 @@ items:
       title: Clustering vector
       type:  Preformatted
     
-    - name:  text1
-      title: Within cluster sum of squares 
-      type:  Preformatted  
+    - name: ss
+      title: Sum of squares Table
+      type: Table
+      rows: 0
+      refs: snowCluster
       
-    - name:  text2
-      title: Between cluster sum of squares
-      type:  Preformatted
-      
-    - name:  text3
-      title: Total sum of squares
-      type:  Preformatted
+      columns:
+        - name: source
+          title: ''
+          type: text
+
+        - name: value
+          title: 'Value'
       
     - name: clustering
       title: Clustering Table
@@ -35,7 +37,7 @@ items:
           type: integer
 
     - name:  centroids
-      title: Centroids of clusters
+      title: Centroids of clusters Table
       type:  Table
       rows: (k)
       refs: snowCluster
