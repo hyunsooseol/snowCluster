@@ -12,7 +12,7 @@ kmeans(
   nstart = 10,
   stand = FALSE,
   plot = TRUE,
-  plot1 = TRUE,
+  plot1 = FALSE,
   plot2 = FALSE
 )
 }
