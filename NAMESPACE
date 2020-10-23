@@ -3,3 +3,5 @@
 export(kmeans)
 export(kmeansClass)
 import(ggplot2)
+importFrom(factoextra,fviz_cluster)
+importFrom(factoextra,fviz_nbclust)

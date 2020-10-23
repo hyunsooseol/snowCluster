@@ -1,6 +1,8 @@
 
 # This file is a generated template, your changes will not be overwritten
 
+#' @importFrom factoextra fviz_nbclust
+#' @importFrom factoextra fviz_cluster
 #' @import ggplot2
 #' @export
 
@@ -181,6 +183,17 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     
                 }
                 
+                # Prepare Data For Plot1 -------
+              
+                
+                 data <- jmvcore::select(self$data, self$options$vars)
+                  
+                 plotData1 <- data
+                  
+                  # Data for plot ----
+                  
+                  image1 <- self$results$plot1
+                  image1$setState(plotData1)
                 
             },
             
@@ -188,6 +201,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             ### Plot of means across groups
             
             .plot = function(image, ggtheme, theme, ...) {
+                
                 #Errors ----
                 
                 if (is.null(self$options$vars))
@@ -212,10 +226,28 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         ggtheme
                     
                     print(plot)
+                    TRUE
                 }
+            },
+                
+              # Optimal number of clusters------
+                
+                .plot1 = function(image1,ggtheme, theme, ...) {
+                    
+                    
+                    if (is.null(self$options$vars))
+                        return()
+                
+                    # read data ----
+                    
+                    plotData1 <- image1$state
+                
+                plot1<- factoextra::fviz_nbclust(plotData1,kmeans, method = "gap_stat")
+                print(plot1)
                 TRUE
                 
-            }
+                }
+            
             
         )
         

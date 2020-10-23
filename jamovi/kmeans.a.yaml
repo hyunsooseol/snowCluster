@@ -8,6 +8,9 @@ jas: '1.2'
 options:
     - name: data
       type: Data
+      description:
+          R: >
+            The data as a data frame.
 
     - name: vars
       title: Variables
@@ -48,7 +51,10 @@ options:
       type: Bool
       default: FALSE
       
-
+    - name: plot1
+      title: Optimal number of clusters
+      type: Bool
+      default: TRUE
       
 ...      
 
