@@ -21,6 +21,11 @@ datasets:
     description: kmeans data
     tags:
       - kmeans
+  - name: usarrests
+    path: USArrests.omv
+    description: kmeans data
+    tags:
+      - kmeans
 usesNative: true
 minApp: 1.0.8
 
