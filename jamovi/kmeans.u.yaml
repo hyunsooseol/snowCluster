@@ -19,8 +19,12 @@ children:
     margin: normal
     collapsed: true
     children:
-      - type: LayoutBox            
-        margin: large
+      - type: Label
+        label: Options
+        fitToGrid: true
+        cell:
+          column: 0
+          row: 0
         children:
           - name: k
             type: TextBox
@@ -30,15 +34,23 @@ children:
           - name: nstart
             type: TextBox
             format: number
-      - type: LayoutBox
-        margin: large
+          - name: stand
+            type: CheckBox
+      - type: Label
+        label: Plot
+        fitToGrid: true
+        cell:
+          column: 1
+          row: 0   
         children:
           - name: plot
             type: CheckBox
           - name: plot1
             type: CheckBox  
-          - name: stand
-            type: CheckBox
+          - name: plot2
+            type: CheckBox  
+
+
          
             
         

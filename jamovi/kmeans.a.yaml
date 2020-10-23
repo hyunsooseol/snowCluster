@@ -40,21 +40,26 @@ options:
       title: Number of random starting values
       type: Integer
       default: 10
+    
+    - name: stand
+      title: Standardize variables
+      type: Bool
+      default: FALSE
       
     - name: plot
       title: Plot of means across clusters
       type: Bool
       default: TRUE
 
-    - name: stand
-      title: Standardize variables
-      type: Bool
-      default: FALSE
-      
     - name: plot1
       title: Optimal number of clusters
       type: Bool
       default: TRUE
+      
+    - name: plot2
+      title: Clster plot
+      type: Bool
+      default: FALSE
       
 ...      
 

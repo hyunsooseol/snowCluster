@@ -64,4 +64,11 @@ items:
       height: 500
       renderFun: .plot1
 
+    - name:  plot2
+      title: Cluster plot
+      type:  Image
+      visible: (plot2)
+      width: 500
+      height: 500
+      renderFun: .plot2
 ...

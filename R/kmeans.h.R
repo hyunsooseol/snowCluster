@@ -10,9 +10,10 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             k = 2,
             algo = "Hartigan-Wong",
             nstart = 10,
-            plot = TRUE,
             stand = FALSE,
-            plot1 = TRUE, ...) {
+            plot = TRUE,
+            plot1 = TRUE,
+            plot2 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -45,43 +46,50 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "nstart",
                 nstart,
                 default=10)
-            private$..plot <- jmvcore::OptionBool$new(
-                "plot",
-                plot,
-                default=TRUE)
             private$..stand <- jmvcore::OptionBool$new(
                 "stand",
                 stand,
                 default=FALSE)
+            private$..plot <- jmvcore::OptionBool$new(
+                "plot",
+                plot,
+                default=TRUE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
                 default=TRUE)
+            private$..plot2 <- jmvcore::OptionBool$new(
+                "plot2",
+                plot2,
+                default=FALSE)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..k)
             self$.addOption(private$..algo)
             self$.addOption(private$..nstart)
-            self$.addOption(private$..plot)
             self$.addOption(private$..stand)
+            self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
+            self$.addOption(private$..plot2)
         }),
     active = list(
         vars = function() private$..vars$value,
         k = function() private$..k$value,
         algo = function() private$..algo$value,
         nstart = function() private$..nstart$value,
-        plot = function() private$..plot$value,
         stand = function() private$..stand$value,
-        plot1 = function() private$..plot1$value),
+        plot = function() private$..plot$value,
+        plot1 = function() private$..plot1$value,
+        plot2 = function() private$..plot2$value),
     private = list(
         ..vars = NA,
         ..k = NA,
         ..algo = NA,
         ..nstart = NA,
-        ..plot = NA,
         ..stand = NA,
-        ..plot1 = NA)
+        ..plot = NA,
+        ..plot1 = NA,
+        ..plot2 = NA)
 )
 
 kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
@@ -92,7 +100,8 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         clustering = function() private$.items[["clustering"]],
         centroids = function() private$.items[["centroids"]],
         plot = function() private$.items[["plot"]],
-        plot1 = function() private$.items[["plot1"]]),
+        plot1 = function() private$.items[["plot1"]],
+        plot2 = function() private$.items[["plot2"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -159,7 +168,15 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 visible="(plot1)",
                 width=500,
                 height=500,
-                renderFun=".plot1"))}))
+                renderFun=".plot1"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot2",
+                title="Cluster plot",
+                visible="(plot2)",
+                width=500,
+                height=500,
+                renderFun=".plot2"))}))
 
 kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "kmeansBase",
@@ -189,9 +206,10 @@ kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param k .
 #' @param algo .
 #' @param nstart .
-#' @param plot .
 #' @param stand .
+#' @param plot .
 #' @param plot1 .
+#' @param plot2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
@@ -200,6 +218,7 @@ kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$centroids} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -215,9 +234,10 @@ kmeans <- function(
     k = 2,
     algo = "Hartigan-Wong",
     nstart = 10,
-    plot = TRUE,
     stand = FALSE,
-    plot1 = TRUE) {
+    plot = TRUE,
+    plot1 = TRUE,
+    plot2 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('kmeans requires jmvcore to be installed (restart may be required)')
@@ -234,9 +254,10 @@ kmeans <- function(
         k = k,
         algo = algo,
         nstart = nstart,
-        plot = plot,
         stand = stand,
-        plot1 = plot1)
+        plot = plot,
+        plot1 = plot1,
+        plot2 = plot2)
 
     analysis <- kmeansClass$new(
         options = options,
