@@ -12,7 +12,7 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             nstart = 10,
             stand = FALSE,
             plot = TRUE,
-            plot1 = TRUE,
+            plot1 = FALSE,
             plot2 = FALSE, ...) {
 
             super$initialize(
@@ -57,7 +57,7 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
-                default=TRUE)
+                default=FALSE)
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
@@ -165,6 +165,7 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="plot1",
                 title="Optimal number of clusters",
+                refs="factoextra",
                 visible="(plot1)",
                 width=500,
                 height=500,
@@ -173,6 +174,7 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="plot2",
                 title="Cluster plot",
+                refs="factoextra",
                 visible="(plot2)",
                 width=500,
                 height=500,
@@ -236,7 +238,7 @@ kmeans <- function(
     nstart = 10,
     stand = FALSE,
     plot = TRUE,
-    plot1 = TRUE,
+    plot1 = FALSE,
     plot2 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))

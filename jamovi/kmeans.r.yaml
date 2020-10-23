@@ -59,6 +59,7 @@ items:
     - name:  plot1
       title: Optimal number of clusters
       type:  Image
+      refs: factoextra
       visible: (plot1)
       width: 500
       height: 500
@@ -67,6 +68,7 @@ items:
     - name:  plot2
       title: Cluster plot
       type:  Image
+      refs: factoextra
       visible: (plot2)
       width: 500
       height: 500
