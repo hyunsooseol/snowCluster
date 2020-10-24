@@ -76,6 +76,15 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             
             .run = function() {
                 if (!is.null(self$options$vars)) {
+                    
+                    vars <- self$options$vars
+                    
+                    data <- self$data
+                    
+                    for (i in seq_along(vars))
+                        data[[i]] <- jmvcore::toNumeric(data[[i]])
+                    
+                    
                     dat2 <- jmvcore::select(self$data, self$options$vars)
                     
                     
