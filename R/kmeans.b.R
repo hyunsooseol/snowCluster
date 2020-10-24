@@ -257,6 +257,13 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 
                 # read data ----
                 
+                vars <- self$options$vars
+                
+                data <- self$data
+                
+                for (i in seq_along(vars))
+                    data[[i]] <- jmvcore::toNumeric(data[[i]])
+                
                 plotData1 <- image1$state
                 
                 plot1 <-
