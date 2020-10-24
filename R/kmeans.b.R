@@ -13,7 +13,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         inherit = kmeansBase,
         private = list(
             .init = function() {
-                
                 ##initialize the centroids of cluster table-------------
                 
                 tab2 <- self$results$centroids
@@ -42,7 +41,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     values[[paste0(vars[[i]])]]  <- '\u2014'
                 }
                 
-                ##add dummy values to table:
+                ##add dummy values to table----------
                 
                 for (j in 1:k)
                 {
@@ -52,27 +51,30 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 
                 ss <- self$results$ss
                 for (j in seq_len(k))
+                    
+                    ss$addRow(rowKey = j, values = list(source = paste('Cluster', j)))
                 
-                ss$addRow(rowKey=j, values=list(source=paste('Cluster', j)))
+                ss$addRow(rowKey = 'between',
+                          values = list(source = 'Between clusters'))
                 
-                ss$addRow(rowKey='between', values=list(source='Between clusters'))
+                ss$addFormat(rowKey = 'between',
+                             col = 1,
+                             jmvcore::Cell.BEGIN_END_GROUP)
                 
-                ss$addFormat(rowKey='between', col=1, jmvcore::Cell.BEGIN_END_GROUP)
+                ss$addRow(rowKey = 'total', values = list(source = 'Total'))
                 
-                ss$addRow(rowKey='total', values=list(source='Total'))
+                ss$addFormat(rowKey = 'total',
+                             col = 1,
+                             jmvcore::Cell.BEGIN_END_GROUP)
                 
-                ss$addFormat(rowKey='total', col=1, jmvcore::Cell.BEGIN_END_GROUP)
                 
                 
-               
             },
             
             
             ########################################################
             
             .run = function() {
-               
-                
                 if (!is.null(self$options$vars))
                 {
                     dat2 <- jmvcore::select(self$data, self$options$vars)
@@ -124,7 +126,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         }
                         
                         
-                        ##The centroids of clusters table------------
+                        ## The centroids of clusters table------------
                         
                         tab2 <- self$results$centroids
                         vars <- self$options$vars
@@ -135,7 +137,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         
                         for (i in 1:k)
                         {
-                            values <- unlist(list(cluster = i, model$centers[i, ]))
+                            values <- unlist(list(cluster = i, model$centers[i,]))
                             tab2$setRow(rowNo = i, values)
                             
                         }
@@ -147,12 +149,15 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         
                         ss <- self$results$ss
                         
-                        ss$setRow(rowKey='between', values=list(value=SSB))
+                        ss$setRow(rowKey = 'between', values = list(value =
+                                                                        SSB))
                         
-                        ss$setRow(rowKey='total', values=list(value=SST))
+                        ss$setRow(rowKey = 'total', values = list(value =
+                                                                      SST))
                         
                         for (i in seq_len(k))
-                            ss$setRow(rowKey=i, values=list(value=SSW[i]))
+                            ss$setRow(rowKey = i,
+                                      values = list(value = SSW[i]))
                         
                         
                         # plot data function---------
@@ -177,49 +182,49 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     
                     
                 } else {
-                
                     image <- self$results$plot
                     image$setState(NULL)
                     
                 }
                 
-        ##### Prepare Data For Plot1(optimal number of clusters) -------
-              
+                ##### Prepare Data For Plot1(optimal number of clusters) -------
                 
-                 data <- jmvcore::select(self$data, self$options$vars)
-                  
-                 plotData1 <- data
-                  
-                  # Data for plot ----
-                  
-                  image1 <- self$results$plot1
-                  image1$setState(plotData1)
-            
-        ###### Prepare data for plot2(cluster plot)-----------
-                  
-                  data <- jmvcore::select(self$data, self$options$vars)
-                  
-                  if (dim(data)[2] > 0){
-                   km.res <- stats::kmeans(
-                          data,
-                          centers = self$options$k,
-                          nstart = self$options$nstart,
-                          algorithm = self$options$algo
-                      )
-                  
-                   image2 <- self$results$plot2
-                   
-                   image2$setState(km.res)
-                   
-                    }
-                  
+                
+                data <-
+                    jmvcore::select(self$data, self$options$vars)
+                
+                plotData1 <- data
+                
+                # Data for plot ----
+                
+                image1 <- self$results$plot1
+                image1$setState(plotData1)
+                
+                ###### Prepare data for plot2(cluster plot)-----------
+                
+                data <-
+                    jmvcore::select(self$data, self$options$vars)
+                
+                if (dim(data)[2] > 0) {
+                    km.res <- stats::kmeans(
+                        data,
+                        centers = self$options$k,
+                        nstart = self$options$nstart,
+                        algorithm = self$options$algo
+                    )
+                    
+                    image2 <- self$results$plot2
+                    
+                    image2$setState(km.res)
+                    
+                }
+                
             },
             
             
             ###### Plot of means across groups--------------------
             
             .plot = function(image, ggtheme, theme, ...) {
-                
                 #Errors ----
                 
                 if (is.null(self$options$vars))
@@ -237,58 +242,60 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                                    group = cluster,
                                    colour = cluster
                                )) +
-                        geom_path(size = 1.2) + 
-                        geom_point(size = 4) + 
-                        xlab("Variable") + 
-                        ylab("Mean value")+
+                        geom_path(size = 1.2) +
+                        geom_point(size = 4) +
+                        xlab("Variable") +
+                        ylab("Mean value") +
                         ggtheme
                     
                     print(plot)
                     TRUE
                 }
             },
-                
-              # Optimal number of clusters------
-                
-                .plot1 = function(image1,ggtheme, theme, ...) {
-                    
-                    
-                    if (is.null(self$options$vars))
-                        return()
-                
-                    # read data ----
-                    
-                    plotData1 <- image1$state
-                
-                plot1<- factoextra::fviz_nbclust(plotData1,stats::kmeans, method = "gap_stat")
-                print(plot1)
-                TRUE
-                
-                },
             
+            # Optimal number of clusters------
             
-            # cluster plot------
-            
-            .plot2 = function(image2,ggtheme, theme, ...) {
-                
-                
+            .plot1 = function(image1, ggtheme, theme, ...) {
                 if (is.null(self$options$vars))
                     return()
                 
                 # read data ----
                 
-                data <- jmvcore::select(self$data, self$options$vars)
+                plotData1 <- image1$state
+                
+                plot1 <-
+                    factoextra::fviz_nbclust(plotData1, stats::kmeans, method = "gap_stat")
+                print(plot1)
+                TRUE
+                
+            },
+            
+            
+            # cluster plot------
+            
+            .plot2 = function(image2, ggtheme, theme, ...) {
+                if (is.null(self$options$vars))
+                    return()
+                
+                # read data ----
+                
+                data <-
+                    jmvcore::select(self$data, self$options$vars)
                 
                 km.res <- image2$state
                 
-                plot2<- factoextra::fviz_cluster(km.res, data = data,
-                                     ellipse.type = "convex",
-                                     palette = "jco",
-                                     ggtheme = theme_minimal())
+                plot2 <-
+                    factoextra::fviz_cluster(
+                        km.res,
+                        data = data,
+                        ellipse.type = "convex",
+                        palette = "jco",
+                        ggtheme = theme_minimal()
+                    )
                 print(plot2)
                 TRUE
-            
+                
             }
         )
-   
+        
     )

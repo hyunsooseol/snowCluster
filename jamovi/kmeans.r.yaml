@@ -68,6 +68,7 @@ items:
     - name:  plot2
       title: Cluster plot
       type:  Image
+      requiresData: true
       refs: factoextra
       visible: (plot2)
       width: 400
