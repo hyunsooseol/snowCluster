@@ -75,23 +75,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             ########################################################
             
             .run = function() {
-                
                 if (!is.null(self$options$vars)) {
-            
-                            
-                    # if (any(self$options$vars == 0) | any(self$options$vars == 1))
-                    #     stop('The cluster analysis requires more than 2 variables)')    
-                    #            
-               
-                
-                # if (any(self$options$vars)==1){
-                #     stop('The cluster analysis requires more than 2 variables)')   
-                # 
-                #     
-                # }else{
-                # 
-                
-                dat2 <- jmvcore::select(self$data, self$options$vars)
+                    dat2 <- jmvcore::select(self$data, self$options$vars)
                     
                     
                     #standardize variables-------------
@@ -151,7 +136,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         
                         for (i in 1:k)
                         {
-                            values <- unlist(list(cluster = i, model$centers[i,]))
+                            values <- unlist(list(cluster = i, model$centers[i, ]))
                             tab2$setRow(rowNo = i, values)
                             
                         }
@@ -186,58 +171,39 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         image$setState(plotData)
                         
                     }
-                
                     
-                    # else{
-                    #     image <- self$results$plot
-                    #     image$setState(NULL)
-                    #     text <- "No results"
-                    #     
-                    #     
-                    # }
+                   
+                    ##### Prepare Data For Plot1(optimal number of clusters) -------
                     
                     
+                    data <-
+                        jmvcore::select(self$data, self$options$vars)
                     
-                
+                    plotData1 <- data
                     
-                
-                # else {
-                #     image <- self$results$plot
-                #     image$setState(NULL)
-                #     
-                # }
-                
-                ##### Prepare Data For Plot1(optimal number of clusters) -------
-                
-                
-                data <-
-                    jmvcore::select(self$data, self$options$vars)
-                
-                plotData1 <- data
-                
-                # Data for plot ----
-                
-                image1 <- self$results$plot1
-                image1$setState(plotData1)
-                
-                ###### Prepare data for plot2(cluster plot)-----------
-                
-                data <-
-                    jmvcore::select(self$data, self$options$vars)
-                
-                if (dim(data)[2] > 0) {
-                    km.res <- stats::kmeans(
-                        data,
-                        centers = self$options$k,
-                        nstart = self$options$nstart,
-                        algorithm = self$options$algo
-                    )
+                    # Data for plot ----
                     
-                    image2 <- self$results$plot2
+                    image1 <- self$results$plot1
+                    image1$setState(plotData1)
                     
-                    image2$setState(km.res)
+                    ###### Prepare data for plot2(cluster plot)-----------
                     
-                }
+                    data <-
+                        jmvcore::select(self$data, self$options$vars)
+                    
+                    if (dim(data)[2] > 0) {
+                        km.res <- stats::kmeans(
+                            data,
+                            centers = self$options$k,
+                            nstart = self$options$nstart,
+                            algorithm = self$options$algo
+                        )
+                        
+                        image2 <- self$results$plot2
+                        
+                        image2$setState(km.res)
+                        
+                    }
                 }
                 
             },
@@ -277,7 +243,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             # Optimal number of clusters------
             
             .plot1 = function(image1, ggtheme, theme, ...) {
-                
                 if (is.null(self$options$vars))
                     return()
                 
@@ -296,10 +261,9 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             # cluster plot------
             
             .plot2 = function(image2, ggtheme, theme, ...) {
-                
-                if(length(self$options$vars) < 2)
+                if (length(self$options$vars) < 2)
                     return()
-                 
+                
                 # read data ----
                 
                 data <-
