@@ -75,9 +75,23 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             ########################################################
             
             .run = function() {
-                if (!is.null(self$options$vars))
-                {
-                    dat2 <- jmvcore::select(self$data, self$options$vars)
+                
+                if (!is.null(self$options$vars)) {
+            
+                            
+                    # if (any(self$options$vars == 0) | any(self$options$vars == 1))
+                    #     stop('The cluster analysis requires more than 2 variables)')    
+                    #            
+               
+                
+                # if (any(self$options$vars)==1){
+                #     stop('The cluster analysis requires more than 2 variables)')   
+                # 
+                #     
+                # }else{
+                # 
+                
+                dat2 <- jmvcore::select(self$data, self$options$vars)
                     
                     
                     #standardize variables-------------
@@ -171,21 +185,27 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         image <- self$results$plot
                         image$setState(plotData)
                         
-                    } else{
-                        image <- self$results$plot
-                        image$setState(NULL)
-                        text <- "No results"
-                        
-                        
                     }
+                
+                    
+                    # else{
+                    #     image <- self$results$plot
+                    #     image$setState(NULL)
+                    #     text <- "No results"
+                    #     
+                    #     
+                    # }
                     
                     
                     
-                } else {
-                    image <- self$results$plot
-                    image$setState(NULL)
+                
                     
-                }
+                
+                # else {
+                #     image <- self$results$plot
+                #     image$setState(NULL)
+                #     
+                # }
                 
                 ##### Prepare Data For Plot1(optimal number of clusters) -------
                 
@@ -217,6 +237,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     
                     image2$setState(km.res)
                     
+                }
                 }
                 
             },
@@ -256,6 +277,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             # Optimal number of clusters------
             
             .plot1 = function(image1, ggtheme, theme, ...) {
+                
                 if (is.null(self$options$vars))
                     return()
                 
@@ -274,9 +296,10 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             # cluster plot------
             
             .plot2 = function(image2, ggtheme, theme, ...) {
-                if (is.null(self$options$vars))
-                    return()
                 
+                if(length(self$options$vars) < 2)
+                    return()
+                 
                 # read data ----
                 
                 data <-
