@@ -70,7 +70,7 @@ items:
       type:  Image
       refs: factoextra
       visible: (plot2)
-      width: 500
-      height: 500
+      width: 400
+      height: 400
       renderFun: .plot2
 ...

@@ -177,13 +177,13 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     
                     
                 } else {
-                 #   text <- cat(text, "Error in clustering analysis")
+                
                     image <- self$results$plot
                     image$setState(NULL)
                     
                 }
                 
-                # Prepare Data For Plot1 -------
+        ##### Prepare Data For Plot1(optimal number of clusters) -------
               
                 
                  data <- jmvcore::select(self$data, self$options$vars)
@@ -194,11 +194,29 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                   
                   image1 <- self$results$plot1
                   image1$setState(plotData1)
-                
+            
+        ###### Prepare data for plot2(cluster plot)-----------
+                  
+                  data <- jmvcore::select(self$data, self$options$vars)
+                  
+                  if (dim(data)[2] > 0){
+                   km.res <- stats::kmeans(
+                          data,
+                          centers = self$options$k,
+                          nstart = self$options$nstart,
+                          algorithm = self$options$algo
+                      )
+                  
+                   image2 <- self$results$plot2
+                   
+                   image2$setState(km.res)
+                   
+                    }
+                  
             },
             
             
-            ### Plot of means across groups
+            ###### Plot of means across groups--------------------
             
             .plot = function(image, ggtheme, theme, ...) {
                 
@@ -242,14 +260,35 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     
                     plotData1 <- image1$state
                 
-                plot1<- factoextra::fviz_nbclust(plotData1,kmeans, method = "gap_stat")
+                plot1<- factoextra::fviz_nbclust(plotData1,stats::kmeans, method = "gap_stat")
                 print(plot1)
                 TRUE
                 
-                }
+                },
             
             
+            # cluster plot------
+            
+            .plot2 = function(image2,ggtheme, theme, ...) {
+                
+                
+                if (is.null(self$options$vars))
+                    return()
+                
+                # read data ----
+                
+                data <- jmvcore::select(self$data, self$options$vars)
+                
+                km.res <- image2$state
+                
+                plot2<- factoextra::fviz_cluster(km.res, data = data,
+                                     ellipse.type = "convex",
+                                     palette = "jco",
+                                     ggtheme = theme_minimal())
+                print(plot2)
+                TRUE
+            
+            }
         )
-        
-        
+   
     )

@@ -12,8 +12,8 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             nstart = 10,
             stand = FALSE,
             plot = TRUE,
-            plot1 = FALSE,
-            plot2 = FALSE, ...) {
+            plot1 = TRUE,
+            plot2 = TRUE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -57,11 +57,11 @@ kmeansOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
-                default=FALSE)
+                default=TRUE)
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
-                default=FALSE)
+                default=TRUE)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..k)
@@ -176,8 +176,8 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 title="Cluster plot",
                 refs="factoextra",
                 visible="(plot2)",
-                width=500,
-                height=500,
+                width=400,
+                height=400,
                 renderFun=".plot2"))}))
 
 kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
@@ -238,8 +238,8 @@ kmeans <- function(
     nstart = 10,
     stand = FALSE,
     plot = TRUE,
-    plot1 = FALSE,
-    plot2 = FALSE) {
+    plot1 = TRUE,
+    plot2 = TRUE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('kmeans requires jmvcore to be installed (restart may be required)')

@@ -54,12 +54,12 @@ options:
     - name: plot1
       title: Optimal number of clusters
       type: Bool
-      default: FALSE
+      default: TRUE
       
     - name: plot2
       title: Clster plot
       type: Bool
-      default: FALSE
+      default: TRUE
       
 ...      
 
