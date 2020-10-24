@@ -185,8 +185,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     ##### Prepare Data For Plot1(optimal number of clusters) -------
                     
                     
-                    data <-
-                        jmvcore::select(self$data, self$options$vars)
+                    # data <-
+                    #     jmvcore::select(self$data, self$options$vars)
                     
                     plotData1 <- data
                     
