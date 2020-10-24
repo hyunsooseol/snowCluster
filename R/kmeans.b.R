@@ -283,7 +283,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
                 
-                data <- jmvcore::select(self$data, self$options$vars)
+              #  data <- jmvcore::select(self$data, self$options$vars)
                 
                 km.res <- image2$state
                 
