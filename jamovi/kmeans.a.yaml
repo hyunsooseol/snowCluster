@@ -57,7 +57,7 @@ options:
       default: FALSE
       
     - name: plot2
-      title: Clster plot
+      title: Cluster plot
       type: Bool
       default: FALSE
       
