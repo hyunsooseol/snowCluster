@@ -81,12 +81,14 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     
                     data <- self$data
                     
+                    data <- jmvcore::naOmit(data)
+                    
                     for (i in seq_along(vars))
                         data[[i]] <- jmvcore::toNumeric(data[[i]])
-                    
-                    
+                        
                     dat2 <- jmvcore::select(self$data, self$options$vars)
-                    
+                   
+                  #  dat2 <- jmvcore::naOmit(dat2) 
                     
                     #standardize variables-------------
                     
@@ -221,6 +223,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             ###### Plot of means across groups--------------------
             
             .plot = function(image, ggtheme, theme, ...) {
+                
                 #Errors ----
                 
                 if (is.null(self$options$vars))
