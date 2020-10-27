@@ -86,7 +86,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     for (i in seq_along(vars))
                         data[[i]] <- jmvcore::toNumeric(data[[i]])
                         
-                    dat2 <- jmvcore::select(self$data, self$options$vars)
+                    dat2 <- jmvcore::select(data, self$options$vars)
                    
                   #  dat2 <- jmvcore::naOmit(dat2) 
                     
@@ -200,7 +200,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     ###### Prepare data for plot2(cluster plot)-----------
                     
                     data <-
-                        jmvcore::select(self$data, self$options$vars)
+                        jmvcore::select(data, self$options$vars)
                     
                     if (dim(data)[2] > 0) {
                         km.res <- stats::kmeans(
@@ -262,8 +262,13 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 
                 vars <- self$options$vars
                 
+              #  data <- self$data
+              
                 data <- self$data
                 
+                data <- jmvcore::naOmit(data)
+                
+                  
                 for (i in seq_along(vars))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
@@ -287,7 +292,11 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 
                 vars <- self$options$vars
                 
+           #     data <- self$data
+                
                 data <- self$data
+                
+                data <- jmvcore::naOmit(data)
                 
                 for (i in seq_along(vars))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
