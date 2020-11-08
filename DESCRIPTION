@@ -1,10 +1,10 @@
 Package: snowCluster
 Type: Package
 Title: Cluster Analysis
-Version: 1.3.1
+Version: 2.0.0
 Author: Hyunsoo Seol
 Maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-Description: This module allows users to analyze k-means clustering.
+Description: This module allows users to analyze k-means clustering and visualize results of PCA. 
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
@@ -14,5 +14,6 @@ Imports:
     R6,
     stats,
     factoextra,
+    FactoMineR,
     ggplot2
     

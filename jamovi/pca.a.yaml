@@ -1,0 +1,40 @@
+---
+name:  pca
+title: PCA Plot
+menuGroup: snowCluster
+menuSubgroup: Principal component
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: >
+            The data as a data frame.
+
+    - name: vars
+      title: Variables
+      type: Variables
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
+  
+    - name: plot
+      title: Variable contributions 
+      type: Bool
+      default: TRUE
+      
+    - name: plot1
+      title: Individual plot 
+      type: Bool
+      default: TRUE
+
+    - name: plot2
+      title: Biplot 
+      type: Bool
+      default: TRUE
+
+
+...

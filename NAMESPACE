@@ -2,6 +2,12 @@
 
 export(kmeans)
 export(kmeansClass)
+export(pca)
+export(pcaClass)
 import(ggplot2)
+importFrom(FactoMineR,PCA)
 importFrom(factoextra,fviz_cluster)
 importFrom(factoextra,fviz_nbclust)
+importFrom(factoextra,fviz_pca_biplot)
+importFrom(factoextra,fviz_pca_ind)
+importFrom(factoextra,fviz_pca_var)

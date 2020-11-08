@@ -1,0 +1,36 @@
+---
+name:  pca
+title: PCA Plot
+jrs:   '1.1'
+
+items:
+    - name:  plot
+      title: Variable Contributions
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot)
+      width: 500
+      height: 500
+      renderFun: .plot
+    
+    - name:  plot1
+      title: Individual Plot
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot1)
+      width: 500
+      height: 500
+      renderFun: .plot1
+      
+    - name:  plot2
+      title: Biplot
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot2)
+      width: 500
+      height: 500
+      renderFun: .plot2  
+...
