@@ -1,2 +1,2 @@
 # snowCluster
-Cluster Analysis: This module allows users to analyze k-means clustering. Additional analysis will be added later.
+Cluster Analysis: This module allows users to analyze k-means clustering and visualize results of Principal Component Analysis.

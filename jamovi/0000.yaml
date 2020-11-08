@@ -10,7 +10,7 @@ date: '2020-10-20'
 type: R
 description: >-
   This module allows users to analyze k-means clustering and visualize results
-  of PCA.
+  of Principal Component Analysis.
 analyses:
   - title: K-means clustering
     name: kmeans
