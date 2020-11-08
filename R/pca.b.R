@@ -27,7 +27,8 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 for (i in seq_along(vars))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
-         
+                 if ( ! is.null(self$options$labels))
+                   rownames(data) <- data[[self$options$labels]]
           
           # principal component analysis---------
            
@@ -111,33 +112,31 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
        .plot3 = function(image3, ggtheme, theme, ...) {
          
          vars <- self$options$vars
-         
          data <- self$data
-         
          data <- jmvcore::naOmit(data)
-         
+
          for (i in seq_along(vars))
            data[[i]] <- jmvcore::toNumeric(data[[i]])
-         
-         
+
+         if ( ! is.null(self$options$labels))
+
+           rownames(data) <- data[[self$options$labels]]
+
          if (length(self$options$vars) < 2)
            return()
-         
-        
+
          pca <- image3$state
        
-         # Use habillage to specify groups for coloring
-           
-         plot3 <- factoextra::fviz_pca_ind(pca,
+       plot3 <- factoextra::fviz_pca_ind(pca,
                     
                     label = "none", # hide individual labels
-                    # geom = c("point", "text"),
-                    # geom.ind = geom,
-                    
                     habillage = self$data[[self$options$labels]],  # color by groups for example, iris$Species,
                     palette = c("#00AFBB", "#E7B800", "#FC4E07"),
                     addEllipses = TRUE # Concentration ellipses
        )
+         
+         print(plot3)
+         TRUE
        }
 
         )
