@@ -34,13 +34,4 @@ items:
       height: 500
       renderFun: .plot2  
       
-    - name:  plot3
-      title: Individuals by groups
-      type:  Image
-      requiresData: true
-      refs: factoextra
-      visible: (plot3)
-      width: 500
-      height: 500
-      renderFun: .plot3      
 ...

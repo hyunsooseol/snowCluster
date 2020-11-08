@@ -29,5 +29,4 @@ children:
         name: plot1
       - type: CheckBox
         name: plot2
-      - type: CheckBox
-        name: plot3
+ 

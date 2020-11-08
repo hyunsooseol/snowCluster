@@ -27,9 +27,7 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 for (i in seq_along(vars))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
-                 if ( ! is.null(self$options$labels))
-                   rownames(data) <- data[[self$options$labels]]
-          
+                
           # principal component analysis---------
            
             pca <- FactoMineR::PCA(data,  graph = FALSE)
@@ -53,9 +51,9 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             image2$setState(pca)
             
             # Individuals by groups--------
-            
-            image3 <- self$results$plot3
-            image3$setState(pca)
+            # 
+            # image3 <- self$results$plot3
+            # image3$setState(pca)
             
             }
 
@@ -85,6 +83,9 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            if (length(self$options$vars) < 2)
                return()
            
+         # if ( ! is.null(self$options$labels))
+         #   rownames(data) <- data[[self$options$labels]]
+
            pca <- image1$state
            
            plot1 <- factoextra::fviz_pca_ind(pca, col.ind = "cos2",
@@ -107,37 +108,27 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            
            print(plot2)
            TRUE
-       },
-       
-       .plot3 = function(image3, ggtheme, theme, ...) {
-         
-         vars <- self$options$vars
-         data <- self$data
-         data <- jmvcore::naOmit(data)
-
-         for (i in seq_along(vars))
-           data[[i]] <- jmvcore::toNumeric(data[[i]])
-
-         if ( ! is.null(self$options$labels))
-
-           rownames(data) <- data[[self$options$labels]]
-
-         if (length(self$options$vars) < 2)
-           return()
-
-         pca <- image3$state
-       
-       plot3 <- factoextra::fviz_pca_ind(pca,
-                    
-                    label = "none", # hide individual labels
-                    habillage = self$data[[self$options$labels]],  # color by groups for example, iris$Species,
-                    palette = c("#00AFBB", "#E7B800", "#FC4E07"),
-                    addEllipses = TRUE # Concentration ellipses
-       )
-         
-         print(plot3)
-         TRUE
        }
+       
+       # .plot3 = function(image3, ggtheme, theme, ...) {
+       #   
+       #   
+       #   if (length(self$options$vars) < 2)
+       #     return()
+       # 
+       #   pca <- image3$state
+       # 
+       # plot3 <- factoextra::fviz_pca_ind(pca,
+       #              
+       #             # label = "none", # hide individual labels
+       #              habillage = self$data[[self$options$labels]],  # color by groups for example, iris$Species,
+       #              palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+       #              addEllipses = TRUE # Concentration ellipses
+       # )
+       #   
+       #   print(plot3)
+       #   TRUE
+       # }
 
         )
 )

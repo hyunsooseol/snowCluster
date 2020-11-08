@@ -45,10 +45,4 @@ options:
       type: Bool
       default: TRUE
       
-    - name: plot3
-      title: Individuals by groups 
-      type: Bool
-      default: TRUE
-
-
 ...
