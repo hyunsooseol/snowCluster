@@ -14,6 +14,12 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: labels
+            isTarget: true
+            maxItemCount: 1      
   - type: LayoutBox
     margin: large
     children:
@@ -23,3 +29,5 @@ children:
         name: plot1
       - type: CheckBox
         name: plot2
+      - type: CheckBox
+        name: plot3

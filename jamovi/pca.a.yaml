@@ -13,6 +13,15 @@ options:
           R: >
             The data as a data frame.
 
+    - name: labels
+      title: Labels (Optional)
+      type: Variable
+      suggested:
+         - id
+      permitted:
+        - id
+        - factor
+  
     - name: vars
       title: Variables
       type: Variables
@@ -33,6 +42,11 @@ options:
 
     - name: plot2
       title: Biplot 
+      type: Bool
+      default: TRUE
+      
+    - name: plot3
+      title: Individuals by groups 
       type: Bool
       default: TRUE
 

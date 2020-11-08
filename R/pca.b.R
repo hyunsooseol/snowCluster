@@ -53,6 +53,11 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             image2 <- self$results$plot2
             image2$setState(pca)
             
+            # Individuals by groups--------
+            
+            image3 <- self$results$plot3
+            image3$setState(pca)
+            
             }
 
         },
@@ -103,8 +108,29 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            
            print(plot2)
            TRUE
-       }
+       },
        
+       .plot3 = function(image3, ggtheme, theme, ...) {
+         
+         if (length(self$options$vars) < 2)
+           return()
+         
+        
+         pca <- image3$state
+       
+         # Use habillage to specify groups for coloring
+           
+         plot3 <- factoextra::fviz_pca_ind(pca,
+                    
+                    label = "none", # hide individual labels
+                    # geom = c("point", "text"),
+                    # geom.ind = geom,
+                    
+                    habillage = self$options$labels,  # color by groups for example, iris$Species,
+                    palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+                    addEllipses = TRUE # Concentration ellipses
+       )
+       }
 
         )
 )

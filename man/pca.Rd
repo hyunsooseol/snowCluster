@@ -4,10 +4,12 @@
 \alias{pca}
 \title{PCA Plot}
 \usage{
-pca(data, vars, plot = TRUE, plot1 = TRUE, plot2 = TRUE)
+pca(data, labels, vars, plot = TRUE, plot1 = TRUE, plot2 = TRUE, plot3 = TRUE)
 }
 \arguments{
 \item{data}{The data as a data frame.}
+
+\item{labels}{.}
 
 \item{vars}{.}
 
@@ -16,6 +18,8 @@ pca(data, vars, plot = TRUE, plot1 = TRUE, plot2 = TRUE)
 \item{plot1}{.}
 
 \item{plot2}{.}
+
+\item{plot3}{.}
 }
 \value{
 A results object containing:
@@ -23,6 +27,7 @@ A results object containing:
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 }
 }
 \description{
