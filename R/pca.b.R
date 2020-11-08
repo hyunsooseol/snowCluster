@@ -28,9 +28,7 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
          
-          #   rownames(data)<-data[,1]
-            
-            
+          
           # principal component analysis---------
            
             pca <- FactoMineR::PCA(data,  graph = FALSE)
@@ -112,6 +110,16 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
        
        .plot3 = function(image3, ggtheme, theme, ...) {
          
+         vars <- self$options$vars
+         
+         data <- self$data
+         
+         data <- jmvcore::naOmit(data)
+         
+         for (i in seq_along(vars))
+           data[[i]] <- jmvcore::toNumeric(data[[i]])
+         
+         
          if (length(self$options$vars) < 2)
            return()
          
@@ -126,7 +134,7 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     # geom = c("point", "text"),
                     # geom.ind = geom,
                     
-                    habillage = self$options$labels,  # color by groups for example, iris$Species,
+                    habillage = self$data[[self$options$labels]],  # color by groups for example, iris$Species,
                     palette = c("#00AFBB", "#E7B800", "#FC4E07"),
                     addEllipses = TRUE # Concentration ellipses
        )
