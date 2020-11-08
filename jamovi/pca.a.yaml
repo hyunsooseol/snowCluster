@@ -38,11 +38,11 @@ options:
     - name: plot1
       title: Individual plot 
       type: Bool
-      default: TRUE
+      default: FALSE
 
     - name: plot2
       title: Biplot 
       type: Bool
-      default: TRUE
+      default: FALSE
       
 ...
