@@ -28,7 +28,15 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
                 
-          # principal component analysis---------
+                # Handling id----------
+                
+                if ( ! is.null(self$options$labels)) {
+                  rownames(data) <- data[[self$options$labels]]
+                  data[[self$options$labels]] <- NULL
+                }
+                
+                
+                # principal component analysis---------
            
             pca <- FactoMineR::PCA(data,  graph = FALSE)
             
