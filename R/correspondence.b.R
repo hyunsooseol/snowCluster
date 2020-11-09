@@ -3,8 +3,8 @@
 
 #' @importFrom FactoMineR CA
 #' @importFrom factoextra fviz_ca_row
-#' @importFrom factoextra fviz_pca_ind
-#' @importFrom factoextra fviz_pca_biplot
+#' @importFrom factoextra fviz_ca_col
+#' @importFrom factoextra fviz_ca_biplot
 #' @import ggplot2
 #' @export
 
@@ -37,25 +37,25 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 # Correspondence analysis---------
                 
-                ca <- FactoMineR::CA(data, graph = FALSE)
+                res.ca <- FactoMineR::CA(data, graph = FALSE)
                 
                 
                 #  Raw points plot----------
                 
                 image1 <- self$results$plot1
-                image1$setState(ca)
+                image1$setState(res.ca)
             
                 # Column points plot-------
 
 
                 image2 <- self$results$plot2
-                image2$setState(ca)
+                image2$setState(res.ca)
 
 
                 # Biplot--------
 
                 image3 <- self$results$plot3
-                image3$setState(ca)
+                image3$setState(res.ca)
 
                 
                 }
@@ -66,14 +66,45 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             if (length(self$options$vars) < 2)
                 return()
             
-            ca <- image1$state
+            res.ca <- image1$state
             
-            plot1 <- factoextra::fviz_ca_row(ca, repel = TRUE)
+            plot1 <- factoextra::fviz_ca_row(res.ca, col.row = "cos2",
+                                             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+                                             repel = TRUE)
             
             print(plot1)
             TRUE
+        },
+        
+        .plot2 = function(image2, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) < 2)
+                return()
+            
+            res.ca <- image2$state
+            
+            plot2 <- factoextra::fviz_ca_col(res.ca, col.col = "cos2", 
+                                             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                             repel = TRUE)
+            
+            print(plot2)
+            TRUE
+        },
+        
+        .plot3 = function(image3, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) < 2)
+                return()
+            
+            res.ca <- image3$state
+            
+            plot3 <- factoextra::fviz_ca_biplot(res.ca, repel = TRUE)
+            
+            print(plot3)
+            TRUE
         }
         
+       
     ))
             
             
