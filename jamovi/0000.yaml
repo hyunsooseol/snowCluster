@@ -25,16 +25,16 @@ analyses:
     menuTitle: PCA Plot
     menuSubgroup: Principal component
 datasets:
-  - name: kmeans
+  - name: iris
     path: iris.omv
     description: kmeans data
     tags:
       - kmeans
   - name: usarrests
     path: USArrests.omv
-    description: kmeans data
+    description: pca data
     tags:
-      - kmeans
+      - Principal
 usesNative: true
 minApp: 1.0.8
 
