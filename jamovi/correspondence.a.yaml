@@ -1,0 +1,48 @@
+---
+name:  correspondence
+title: CA plot
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: >
+            The data as a data frame.
+
+    - name: labels
+      title: Labels (Optional)
+      type: Variable
+      suggested:
+         - id
+      permitted:
+        - id
+        - factor
+  
+    - name: vars
+      title: Variables
+      type: Variables
+      suggested:
+         - nominal
+         - ordinal
+      permitted:
+        - factor  
+  
+    - name: plot1
+      title: Row points 
+      type: Bool
+      default: TRUE
+      
+    - name: plot2
+      title: Column points 
+      type: Bool
+      default: FALSE
+
+    - name: plot3
+      title: Biplot 
+      type: Bool
+      default: FALSE
+      
+...

@@ -1,0 +1,36 @@
+---
+name:  correspondence
+title: CA plot
+jrs:   '1.1'
+
+items:
+    - name:  plot1
+      title: Row points
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot1)
+      width: 500
+      height: 500
+      renderFun: .plot1
+    
+    - name:  plot2
+      title: Column points
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot2)
+      width: 500
+      height: 500
+      renderFun: .plot2
+      
+    - name:  plot3
+      title: Biplot
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot3)
+      width: 500
+      height: 500
+      renderFun: .plot3  
+...
