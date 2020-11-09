@@ -29,7 +29,7 @@ analyses:
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: CA plot
-    menuSubgroup: correspondence
+    menuSubgroup: Correspondence
 datasets:
   - name: iris
     path: iris.omv
