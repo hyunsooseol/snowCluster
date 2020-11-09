@@ -78,7 +78,8 @@ pcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="PCA Plot")
+                title="PCA Plot",
+                refs="snowCluster")
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",

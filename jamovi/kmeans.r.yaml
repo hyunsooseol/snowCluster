@@ -2,7 +2,7 @@
 name:  kmeans
 title: K-means clustering
 jrs:   '1.1'
-
+refs: snowCluster
 items:
     - name:  text
       title: Clustering vector

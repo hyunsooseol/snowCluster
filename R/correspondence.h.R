@@ -79,7 +79,8 @@ correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="CA plot")
+                title="CA plot",
+                refs="snowCluster")
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",

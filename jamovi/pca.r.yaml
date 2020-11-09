@@ -2,7 +2,7 @@
 name:  pca
 title: PCA Plot
 jrs:   '1.1'
-
+refs: snowCluster
 items:
     - name:  plot
       title: Variable Contributions
@@ -28,7 +28,7 @@ items:
       title: Biplot
       type:  Image
       requiresData: true
-      refs: factoextra
+      refs: factoextra 
       visible: (plot2)
       width: 500
       height: 500

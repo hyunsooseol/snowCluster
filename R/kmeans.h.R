@@ -108,7 +108,8 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="K-means clustering")
+                title="K-means clustering",
+                refs="snowCluster")
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
