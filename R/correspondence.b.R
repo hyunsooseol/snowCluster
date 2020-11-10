@@ -23,9 +23,6 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 data <- jmvcore::naOmit(data)
                 
-                for (i in seq_along(vars))
-                    data[[i]] <- jmvcore::toNumeric(data[[i]])
-
                 
                 # Handling id----------
                 
@@ -34,6 +31,8 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     data[[self$options$labels]] <- NULL
                 }
                 
+                for (i in seq_along(vars))
+                    data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
                 # Correspondence analysis---------
                 
@@ -63,8 +62,11 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
        
         .plot1 = function(image1, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) < 2)
-                return()
+              if (length(self$options$vars) <= 2)
+                 
+                #  return()
+                  
+           stop("Please use  greater than two variables.")
             
             res.ca <- image1$state
             
@@ -78,7 +80,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot2 = function(image2, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) < 2)
+            if (length(self$options$vars) <= 2)
                 return()
             
             res.ca <- image2$state
@@ -93,7 +95,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot3 = function(image3, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) < 2)
+            if (length(self$options$vars) <= 2)
                 return()
             
             res.ca <- image3$state
