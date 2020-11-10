@@ -1,12 +1,12 @@
 ---
 title: Cluster Analysis
 name: snowCluster
-version: 3.0.0
+version: 3.0.1
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: 2020-11-9
+date: '2020-11-10'
 type: R
 description: >-
   This module allows users to analyze k-means clustering and visualize results

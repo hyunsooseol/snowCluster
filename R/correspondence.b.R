@@ -15,7 +15,8 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     private = list(
         .run = function() {
 
-            if (!is.null(self$options$vars)) {
+            
+            if(length(self$options$vars>2)){
                 
                 vars <- self$options$vars
                 
@@ -62,11 +63,8 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
        
         .plot1 = function(image1, ggtheme, theme, ...) {
             
-              if (length(self$options$vars) <= 2)
-                 
-                #  return()
-                  
-           stop("Please use  greater than two variables.")
+            if (length(self$options$vars) <= 2)
+                return()
             
             res.ca <- image1$state
             
