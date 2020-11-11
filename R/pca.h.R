@@ -10,7 +10,8 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             vars = NULL,
             plot = TRUE,
             plot1 = FALSE,
-            plot2 = FALSE, ...) {
+            plot2 = FALSE,
+            plot3 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -45,25 +46,32 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "plot2",
                 plot2,
                 default=FALSE)
+            private$..plot3 <- jmvcore::OptionBool$new(
+                "plot3",
+                plot3,
+                default=FALSE)
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
+            self$.addOption(private$..plot3)
         }),
     active = list(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
-        plot2 = function() private$..plot2$value),
+        plot2 = function() private$..plot2$value,
+        plot3 = function() private$..plot3$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
         ..plot = NA,
         ..plot1 = NA,
-        ..plot2 = NA)
+        ..plot2 = NA,
+        ..plot3 = NA)
 )
 
 pcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
@@ -71,7 +79,8 @@ pcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     active = list(
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
-        plot2 = function() private$.items[["plot2"]]),
+        plot2 = function() private$.items[["plot2"]],
+        plot3 = function() private$.items[["plot3"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -109,7 +118,17 @@ pcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 visible="(plot2)",
                 width=500,
                 height=500,
-                renderFun=".plot2"))}))
+                renderFun=".plot2"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot3",
+                title="Individuals by groups",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot3)",
+                width=500,
+                height=500,
+                renderFun=".plot3"))}))
 
 pcaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "pcaBase",
@@ -140,11 +159,13 @@ pcaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
+#' @param plot3 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -154,7 +175,8 @@ pca <- function(
     vars,
     plot = TRUE,
     plot1 = FALSE,
-    plot2 = FALSE) {
+    plot2 = FALSE,
+    plot3 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('pca requires jmvcore to be installed (restart may be required)')
@@ -173,7 +195,8 @@ pca <- function(
         vars = vars,
         plot = plot,
         plot1 = plot1,
-        plot2 = plot2)
+        plot2 = plot2,
+        plot3 = plot3)
 
     analysis <- pcaClass$new(
         options = options,

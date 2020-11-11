@@ -88,8 +88,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         
                     dat2 <- jmvcore::select(data, self$options$vars)
                    
-                  #  dat2 <- jmvcore::naOmit(dat2) 
-                    
+                  
                     #standardize variables-------------
                     
                     if (self$options$stand)
