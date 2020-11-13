@@ -58,11 +58,7 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             image2 <- self$results$plot2
             image2$setState(pca)
             
-            # Individuals by groups--------
-
-            image3 <- self$results$plot3
-            image3$setState(pca)
-
+            
           }
           
         },
@@ -114,39 +110,8 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
           
           print(plot2)
           TRUE
-        },
-        
-        .plot3 = function(image3, ggtheme, theme, ...) {
-
-
-            vars <- self$options$vars
-            
-            data <- self$data
-            
-            data <- jmvcore::naOmit(data)
-            
-            
-            for (i in seq_along(vars))
-                data[[i]] <- jmvcore::toNumeric(data[[i]])
-            
-            
-            
-          if (is.null(self$options$labels))
-            return()
-
-          pca <- image3$state
-
-        plot3 <- factoextra::fviz_pca_ind(pca,
-
-                        label = "none", # hide individual labels
-                        habillage = self$data[[self$options$labels]],  # color by groups for example, iris$Species,
-                        palette = c("#00AFBB", "#E7B800", "#FC4E07"),
-                        addEllipses = TRUE # Concentration ellipses
-        )
-
-          print(plot3)
-          TRUE
         }
+       
         
     )
 )

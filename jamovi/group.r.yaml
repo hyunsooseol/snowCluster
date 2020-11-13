@@ -1,0 +1,16 @@
+---
+name:  group
+title: Group plot
+jrs:   '1.1'
+
+items:
+    - name:  plot
+      title: Individuals by groups
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot)
+      width: 500
+      height: 500
+      renderFun: .plot
+...

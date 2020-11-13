@@ -30,12 +30,19 @@ analyses:
     menuGroup: snowCluster
     menuTitle: CA plot
     menuSubgroup: Correspondence
+  - title: Group plot
+    name: group
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Group plot
+    menuSubgroup: Principal component
 datasets:
   - name: iris
     path: iris.omv
     description: kmeans data
     tags:
-      - kmeans
+      - Kmeans
+      - Group plot
   - name: usarrests
     path: USArrests.omv
     description: pca data

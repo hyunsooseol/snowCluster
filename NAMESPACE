@@ -2,6 +2,8 @@
 
 export(correspondence)
 export(correspondenceClass)
+export(group)
+export(groupClass)
 export(kmeans)
 export(kmeansClass)
 export(pca)

@@ -1,6 +1,6 @@
 ---
-name:  pca
-title: PCA Plot
+name:  group
+title: Group plot
 menuGroup: snowCluster
 menuSubgroup: Principal component
 version: '1.0.0'
@@ -13,13 +13,12 @@ options:
           R: >
             The data as a data frame.
 
-    - name: labels
-      title: Labels (Optional)
+    - name: facs
+      title: Factor
       type: Variable
       suggested:
-         - id
+         - nominal
       permitted:
-        - id
         - factor
   
     - name: vars
@@ -31,19 +30,8 @@ options:
         - numeric  
   
     - name: plot
-      title: Variable contributions 
+      title: Individuals by groups
       type: Bool
       default: TRUE
-      
-    - name: plot1
-      title: Individual plot 
-      type: Bool
-      default: FALSE
-
-    - name: plot2
-      title: Biplot 
-      type: Bool
-      default: FALSE
-  
 
 ...
