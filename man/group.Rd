@@ -4,7 +4,7 @@
 \alias{group}
 \title{Group plot}
 \usage{
-group(data, facs, vars, plot = TRUE, plot1 = TRUE)
+group(data, facs, vars, plot = TRUE, plot1 = FALSE)
 }
 \arguments{
 \item{data}{The data as a data frame.}
