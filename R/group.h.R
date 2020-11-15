@@ -8,7 +8,8 @@ groupOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         initialize = function(
             facs = NULL,
             vars = NULL,
-            plot = TRUE, ...) {
+            plot = TRUE,
+            plot1 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -34,32 +35,41 @@ groupOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "plot",
                 plot,
                 default=TRUE)
+            private$..plot1 <- jmvcore::OptionBool$new(
+                "plot1",
+                plot1,
+                default=FALSE)
 
             self$.addOption(private$..facs)
             self$.addOption(private$..vars)
             self$.addOption(private$..plot)
+            self$.addOption(private$..plot1)
         }),
     active = list(
         facs = function() private$..facs$value,
         vars = function() private$..vars$value,
-        plot = function() private$..plot$value),
+        plot = function() private$..plot$value,
+        plot1 = function() private$..plot1$value),
     private = list(
         ..facs = NA,
         ..vars = NA,
-        ..plot = NA)
+        ..plot = NA,
+        ..plot1 = NA)
 )
 
 groupResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
-        plot = function() private$.items[["plot"]]),
+        plot = function() private$.items[["plot"]],
+        plot1 = function() private$.items[["plot1"]]),
     private = list(),
     public=list(
         initialize=function(options) {
             super$initialize(
                 options=options,
                 name="",
-                title="Group plot")
+                title="Group plot",
+                refs="snowCluster")
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -69,7 +79,17 @@ groupResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 visible="(plot)",
                 width=500,
                 height=500,
-                renderFun=".plot"))}))
+                renderFun=".plot"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot1",
+                title="PCA-Biplot",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot1)",
+                width=500,
+                height=500,
+                renderFun=".plot1"))}))
 
 groupBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "groupBase",
@@ -98,9 +118,11 @@ groupBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param facs .
 #' @param vars .
 #' @param plot .
+#' @param plot1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -108,7 +130,8 @@ group <- function(
     data,
     facs,
     vars,
-    plot = TRUE) {
+    plot = TRUE,
+    plot1 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('group requires jmvcore to be installed (restart may be required)')
@@ -126,7 +149,8 @@ group <- function(
     options <- groupOptions$new(
         facs = facs,
         vars = vars,
-        plot = plot)
+        plot = plot,
+        plot1 = plot1)
 
     analysis <- groupClass$new(
         options = options,

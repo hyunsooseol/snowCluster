@@ -2,7 +2,7 @@
 name:  group
 title: Group plot
 jrs:   '1.1'
-
+refs: snowCluster
 items:
     - name:  plot
       title: Individuals by groups
@@ -13,4 +13,14 @@ items:
       width: 500
       height: 500
       renderFun: .plot
+    
+    - name:  plot1
+      title: PCA-Biplot
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot1)
+      width: 500
+      height: 500
+      renderFun: .plot1  
 ...

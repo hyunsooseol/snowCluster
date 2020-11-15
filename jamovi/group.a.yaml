@@ -33,5 +33,10 @@ options:
       title: Individuals by groups
       type: Bool
       default: TRUE
+      
+    - name: plot1
+      title: PCA-Biplot
+      type: Bool
+      default: FALSE
 
 ...

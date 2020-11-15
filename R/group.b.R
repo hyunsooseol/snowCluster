@@ -3,6 +3,7 @@
 
 #' @importFrom factoextra fviz_pca_ind
 #' @importFrom FactoMineR PCA
+#' @importFrom factoextra fviz_pca_biplot
 #' @import ggplot2
 #' @export
 
@@ -48,12 +49,15 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 pca <- FactoMineR::PCA(data,  graph = FALSE)
                 
                 
-                # Variable contributions plot----------
+                # group plot----------
                 
                 image <- self$results$plot
                 image$setState(pca)
                    
-            
+              # biplot------------------------
+                
+                image1 <- self$results$plot1
+                image1$setState(pca)
             }
             
         },
@@ -75,6 +79,24 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             )
             
             print(plot)
+            TRUE
+        },
+        
+        .plot1 = function(image1, ggtheme, theme, ...) {
+            
+            if (is.null(self$options$facs))
+                return()
+            
+            
+            pca <- image1$state
+            
+            plot1 <- factoextra::fviz_pca_biplot(pca, 
+                                                col.ind = iris$Species, palette = "jco", 
+                                                addEllipses = TRUE, label = "var",
+                                                col.var = "black", repel = TRUE,
+                                                legend.title = "Species") 
+            
+            print(plot1)
             TRUE
         }
         

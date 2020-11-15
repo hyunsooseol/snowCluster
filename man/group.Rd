@@ -4,7 +4,7 @@
 \alias{group}
 \title{Group plot}
 \usage{
-group(data, facs, vars, plot = TRUE)
+group(data, facs, vars, plot = TRUE, plot1 = TRUE)
 }
 \arguments{
 \item{data}{The data as a data frame.}
@@ -14,11 +14,14 @@ group(data, facs, vars, plot = TRUE)
 \item{vars}{.}
 
 \item{plot}{.}
+
+\item{plot1}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 }
 }
 \description{

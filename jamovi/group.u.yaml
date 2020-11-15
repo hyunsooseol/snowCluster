@@ -25,3 +25,5 @@ children:
     children:
       - type: CheckBox
         name: plot
+      - type: CheckBox
+        name: plot1
