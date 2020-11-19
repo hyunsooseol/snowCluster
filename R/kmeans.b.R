@@ -3,6 +3,9 @@
 
 #' @importFrom factoextra fviz_nbclust
 #' @importFrom factoextra fviz_cluster
+#' @importFrom factoextra fviz_pca_var
+#' @importFrom FactoMineR PCA
+#' @importFrom factoextra get_pca_var
 #' @import ggplot2
 #' @export
 
@@ -213,6 +216,31 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         
                         image2$setState(km.res)
                         
+                        
+                        # Create a grouping variable using kmeans-----
+                        
+                        
+                        
+                        res.pca <- FactoMineR:: PCA(data, graph = FALSE)
+                        
+                        var <- factoextra::get_pca_var(res.pca)
+                        
+                        
+                        res.km <- stats:: kmeans(var$coord,
+                                                 centers = self$options$k,
+                                                 nstart = self$options$nstart,
+                                                 algorithm = self$options$algo
+                                                 )
+
+                        grp <- as.factor(res.km$cluster)
+
+                        image3 <- self$results$plot3
+                        
+                        state <- list(res.pca, grp)
+                       
+                        image3$setState(state)
+                       
+                      
                     }
                 }
                 
@@ -316,7 +344,30 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 print(plot2)
                 TRUE
                 
-            }
+            },
+           
+           # Color variables by groups----------------
+           
+           .plot3 = function(image3, ggtheme, theme, ...) {
+               
+               if (length(self$options$vars) < 2)
+                   return()
+           
+            
+               res.pca <- image3$state[[1]]
+               grp     <- image3$state[[2]]
+               
+           
+           plot3 <-
+               factoextra::fviz_pca_var(res.pca, col.var = grp, 
+                                 palette = c("#0073C2FF", "#EFC000FF", "#868686FF"),
+                                 legend.title = "Cluster")   
+                                        
+           print(plot3)
+           TRUE
+           
+           }
+           
         )
         
     )

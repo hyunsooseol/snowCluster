@@ -74,4 +74,14 @@ items:
       width: 400
       height: 400
       renderFun: .plot2
+      
+    - name:  plot3
+      title: Variables-PCA
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot3)
+      width: 400
+      height: 400
+      renderFun: .plot3
 ...
