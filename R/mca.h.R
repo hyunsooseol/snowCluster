@@ -87,7 +87,8 @@ mcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="MCA Plot")
+                title="MCA Plot",
+                refs="snowCluster")
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -121,7 +122,7 @@ mcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
-                title="individuals by groups",
+                title="Individuals by groups",
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot4)",

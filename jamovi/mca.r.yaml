@@ -2,7 +2,7 @@
 name:  mca
 title: MCA Plot
 jrs:   '1.1'
-
+refs: snowCluster
 items:
     - name:  plot1
       title: Correlation between variables
@@ -35,7 +35,7 @@ items:
       renderFun: .plot3
       
     - name:  plot4
-      title: individuals by groups
+      title: Individuals by groups
       type:  Image
       requiresData: true
       refs: factoextra
