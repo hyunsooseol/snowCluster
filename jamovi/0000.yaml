@@ -51,19 +51,27 @@ datasets:
       - Group plot
   - name: usarrests
     path: USArrests.omv
-    description: pca data
+    description: Violent Crime Rates by US State
     tags:
-      - Principal
+      - PCA Plot
   - name: housetasks
     path: housetasks.omv
-    description: ca data
+    description: contingency table
     tags:
       - Correspondence
+      - CA Plot
+  - name: smoke
+    path: smoke.omv
+    description: the frequencies of smoking categories in each group
+    tags:
+      - Correspondence
+      - CA Plot
   - name: poison
     path: poison.omv
-    description: mca data
+    description: children who suffered from food poisoning
     tags:
       - Correspondence
+      - MCA Plot
 usesNative: true
 minApp: 1.0.8
 
