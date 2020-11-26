@@ -1,0 +1,48 @@
+---
+name:  mca
+title: MCA Plot
+jrs:   '1.1'
+
+items:
+    - name:  plot1
+      title: Correlation between variables
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot1)
+      width: 500
+      height: 500
+      renderFun: .plot1
+    
+    - name:  plot2
+      title: Coordinates of variable categories
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot2)
+      width: 500
+      height: 500
+      renderFun: .plot2
+
+    - name:  plot3
+      title: Plot of individuals
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot3)
+      width: 500
+      height: 500
+      renderFun: .plot3
+      
+    - name:  plot4
+      title: individuals by groups
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot4)
+      width: 500
+      height: 500
+      renderFun: .plot4
+...
+
+

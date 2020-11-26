@@ -1,0 +1,53 @@
+---
+name:  mca
+title: MCA Plot
+menuGroup: snowCluster
+menuSubgroup: Correspondence
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: >
+            The data as a data frame.
+
+    - name: facs
+      title: Factor(Optional)
+      type: Variable
+      suggested:
+         - nominal
+      permitted:
+        - factor
+  
+    - name: vars
+      title: Variables
+      type: Variables
+      suggested:
+         - nominal
+         - ordinal
+      permitted:
+        - factor  
+  
+    - name: plot1
+      title: Correlation between variables 
+      type: Bool
+      default: TRUE
+    
+    - name: plot2
+      title: Coordinates of variable categories
+      type: Bool
+      default: FALSE
+
+    - name: plot3
+      title: Plot of individuals
+      type: Bool
+      default: FALSE
+      
+    - name: plot4
+      title: individuals by groups
+      type: Bool
+      default: FALSE
+      
+...

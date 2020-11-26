@@ -91,10 +91,10 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             pca <- image1$state
             
             plot1 <- factoextra::fviz_pca_biplot(pca, 
-                                                col.ind = iris$Species, palette = "jco", 
+                                                col.ind =  self$data[[self$options$facs]], palette = "jco", 
                                                 addEllipses = TRUE, label = "var",
                                                 col.var = "black", repel = TRUE,
-                                                legend.title = "Species") 
+                                                legend.title = self$options$facs) 
             
             print(plot1)
             TRUE
