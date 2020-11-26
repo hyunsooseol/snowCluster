@@ -46,7 +46,7 @@ options:
       default: FALSE
       
     - name: plot4
-      title: individuals by groups
+      title: Individuals by groups
       type: Bool
       default: FALSE
       
