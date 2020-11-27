@@ -4,7 +4,15 @@
 \alias{correspondence}
 \title{CA plot}
 \usage{
-correspondence(data, labels, vars, plot1 = TRUE, plot2 = FALSE, plot3 = FALSE)
+correspondence(
+  data,
+  labels,
+  vars,
+  chi = TRUE,
+  plot1 = TRUE,
+  plot2 = FALSE,
+  plot3 = FALSE
+)
 }
 \arguments{
 \item{data}{The data as a data frame.}
@@ -12,6 +20,8 @@ correspondence(data, labels, vars, plot1 = TRUE, plot2 = FALSE, plot3 = FALSE)
 \item{labels}{.}
 
 \item{vars}{.}
+
+\item{chi}{.}
 
 \item{plot1}{.}
 
@@ -22,10 +32,17 @@ correspondence(data, labels, vars, plot1 = TRUE, plot2 = FALSE, plot3 = FALSE)
 \value{
 A results object containing:
 \tabular{llllll}{
+  \code{results$chi} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 }
+
+Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+
+\code{results$chi$asDF}
+
+\code{as.data.frame(results$chi)}
 }
 \description{
 CA plot

@@ -31,6 +31,11 @@ options:
       permitted:
         - factor  
   
+    - name: chi
+      title: Chi-square test
+      type: Bool
+      default: True
+
     - name: plot1
       title: Row points 
       type: Bool

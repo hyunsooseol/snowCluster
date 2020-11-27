@@ -4,6 +4,25 @@ title: CA plot
 jrs:   '1.1'
 refs: snowCluster
 items:
+    - name: chi
+      title: 'Chi-square test'
+      type: Table
+      rows: 1
+      clearWith:
+        - vars
+      
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: X-squared 
+        - name: statistic
+          type: number
+        - name: df
+          type: number
+        - name: p
+          type: number
+
     - name:  plot1
       title: Row points
       type:  Image

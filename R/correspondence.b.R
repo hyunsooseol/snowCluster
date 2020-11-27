@@ -35,10 +35,40 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 for (i in seq_along(vars))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
-                # Correspondence analysis---------
+                
+                ##### Correspondence analysis---------
                 
                 res.ca <- FactoMineR::CA(data, graph = FALSE)
                 
+                chi <- chisq.test(data)
+                
+                # get statistic----
+                   
+                 statistic<- chi$statistic
+                
+                # get df----------
+                
+                df<- chi$parameter
+                
+                # get pvalue------------
+                
+                p <- chi$p.value
+                
+               # Chi square table===============
+                
+                table <- self$results$chi
+                
+                row <- list()
+                
+                row[['statistic']] <- statistic
+                row[['df']] <- df
+                row[['p']] <- p
+                
+                table$setRow(rowNo = 1, values = row)
+                
+                
+         
+                ##### Plot #####
                 
                 #  Raw points plot----------
                 
@@ -61,6 +91,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 }
             },
        
+
         .plot1 = function(image1, ggtheme, theme, ...) {
             
             if (length(self$options$vars) <= 2)

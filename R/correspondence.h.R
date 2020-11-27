@@ -8,6 +8,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         initialize = function(
             labels = NULL,
             vars = NULL,
+            chi = TRUE,
             plot1 = TRUE,
             plot2 = FALSE,
             plot3 = FALSE, ...) {
@@ -34,6 +35,10 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                     "ordinal"),
                 permitted=list(
                     "factor"))
+            private$..chi <- jmvcore::OptionBool$new(
+                "chi",
+                chi,
+                default=TRUE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -49,6 +54,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
+            self$.addOption(private$..chi)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
@@ -56,12 +62,14 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
     active = list(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
+        chi = function() private$..chi$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
+        ..chi = NA,
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA)
@@ -70,6 +78,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
 correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
+        chi = function() private$.items[["chi"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]]),
@@ -81,6 +90,28 @@ correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 name="",
                 title="CA plot",
                 refs="snowCluster")
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="chi",
+                title="Chi-square test",
+                rows=1,
+                clearWith=list(
+                    "vars"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="X-squared"),
+                    list(
+                        `name`="statistic", 
+                        `type`="number"),
+                    list(
+                        `name`="df", 
+                        `type`="number"),
+                    list(
+                        `name`="p", 
+                        `type`="number"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -138,21 +169,30 @@ correspondenceBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param data The data as a data frame.
 #' @param labels .
 #' @param vars .
+#' @param chi .
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$chi} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$chi$asDF}
+#'
+#' \code{as.data.frame(results$chi)}
 #'
 #' @export
 correspondence <- function(
     data,
     labels,
     vars,
+    chi = TRUE,
     plot1 = TRUE,
     plot2 = FALSE,
     plot3 = FALSE) {
@@ -173,6 +213,7 @@ correspondence <- function(
     options <- correspondenceOptions$new(
         labels = labels,
         vars = vars,
+        chi = chi,
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3)

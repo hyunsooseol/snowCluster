@@ -1,4 +1,4 @@
-title: Correspondence Analysis plot
+title: Correspondence Analysis 
 name: correspondence
 jus: '3.0'
 stage: 0
@@ -20,8 +20,17 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1      
-  - type: LayoutBox
-    margin: large
+  - type: CollapseBox
+    label: Correspondence Analysis
+    margin: normal
+    collapsed: true
+    children:
+      - name: chi
+        type: CheckBox
+  - type: CollapseBox
+    label: Plot
+    margin: normal
+    collapsed: true
     children:
       - type: CheckBox
         name: plot1
