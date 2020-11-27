@@ -124,7 +124,7 @@ correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="eigen",
-                title="eigenvalues",
+                title="Eigenvalues",
                 visible="(eigen)",
                 clearWith=list(
                     "vars"),

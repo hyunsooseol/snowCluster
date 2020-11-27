@@ -1,4 +1,4 @@
-title: Multiple Correspondence Analysis Plot
+title: Multiple Correspondence Analysis 
 name: mca
 jus: '3.0'
 stage: 0
@@ -20,8 +20,17 @@ children:
             name: facs
             isTarget: true
             maxItemCount: 1      
-  - type: LayoutBox
-    margin: large
+  - type: CollapseBox
+    label: Multiple Correspondence Analysis
+    margin: normal
+    collapsed: true
+    children:
+      - name: eigen
+        type: CheckBox  
+  - type: CollapseBox
+    label: Plot
+    margin: normal
+    collapsed: true
     children:
       - type: CheckBox
         name: plot1

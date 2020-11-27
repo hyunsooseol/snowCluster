@@ -1,6 +1,6 @@
 ---
 name:  mca
-title: MCA Plot
+title: Multiple Correspondence Analysis
 menuGroup: snowCluster
 menuSubgroup: Correspondence
 version: '1.0.0'
@@ -30,8 +30,13 @@ options:
       permitted:
         - factor  
   
+    - name: eigen
+      title: Eigenvalues
+      type: Bool
+      default: TRUE  
+
     - name: plot1
-      title: Correlation between variables 
+      title: Correlation between variables and dimensions 
       type: Bool
       default: TRUE
     

@@ -37,7 +37,7 @@ options:
       default: True
       
     - name: eigen
-      title: eigenvalues
+      title: Eigenvalues
       type: Bool
       default: FALSE  
 

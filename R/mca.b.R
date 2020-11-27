@@ -49,6 +49,39 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 res.mca <- FactoMineR::MCA(data, graph = FALSE)
                 
                 
+                
+                ### get eigenvalues------------
+                
+                eigen <- res.mca$eig[,1]
+                eigen<- as.vector(eigen)
+                
+                # eigenvalue table-------------
+                
+                table <- self$results$eigen
+                
+                for (i in seq_along(eigen))
+                    table$addRow(rowKey=i, values=list(comp = as.character(i)))
+                
+                # populating eigenvalue table-----
+                
+                eigenTotal <- sum(abs(eigen))
+                varProp <- (abs(eigen) / eigenTotal) * 100
+                varCum <- cumsum(varProp)
+                
+                for (i in seq_along(eigen)) {
+                    
+                    row <- list()
+                    row[["eigen"]] <- eigen[i]
+                    row[["varProp"]] <- varProp[i]
+                    row[["varCum"]] <- varCum[i]
+                    
+                    
+                    table$setRow(rowNo=i, values=row)
+                }
+                
+                
+                ###### plot##########################                
+                
                 #  Correlation between variables plot----------
                 
                 image1 <- self$results$plot1

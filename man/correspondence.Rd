@@ -2,14 +2,14 @@
 % Please edit documentation in R/correspondence.h.R
 \name{correspondence}
 \alias{correspondence}
-\title{CA plot}
+\title{Correspondence Analysis}
 \usage{
 correspondence(
   data,
   labels,
   vars,
   chi = TRUE,
-  eigen = TRUE,
+  eigen = FALSE,
   plot1 = TRUE,
   plot2 = FALSE,
   plot3 = FALSE
@@ -49,5 +49,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$chi)}
 }
 \description{
-CA plot
+Correspondence Analysis
 }

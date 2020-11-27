@@ -36,11 +36,11 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Group plot
     menuSubgroup: Principal component
-  - title: MCA Plot
+  - title: Multiple Correspondence Analysis
     name: mca
     ns: snowCluster
     menuGroup: snowCluster
-    menuTitle: MCA Plot
+    menuTitle: Multiple Correspondence Analysis
     menuSubgroup: Correspondence
 datasets:
   - name: iris

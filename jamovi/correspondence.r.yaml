@@ -24,7 +24,7 @@ items:
           type: number
 
     - name: eigen
-      title: 'eigenvalues'
+      title: 'Eigenvalues'
       visible: (eigen)
       type: Table
       clearWith:
