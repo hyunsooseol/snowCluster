@@ -27,6 +27,8 @@ children:
     children:
       - name: chi
         type: CheckBox
+      - name: eigen
+        type: CheckBox  
   - type: CollapseBox
     label: Plot
     margin: normal

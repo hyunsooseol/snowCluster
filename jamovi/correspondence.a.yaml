@@ -35,6 +35,11 @@ options:
       title: Chi-square test
       type: Bool
       default: True
+      
+    - name: eigen
+      title: eigenvalues
+      type: Bool
+      default: True  
 
     - name: plot1
       title: Row points 

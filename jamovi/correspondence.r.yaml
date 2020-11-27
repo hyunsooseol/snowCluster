@@ -23,6 +23,27 @@ items:
         - name: p
           type: number
 
+    - name: eigen
+      title: 'eigenvalues'
+      visible: (eigen)
+      type: Table
+      clearWith:
+        - vars
+      
+      columns:
+        - name: comp
+          title: 'Component'
+          type: 'text'
+        - name: eigen
+          title: Eigenvalue
+          type: number
+        - name: varProp
+          title: '% of Variance'
+          type: number
+        - name: varCum
+          title: 'Cumulative %'
+          type: number
+
     - name:  plot1
       title: Row points
       type:  Image

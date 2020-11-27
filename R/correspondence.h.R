@@ -9,6 +9,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             labels = NULL,
             vars = NULL,
             chi = TRUE,
+            eigen = TRUE,
             plot1 = TRUE,
             plot2 = FALSE,
             plot3 = FALSE, ...) {
@@ -39,6 +40,10 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "chi",
                 chi,
                 default=TRUE)
+            private$..eigen <- jmvcore::OptionBool$new(
+                "eigen",
+                eigen,
+                default=TRUE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -55,6 +60,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
             self$.addOption(private$..chi)
+            self$.addOption(private$..eigen)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
@@ -63,6 +69,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
         chi = function() private$..chi$value,
+        eigen = function() private$..eigen$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value),
@@ -70,6 +77,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..labels = NA,
         ..vars = NA,
         ..chi = NA,
+        ..eigen = NA,
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA)
@@ -79,6 +87,7 @@ correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         chi = function() private$.items[["chi"]],
+        eigen = function() private$.items[["eigen"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]]),
@@ -111,6 +120,30 @@ correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `type`="number"),
                     list(
                         `name`="p", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="eigen",
+                title="eigenvalues",
+                visible="(eigen)",
+                clearWith=list(
+                    "vars"),
+                columns=list(
+                    list(
+                        `name`="comp", 
+                        `title`="Component", 
+                        `type`="text"),
+                    list(
+                        `name`="eigen", 
+                        `title`="Eigenvalue", 
+                        `type`="number"),
+                    list(
+                        `name`="varProp", 
+                        `title`="% of Variance", 
+                        `type`="number"),
+                    list(
+                        `name`="varCum", 
+                        `title`="Cumulative %", 
                         `type`="number"))))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -170,12 +203,14 @@ correspondenceBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param labels .
 #' @param vars .
 #' @param chi .
+#' @param eigen .
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$chi} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
@@ -193,6 +228,7 @@ correspondence <- function(
     labels,
     vars,
     chi = TRUE,
+    eigen = TRUE,
     plot1 = TRUE,
     plot2 = FALSE,
     plot3 = FALSE) {
@@ -214,6 +250,7 @@ correspondence <- function(
         labels = labels,
         vars = vars,
         chi = chi,
+        eigen = eigen,
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3)

@@ -66,9 +66,40 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 table$setRow(rowNo = 1, values = row)
                 
+                ### get eigenvalues------------
+                
+                 eigen <- res.ca$eig[,1]
+                 eigen<- as.vector(eigen)
+                
+                # eigenvalue table-------------
+                
+                table <- self$results$eigen
+                
+                for (i in seq_along(eigen))
+                    table$addRow(rowKey=i, values=list(comp = as.character(i)))
+                
+                # populating eigenvalue table-----
+                
+                eigenTotal <- sum(abs(eigen))
+                varProp <- (abs(eigen) / eigenTotal) * 100
+                varCum <- cumsum(varProp)
+                
+                for (i in seq_along(eigen)) {
+                    
+                    row <- list()
+                    row[["eigen"]] <- eigen[i]
+                    row[["varProp"]] <- varProp[i]
+                    row[["varCum"]] <- varCum[i]
+                    
+                    
+                    table$setRow(rowNo=i, values=row)
+                }
+                
+                
+                
                 
          
-                ##### Plot #####
+################ Plot ###################################
                 
                 #  Raw points plot----------
                 
