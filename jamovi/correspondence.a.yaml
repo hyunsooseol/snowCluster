@@ -1,6 +1,6 @@
 ---
 name:  correspondence
-title: CA plot
+title: Correspondence Analysis
 menuGroup: snowCluster
 menuSubgroup: Correspondence
 version: '1.0.0'
@@ -39,7 +39,7 @@ options:
     - name: eigen
       title: eigenvalues
       type: Bool
-      default: True  
+      default: FALSE  
 
     - name: plot1
       title: Row points 

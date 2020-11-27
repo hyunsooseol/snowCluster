@@ -9,7 +9,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             labels = NULL,
             vars = NULL,
             chi = TRUE,
-            eigen = TRUE,
+            eigen = FALSE,
             plot1 = TRUE,
             plot2 = FALSE,
             plot3 = FALSE, ...) {
@@ -43,7 +43,7 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
                 eigen,
-                default=TRUE)
+                default=FALSE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -97,7 +97,7 @@ correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="CA plot",
+                title="Correspondence Analysis",
                 refs="snowCluster")
             self$add(jmvcore::Table$new(
                 options=options,
@@ -196,7 +196,7 @@ correspondenceBase <- if (requireNamespace('jmvcore')) R6::R6Class(
                 requiresMissings = FALSE)
         }))
 
-#' CA plot
+#' Correspondence Analysis
 #'
 #' 
 #' @param data The data as a data frame.
@@ -228,7 +228,7 @@ correspondence <- function(
     labels,
     vars,
     chi = TRUE,
-    eigen = TRUE,
+    eigen = FALSE,
     plot1 = TRUE,
     plot2 = FALSE,
     plot3 = FALSE) {
