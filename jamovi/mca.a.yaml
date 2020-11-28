@@ -41,7 +41,7 @@ options:
       default: FALSE  
 
     - name: loadingind
-      title: Contribution of the rows to the dimensions
+      title: Contributions of the rows to the dimensions
       type: Bool
       default: FALSE  
 
