@@ -95,11 +95,67 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     table$setRow(rowNo=i, values=row)
                 }
                 
+                # init. contribution of columns to the dimensions table-------
+                
+                loadingvar<- res.ca$col$contrib
+               
+                table <- self$results$loadingvar
+                
+               
+                    for (i in seq_along(eigen))
+                        
+                        table$addColumn(
+                            name = paste0("pc", i),
+                            title = as.character(i),
+                            type = 'number',
+                            superTitle = 'Dimension'
+                        )
+                    
+               
+                for (i in seq_along(self$options$vars)) {
+                    
+                    row <- list()
+                  
+                    
+                    for (j in seq_along(eigen)) {
+                        row[[paste0("pc", j)]] <- loadingvar[i, j]
+                    }
+                    
+                   
+                    table$setRow(rowNo=i, values=row)
+                    
+                }
+                
+                # init. contribution of rows to the dimensions table-------
+                
+                loadingind<- res.ca$row$contrib
+                
+                table <- self$results$loadingind
+                
+                
+                for (i in seq_along(eigen))
+                    
+                    table$addColumn(
+                        name = paste0("pc", i),
+                        title = as.character(i),
+                        type = 'number',
+                        superTitle = 'Dimension'
+                    )
+                
+                for (i in 1:nrow(data)) {
+                    row <- list()
+                   
+                    for (j in seq_along(eigen)) {
+                        row[[paste0("pc", j)]] <- loadingind[i, j]
+                    }
+                    
+                    table$addRow(rowKey = i, values = row)
+                    
+                }
                 
                 
                 
-         
-################ Plot ###################################
+# Plot==================================================
                 
                 #  Raw points plot----------
                 
@@ -130,7 +186,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             res.ca <- image1$state
             
-            plot1 <- factoextra::fviz_ca_row(res.ca, col.row = "cos2",
+            plot1 <- factoextra::fviz_ca_row(res.ca, col.row = "contrib",
                                              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
                                              repel = TRUE)
             
@@ -145,7 +201,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             res.ca <- image2$state
             
-            plot2 <- factoextra::fviz_ca_col(res.ca, col.col = "cos2", 
+            plot2 <- factoextra::fviz_ca_col(res.ca, col.col = "contrib", 
                                              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
                                              repel = TRUE)
             

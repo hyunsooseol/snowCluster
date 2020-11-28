@@ -10,6 +10,8 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             vars = NULL,
             chi = TRUE,
             eigen = FALSE,
+            loadingvar = FALSE,
+            loadingind = FALSE,
             plot1 = TRUE,
             plot2 = FALSE,
             plot3 = FALSE, ...) {
@@ -44,6 +46,14 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "eigen",
                 eigen,
                 default=FALSE)
+            private$..loadingvar <- jmvcore::OptionBool$new(
+                "loadingvar",
+                loadingvar,
+                default=FALSE)
+            private$..loadingind <- jmvcore::OptionBool$new(
+                "loadingind",
+                loadingind,
+                default=FALSE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -61,6 +71,8 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..vars)
             self$.addOption(private$..chi)
             self$.addOption(private$..eigen)
+            self$.addOption(private$..loadingvar)
+            self$.addOption(private$..loadingind)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
@@ -70,6 +82,8 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         vars = function() private$..vars$value,
         chi = function() private$..chi$value,
         eigen = function() private$..eigen$value,
+        loadingvar = function() private$..loadingvar$value,
+        loadingind = function() private$..loadingind$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value),
@@ -78,6 +92,8 @@ correspondenceOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..vars = NA,
         ..chi = NA,
         ..eigen = NA,
+        ..loadingvar = NA,
+        ..loadingind = NA,
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA)
@@ -88,6 +104,8 @@ correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     active = list(
         chi = function() private$.items[["chi"]],
         eigen = function() private$.items[["eigen"]],
+        loadingvar = function() private$.items[["loadingvar"]],
+        loadingind = function() private$.items[["loadingind"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]]),
@@ -145,6 +163,43 @@ correspondenceResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `name`="varCum", 
                         `title`="Cumulative %", 
                         `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="loadingvar",
+                title="Contributions of the columns to the dimensions",
+                visible="(loadingvar)",
+                rows="(vars)",
+                clearWith=list(
+                    "vars"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="pc1", 
+                        `title`="1", 
+                        `type`="number", 
+                        `superTitle`="Dimension"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="loadingind",
+                title="Contributions of the rows to the dimensions",
+                visible="(loadingind)",
+                clearWith=list(
+                    "vars"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="pc1", 
+                        `title`="1", 
+                        `type`="number", 
+                        `superTitle`="Dimension"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -204,6 +259,8 @@ correspondenceBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param vars .
 #' @param chi .
 #' @param eigen .
+#' @param loadingvar .
+#' @param loadingind .
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
@@ -211,6 +268,8 @@ correspondenceBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$chi} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
@@ -229,6 +288,8 @@ correspondence <- function(
     vars,
     chi = TRUE,
     eigen = FALSE,
+    loadingvar = FALSE,
+    loadingind = FALSE,
     plot1 = TRUE,
     plot2 = FALSE,
     plot3 = FALSE) {
@@ -251,6 +312,8 @@ correspondence <- function(
         vars = vars,
         chi = chi,
         eigen = eigen,
+        loadingvar = loadingvar,
+        loadingind = loadingind,
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3)

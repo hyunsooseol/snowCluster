@@ -1,4 +1,4 @@
-title: Correspondence Analysis 
+title: Correspondence Analysis
 name: correspondence
 jus: '3.0'
 stage: 0
@@ -19,7 +19,7 @@ children:
           - type: VariablesListBox
             name: labels
             isTarget: true
-            maxItemCount: 1      
+            maxItemCount: 1
   - type: CollapseBox
     label: Correspondence Analysis
     margin: normal
@@ -28,6 +28,10 @@ children:
       - name: chi
         type: CheckBox
       - name: eigen
+        type: CheckBox
+      - name: loadingvar
+        type: CheckBox
+      - name: loadingind
         type: CheckBox  
   - type: CollapseBox
     label: Plot
