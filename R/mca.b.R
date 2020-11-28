@@ -79,6 +79,65 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     table$setRow(rowNo=i, values=row)
                 }
                 
+                # init. contribution of columns to the dimensions table-------
+                # ncp: number of dimensions kept in the results (by default 5)
+                # the number of dimension is 5(default in R package)
+                
+                loadingvar<- res.mca$var$eta2
+                
+                table <- self$results$loadingvar
+                
+               for (i in 1:5)
+                    
+                    table$addColumn(
+                        name = paste0("pc", i),
+                        title = as.character(i),
+                        type = 'number',
+                        superTitle = 'Dimension'
+                    )
+                
+                
+                for (i in seq_along(self$options$vars)) {
+                    
+                    row <- list()
+                    
+                    
+                    for (j in seq_along(1:5)) {
+                        row[[paste0("pc", j)]] <- loadingvar[i, j]
+                    }
+                    
+                    
+                    table$setRow(rowNo=i, values=row)
+                    
+                }
+                
+                # init. contribution of rows to the dimensions table-------
+                # the number of dimension is 5(default in R package)
+                
+                loadingind<- res.mca$ind$contrib
+                
+                table <- self$results$loadingind
+                
+                
+                for (i in 1:5)
+                    
+                    table$addColumn(
+                        name = paste0("pc", i),
+                        title = as.character(i),
+                        type = 'number',
+                        superTitle = 'Dimension'
+                    )
+                
+                for (i in 1:nrow(data)) {
+                    row <- list()
+                    
+                    for (j in seq_along(1:5)) {
+                        row[[paste0("pc", j)]] <- loadingind[i, j]
+                    }
+                    
+                    table$addRow(rowKey = i, values = row)
+                    
+                }
                 
                 ###### plot##########################                
                 
@@ -146,7 +205,7 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
             res.mca <- image3$state
             
-            plot3 <- factoextra::fviz_mca_ind(res.mca, col.ind = "cos2", 
+            plot3 <- factoextra::fviz_mca_ind(res.mca, col.ind = "contrib", 
                                               gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
                                               repel = TRUE, # Avoid text overlapping (slow if many points)
                                               ggtheme = theme_minimal())

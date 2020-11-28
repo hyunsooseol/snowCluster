@@ -26,7 +26,11 @@ children:
     collapsed: true
     children:
       - name: eigen
-        type: CheckBox  
+        type: CheckBox 
+      - name: loadingvar
+        type: CheckBox
+      - name: loadingind
+        type: CheckBox   
   - type: CollapseBox
     label: Plot
     margin: normal

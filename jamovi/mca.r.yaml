@@ -25,6 +25,41 @@ items:
           title: 'Cumulative %'
           type: number
 
+    - name: loadingvar
+      title: Contributions of the columns to the dimensions
+      visible: (loadingvar)
+      type: Table
+      rows: (vars)
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
+    - name: loadingind
+      title: Contributions of the rows to the dimensions
+      visible: (loadingind)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
     - name:  plot1
       title: Correlation between variables and dimensions
       type:  Image

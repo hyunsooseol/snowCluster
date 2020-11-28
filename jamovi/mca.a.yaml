@@ -35,6 +35,16 @@ options:
       type: Bool
       default: TRUE  
 
+    - name: loadingvar
+      title: Contributions of the columns to the dimensions
+      type: Bool
+      default: FALSE  
+
+    - name: loadingind
+      title: Contribution of the rows to the dimensions
+      type: Bool
+      default: FALSE  
+
     - name: plot1
       title: Correlation between variables and dimensions 
       type: Bool

@@ -9,6 +9,8 @@ mca(
   facs,
   vars,
   eigen = TRUE,
+  loadingvar = FALSE,
+  loadingind = FALSE,
   plot1 = TRUE,
   plot2 = FALSE,
   plot3 = FALSE,
@@ -24,6 +26,10 @@ mca(
 
 \item{eigen}{.}
 
+\item{loadingvar}{.}
+
+\item{loadingind}{.}
+
 \item{plot1}{.}
 
 \item{plot2}{.}
@@ -36,6 +42,8 @@ mca(
 A results object containing:
 \tabular{llllll}{
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
+  \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
+  \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
