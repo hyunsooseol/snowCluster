@@ -43,6 +43,5 @@ children:
       - name: plot3
         type: CheckBox  
 
-         
             
         

@@ -242,7 +242,9 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                        
                       
                     }
-                }
+                
+                   
+                    }
                 
             },
             
@@ -368,6 +370,5 @@ kmeansClass <- if (requireNamespace('jmvcore'))
            
            }
            
-        )
-        
-    )
+           
+        ) )

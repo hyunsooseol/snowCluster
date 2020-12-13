@@ -1,10 +1,12 @@
 Package: snowCluster
 Type: Package
 Title: Cluster Analysis
-Version: 4.0.0
+Version: 4.1.0
 Author: Hyunsoo Seol
 Maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-Description: This module allows users to analyze k-means clustering and visualize results of Principal Component and Correspondence Analysis. 
+Description: This module allows users to analyze k-means and hierarchical clustering. 
+  Furthermore, it also provides various visualization results related to
+  Principal Component and Correspondence Analysis.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true

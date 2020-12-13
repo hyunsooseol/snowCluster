@@ -1,0 +1,45 @@
+---
+name:  hc
+title: Hierarchical clustering
+menuGroup: snowCluster
+menuSubgroup: Cluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: >
+            The data as a data frame.
+
+    - name: labels
+      title: Labels (Optional)
+      type: Variable
+      suggested:
+         - id
+      permitted:
+        - id
+        - factor
+  
+    - name: vars
+      title: Variables
+      type: Variables
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
+
+    - name: k
+      title: Number of clusters
+      default: 2
+      type: Integer
+      min: 1
+      
+    - name: plot
+      title: Cluster Dendrogram
+      type: Bool
+      default: TRUE
+      
+      
+...

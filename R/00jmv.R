@@ -14,5 +14,5 @@
         `author`="Alboukadel Kassambara and Fabian Mundt", 
         `year`=2020, 
         `title`="factoextra: Extract and Visualize the Results of Multivariate Data Analyses", 
-        `publisher`="[jamovi module]. Retrieved from https://CRAN.R-project.org/package=factoextra/", 
+        `publisher`="[R package]. Retrieved from https://CRAN.R-project.org/package=factoextra/", 
         `url`="https://CRAN.R-project.org/package=factoextra"))

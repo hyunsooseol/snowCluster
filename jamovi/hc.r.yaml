@@ -1,0 +1,17 @@
+---
+name:  hc
+title: Hierarchical clustering
+jrs:   '1.1'
+refs: snowCluster
+items:
+    - name:  plot
+      title: Cluster Dendrogram
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot)
+      width: 400
+      height: 400
+      renderFun: .plot
+   
+...
