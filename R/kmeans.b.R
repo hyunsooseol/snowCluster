@@ -16,6 +16,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         inherit = kmeansBase,
         private = list(
             .init = function() {
+                
                 ##initialize the centroids of cluster table-------------
                 
                 tab2 <- self$results$centroids
@@ -154,6 +155,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                             
                         }
                         
+                        # resulting clustering vector-----
+                        options(max.print=999999)
                         
                         self$results$text$setContent(cluster)
                         
