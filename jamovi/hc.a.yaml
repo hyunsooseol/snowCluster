@@ -1,6 +1,6 @@
 ---
 name:  hc
-title: Hierarchical clustering
+title: Cluster dendrogram
 menuGroup: snowCluster
 menuSubgroup: Cluster
 version: '1.0.0'

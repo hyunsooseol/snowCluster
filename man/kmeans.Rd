@@ -2,7 +2,7 @@
 % Please edit documentation in R/kmeans.h.R
 \name{kmeans}
 \alias{kmeans}
-\title{K-means clustering}
+\title{K-means clustering method}
 \usage{
 kmeans(
   data,
@@ -58,5 +58,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$ss)}
 }
 \description{
-K-means clustering
+K-means clustering method
 }

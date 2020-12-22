@@ -1,0 +1,77 @@
+title: Hierarchical clustering method
+name: hcm
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Variables
+        children:
+          - type: VariablesListBox
+            name: podatki
+            isTarget: true
+      - type: TargetLayoutBox
+        label: Labels (Optional)
+        children:
+          - type: VariablesListBox
+            name: imena
+            maxItemCount: 1
+            isTarget: true
+  - type: CollapseBox
+    label: Hierarchical Analysis
+    margin: normal
+    collapsed: true
+    children:
+      - type: CheckBox
+        name: stand
+      - type: CheckBox
+        name: case
+      - type: LayoutBox
+        margin: small
+        children:
+          - type: ComboBox
+            name: dis
+          - type: ComboBox
+            name: method
+      - type: Label
+        label: Decide on clusters
+        margin: small
+        children:
+          - type: RadioButton
+            name: grp_height
+            optionName: grp
+            optionPart: height
+          - type: TextBox
+            name: hght
+            format: number
+            enable: (grp_height)
+          - type: RadioButton
+            name: grp_number
+            optionName: grp
+            optionPart: number
+            children:
+              - type: TextBox
+                name: group
+                format: number
+                enable: (grp_number)
+            
+  - type: CollapseBox
+    label: Plot
+    margin: normal
+    collapsed: true
+    children:
+      - type: CheckBox
+        name: dend
+        children:
+            - type: CheckBox
+              name: horiz
+              enable: (dend)
+      - type: CheckBox
+        name: heat
+      - type: CheckBox
+        name: pair
+        enable: (!case)
