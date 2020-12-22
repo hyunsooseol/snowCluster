@@ -22,7 +22,7 @@ hcmClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <div class='instructions'>
             <p>The hierarchical clustering method was created with the help of Gasper Cankar.</p>
 
-            <p> Feature requests and bug reports can be made on the <a href='https://github.com/gasper25/'  target = '_blank'>GitHub.</a></p>
+            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
 
             </div>
             </body>
