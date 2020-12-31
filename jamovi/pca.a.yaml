@@ -30,6 +30,11 @@ options:
       permitted:
         - numeric  
   
+    - name: eigen
+      title: Eigenvalues
+      type: Bool
+      default: FALSE  
+
     - name: plot
       title: Variable contributions 
       type: Bool

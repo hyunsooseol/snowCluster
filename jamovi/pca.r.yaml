@@ -4,6 +4,27 @@ title: PCA Plot
 jrs:   '1.1'
 refs: snowCluster
 items:
+    - name: eigen
+      title: 'Eigenvalues'
+      visible: (eigen)
+      type: Table
+      clearWith:
+        - vars
+      
+      columns:
+        - name: comp
+          title: 'Component'
+          type: 'text'
+        - name: eigen
+          title: Eigenvalue
+          type: number
+        - name: varProp
+          title: '% of Variance'
+          type: number
+        - name: varCum
+          title: 'Cumulative %'
+          type: number
+
     - name:  plot
       title: Variable Contributions
       type:  Image

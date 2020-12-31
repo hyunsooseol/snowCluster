@@ -8,6 +8,7 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         initialize = function(
             labels = NULL,
             vars = NULL,
+            eigen = FALSE,
             plot = TRUE,
             plot1 = FALSE,
             plot2 = FALSE, ...) {
@@ -33,6 +34,10 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..eigen <- jmvcore::OptionBool$new(
+                "eigen",
+                eigen,
+                default=FALSE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -48,6 +53,7 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
+            self$.addOption(private$..eigen)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
@@ -55,12 +61,14 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
     active = list(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
+        eigen = function() private$..eigen$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
+        ..eigen = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA)
@@ -69,6 +77,7 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
 pcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
+        eigen = function() private$.items[["eigen"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]]),
@@ -80,6 +89,30 @@ pcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 name="",
                 title="PCA Plot",
                 refs="snowCluster")
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="eigen",
+                title="Eigenvalues",
+                visible="(eigen)",
+                clearWith=list(
+                    "vars"),
+                columns=list(
+                    list(
+                        `name`="comp", 
+                        `title`="Component", 
+                        `type`="text"),
+                    list(
+                        `name`="eigen", 
+                        `title`="Eigenvalue", 
+                        `type`="number"),
+                    list(
+                        `name`="varProp", 
+                        `title`="% of Variance", 
+                        `type`="number"),
+                    list(
+                        `name`="varCum", 
+                        `title`="Cumulative %", 
+                        `type`="number"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -137,21 +170,30 @@ pcaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param data The data as a data frame.
 #' @param labels .
 #' @param vars .
+#' @param eigen .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$eigen$asDF}
+#'
+#' \code{as.data.frame(results$eigen)}
 #'
 #' @export
 pca <- function(
     data,
     labels,
     vars,
+    eigen = FALSE,
     plot = TRUE,
     plot1 = FALSE,
     plot2 = FALSE) {
@@ -171,6 +213,7 @@ pca <- function(
     options <- pcaOptions$new(
         labels = labels,
         vars = vars,
+        eigen = eigen,
         plot = plot,
         plot1 = plot1,
         plot2 = plot2)
