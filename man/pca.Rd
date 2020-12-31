@@ -8,8 +8,8 @@ pca(
   data,
   labels,
   vars,
-  eigen = FALSE,
-  plot = TRUE,
+  eigen = TRUE,
+  plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE
 )

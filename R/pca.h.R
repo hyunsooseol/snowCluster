@@ -8,8 +8,8 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         initialize = function(
             labels = NULL,
             vars = NULL,
-            eigen = FALSE,
-            plot = TRUE,
+            eigen = TRUE,
+            plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE, ...) {
 
@@ -37,11 +37,11 @@ pcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
                 eigen,
-                default=FALSE)
+                default=TRUE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
-                default=TRUE)
+                default=FALSE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -193,8 +193,8 @@ pca <- function(
     data,
     labels,
     vars,
-    eigen = FALSE,
-    plot = TRUE,
+    eigen = TRUE,
+    plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE) {
 
