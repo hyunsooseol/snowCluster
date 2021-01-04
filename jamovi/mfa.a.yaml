@@ -1,0 +1,61 @@
+---
+name:  mfa
+title: Multiple Factor Analysis
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: >
+            The data as a data frame.
+
+    - name: labels
+      title: Labels(Optional) 
+      type: Variable
+      suggested:
+         - id
+      permitted:
+        - id
+        - factor
+  
+    - name: vars
+      title: Variables
+      type: Variables
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
+        - factor
+
+    - name: k
+      title: Number of groups
+      type: Integer
+      min: 1
+      max: 100
+      default: 2
+
+    - name: group
+      title: Number of variables within group
+      type: String
+      default: '1,3,4,3'
+      
+    - name: type
+      title: Type of variable
+      type: String
+      default: 'n,s,s,s'
+      
+    - name: gn
+      title: Group name
+      type: String
+      default: 'wine_type,Expert1, Expert2,Expert3' 
+      
+    - name: eigen
+      title: Eigenvalues
+      type: Bool
+      default: TRUE  
+
+
+...

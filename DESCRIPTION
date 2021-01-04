@@ -1,7 +1,7 @@
 Package: snowCluster
 Type: Package
 Title: Cluster Analysis
-Version: 4.4.0
+Version: 4.5.0
 Author: Hyunsoo Seol
 Maintainer: Hyunsoo Seol <snow@cau.ac.kr>
 Description: This module allows users to analyze k-means and hierarchical clustering. 
