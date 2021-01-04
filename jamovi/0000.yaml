@@ -11,7 +11,7 @@ type: R
 description: >-
   This module allows users to analyze k-means and hierarchical clustering. 
   Furthermore, it also provides various visualization results related to
-  Principal Component and Correspondence Analysis.
+  Principal Component, Correspondence Analysis,and Multiple Factor Analysis.
 analyses:
   - title: K-means clustering method
     name: kmeans
@@ -92,6 +92,16 @@ datasets:
     tags:
       - Correspondence
       - MCA Plot
+  - name: oak
+    path: oak.omv
+    description: The quality of wine was rated by three experts.
+    tags:
+      - Multiple Factor Analysis
+  - name: wine
+    path: wine.omv
+    description: data sets wine available in FactoMineR package.
+    tags:
+      - Multiple Factor Analysis
 usesNative: true
 minApp: 1.0.8
 
