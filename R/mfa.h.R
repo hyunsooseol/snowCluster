@@ -12,7 +12,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             group = "1,3,4,3",
             type = "n,s,s,s",
             gn = "wine_type,Expert1, Expert2,Expert3",
-            eigen = TRUE, ...) {
+            eigen = TRUE,
+            plot = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -58,6 +59,10 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "eigen",
                 eigen,
                 default=TRUE)
+            private$..plot <- jmvcore::OptionBool$new(
+                "plot",
+                plot,
+                default=FALSE)
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
@@ -66,6 +71,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..type)
             self$.addOption(private$..gn)
             self$.addOption(private$..eigen)
+            self$.addOption(private$..plot)
         }),
     active = list(
         labels = function() private$..labels$value,
@@ -74,7 +80,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         group = function() private$..group$value,
         type = function() private$..type$value,
         gn = function() private$..gn$value,
-        eigen = function() private$..eigen$value),
+        eigen = function() private$..eigen$value,
+        plot = function() private$..plot$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
@@ -82,13 +89,15 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..group = NA,
         ..type = NA,
         ..gn = NA,
-        ..eigen = NA)
+        ..eigen = NA,
+        ..plot = NA)
 )
 
 mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
-        eigen = function() private$.items[["eigen"]]),
+        eigen = function() private$.items[["eigen"]],
+        plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -120,7 +129,17 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                     list(
                         `name`="varCum", 
                         `title`="Cumulative %", 
-                        `type`="number"))))}))
+                        `type`="number"))))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot",
+                title="Variable groups",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot)",
+                width=500,
+                height=500,
+                renderFun=".plot"))}))
 
 mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "mfaBase",
@@ -153,9 +172,11 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param type .
 #' @param gn .
 #' @param eigen .
+#' @param plot .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -173,7 +194,8 @@ mfa <- function(
     group = "1,3,4,3",
     type = "n,s,s,s",
     gn = "wine_type,Expert1, Expert2,Expert3",
-    eigen = TRUE) {
+    eigen = TRUE,
+    plot = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('mfa requires jmvcore to be installed (restart may be required)')
@@ -194,7 +216,8 @@ mfa <- function(
         group = group,
         type = type,
         gn = gn,
-        eigen = eigen)
+        eigen = eigen,
+        plot = plot)
 
     analysis <- mfaClass$new(
         options = options,

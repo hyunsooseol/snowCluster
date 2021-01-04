@@ -103,15 +103,32 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 }
                 
             
+                # Plot==================================================
+                
+                #  Groups of variables----------
+                
+                image <- self$results$plot
+                image$setState(mfa)
                 
                 
-                
-                
-                
-                
-            
             }
+        },
+        
+        .plot = function(image, ggtheme, theme, ...) {
             
+            if (length(self$options$vars) <= 2)
+                return()
             
-        })
+            mfa <- image$state
+            
+            plot <- factoextra::fviz_mfa_var(mfa, "group")
+            
+            print(plot)
+            TRUE
+        
+        }
+        
+        
+            
+        )
 )

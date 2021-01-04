@@ -56,6 +56,11 @@ options:
       title: Eigenvalues
       type: Bool
       default: TRUE  
+      
+    - name: plot
+      title: The groups of variables
+      type: Bool
+      default: FALSE    
 
 
 ...

@@ -25,6 +25,14 @@ items:
           title: 'Cumulative %'
           type: number
 
-
+    - name:  plot
+      title: Variable groups
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot)
+      width: 500
+      height: 500
+      renderFun: .plot
 
 ...

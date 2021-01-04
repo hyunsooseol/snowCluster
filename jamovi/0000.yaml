@@ -59,6 +59,7 @@ analyses:
     name: mfa
     ns: snowCluster
     menuGroup: snowCluster
+    menuSubgroup: Factor
     menuTitle: Multiple Factor Analysis
 datasets:
   - name: iris

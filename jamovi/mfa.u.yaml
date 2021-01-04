@@ -53,3 +53,8 @@ children:
     children:
       - type: CheckBox
         name: eigen
+      - type: Label
+        label: Plot
+        children:
+          - type: CheckBox
+            name: plot
