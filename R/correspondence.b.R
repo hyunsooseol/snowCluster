@@ -186,9 +186,10 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             res.ca <- image1$state
             
-            plot1 <- factoextra::fviz_ca_row(res.ca, col.row = "contrib",
-                                             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-                                             repel = TRUE)
+            plot1 <- factoextra::fviz_ca_row(res.ca, repel = TRUE)
+            
+            
+            plot1 <- plot1+ggtheme
             
             print(plot1)
             TRUE
@@ -201,9 +202,9 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             res.ca <- image2$state
             
-            plot2 <- factoextra::fviz_ca_col(res.ca, col.col = "contrib", 
-                                             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                             repel = TRUE)
+            plot2 <- factoextra::fviz_ca_col(res.ca, repel = TRUE)
+            
+            plot2 <- plot2+ggtheme
             
             print(plot2)
             TRUE
@@ -218,6 +219,8 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             plot3 <- factoextra::fviz_ca_biplot(res.ca, repel = TRUE)
             
+            
+            plot3 <- plot3+ggtheme
             print(plot3)
             TRUE
         }

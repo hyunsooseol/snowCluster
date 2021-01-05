@@ -69,6 +69,7 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             plot <- factoextra:: fviz_dend(hc, rect = TRUE, cex = 0.8,
                                            color_labels_by_k = TRUE)
             
+            plot <- plot+ggtheme
             print(plot)
             TRUE
             

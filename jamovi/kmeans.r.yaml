@@ -71,8 +71,8 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot2)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot2
       
     - name:  plot3
@@ -81,8 +81,8 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot3)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot3
      
  

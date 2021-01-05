@@ -5,6 +5,7 @@
 #' @importFrom factoextra get_eigenvalue
 #' @import FactoMineR
 #' @import factoextra
+#' @import ggplot2
 #' @export
 
 
@@ -141,16 +142,39 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 # Quantitative variables colored by groups-------
                 
                 image <- self$results$plot1
+                
+                # vars <- length(self$options$vars)
+                # 
+                # width <- 500 + vars * 30
+                # 
+                # image$setSize(width, 500)
+                
                 image$setState(mfa)
                 
                 # Contributions to dimension 1------------
                 
                 image <- self$results$plot2
+                
+                 vars <- length(self$options$vars)
+
+                 width <- 300 + vars * 30
+
+                image$setSize(width, 500)
+                
+                
                 image$setState(mfa)
                 
                 # Contributions to dimension 2------------
                 
                 image <- self$results$plot3
+                
+                vars <- length(self$options$vars)
+
+                width <- 300 + vars * 30
+
+                image$setSize(width, 500)
+
+                
                 image$setState(mfa)
                 
                 
@@ -167,6 +191,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             plot <- factoextra::fviz_mfa_var(mfa, "group")
             
+            plot <- plot+ggtheme
+            
             print(plot)
             TRUE
         
@@ -182,6 +208,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             plot1 <- factoextra::fviz_mfa_var(mfa, "quanti.var", palette = "jco", 
                                  col.var.sup = "violet", repel = TRUE)
             
+            plot1 <- plot1+ggtheme
             print(plot1)
             TRUE
             
@@ -194,8 +221,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             mfa <- image$state
             
-            plot2 <- factoextra::fviz_contrib(mfa, choice = "quanti.var", axes = 1, top = 20,
-                                  palette = "jco")
+            plot2 <- factoextra::fviz_contrib(mfa, choice = "quanti.var"
+                                              , axes = 1, top = 20,
+                                              palette = "jco")
+            
+            plot2 <- plot2+ggtheme+ 
+                theme(axis.text.x = element_text(angle=45))
             print(plot2)
             TRUE
             
@@ -208,8 +239,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             mfa <- image$state
             
-            plot3 <- factoextra::fviz_contrib(mfa, choice = "quanti.var", axes = 2, top = 20,
+            plot3 <- factoextra::fviz_contrib(mfa, choice = "quanti.var", 
+                                              axes = 2, top = 20,
                                               palette = "jco")
+                                                                                            
+            plot3 <- plot3+ggtheme+
+                theme(axis.text.x = element_text(angle=45))
             print(plot3)
             TRUE
             

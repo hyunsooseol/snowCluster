@@ -78,6 +78,7 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                                   addEllipses = TRUE # Concentration ellipses
             )
             
+            plot <- plot+ggtheme
             print(plot)
             TRUE
         },
@@ -96,6 +97,7 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                                                 col.var = "black", repel = TRUE,
                                                 legend.title = self$options$facs) 
             
+            plot1 <- plot1+ggtheme
             print(plot1)
             TRUE
         }

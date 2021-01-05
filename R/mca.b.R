@@ -176,6 +176,7 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                                               repel = TRUE, # Avoid text overlapping (slow)
                                               ggtheme = theme_minimal())
             
+            plot1 <- plot1+ggtheme
             print(plot1)
             TRUE
         
@@ -194,6 +195,7 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                                               col.var="black", shape.var = 15,
                                               ggtheme = theme_minimal())
 
+            plot2 <- plot2+ggtheme
             print(plot2)
             TRUE
         },
@@ -205,11 +207,14 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
             res.mca <- image3$state
             
-            plot3 <- factoextra::fviz_mca_ind(res.mca, col.ind = "contrib", 
-                                              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                              repel = TRUE, # Avoid text overlapping (slow if many points)
-                                              ggtheme = theme_minimal())
+            plot3 <- factoextra::fviz_mca_ind(res.mca,  
+                                               #col.ind = "contrib", 
+                                              # gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                               repel = TRUE, # Avoid text overlapping (slow if many points)
+                                              #ggtheme = theme_minimal()
+                                              )
             
+            plot3 <- plot3+ggtheme
             print(plot3)
             TRUE
         },
@@ -229,6 +234,7 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                                               palette = c("#00AFBB", "#E7B800"),
                                               addEllipses = TRUE, ellipse.type = "confidence",
                                               ggtheme = theme_minimal()) 
+            plot4 <- plot4+ggtheme
             print(plot4)
             TRUE
 }

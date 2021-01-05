@@ -102,11 +102,13 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
           
           pca <- image$state
           
-          plot <- factoextra::fviz_pca_var(pca, col.var="contrib",
-                                           gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+          plot <- factoextra::fviz_pca_var(pca, 
+                                           #col.var="contrib",
+                                           #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
                                            repel = TRUE # Avoid text overlapping
           )
           
+          plot <- plot+ggtheme
           print(plot)
           TRUE
         },
@@ -120,12 +122,14 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
           
           pca <- image1$state
           
-          plot1 <- factoextra::fviz_pca_ind(pca, col.ind = "cos2",
-                                            gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+          plot1 <- factoextra::fviz_pca_ind(pca, 
+                                            #col.ind = "cos2",
+                                            #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
                                             repel = TRUE # Avoid text overlapping (slow if many points)
           )
           
-          print(plot1)
+          plot1 <- plot1+ggtheme
+           print(plot1)
           TRUE
         },
         
@@ -138,6 +142,7 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
           
           plot2 <- factoextra::fviz_pca_biplot(pca, repel = TRUE)
           
+          plot2 <- plot2+ggtheme
           print(plot2)
           TRUE
         }

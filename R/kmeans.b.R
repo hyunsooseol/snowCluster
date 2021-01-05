@@ -308,6 +308,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 
                 plot1 <-
                     factoextra::fviz_nbclust(plotData1, stats::kmeans, method = "gap_stat")
+                
+                plot1 <- plot1+ggtheme
                 print(plot1)
                 TRUE
                 
@@ -346,6 +348,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         palette = "jco",
                         ggtheme = theme_minimal()
                     )
+                
+                plot2 <- plot2+ggtheme
                 print(plot2)
                 TRUE
                 
@@ -368,6 +372,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                                  palette = c("#0073C2FF", "#EFC000FF", "#868686FF"),
                                  legend.title = "Cluster")   
                                         
+           plot3 <- plot3+ggtheme
            print(plot3)
            TRUE
            

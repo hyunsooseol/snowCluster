@@ -187,8 +187,8 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot2)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot2"))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -197,8 +197,8 @@ kmeansResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot3)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot3"))}))
 
 kmeansBase <- if (requireNamespace('jmvcore')) R6::R6Class(
