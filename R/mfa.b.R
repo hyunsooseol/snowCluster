@@ -13,6 +13,34 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     "mfaClass",
     inherit = mfaBase,
     private = list(
+        
+        #------------------------------------
+        
+        .init = function() {
+            if (is.null(self$data) | is.null(self$options$vars)) {
+                self$results$instructions$setVisible(visible = TRUE)
+                
+            }
+            
+            self$results$instructions$setContent(
+                "<html>
+            <head>
+            </head>
+            <body>
+            <div class='instructions'>
+            
+            <p> The rationale of Multiple Factor Analysis module is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
+            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
+
+            </div>
+            </body>
+            </html>"
+            )
+            
+        },
+        
+        #---------------------------------------------
+        
         .run = function() {
 
             
@@ -110,6 +138,22 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 image <- self$results$plot
                 image$setState(mfa)
                 
+                # Quantitative variables colored by groups-------
+                
+                image <- self$results$plot1
+                image$setState(mfa)
+                
+                # Contributions to dimension 1------------
+                
+                image <- self$results$plot2
+                image$setState(mfa)
+                
+                # Contributions to dimension 2------------
+                
+                image <- self$results$plot3
+                image$setState(mfa)
+                
+                
                 
             }
         },
@@ -126,9 +170,52 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             print(plot)
             TRUE
         
-        }
+        },
         
-        
+        .plot1 = function(image, ggtheme, theme, ...) {
             
+            if (length(self$options$vars) <= 2)
+                return()
+            
+            mfa <- image$state
+            
+            plot1 <- factoextra::fviz_mfa_var(mfa, "quanti.var", palette = "jco", 
+                                 col.var.sup = "violet", repel = TRUE)
+            
+            print(plot1)
+            TRUE
+            
+        },
+        
+        .plot2 = function(image, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) <= 2)
+                return()
+            
+            mfa <- image$state
+            
+            plot2 <- factoextra::fviz_contrib(mfa, choice = "quanti.var", axes = 1, top = 20,
+                                  palette = "jco")
+            print(plot2)
+            TRUE
+            
+        },
+        
+        .plot3 = function(image, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) <= 2)
+                return()
+            
+            mfa <- image$state
+            
+            plot3 <- factoextra::fviz_contrib(mfa, choice = "quanti.var", axes = 2, top = 20,
+                                              palette = "jco")
+            print(plot3)
+            TRUE
+            
+        } 
+        
+        
+           
         )
 )

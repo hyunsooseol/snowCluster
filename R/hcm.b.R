@@ -20,7 +20,7 @@ hcmClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
-            <p>The hierarchical clustering method was created with the help of Gasper Cankar.</p>
+            <p>The hierarchical clustering module was created by Gasper Cankar & Hyunsoo Seol.</p>
 
             <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
 

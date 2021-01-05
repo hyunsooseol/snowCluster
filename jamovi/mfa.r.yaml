@@ -4,6 +4,11 @@ title: Multiple Factor Analysis
 jrs:   '1.1'
 refs: snowCluster
 items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+
     - name: eigen
       title: 'Eigenvalues'
       visible: (eigen)
@@ -35,4 +40,33 @@ items:
       height: 500
       renderFun: .plot
 
+    - name:  plot1
+      title: Quantitative variables colored by groups
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot1)
+      width: 500
+      height: 500
+      renderFun: .plot1
+      
+    - name:  plot2
+      title: Contributions to dimension 1
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot2)
+      width: 500
+      height: 500
+      renderFun: .plot2    
+      
+    - name:  plot3
+      title: Contributions to dimension 2
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot3)
+      width: 500
+      height: 500
+      renderFun: .plot3      
 ...

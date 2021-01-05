@@ -62,5 +62,18 @@ options:
       type: Bool
       default: FALSE    
 
+    - name: plot1
+      title: Quantitative variables colored by groups
+      type: Bool
+      default: FALSE    
 
+    - name: plot2
+      title: Contributions to dimension 1
+      type: Bool
+      default: FALSE    
+
+    - name: plot3
+      title: Contributions to dimension 2
+      type: Bool
+      default: FALSE    
 ...

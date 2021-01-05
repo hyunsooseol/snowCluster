@@ -13,7 +13,10 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             type = "n,s,s,s",
             gn = "wine_type,Expert1, Expert2,Expert3",
             eigen = TRUE,
-            plot = FALSE, ...) {
+            plot = FALSE,
+            plot1 = FALSE,
+            plot2 = FALSE,
+            plot3 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -63,6 +66,18 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "plot",
                 plot,
                 default=FALSE)
+            private$..plot1 <- jmvcore::OptionBool$new(
+                "plot1",
+                plot1,
+                default=FALSE)
+            private$..plot2 <- jmvcore::OptionBool$new(
+                "plot2",
+                plot2,
+                default=FALSE)
+            private$..plot3 <- jmvcore::OptionBool$new(
+                "plot3",
+                plot3,
+                default=FALSE)
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
@@ -72,6 +87,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..gn)
             self$.addOption(private$..eigen)
             self$.addOption(private$..plot)
+            self$.addOption(private$..plot1)
+            self$.addOption(private$..plot2)
+            self$.addOption(private$..plot3)
         }),
     active = list(
         labels = function() private$..labels$value,
@@ -81,7 +99,10 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         type = function() private$..type$value,
         gn = function() private$..gn$value,
         eigen = function() private$..eigen$value,
-        plot = function() private$..plot$value),
+        plot = function() private$..plot$value,
+        plot1 = function() private$..plot1$value,
+        plot2 = function() private$..plot2$value,
+        plot3 = function() private$..plot3$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
@@ -90,14 +111,21 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..type = NA,
         ..gn = NA,
         ..eigen = NA,
-        ..plot = NA)
+        ..plot = NA,
+        ..plot1 = NA,
+        ..plot2 = NA,
+        ..plot3 = NA)
 )
 
 mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
+        instructions = function() private$.items[["instructions"]],
         eigen = function() private$.items[["eigen"]],
-        plot = function() private$.items[["plot"]]),
+        plot = function() private$.items[["plot"]],
+        plot1 = function() private$.items[["plot1"]],
+        plot2 = function() private$.items[["plot2"]],
+        plot3 = function() private$.items[["plot3"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -106,6 +134,11 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 name="",
                 title="Multiple Factor Analysis",
                 refs="snowCluster")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="instructions",
+                title="Instructions",
+                visible=TRUE))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="eigen",
@@ -139,7 +172,37 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 visible="(plot)",
                 width=500,
                 height=500,
-                renderFun=".plot"))}))
+                renderFun=".plot"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot1",
+                title="Quantitative variables colored by groups",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot1)",
+                width=500,
+                height=500,
+                renderFun=".plot1"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot2",
+                title="Contributions to dimension 1",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot2)",
+                width=500,
+                height=500,
+                renderFun=".plot2"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot3",
+                title="Contributions to dimension 2",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot3)",
+                width=500,
+                height=500,
+                renderFun=".plot3"))}))
 
 mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "mfaBase",
@@ -173,10 +236,17 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param gn .
 #' @param eigen .
 #' @param plot .
+#' @param plot1 .
+#' @param plot2 .
+#' @param plot3 .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -195,7 +265,10 @@ mfa <- function(
     type = "n,s,s,s",
     gn = "wine_type,Expert1, Expert2,Expert3",
     eigen = TRUE,
-    plot = FALSE) {
+    plot = FALSE,
+    plot1 = FALSE,
+    plot2 = FALSE,
+    plot3 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('mfa requires jmvcore to be installed (restart may be required)')
@@ -217,7 +290,10 @@ mfa <- function(
         type = type,
         gn = gn,
         eigen = eigen,
-        plot = plot)
+        plot = plot,
+        plot1 = plot1,
+        plot2 = plot2,
+        plot3 = plot3)
 
     analysis <- mfaClass$new(
         options = options,
