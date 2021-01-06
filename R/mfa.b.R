@@ -293,7 +293,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             plot5 <- factoextra::fviz_mfa_ind(mfa, 
                                               habillage = "Label", # color by groups 
-                                               palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                               #palette = c("#00AFBB", "#E7B800", "#FC4E07"),
                                               addEllipses = TRUE, ellipse.type = "confidence", 
                                               repel=TRUE)
             
