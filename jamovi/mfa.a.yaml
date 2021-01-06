@@ -75,5 +75,15 @@ options:
     - name: plot3
       title: Contributions to dimension 2
       type: Bool
-      default: FALSE    
+      default: FALSE   
+      
+    - name: plot4
+      title: Graph of individuals
+      type: Bool
+      default: FALSE   
+      
+    - name: plot5
+      title: Individuals by group
+      type: Bool
+      default: FALSE     
 ...

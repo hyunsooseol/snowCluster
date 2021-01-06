@@ -16,7 +16,9 @@ mfa(
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
-  plot3 = FALSE
+  plot3 = FALSE,
+  plot4 = FALSE,
+  plot5 = FALSE
 )
 }
 \arguments{
@@ -43,6 +45,10 @@ mfa(
 \item{plot2}{.}
 
 \item{plot3}{.}
+
+\item{plot4}{.}
+
+\item{plot5}{.}
 }
 \value{
 A results object containing:
@@ -53,6 +59,8 @@ A results object containing:
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

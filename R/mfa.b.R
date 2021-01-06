@@ -3,6 +3,7 @@
 
 #' @importFrom FactoMineR MFA
 #' @importFrom factoextra get_eigenvalue
+#' @importFrom factoextra fviz_mfa_ind
 #' @import FactoMineR
 #' @import factoextra
 #' @import ggplot2
@@ -177,7 +178,19 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 image$setState(mfa)
                 
+              
+                # Graph of individuals---------
                 
+                image <- self$results$plot4
+                
+                image$setState(mfa)
+                
+                # Individuals by group---------
+                
+                image <- self$results$plot5
+                
+                image$setState(mfa)
+                  
                 
             }
         },
@@ -205,10 +218,15 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             mfa <- image$state
             
-            plot1 <- factoextra::fviz_mfa_var(mfa, "quanti.var", palette = "jco", 
-                                 col.var.sup = "violet", repel = TRUE)
+            plot1 <- factoextra::fviz_mfa_var(mfa, "quanti.var", 
+                                              palette = "jco", 
+                                 col.var.sup = "violet", 
+                                 repel = TRUE,
+                                  geom = c("point", "text"),
+                                  legend = "bottom")
             
             plot1 <- plot1+ggtheme
+                
             print(plot1)
             TRUE
             
@@ -248,9 +266,42 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             print(plot3)
             TRUE
             
-        } 
+        }, 
         
+        .plot4 = function(image, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) <= 2)
+                return()
+            
+            mfa <- image$state
+            
+            plot4 <- factoextra::fviz_mfa_ind(mfa, 
+                                             repel=TRUE)
+            
+            plot4 <- plot4+ggtheme
+            
+            print(plot4)
+            TRUE
+        },
+       
+         .plot5 = function(image, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) <= 2)
+                return()
+            
+            mfa <- image$state
+            
+            plot5 <- factoextra::fviz_mfa_ind(mfa, 
+                                              habillage = "Label", # color by groups 
+                                               palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                              addEllipses = TRUE, ellipse.type = "confidence", 
+                                              repel=TRUE)
+            
+            plot5 <- plot5+ggtheme
+            
+            print(plot5)
+            TRUE
+         }
         
-           
-        )
+    )
 )

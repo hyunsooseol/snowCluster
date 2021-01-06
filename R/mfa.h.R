@@ -16,7 +16,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
-            plot3 = FALSE, ...) {
+            plot3 = FALSE,
+            plot4 = FALSE,
+            plot5 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -78,6 +80,14 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "plot3",
                 plot3,
                 default=FALSE)
+            private$..plot4 <- jmvcore::OptionBool$new(
+                "plot4",
+                plot4,
+                default=FALSE)
+            private$..plot5 <- jmvcore::OptionBool$new(
+                "plot5",
+                plot5,
+                default=FALSE)
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
@@ -90,6 +100,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
+            self$.addOption(private$..plot4)
+            self$.addOption(private$..plot5)
         }),
     active = list(
         labels = function() private$..labels$value,
@@ -102,7 +114,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
-        plot3 = function() private$..plot3$value),
+        plot3 = function() private$..plot3$value,
+        plot4 = function() private$..plot4$value,
+        plot5 = function() private$..plot5$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
@@ -114,7 +128,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA,
-        ..plot3 = NA)
+        ..plot3 = NA,
+        ..plot4 = NA,
+        ..plot5 = NA)
 )
 
 mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
@@ -125,7 +141,9 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
-        plot3 = function() private$.items[["plot3"]]),
+        plot3 = function() private$.items[["plot3"]],
+        plot4 = function() private$.items[["plot4"]],
+        plot5 = function() private$.items[["plot5"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -180,8 +198,8 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot1)",
-                width=500,
-                height=500,
+                width=700,
+                height=700,
                 renderFun=".plot1"))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -202,7 +220,27 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 visible="(plot3)",
                 width=500,
                 height=500,
-                renderFun=".plot3"))}))
+                renderFun=".plot3"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot4",
+                title="Graph of individuals",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot4)",
+                width=500,
+                height=500,
+                renderFun=".plot4"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot5",
+                title="Individuals by group",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot5)",
+                width=600,
+                height=600,
+                renderFun=".plot5"))}))
 
 mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "mfaBase",
@@ -239,6 +277,8 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
+#' @param plot4 .
+#' @param plot5 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -247,6 +287,8 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -268,7 +310,9 @@ mfa <- function(
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
-    plot3 = FALSE) {
+    plot3 = FALSE,
+    plot4 = FALSE,
+    plot5 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('mfa requires jmvcore to be installed (restart may be required)')
@@ -293,7 +337,9 @@ mfa <- function(
         plot = plot,
         plot1 = plot1,
         plot2 = plot2,
-        plot3 = plot3)
+        plot3 = plot3,
+        plot4 = plot4,
+        plot5 = plot5)
 
     analysis <- mfaClass$new(
         options = options,
