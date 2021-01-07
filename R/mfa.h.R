@@ -13,6 +13,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             type = "n,s,s,s",
             gn = "wine_type,Expert1, Expert2,Expert3",
             eigen = TRUE,
+            cd = TRUE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -64,6 +65,10 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "eigen",
                 eigen,
                 default=TRUE)
+            private$..cd <- jmvcore::OptionBool$new(
+                "cd",
+                cd,
+                default=TRUE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -96,6 +101,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..type)
             self$.addOption(private$..gn)
             self$.addOption(private$..eigen)
+            self$.addOption(private$..cd)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
@@ -111,6 +117,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         type = function() private$..type$value,
         gn = function() private$..gn$value,
         eigen = function() private$..eigen$value,
+        cd = function() private$..cd$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
@@ -125,6 +132,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..type = NA,
         ..gn = NA,
         ..eigen = NA,
+        ..cd = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA,
@@ -138,6 +146,7 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     active = list(
         instructions = function() private$.items[["instructions"]],
         eigen = function() private$.items[["eigen"]],
+        cd = function() private$.items[["cd"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
@@ -181,6 +190,24 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `name`="varCum", 
                         `title`="Cumulative %", 
                         `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="cd",
+                title="contributions of the variables",
+                visible="(cd)",
+                clearWith=list(
+                    "vars"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="pc1", 
+                        `title`="1", 
+                        `type`="number", 
+                        `superTitle`="Dimension"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -273,6 +300,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param type .
 #' @param gn .
 #' @param eigen .
+#' @param cd .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
@@ -283,6 +311,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$cd} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
@@ -307,6 +336,7 @@ mfa <- function(
     type = "n,s,s,s",
     gn = "wine_type,Expert1, Expert2,Expert3",
     eigen = TRUE,
+    cd = TRUE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -334,6 +364,7 @@ mfa <- function(
         type = type,
         gn = gn,
         eigen = eigen,
+        cd = cd,
         plot = plot,
         plot1 = plot1,
         plot2 = plot2,

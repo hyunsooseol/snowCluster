@@ -13,6 +13,7 @@ mfa(
   type = "n,s,s,s",
   gn = "wine_type,Expert1, Expert2,Expert3",
   eigen = TRUE,
+  cd = TRUE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -38,6 +39,8 @@ mfa(
 
 \item{eigen}{.}
 
+\item{cd}{.}
+
 \item{plot}{.}
 
 \item{plot1}{.}
@@ -55,6 +58,7 @@ A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
+  \code{results$cd} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr

@@ -4,6 +4,7 @@
 #' @importFrom FactoMineR MFA
 #' @importFrom factoextra get_eigenvalue
 #' @importFrom factoextra fviz_mfa_ind
+#' @importFrom factoextra get_mfa_var
 #' @import FactoMineR
 #' @import factoextra
 #' @import ggplot2
@@ -132,7 +133,43 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     table$setRow(rowNo=i, values=row)
                 }
                 
-            
+            # contribution to the dimensions---------------
+                
+                grouping <- factoextra::get_mfa_var(res.mfa, "group")
+                res<- grouping$contrib
+                     
+                rn<- rownames(res)
+                table <- self$results$cd
+                
+                for (i in 1:5)
+                    
+                    table$addColumn(
+                        name = paste0("pc", i),
+                        title = as.character(i),
+                        type = 'number',
+                        superTitle = 'Dimension'
+                    )
+                
+                
+                for (i in seq_along(rn)) {
+                    
+                    row <- list()
+                    
+                    
+                    for (j in seq_along(1:5)) {
+                        row[[paste0("pc", j)]] <- res[i, j]
+                    }
+                    
+                    
+                    table$setRow(rowNo=i, values=row)
+                    
+                }
+                
+                
+                
+                
+                
+                
                 # Plot==================================================
                 
                 #  Groups of variables----------

@@ -30,6 +30,23 @@ items:
           title: 'Cumulative %'
           type: number
 
+    - name: cd
+      title: contributions of the variables
+      visible: (cd)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
     - name:  plot
       title: Variable groups
       type:  Image

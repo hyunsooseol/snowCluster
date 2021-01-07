@@ -57,6 +57,11 @@ options:
       type: Bool
       default: TRUE  
       
+    - name: cd
+      title: contribution to the dimensions
+      type: Bool
+      default: TRUE    
+      
     - name: plot
       title: The groups of variables
       type: Bool
