@@ -11,9 +11,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             group = "1,3,4,3",
             type = "n,s,s,s",
             gn = "wine_type,Expert1, Expert2,Expert3",
-            sup = "1,6",
             eigen = TRUE,
-            cd = TRUE,
+            cg = TRUE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -55,17 +54,13 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "gn",
                 gn,
                 default="wine_type,Expert1, Expert2,Expert3")
-            private$..sup <- jmvcore::OptionString$new(
-                "sup",
-                sup,
-                default="1,6")
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
                 eigen,
                 default=TRUE)
-            private$..cd <- jmvcore::OptionBool$new(
-                "cd",
-                cd,
+            private$..cg <- jmvcore::OptionBool$new(
+                "cg",
+                cg,
                 default=TRUE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
@@ -97,9 +92,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..group)
             self$.addOption(private$..type)
             self$.addOption(private$..gn)
-            self$.addOption(private$..sup)
             self$.addOption(private$..eigen)
-            self$.addOption(private$..cd)
+            self$.addOption(private$..cg)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
@@ -113,9 +107,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         group = function() private$..group$value,
         type = function() private$..type$value,
         gn = function() private$..gn$value,
-        sup = function() private$..sup$value,
         eigen = function() private$..eigen$value,
-        cd = function() private$..cd$value,
+        cg = function() private$..cg$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
@@ -128,9 +121,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..group = NA,
         ..type = NA,
         ..gn = NA,
-        ..sup = NA,
         ..eigen = NA,
-        ..cd = NA,
+        ..cg = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA,
@@ -144,7 +136,7 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     active = list(
         instructions = function() private$.items[["instructions"]],
         eigen = function() private$.items[["eigen"]],
-        cd = function() private$.items[["cd"]],
+        cg = function() private$.items[["cg"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
@@ -190,9 +182,9 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="cd",
-                title="contributions of the variables",
-                visible="(cd)",
+                name="cg",
+                title="Contribution of groups",
+                visible="(cg)",
                 clearWith=list(
                     "vars"),
                 columns=list(
@@ -296,9 +288,8 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param group .
 #' @param type .
 #' @param gn .
-#' @param sup .
 #' @param eigen .
-#' @param cd .
+#' @param cg .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
@@ -309,7 +300,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$cd} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
@@ -332,9 +323,8 @@ mfa <- function(
     group = "1,3,4,3",
     type = "n,s,s,s",
     gn = "wine_type,Expert1, Expert2,Expert3",
-    sup = "1,6",
     eigen = TRUE,
-    cd = TRUE,
+    cg = TRUE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -360,9 +350,8 @@ mfa <- function(
         group = group,
         type = type,
         gn = gn,
-        sup = sup,
         eigen = eigen,
-        cd = cd,
+        cg = cg,
         plot = plot,
         plot1 = plot1,
         plot2 = plot2,

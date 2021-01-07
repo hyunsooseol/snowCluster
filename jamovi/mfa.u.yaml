@@ -43,10 +43,6 @@ children:
                 name: gn
                 format: string
                 stretchFactor: 3
-              - type: TextBox
-                name: sup
-                format: string
-                stretchFactor: 3
   - type: CollapseBox
     label: Multiple Factor Analysis
     margin: normal
@@ -66,7 +62,7 @@ children:
               - type: CheckBox
                 name: eigen
               - type: CheckBox
-                name: cd
+                name: cg
       - type: LayoutBox
         stretchFactor: 1
         margin: large

@@ -30,9 +30,9 @@ items:
           title: 'Cumulative %'
           type: number
 
-    - name: cd
-      title: contributions of the variables
-      visible: (cd)
+    - name: cg
+      title: Contribution of groups
+      visible: (cg)
       type: Table
       clearWith:
         - vars

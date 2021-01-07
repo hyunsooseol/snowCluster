@@ -68,9 +68,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 gn1 <- strsplit(self$options$gn, ',')[[1]]
                 
-                sup <- strsplit(self$options$group, ',')
-                
-                
+               
                 data <- self$data
                 
                 data <- jmvcore::naOmit(data)
@@ -93,17 +91,16 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 #                group = c(1,3, 4, 3), 
                 #                type = c("n","s", "s","s"),
                 #                name.group = c("Oak_type","Expert1","Expert2","Expert3"),
-                #                num.group.sup =c(1, 4),
+                #                #num.group.sup =c(1, 4),
                 #                graph = FALSE)
                 # 
                 
                 
                 mfa <- FactoMineR::MFA(data,
-                                          group=group,
-                                          type=type1,
-                                          name.group = gn1,
-                                          num.group.sup = sup,
-                                          graph = FALSE)  
+                                       group=group,
+                                       type=type1,
+                                       name.group = gn1,
+                                       graph = FALSE)  
                 
                 
              #   self$results$text$setContent(mfa)
@@ -137,13 +134,13 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
             # contribution to the dimensions---------------
                 
-                sup <- self$options$sup
+                gn <- self$options$gn
                 
-                grouping <- factoextra::get_mfa_var(res.mfa, "group")
+                grouping <- factoextra::get_mfa_var(mfa, "group")
                 res<- grouping$contrib
                      
                 
-                table <- self$results$cd
+                table <- self$results$cg
                 
                 for (i in 1:5)
                     
@@ -155,7 +152,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     )
                 
                 
-                for (i in seq_along(self$options$sup)) {
+                for (i in seq_along(self$options$gn)) {
                     
                     row <- list()
                     
@@ -165,7 +162,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     }
                     
                     
-                    table$setRow(rowNo=i, values=row)
+                    table$addRow(rowNo=i, values=row)
                     
                 }
                 
