@@ -68,6 +68,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 gn1 <- strsplit(self$options$gn, ',')[[1]]
                 
+                sup <- strsplit(self$options$group, ',')
+                
                 
                 data <- self$data
                 

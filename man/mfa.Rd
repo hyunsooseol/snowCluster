@@ -8,10 +8,10 @@ mfa(
   data,
   labels,
   vars,
-  k = 2,
   group = "1,3,4,3",
   type = "n,s,s,s",
   gn = "wine_type,Expert1, Expert2,Expert3",
+  sup = "1,6",
   eigen = TRUE,
   cd = TRUE,
   plot = FALSE,
@@ -29,13 +29,13 @@ mfa(
 
 \item{vars}{.}
 
-\item{k}{.}
-
 \item{group}{.}
 
 \item{type}{.}
 
 \item{gn}{.}
+
+\item{sup}{.}
 
 \item{eigen}{.}
 

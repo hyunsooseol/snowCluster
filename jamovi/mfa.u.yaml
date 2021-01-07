@@ -32,9 +32,6 @@ children:
             label: Options
             children:
               - type: TextBox
-                name: k
-                format: number
-              - type: TextBox
                 name: group
                 format: string
                 stretchFactor: 2
@@ -49,7 +46,7 @@ children:
               - type: TextBox
                 name: sup
                 format: string
-                stretchFactor: 3  
+                stretchFactor: 3
   - type: CollapseBox
     label: Multiple Factor Analysis
     margin: normal
@@ -69,7 +66,7 @@ children:
               - type: CheckBox
                 name: eigen
               - type: CheckBox
-                name: cd  
+                name: cd
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -93,21 +90,3 @@ children:
                 name: plot4
               - type: CheckBox
                 name: plot5
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 

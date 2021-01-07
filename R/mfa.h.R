@@ -8,7 +8,6 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         initialize = function(
             labels = NULL,
             vars = NULL,
-            k = 2,
             group = "1,3,4,3",
             type = "n,s,s,s",
             gn = "wine_type,Expert1, Expert2,Expert3",
@@ -44,12 +43,6 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 permitted=list(
                     "numeric",
                     "factor"))
-            private$..k <- jmvcore::OptionInteger$new(
-                "k",
-                k,
-                min=1,
-                max=100,
-                default=2)
             private$..group <- jmvcore::OptionString$new(
                 "group",
                 group,
@@ -101,7 +94,6 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
-            self$.addOption(private$..k)
             self$.addOption(private$..group)
             self$.addOption(private$..type)
             self$.addOption(private$..gn)
@@ -118,7 +110,6 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
     active = list(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
-        k = function() private$..k$value,
         group = function() private$..group$value,
         type = function() private$..type$value,
         gn = function() private$..gn$value,
@@ -134,7 +125,6 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
     private = list(
         ..labels = NA,
         ..vars = NA,
-        ..k = NA,
         ..group = NA,
         ..type = NA,
         ..gn = NA,
@@ -303,7 +293,6 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param data The data as a data frame.
 #' @param labels .
 #' @param vars .
-#' @param k .
 #' @param group .
 #' @param type .
 #' @param gn .
@@ -340,7 +329,6 @@ mfa <- function(
     data,
     labels,
     vars,
-    k = 2,
     group = "1,3,4,3",
     type = "n,s,s,s",
     gn = "wine_type,Expert1, Expert2,Expert3",
@@ -369,7 +357,6 @@ mfa <- function(
     options <- mfaOptions$new(
         labels = labels,
         vars = vars,
-        k = k,
         group = group,
         type = type,
         gn = gn,
