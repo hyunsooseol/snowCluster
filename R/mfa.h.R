@@ -12,6 +12,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             group = "1,3,4,3",
             type = "n,s,s,s",
             gn = "wine_type,Expert1, Expert2,Expert3",
+            sup = "1,6",
             eigen = TRUE,
             cd = TRUE,
             plot = FALSE,
@@ -61,6 +62,10 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "gn",
                 gn,
                 default="wine_type,Expert1, Expert2,Expert3")
+            private$..sup <- jmvcore::OptionString$new(
+                "sup",
+                sup,
+                default="1,6")
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
                 eigen,
@@ -100,6 +105,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..group)
             self$.addOption(private$..type)
             self$.addOption(private$..gn)
+            self$.addOption(private$..sup)
             self$.addOption(private$..eigen)
             self$.addOption(private$..cd)
             self$.addOption(private$..plot)
@@ -116,6 +122,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         group = function() private$..group$value,
         type = function() private$..type$value,
         gn = function() private$..gn$value,
+        sup = function() private$..sup$value,
         eigen = function() private$..eigen$value,
         cd = function() private$..cd$value,
         plot = function() private$..plot$value,
@@ -131,6 +138,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..group = NA,
         ..type = NA,
         ..gn = NA,
+        ..sup = NA,
         ..eigen = NA,
         ..cd = NA,
         ..plot = NA,
@@ -299,6 +307,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param group .
 #' @param type .
 #' @param gn .
+#' @param sup .
 #' @param eigen .
 #' @param cd .
 #' @param plot .
@@ -335,6 +344,7 @@ mfa <- function(
     group = "1,3,4,3",
     type = "n,s,s,s",
     gn = "wine_type,Expert1, Expert2,Expert3",
+    sup = "1,6",
     eigen = TRUE,
     cd = TRUE,
     plot = FALSE,
@@ -363,6 +373,7 @@ mfa <- function(
         group = group,
         type = type,
         gn = gn,
+        sup = sup,
         eigen = eigen,
         cd = cd,
         plot = plot,

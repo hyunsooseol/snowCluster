@@ -53,7 +53,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 vars <- self$options$vars
                 
-                k <- self$options$k #number of groups
+               # k <- self$options$k #number of groups
                 
               
                 group <- as.numeric(strsplit(self$options$group, ',')[[1]])
@@ -100,7 +100,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                                           group=group,
                                           type=type1,
                                           name.group = gn1,
-                                          num.group.sup= k,
+                                          num.group.sup = sup,
                                           graph = FALSE)  
                 
                 
@@ -135,10 +135,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
             # contribution to the dimensions---------------
                 
+                sup <- self$options$sup
+                
                 grouping <- factoextra::get_mfa_var(res.mfa, "group")
                 res<- grouping$contrib
                      
-                rn<- rownames(res)
+                
                 table <- self$results$cd
                 
                 for (i in 1:5)
@@ -151,7 +153,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     )
                 
                 
-                for (i in seq_along(rn)) {
+                for (i in seq_along(self$options$sup)) {
                     
                     row <- list()
                     

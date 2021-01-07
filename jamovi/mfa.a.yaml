@@ -30,14 +30,7 @@ options:
         - numeric  
         - factor
 
-    - name: k
-      title: Number of groups
-      type: Integer
-      min: 1
-      max: 100
-      default: 2
-
-    - name: group
+     - name: group
       title: Number of variables within group
       type: String
       default: '1,3,4,3'
@@ -54,7 +47,7 @@ options:
       
     - name: sup
       title: supplementary variables
-      type: String
+      type: Integer
       default: '1,6' 
       
     - name: eigen
