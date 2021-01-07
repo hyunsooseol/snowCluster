@@ -48,9 +48,14 @@ options:
       default: 'n,s,s,s'
       
     - name: gn
-      title: Group name
+      title: The name of groups
       type: String
       default: 'wine_type,Expert1, Expert2,Expert3' 
+      
+    - name: sup
+      title: supplementary variables
+      type: String
+      default: '1,6' 
       
     - name: eigen
       title: Eigenvalues
