@@ -12,7 +12,9 @@ mfa(
   type = "n,s,s,s",
   gn = "wine_type,Expert1, Expert2,Expert3",
   eigen = TRUE,
-  cg = TRUE,
+  cg = FALSE,
+  cq = TRUE,
+  cqual = TRUE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -38,6 +40,10 @@ mfa(
 
 \item{cg}{.}
 
+\item{cq}{.}
+
+\item{cqual}{.}
+
 \item{plot}{.}
 
 \item{plot1}{.}
@@ -56,6 +62,8 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
+  \code{results$cq} \tab \tab \tab \tab \tab a table \cr
+  \code{results$cqual} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr

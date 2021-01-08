@@ -63,6 +63,10 @@ children:
                 name: eigen
               - type: CheckBox
                 name: cg
+              - type: CheckBox
+                name: cq
+              - type: CheckBox
+                name: cqual  
       - type: LayoutBox
         stretchFactor: 1
         margin: large

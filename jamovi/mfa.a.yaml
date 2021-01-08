@@ -43,7 +43,7 @@ options:
     - name: gn
       title: The name of groups
       type: String
-      default: 'wine_type,Expert1, Expert2,Expert3' 
+      default: 'type,rater1,rater2,rater3' 
       
     - name: eigen
       title: Eigenvalues
@@ -51,10 +51,20 @@ options:
       default: TRUE  
       
     - name: cg
-      title: Contribution of groups
+      title: Contribution for groups of variables
       type: Bool
-      default: TRUE    
-      
+      default: FALSE 
+ 
+    - name: cq
+      title: Contribution of quantitative variables
+      type: Bool
+      default: FALSE   
+ 
+    - name: cqual
+      title: Contribution of qualitative variables
+      type: Bool
+      default: FALSE 
+ 
     - name: plot
       title: The groups of variables
       type: Bool
@@ -66,12 +76,12 @@ options:
       default: FALSE    
 
     - name: plot2
-      title: Contributions to dimension 1
+      title: Contribution to dimension 1
       type: Bool
       default: FALSE    
 
     - name: plot3
-      title: Contributions to dimension 2
+      title: Contribution to dimension 2
       type: Bool
       default: FALSE   
       

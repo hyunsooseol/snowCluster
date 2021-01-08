@@ -135,6 +135,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             # contribution to the dimensions---------------
                 
                 gn <- self$options$gn
+                gn1 <- strsplit(self$options$gn, ',')[[1]]
+                
                 
                 grouping <- factoextra::get_mfa_var(mfa, "group")
                 res<- grouping$contrib
@@ -152,7 +154,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     )
                 
                 
-                for (i in seq_along(self$options$gn)) {
+                for (i in seq_along(gn1)) {
                     
                     row <- list()
                     
@@ -162,7 +164,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     }
                     
                     
-                    table$addRow(rowNo=i, values=row)
+                    table$addRow(rowKey=i, values=row)
                     
                 }
                 

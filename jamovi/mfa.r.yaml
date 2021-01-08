@@ -31,8 +31,42 @@ items:
           type: number
 
     - name: cg
-      title: Contribution of groups
+      title: Contribution for groups of variables
       visible: (cg)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
+    - name: cq
+      title: Contribution of quantitative variables
+      visible: (cq)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
+    - name: cqual
+      title: Contribution of qualitative variables
+      visible: (cqual)
       type: Table
       clearWith:
         - vars
@@ -58,7 +92,7 @@ items:
       renderFun: .plot
 
     - name:  plot1
-      title: Quantitative variables colored by groups
+      title: Quantitative variables by groups
       type:  Image
       requiresData: true
       refs: factoextra
@@ -68,7 +102,7 @@ items:
       renderFun: .plot1
       
     - name:  plot2
-      title: Contributions to dimension 1
+      title: Contribution to dimension 1
       type:  Image
       requiresData: true
       refs: factoextra
@@ -78,7 +112,7 @@ items:
       renderFun: .plot2    
       
     - name:  plot3
-      title: Contributions to dimension 2
+      title: Contribution to dimension 2
       type:  Image
       requiresData: true
       refs: factoextra
