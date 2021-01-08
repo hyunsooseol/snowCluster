@@ -53,9 +53,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 vars <- self$options$vars
                 
-               # k <- self$options$k #number of groups
-                
-              
+               
                 group <- as.numeric(strsplit(self$options$group, ',')[[1]])
                 
               
@@ -64,7 +62,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 type1 <- strsplit(self$options$type, ',')[[1]]
                 
                 
-                gn <- self$options$gn # group name
+                gn <- self$options$gn # the name of group
                 
                 gn1 <- strsplit(self$options$gn, ',')[[1]]
                 
@@ -132,7 +130,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     table$setRow(rowNo=i, values=row)
                 }
                 
-            # contribution to the dimensions---------------
+            # contribution for group of variables---------------
                 
                 gn <- self$options$gn
                 gn1 <- strsplit(self$options$gn, ',')[[1]]
@@ -168,8 +166,37 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     
                 }
                 
+                # contribution of  variables-----------
+                
+                vars <- self$options$vars
+                
+                all<- mfa$global.pca$var$contrib
+                
+                table <- self$results$cv
+                
+                for (i in 1:5)
+                    
+                    table$addColumn(
+                        name = paste0("pc", i),
+                        title = as.character(i),
+                        type = 'number',
+                        superTitle = 'Dimension'
+                    )
                 
                 
+                for (i in seq_along(vars)) {
+                    
+                    row <- list()
+                    
+                    
+                    for (j in seq_along(1:5)) {
+                        row[[paste0("pc", j)]] <- all[i, j]
+                    }
+                    
+                    
+                    table$addRow(rowKey=i, values=row)
+                    
+                }
                 
                 
                 

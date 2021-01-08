@@ -10,11 +10,10 @@ mfa(
   vars,
   group = "1,3,4,3",
   type = "n,s,s,s",
-  gn = "wine_type,Expert1, Expert2,Expert3",
+  gn = "type,rater1,rater2,rater3",
   eigen = TRUE,
   cg = FALSE,
-  cq = TRUE,
-  cqual = TRUE,
+  cv = FALSE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -40,9 +39,7 @@ mfa(
 
 \item{cg}{.}
 
-\item{cq}{.}
-
-\item{cqual}{.}
+\item{cv}{.}
 
 \item{plot}{.}
 
@@ -62,8 +59,7 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
-  \code{results$cq} \tab \tab \tab \tab \tab a table \cr
-  \code{results$cqual} \tab \tab \tab \tab \tab a table \cr
+  \code{results$cv} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr

@@ -13,8 +13,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             gn = "type,rater1,rater2,rater3",
             eigen = TRUE,
             cg = FALSE,
-            cq = FALSE,
-            cqual = FALSE,
+            cv = FALSE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -64,13 +63,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "cg",
                 cg,
                 default=FALSE)
-            private$..cq <- jmvcore::OptionBool$new(
-                "cq",
-                cq,
-                default=FALSE)
-            private$..cqual <- jmvcore::OptionBool$new(
-                "cqual",
-                cqual,
+            private$..cv <- jmvcore::OptionBool$new(
+                "cv",
+                cv,
                 default=FALSE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
@@ -104,8 +99,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..gn)
             self$.addOption(private$..eigen)
             self$.addOption(private$..cg)
-            self$.addOption(private$..cq)
-            self$.addOption(private$..cqual)
+            self$.addOption(private$..cv)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
@@ -121,8 +115,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         gn = function() private$..gn$value,
         eigen = function() private$..eigen$value,
         cg = function() private$..cg$value,
-        cq = function() private$..cq$value,
-        cqual = function() private$..cqual$value,
+        cv = function() private$..cv$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
@@ -137,8 +130,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..gn = NA,
         ..eigen = NA,
         ..cg = NA,
-        ..cq = NA,
-        ..cqual = NA,
+        ..cv = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA,
@@ -153,8 +145,7 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         instructions = function() private$.items[["instructions"]],
         eigen = function() private$.items[["eigen"]],
         cg = function() private$.items[["cg"]],
-        cq = function() private$.items[["cq"]],
-        cqual = function() private$.items[["cqual"]],
+        cv = function() private$.items[["cv"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
@@ -218,27 +209,9 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="cq",
-                title="Contribution of quantitative variables",
-                visible="(cq)",
-                clearWith=list(
-                    "vars"),
-                columns=list(
-                    list(
-                        `name`="name", 
-                        `title`="", 
-                        `type`="text", 
-                        `content`="($key)"),
-                    list(
-                        `name`="pc1", 
-                        `title`="1", 
-                        `type`="number", 
-                        `superTitle`="Dimension"))))
-            self$add(jmvcore::Table$new(
-                options=options,
-                name="cqual",
-                title="Contribution of qualitative variables",
-                visible="(cqual)",
+                name="cv",
+                title="Contribution of variables",
+                visible="(cv)",
                 clearWith=list(
                     "vars"),
                 columns=list(
@@ -344,8 +317,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param gn .
 #' @param eigen .
 #' @param cg .
-#' @param cq .
-#' @param cqual .
+#' @param cv .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
@@ -357,8 +329,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$cq} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$cqual} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$cv} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
@@ -383,8 +354,7 @@ mfa <- function(
     gn = "type,rater1,rater2,rater3",
     eigen = TRUE,
     cg = FALSE,
-    cq = FALSE,
-    cqual = FALSE,
+    cv = FALSE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -412,8 +382,7 @@ mfa <- function(
         gn = gn,
         eigen = eigen,
         cg = cg,
-        cq = cq,
-        cqual = cqual,
+        cv = cv,
         plot = plot,
         plot1 = plot1,
         plot2 = plot2,

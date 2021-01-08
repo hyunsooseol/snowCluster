@@ -47,26 +47,9 @@ items:
           type: number
           superTitle: 'Dimension'
 
-    - name: cq
-      title: Contribution of quantitative variables
-      visible: (cq)
-      type: Table
-      clearWith:
-        - vars
-
-      columns:
-        - name: name
-          title: ''
-          type: 'text'
-          content: ($key)
-        - name: pc1
-          title: '1'
-          type: number
-          superTitle: 'Dimension'
-
-    - name: cqual
-      title: Contribution of qualitative variables
-      visible: (cqual)
+    - name: cv
+      title: Contribution of variables
+      visible: (cv)
       type: Table
       clearWith:
         - vars

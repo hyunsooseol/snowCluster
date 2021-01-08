@@ -55,15 +55,10 @@ options:
       type: Bool
       default: FALSE 
  
-    - name: cq
-      title: Contribution of quantitative variables
+    - name: cv
+      title: Contribution of variables
       type: Bool
       default: FALSE   
- 
-    - name: cqual
-      title: Contribution of qualitative variables
-      type: Bool
-      default: FALSE 
  
     - name: plot
       title: The groups of variables
