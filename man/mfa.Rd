@@ -8,12 +8,12 @@ mfa(
   data,
   labels,
   vars,
-  group = "1,3,4,3",
-  type = "n,s,s,s",
-  gn = "type,rater1,rater2,rater3",
+  group = "2,5,3,10,9,2",
+  type = "n,s,s,s,s,s",
+  gn = "a,b,c,d,e,f",
   eigen = TRUE,
   cg = FALSE,
-  cv = FALSE,
+  ci = FALSE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -39,7 +39,7 @@ mfa(
 
 \item{cg}{.}
 
-\item{cv}{.}
+\item{ci}{.}
 
 \item{plot}{.}
 
@@ -59,7 +59,7 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
-  \code{results$cv} \tab \tab \tab \tab \tab a table \cr
+  \code{results$ci} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr

@@ -166,13 +166,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     
                 }
                 
-                # contribution of  variables-----------
+                # contribution of  individuals-----------
                 
-                vars <- self$options$vars
                 
-                all<- mfa$global.pca$var$contrib
+                ind<-mfa$ind$contrib
                 
-                table <- self$results$cv
+                table <- self$results$ci
                 
                 for (i in 1:5)
                     
@@ -184,20 +183,19 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     )
                 
                 
-                for (i in seq_along(vars)) {
+                for (i in 1:nrow(data)) {
                     
                     row <- list()
                     
                     
                     for (j in seq_along(1:5)) {
-                        row[[paste0("pc", j)]] <- all[i, j]
+                        row[[paste0("pc", j)]] <- ind[i, j]
                     }
                     
                     
                     table$addRow(rowKey=i, values=row)
                     
                 }
-                
                 
                 
                 # Plot==================================================

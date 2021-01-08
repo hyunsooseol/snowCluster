@@ -64,7 +64,7 @@ children:
               - type: CheckBox
                 name: cg
               - type: CheckBox
-                name: cv
+                name: ci
       - type: LayoutBox
         stretchFactor: 1
         margin: large

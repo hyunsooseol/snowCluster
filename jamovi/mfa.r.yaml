@@ -47,9 +47,9 @@ items:
           type: number
           superTitle: 'Dimension'
 
-    - name: cv
-      title: Contribution of variables
-      visible: (cv)
+    - name: ci
+      title: Contribution of individuals
+      visible: (ci)
       type: Table
       clearWith:
         - vars

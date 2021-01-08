@@ -8,12 +8,12 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         initialize = function(
             labels = NULL,
             vars = NULL,
-            group = "1,3,4,3",
-            type = "n,s,s,s",
-            gn = "type,rater1,rater2,rater3",
+            group = "2,5,3,10,9,2",
+            type = "n,s,s,s,s,s",
+            gn = "a,b,c,d,e,f",
             eigen = TRUE,
             cg = FALSE,
-            cv = FALSE,
+            ci = FALSE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -46,15 +46,15 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             private$..group <- jmvcore::OptionString$new(
                 "group",
                 group,
-                default="1,3,4,3")
+                default="2,5,3,10,9,2")
             private$..type <- jmvcore::OptionString$new(
                 "type",
                 type,
-                default="n,s,s,s")
+                default="n,s,s,s,s,s")
             private$..gn <- jmvcore::OptionString$new(
                 "gn",
                 gn,
-                default="type,rater1,rater2,rater3")
+                default="a,b,c,d,e,f")
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
                 eigen,
@@ -63,9 +63,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "cg",
                 cg,
                 default=FALSE)
-            private$..cv <- jmvcore::OptionBool$new(
-                "cv",
-                cv,
+            private$..ci <- jmvcore::OptionBool$new(
+                "ci",
+                ci,
                 default=FALSE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
@@ -99,7 +99,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..gn)
             self$.addOption(private$..eigen)
             self$.addOption(private$..cg)
-            self$.addOption(private$..cv)
+            self$.addOption(private$..ci)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
@@ -115,7 +115,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         gn = function() private$..gn$value,
         eigen = function() private$..eigen$value,
         cg = function() private$..cg$value,
-        cv = function() private$..cv$value,
+        ci = function() private$..ci$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
@@ -130,7 +130,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..gn = NA,
         ..eigen = NA,
         ..cg = NA,
-        ..cv = NA,
+        ..ci = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA,
@@ -145,7 +145,7 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         instructions = function() private$.items[["instructions"]],
         eigen = function() private$.items[["eigen"]],
         cg = function() private$.items[["cg"]],
-        cv = function() private$.items[["cv"]],
+        ci = function() private$.items[["ci"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
@@ -209,9 +209,9 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="cv",
-                title="Contribution of variables",
-                visible="(cv)",
+                name="ci",
+                title="Contribution of individuals",
+                visible="(ci)",
                 clearWith=list(
                     "vars"),
                 columns=list(
@@ -317,7 +317,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param gn .
 #' @param eigen .
 #' @param cg .
-#' @param cv .
+#' @param ci .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
@@ -329,7 +329,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$cv} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
@@ -349,12 +349,12 @@ mfa <- function(
     data,
     labels,
     vars,
-    group = "1,3,4,3",
-    type = "n,s,s,s",
-    gn = "type,rater1,rater2,rater3",
+    group = "2,5,3,10,9,2",
+    type = "n,s,s,s,s,s",
+    gn = "a,b,c,d,e,f",
     eigen = TRUE,
     cg = FALSE,
-    cv = FALSE,
+    ci = FALSE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -382,7 +382,7 @@ mfa <- function(
         gn = gn,
         eigen = eigen,
         cg = cg,
-        cv = cv,
+        ci = ci,
         plot = plot,
         plot1 = plot1,
         plot2 = plot2,
