@@ -21,7 +21,7 @@ children:
             isTarget: true
             maxItemCount: 1
   - type: CollapseBox
-    label: Analysis Options
+    label: Model Components
     margin: normal
     collapsed: true
     children:
@@ -29,7 +29,7 @@ children:
         margin: large
         children:
           - type: Label
-            label: Options
+            label: ''
             children:
               - type: TextBox
                 name: group
