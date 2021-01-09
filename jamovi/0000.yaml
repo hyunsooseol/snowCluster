@@ -107,6 +107,11 @@ datasets:
     description: Example with groups of categorical variables
     tags:
       - Multiple Factor Analysis
+  - name: mortality
+    path: mortality.omv
+    description: Example with groups of frequency tables
+    tags:
+      - Multiple Factor Analysis
 usesNative: true
 minApp: 1.0.8
 
