@@ -163,9 +163,9 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         cg = function() private$.items[["cg"]],
         ci = function() private$.items[["ci"]],
         plot = function() private$.items[["plot"]],
-        plot1 = function() private$.items[["plot1"]],
         plot6 = function() private$.items[["plot6"]],
         plot7 = function() private$.items[["plot7"]],
+        plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]],
         plot4 = function() private$.items[["plot4"]],
@@ -255,16 +255,6 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 renderFun=".plot"))
             self$add(jmvcore::Image$new(
                 options=options,
-                name="plot1",
-                title="Quantitative variables by groups",
-                requiresData=TRUE,
-                refs="factoextra",
-                visible="(plot1)",
-                width=700,
-                height=700,
-                renderFun=".plot1"))
-            self$add(jmvcore::Image$new(
-                options=options,
                 name="plot6",
                 title="Contribution of groups to dimension 1",
                 requiresData=TRUE,
@@ -283,6 +273,16 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 width=500,
                 height=500,
                 renderFun=".plot7"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot1",
+                title="Quantitative variables by groups",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot1)",
+                width=700,
+                height=700,
+                renderFun=".plot1"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -371,9 +371,9 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot7} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr

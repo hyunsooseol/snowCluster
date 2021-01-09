@@ -74,16 +74,6 @@ items:
       height: 500
       renderFun: .plot
 
-    - name:  plot1
-      title: Quantitative variables by groups
-      type:  Image
-      requiresData: true
-      refs: factoextra
-      visible: (plot1)
-      width: 700
-      height: 700
-      renderFun: .plot1
-      
     - name:  plot6
       title: Contribution of groups to dimension 1
       type:  Image
@@ -103,6 +93,16 @@ items:
       width: 500
       height: 500
       renderFun: .plot7        
+
+    - name:  plot1
+      title: Quantitative variables by groups
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot1)
+      width: 700
+      height: 700
+      renderFun: .plot1
       
     - name:  plot2
       title: Contribution to dimension 1

@@ -92,14 +92,19 @@ datasets:
     tags:
       - Correspondence
       - MCA Plot
-  - name: oak
-    path: oak.omv
-    description: The quality of wine was rated by three experts.
-    tags:
-      - Multiple Factor Analysis
   - name: wine
     path: wine.omv
-    description: data sets wine available in FactoMineR package.
+    description: wine data in FactoMineR R package
+    tags:
+      - Multiple Factor Analysis
+  - name: oak
+    path: oak.omv
+    description: The quality of wine was rated by three experts
+    tags:
+      - Multiple Factor Analysis
+  - name: poison2
+    path: poison2.omv
+    description: Example with groups of categorical variables
     tags:
       - Multiple Factor Analysis
 usesNative: true

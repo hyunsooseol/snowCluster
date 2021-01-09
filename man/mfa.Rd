@@ -67,9 +67,9 @@ A results object containing:
   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
-  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot7} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
