@@ -5,6 +5,7 @@
 #' @importFrom factoextra get_eigenvalue
 #' @importFrom factoextra fviz_mfa_ind
 #' @importFrom factoextra get_mfa_var
+#' @importFrom factoextra fviz_contrib
 #' @import FactoMineR
 #' @import factoextra
 #' @import ggplot2
@@ -256,6 +257,19 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 image$setState(mfa)
                   
+                # contribution of groups to dimension 1--------
+                
+                image <- self$results$plot6
+                
+                image$setState(mfa)
+                
+                # contribution of groups to dimension 2--------
+                
+                image <- self$results$plot7
+                
+                image$setState(mfa)
+                
+              
                 
             }
         },
@@ -366,7 +380,41 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             print(plot5)
             TRUE
-         }
+         },
+        
+        .plot6 = function(image, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) <= 2)
+                return()
+            
+            mfa <- image$state
+            
+            plot6 <- factoextra::fviz_contrib(mfa,
+                                              "group", 
+                                              axes = 1)
+            plot6 <- plot6+ggtheme+ 
+                theme(axis.text.x = element_text(angle=45))
+            print(plot6)
+            TRUE
+            
+        },
+        
+        .plot7 = function(image, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) <= 2)
+                return()
+            
+            mfa <- image$state
+            
+            plot7 <- factoextra::fviz_contrib(mfa,
+                                              "group", 
+                                              axes = 2)
+            plot7 <- plot7+ggtheme+ 
+                theme(axis.text.x = element_text(angle=45))
+            print(plot7)
+            TRUE
+            
+        }
         
     )
 )

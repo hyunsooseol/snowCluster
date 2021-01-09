@@ -63,7 +63,7 @@ options:
     - name: plot
       title: The groups of variables
       type: Bool
-      default: FALSE    
+      default: FALSE   
 
     - name: plot1
       title: Quantitative variables colored by groups
@@ -87,6 +87,16 @@ options:
       
     - name: plot5
       title: Individuals by group
+      type: Bool
+      default: FALSE     
+      
+    - name: plot6
+      title: Cotribution of groups to dimension 1
+      type: Bool
+      default: FALSE         
+      
+    - name: plot7
+      title: Cotribution of groups to dimension 2
       type: Bool
       default: FALSE     
 ...

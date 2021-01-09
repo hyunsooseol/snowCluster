@@ -84,6 +84,26 @@ items:
       height: 700
       renderFun: .plot1
       
+    - name:  plot6
+      title: Contribution of groups to dimension 1
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot6)
+      width: 500
+      height: 500
+      renderFun: .plot6    
+      
+    - name:  plot7
+      title: Contribution of groups to dimension 2
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot7)
+      width: 500
+      height: 500
+      renderFun: .plot7        
+      
     - name:  plot2
       title: Contribution to dimension 1
       type:  Image
@@ -122,5 +142,7 @@ items:
       visible: (plot5)
       width: 600
       height: 600
-      renderFun: .plot5      
+      renderFun: .plot5    
+      
+
 ...
