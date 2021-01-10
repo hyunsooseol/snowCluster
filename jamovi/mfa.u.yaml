@@ -17,6 +17,12 @@ children:
       - type: TargetLayoutBox
         children:
           - type: VariablesListBox
+            name: facs
+            isTarget: true 
+            maxItemCount: 1
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
             name: labels
             isTarget: true
             maxItemCount: 1

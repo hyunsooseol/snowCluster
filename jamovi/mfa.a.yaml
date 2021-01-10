@@ -12,6 +12,23 @@ options:
           R: >
             The data as a data frame.
 
+    - name: vars
+      title: Variables
+      type: Variables
+      suggested:
+         - continuous
+      permitted:
+        - numeric
+        - factor
+       
+    - name: facs
+      title: Factor(Optional)
+      type: Variable
+      suggested:
+         - nominal
+      permitted:
+        - factor    
+
     - name: labels
       title: Labels(Optional) 
       type: Variable
@@ -21,15 +38,6 @@ options:
         - id
         - factor
   
-    - name: vars
-      title: Variables
-      type: Variables
-      suggested:
-         - continuous
-      permitted:
-        - numeric  
-        - factor
-
     - name: group
       title: Number of variables within group
       type: String

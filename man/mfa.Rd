@@ -6,8 +6,9 @@
 \usage{
 mfa(
   data,
-  labels,
   vars,
+  facs,
+  labels,
   group = "2,5,3,10,9,2",
   type = "n,s,s,s,s,s",
   gn = "a,b,c,d,e,f",
@@ -27,9 +28,11 @@ mfa(
 \arguments{
 \item{data}{The data as a data frame.}
 
-\item{labels}{.}
-
 \item{vars}{.}
+
+\item{facs}{.}
+
+\item{labels}{.}
 
 \item{group}{.}
 

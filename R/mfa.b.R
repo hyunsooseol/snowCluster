@@ -47,17 +47,25 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .run = function() {
 
-            
-            
-            
+           
             if(length(self$options$vars>2)){
+                
                 
                 vars <- self$options$vars
                 
                
+                facs <- self$options$facs
+
+                # for (fac in facs)
+                #     data[[fac]] <- as.factor(data[[fac]])
+                # 
+                # data <- jmvcore::select(data, self$options$vars)
+                # 
+                
+                # model component-------
+                
                 group <- as.numeric(strsplit(self$options$group, ',')[[1]])
                 
-              
                 type <- self$options$type # n:category, s:unit variable
                 
                 type1 <- strsplit(self$options$type, ',')[[1]]
@@ -72,8 +80,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 data <- jmvcore::naOmit(data)
                 
-                
-                # Handling id----------
+                 # Handling id----------
                 
                 if ( ! is.null(self$options$labels)) {
                     rownames(data) <- data[[self$options$labels]]
@@ -83,6 +90,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 for (i in seq_along(vars))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
+               
                 
                 ##### MFA analysis---------
                 
@@ -371,7 +379,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             mfa <- image$state
             
             plot5 <- factoextra::fviz_mfa_ind(mfa, 
-                                              habillage = "Label", # color by groups 
+                                              habillage = self$options$facs, # color by groups 
                                                #palette = c("#00AFBB", "#E7B800", "#FC4E07"),
                                               addEllipses = TRUE, ellipse.type = "confidence", 
                                               repel=TRUE)

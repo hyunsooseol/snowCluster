@@ -6,8 +6,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
-            labels = NULL,
             vars = NULL,
+            facs = NULL,
+            labels = NULL,
             group = "2,5,3,10,9,2",
             type = "n,s,s,s,s,s",
             gn = "a,b,c,d,e,f",
@@ -29,14 +30,6 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 requiresData=TRUE,
                 ...)
 
-            private$..labels <- jmvcore::OptionVariable$new(
-                "labels",
-                labels,
-                suggested=list(
-                    "id"),
-                permitted=list(
-                    "id",
-                    "factor"))
             private$..vars <- jmvcore::OptionVariables$new(
                 "vars",
                 vars,
@@ -44,6 +37,21 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric",
+                    "factor"))
+            private$..facs <- jmvcore::OptionVariable$new(
+                "facs",
+                facs,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
+            private$..labels <- jmvcore::OptionVariable$new(
+                "labels",
+                labels,
+                suggested=list(
+                    "id"),
+                permitted=list(
+                    "id",
                     "factor"))
             private$..group <- jmvcore::OptionString$new(
                 "group",
@@ -102,8 +110,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 plot7,
                 default=FALSE)
 
-            self$.addOption(private$..labels)
             self$.addOption(private$..vars)
+            self$.addOption(private$..facs)
+            self$.addOption(private$..labels)
             self$.addOption(private$..group)
             self$.addOption(private$..type)
             self$.addOption(private$..gn)
@@ -120,8 +129,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..plot7)
         }),
     active = list(
-        labels = function() private$..labels$value,
         vars = function() private$..vars$value,
+        facs = function() private$..facs$value,
+        labels = function() private$..labels$value,
         group = function() private$..group$value,
         type = function() private$..type$value,
         gn = function() private$..gn$value,
@@ -137,8 +147,9 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         plot6 = function() private$..plot6$value,
         plot7 = function() private$..plot7$value),
     private = list(
-        ..labels = NA,
         ..vars = NA,
+        ..facs = NA,
+        ..labels = NA,
         ..group = NA,
         ..type = NA,
         ..gn = NA,
@@ -348,8 +359,9 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'
 #' 
 #' @param data The data as a data frame.
-#' @param labels .
 #' @param vars .
+#' @param facs .
+#' @param labels .
 #' @param group .
 #' @param type .
 #' @param gn .
@@ -389,8 +401,9 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @export
 mfa <- function(
     data,
-    labels,
     vars,
+    facs,
+    labels,
     group = "2,5,3,10,9,2",
     type = "n,s,s,s,s,s",
     gn = "a,b,c,d,e,f",
@@ -409,18 +422,22 @@ mfa <- function(
     if ( ! requireNamespace('jmvcore'))
         stop('mfa requires jmvcore to be installed (restart may be required)')
 
-    if ( ! missing(labels)) labels <- jmvcore::resolveQuo(jmvcore::enquo(labels))
     if ( ! missing(vars)) vars <- jmvcore::resolveQuo(jmvcore::enquo(vars))
+    if ( ! missing(facs)) facs <- jmvcore::resolveQuo(jmvcore::enquo(facs))
+    if ( ! missing(labels)) labels <- jmvcore::resolveQuo(jmvcore::enquo(labels))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
-            `if`( ! missing(labels), labels, NULL),
-            `if`( ! missing(vars), vars, NULL))
+            `if`( ! missing(vars), vars, NULL),
+            `if`( ! missing(facs), facs, NULL),
+            `if`( ! missing(labels), labels, NULL))
 
+    for (v in facs) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- mfaOptions$new(
-        labels = labels,
         vars = vars,
+        facs = facs,
+        labels = labels,
         group = group,
         type = type,
         gn = gn,
