@@ -32,8 +32,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
+            <p> To get started:</p>
+            <p> 1. Specify 'Model Component'.</p>
+            <p> 2. Type of value indicates 's' for the variables are scaled to unit variance,'n' for categorical variables, 'f' for frequencies.</p>
+            <p> 3. Factor box can be specified for visualizing 'individuals by group' plot. </p>
             
-            <p> The rationale of Multiple Factor Analysis module is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
+            <p> The rationale of Multiple Factor Analysis is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
             <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
 
             </div>

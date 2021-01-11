@@ -74,6 +74,12 @@ datasets:
     tags:
       - Hierarchical Clustering
       - PCA Plot
+  - name: crime
+    path: crime.omv
+    description: 'City crime data(Hartigan,1975)'
+    tags:
+      - Hierarchical Clustering
+      - PCA Plot
   - name: housetasks
     path: housetasks.omv
     description: contingency table
