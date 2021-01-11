@@ -34,7 +34,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <div class='instructions'>
             <p> To get started:</p>
             <p> 1. Specify 'Model Component'.</p>
-            <p> 2. Type of value indicates 's' for the variables are scaled to unit variance,'n' for categorical variables, 'f' for frequencies.</p>
+            <p> - Type of value indicates 's' for the variables are scaled to unit variance,'n' for categorical variables, or 'f' for frequencies.</p>
+            <p> 2. Move the variables into 'Variables'box.
             <p> 3. Factor box can be specified for visualizing 'individuals by group' plot. </p>
             
             <p> The rationale of Multiple Factor Analysis is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
