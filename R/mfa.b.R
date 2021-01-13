@@ -146,44 +146,47 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
             # contribution for group of variables---------------
                 
-                gn <- self$options$gn
-                gn1 <- strsplit(self$options$gn, ',')[[1]]
-                
+                # gn <- self$options$gn
+                # gn1 <- strsplit(self$options$gn, ',')[[1]]
+                # 
                 
                 grouping <- factoextra::get_mfa_var(mfa, "group")
                 res<- grouping$contrib
-                     
-                
+                  
+                names <- dimnames(res)[[1]]   
                 table <- self$results$cg
                 
                 for (i in 1:5)
-                    
+
                     table$addColumn(
                         name = paste0("pc", i),
                         title = as.character(i),
                         type = 'number',
                         superTitle = 'Dimension'
                     )
-                
-                
-                for (i in seq_along(gn1)) {
-                    
+
+                for (name in names) {
+
                     row <- list()
-                    
-                    
+
+
                     for (j in seq_along(1:5)) {
-                        row[[paste0("pc", j)]] <- res[i, j]
+                        row[[paste0("pc", j)]] <- res[name, j]
                     }
-                    
-                    
-                    table$addRow(rowKey=i, values=row)
-                    
+
+
+                    table$addRow(rowKey=name, values=row)
+
                 }
+
+               
                 
                 # contribution of  individuals-----------
                 
                 
                 ind<-mfa$ind$contrib
+                
+                names <- dimnames(ind)[[1]]  
                 
                 table <- self$results$ci
                 
@@ -197,17 +200,17 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     )
                 
                 
-                for (i in 1:nrow(data)) {
+                for (name in names) {
                     
                     row <- list()
                     
                     
                     for (j in seq_along(1:5)) {
-                        row[[paste0("pc", j)]] <- ind[i, j]
+                        row[[paste0("pc", j)]] <- ind[name, j]
                     }
                     
                     
-                    table$addRow(rowKey=i, values=row)
+                    table$addRow(rowKey=name, values=row)
                     
                 }
                 
