@@ -64,6 +64,23 @@ items:
           type: number
           superTitle: 'Dimension'
 
+    - name: quanti
+      title: Contribution of quantitative variables
+      visible: (quanti)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
     - name:  plot
       title: Variable groups
       type:  Image

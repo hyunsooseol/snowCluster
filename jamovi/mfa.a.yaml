@@ -68,6 +68,11 @@ options:
       type: Bool
       default: FALSE   
  
+    - name: quanti
+      title: Contribution of quantitative variables
+      type: Bool
+      default: FALSE   
+
     - name: plot
       title: The groups of variables
       type: Bool

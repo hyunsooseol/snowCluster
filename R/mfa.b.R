@@ -214,6 +214,41 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     
                 }
                 
+                # Contribution of quantitative variables--------------
+                
+                quanti <- factoextra::get_mfa_var(mfa, "quanti.var")
+                res.quanti<- quanti$contrib
+                
+                names <- dimnames(res.quanti)[[1]]
+                table <- self$results$quanti
+                
+               
+                for (i in 1:5)
+                    
+                    table$addColumn(
+                        name = paste0("pc", i),
+                        title = as.character(i),
+                        type = 'number',
+                        superTitle = 'Dimension'
+                    )
+                
+                
+                for (name in names) {
+                    
+                    row <- list()
+                    
+                    
+                    for (j in seq_along(1:5)) {
+                        row[[paste0("pc", j)]] <- res.quanti[name, j]
+                    }
+                    
+                    
+                    table$addRow(rowKey=name, values=row)
+                    
+                }
+                
+                
+                
                 
                 # Plot==================================================
                 

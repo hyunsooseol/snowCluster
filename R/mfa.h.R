@@ -15,6 +15,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             eigen = TRUE,
             cg = FALSE,
             ci = FALSE,
+            quanti = FALSE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -77,6 +78,10 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "ci",
                 ci,
                 default=FALSE)
+            private$..quanti <- jmvcore::OptionBool$new(
+                "quanti",
+                quanti,
+                default=FALSE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -119,6 +124,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..eigen)
             self$.addOption(private$..cg)
             self$.addOption(private$..ci)
+            self$.addOption(private$..quanti)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
@@ -138,6 +144,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         eigen = function() private$..eigen$value,
         cg = function() private$..cg$value,
         ci = function() private$..ci$value,
+        quanti = function() private$..quanti$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
@@ -156,6 +163,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..eigen = NA,
         ..cg = NA,
         ..ci = NA,
+        ..quanti = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA,
@@ -173,6 +181,7 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         eigen = function() private$.items[["eigen"]],
         cg = function() private$.items[["cg"]],
         ci = function() private$.items[["ci"]],
+        quanti = function() private$.items[["quanti"]],
         plot = function() private$.items[["plot"]],
         plot6 = function() private$.items[["plot6"]],
         plot7 = function() private$.items[["plot7"]],
@@ -241,6 +250,24 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 name="ci",
                 title="Contribution of individuals",
                 visible="(ci)",
+                clearWith=list(
+                    "vars"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="pc1", 
+                        `title`="1", 
+                        `type`="number", 
+                        `superTitle`="Dimension"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="quanti",
+                title="Contribution of quantitative variables",
+                visible="(quanti)",
                 clearWith=list(
                     "vars"),
                 columns=list(
@@ -368,6 +395,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param eigen .
 #' @param cg .
 #' @param ci .
+#' @param quanti .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
@@ -382,6 +410,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$quanti} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot7} \tab \tab \tab \tab \tab an image \cr
@@ -410,6 +439,7 @@ mfa <- function(
     eigen = TRUE,
     cg = FALSE,
     ci = FALSE,
+    quanti = FALSE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -444,6 +474,7 @@ mfa <- function(
         eigen = eigen,
         cg = cg,
         ci = ci,
+        quanti = quanti,
         plot = plot,
         plot1 = plot1,
         plot2 = plot2,

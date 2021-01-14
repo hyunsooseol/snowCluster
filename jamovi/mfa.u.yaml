@@ -64,6 +64,8 @@ children:
             name: cg
           - type: CheckBox
             name: ci
+          - type: CheckBox
+            name: quanti
   - type: CollapseBox
     label: Plot
     margin: normal

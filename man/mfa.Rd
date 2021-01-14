@@ -15,6 +15,7 @@ mfa(
   eigen = TRUE,
   cg = FALSE,
   ci = FALSE,
+  quanti = FALSE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -46,6 +47,8 @@ mfa(
 
 \item{ci}{.}
 
+\item{quanti}{.}
+
 \item{plot}{.}
 
 \item{plot1}{.}
@@ -69,6 +72,7 @@ A results object containing:
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
+  \code{results$quanti} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot7} \tab \tab \tab \tab \tab an image \cr
