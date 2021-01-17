@@ -4,13 +4,12 @@ refs:
        author: Seol, H.
        year: 2020
        title: "snowCluster: Cluster Analysis"
-       publisher: '[jamovi module]. Retrieved from https://github.com/hyunsooseol/snowCluster/'
-       url: https://github.com/hyunsooseol/snowCluster
-
+       publisher: '[jamovi module]. Retrieved from https://github.com/hyunsooseol/snowCluster'
+       
    factoextra:
        type: 'software'
-       author: Alboukadel Kassambara and Fabian Mundt
+       author: Kassambara, A & Mundt, F.
        year: 2020
        title: "factoextra: Extract and Visualize the Results of Multivariate Data Analyses"
-       publisher: '[R package]. Retrieved from https://CRAN.R-project.org/package=factoextra/'
-       url: https://CRAN.R-project.org/package=factoextra
+       publisher: '[R package]. Retrieved from https://CRAN.R-project.org/package=factoextra'
+       
