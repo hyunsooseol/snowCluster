@@ -96,7 +96,7 @@ datasets:
     path: poison.omv
     description: children who suffered from food poisoning
     tags:
-      - Correspondence
+      - Multiple Correspondence
       - MCA Plot
   - name: wine
     path: wine.omv
@@ -111,11 +111,6 @@ datasets:
   - name: poison2
     path: poison2.omv
     description: Example with groups of categorical variables
-    tags:
-      - Multiple Factor Analysis
-  - name: mortality
-    path: mortality.omv
-    description: Example with groups of frequency tables
     tags:
       - Multiple Factor Analysis
 usesNative: true

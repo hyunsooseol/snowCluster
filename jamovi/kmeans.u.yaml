@@ -30,7 +30,7 @@ children:
       - name: stand
         type: CheckBox
   - type: CollapseBox
-    label: Plot
+    label: Plots
     margin: normal
     collapsed: true
     children:

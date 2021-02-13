@@ -5,6 +5,7 @@
 #' @importFrom factoextra fviz_ca_row
 #' @importFrom factoextra fviz_ca_col
 #' @importFrom factoextra fviz_ca_biplot
+#' @importFrom factoextra fviz_screeplot
 #' @import ggplot2
 #' @export
 
@@ -174,6 +175,11 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 image3 <- self$results$plot3
                 image3$setState(res.ca)
 
+                # Scree plot--------
+                
+                image4 <- self$results$plot4
+                image4$setState(res.ca)
+                
                 
                 }
             },
@@ -223,8 +229,24 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             plot3 <- plot3+ggtheme
             print(plot3)
             TRUE
-        }
-        
+        },
+
+
+   .plot4 = function(image4, ggtheme, theme, ...) {
+    
+    if (length(self$options$vars) <= 2)
+        return()
+    
+    res.ca <- image4$state
+    
+    plot4 <- factoextra::fviz_screeplot(res.ca, addlabels = TRUE)
+    
+    
+    plot4 <- plot4+ggtheme
+    print(plot4)
+    TRUE
+    
+}
        
     ))
             

@@ -14,7 +14,8 @@ mcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             plot1 = TRUE,
             plot2 = FALSE,
             plot3 = FALSE,
-            plot4 = FALSE, ...) {
+            plot4 = FALSE,
+            plot5 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -65,6 +66,10 @@ mcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "plot4",
                 plot4,
                 default=FALSE)
+            private$..plot5 <- jmvcore::OptionBool$new(
+                "plot5",
+                plot5,
+                default=FALSE)
 
             self$.addOption(private$..facs)
             self$.addOption(private$..vars)
@@ -75,6 +80,7 @@ mcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
             self$.addOption(private$..plot4)
+            self$.addOption(private$..plot5)
         }),
     active = list(
         facs = function() private$..facs$value,
@@ -85,7 +91,8 @@ mcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
-        plot4 = function() private$..plot4$value),
+        plot4 = function() private$..plot4$value,
+        plot5 = function() private$..plot5$value),
     private = list(
         ..facs = NA,
         ..vars = NA,
@@ -95,7 +102,8 @@ mcaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
-        ..plot4 = NA)
+        ..plot4 = NA,
+        ..plot5 = NA)
 )
 
 mcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
@@ -104,6 +112,7 @@ mcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         eigen = function() private$.items[["eigen"]],
         loadingvar = function() private$.items[["loadingvar"]],
         loadingind = function() private$.items[["loadingind"]],
+        plot5 = function() private$.items[["plot5"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]],
@@ -179,6 +188,16 @@ mcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Image$new(
                 options=options,
+                name="plot5",
+                title="Scree plot",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot5)",
+                width=500,
+                height=500,
+                renderFun=".plot5"))
+            self$add(jmvcore::Image$new(
+                options=options,
                 name="plot1",
                 title="Correlation between variables and dimensions",
                 requiresData=TRUE,
@@ -251,11 +270,13 @@ mcaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param plot2 .
 #' @param plot3 .
 #' @param plot4 .
+#' @param plot5 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
@@ -279,7 +300,8 @@ mca <- function(
     plot1 = TRUE,
     plot2 = FALSE,
     plot3 = FALSE,
-    plot4 = FALSE) {
+    plot4 = FALSE,
+    plot5 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('mca requires jmvcore to be installed (restart may be required)')
@@ -304,7 +326,8 @@ mca <- function(
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3,
-        plot4 = plot4)
+        plot4 = plot4,
+        plot5 = plot5)
 
     analysis <- mcaClass$new(
         options = options,

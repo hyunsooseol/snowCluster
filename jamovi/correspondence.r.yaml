@@ -79,6 +79,16 @@ items:
           type: number
           superTitle: 'Dimension'
 
+    - name:  plot4
+      title: Scree plot
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot4)
+      width: 500
+      height: 500
+      renderFun: .plot4     
+
     - name:  plot1
       title: Row points
       type:  Image

@@ -67,7 +67,7 @@ children:
           - type: CheckBox
             name: quanti
   - type: CollapseBox
-    label: Plot
+    label: Plots
     margin: normal
     collapsed: true
     children:

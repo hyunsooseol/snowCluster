@@ -6,6 +6,7 @@
 #' @importFrom factoextra fviz_mfa_ind
 #' @importFrom factoextra get_mfa_var
 #' @importFrom factoextra fviz_contrib
+#' @importFrom factoextra fviz_screeplot
 #' @import FactoMineR
 #' @import factoextra
 #' @import ggplot2
@@ -478,7 +479,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             mfa <- image$state
             
-            plot8 <- factoextra::fviz_screeplot(mfa)
+            plot8 <- factoextra::fviz_screeplot(mfa, addlabels = TRUE)
             
             plot8 <- plot8+ggtheme
             

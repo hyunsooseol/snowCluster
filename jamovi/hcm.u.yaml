@@ -60,7 +60,7 @@ children:
                 enable: (grp_number)
             
   - type: CollapseBox
-    label: Plot
+    label: Plots
     margin: normal
     collapsed: true
     children:

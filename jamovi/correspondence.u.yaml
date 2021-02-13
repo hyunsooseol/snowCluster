@@ -34,14 +34,16 @@ children:
       - name: loadingind
         type: CheckBox  
   - type: CollapseBox
-    label: Plot
+    label: Plots
     margin: normal
     collapsed: true
     children:
+      - type: CheckBox
+        name: plot4
       - type: CheckBox
         name: plot1
       - type: CheckBox
         name: plot2
       - type: CheckBox
         name: plot3
- 
+

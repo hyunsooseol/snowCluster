@@ -60,6 +60,16 @@ items:
           type: number
           superTitle: 'Dimension'
 
+    - name:  plot5
+      title: Scree plot
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot5)
+      width: 500
+      height: 500
+      renderFun: .plot5   
+ 
     - name:  plot1
       title: Correlation between variables and dimensions
       type:  Image

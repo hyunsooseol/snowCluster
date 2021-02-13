@@ -4,6 +4,7 @@
 #' @importFrom FactoMineR MCA
 #' @importFrom factoextra fviz_mca_var
 #' @importFrom factoextra get_mca_ind
+#' @importFrom factoextra fviz_screeplot
 #' @import ggplot2
 #' @export
 
@@ -157,10 +158,16 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                image3 <- self$results$plot3
                image3$setState(res.mca)
                
-               # individuals by groups
+               # individuals by groups-----
                
                image4 <- self$results$plot4
                image4$setState(res.mca)
+               
+               # scree plot-------
+               
+               image5 <- self$results$plot5
+               image5$setState(res.mca)
+               
                
             }
         },
@@ -237,6 +244,21 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             plot4 <- plot4+ggtheme
             print(plot4)
             TRUE
+},
+
+.plot5 = function(image5, ggtheme, theme, ...) {
+    
+    if (is.null(self$options$facs))
+        return()
+    
+    
+    res.mca <- image5$state
+    
+    plot5 <- factoextra::fviz_screeplot(res.mca, addlabels = TRUE) 
+
+    plot5 <- plot5+ggtheme
+    print(plot5)
+    TRUE
 }
         
     ))

@@ -66,4 +66,9 @@ options:
       type: Bool
       default: FALSE
       
+    - name: plot4
+      title: Scree plot
+      type: Bool
+      default: FALSE     
+      
 ...

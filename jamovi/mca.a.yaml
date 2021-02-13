@@ -64,5 +64,9 @@ options:
       title: Individuals by groups
       type: Bool
       default: FALSE
-      
+
+    - name: plot5
+      title: Scree plot
+      type: Bool
+      default: FALSE          
 ...
