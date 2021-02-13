@@ -26,7 +26,7 @@ items:
           type: number
 
     - name: loadingvar
-      title: Contributions of the columns to the dimensions
+      title: Contributions of the columns to the dimensions(%)
       visible: (loadingvar)
       type: Table
       rows: (vars)
@@ -44,7 +44,7 @@ items:
           superTitle: 'Dimension'
 
     - name: loadingind
-      title: Contributions of the rows to the dimensions
+      title: Contributions of the rows to the dimensions(%)
       visible: (loadingind)
       type: Table
       clearWith:

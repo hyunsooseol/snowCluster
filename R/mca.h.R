@@ -152,7 +152,7 @@ mcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingvar",
-                title="Contributions of the columns to the dimensions",
+                title="Contributions of the columns to the dimensions(%)",
                 visible="(loadingvar)",
                 rows="(vars)",
                 clearWith=list(
@@ -171,7 +171,7 @@ mcaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingind",
-                title="Contributions of the rows to the dimensions",
+                title="Contributions of the rows to the dimensions(%)",
                 visible="(loadingind)",
                 clearWith=list(
                     "vars"),
