@@ -23,7 +23,8 @@ mfa(
   plot4 = FALSE,
   plot5 = FALSE,
   plot6 = FALSE,
-  plot7 = FALSE
+  plot7 = FALSE,
+  plot8 = FALSE
 )
 }
 \arguments{
@@ -64,6 +65,8 @@ mfa(
 \item{plot6}{.}
 
 \item{plot7}{.}
+
+\item{plot8}{.}
 }
 \value{
 A results object containing:
@@ -73,6 +76,7 @@ A results object containing:
   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
   \code{results$quanti} \tab \tab \tab \tab \tab a table \cr
+  \code{results$plot8} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot7} \tab \tab \tab \tab \tab an image \cr

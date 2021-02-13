@@ -111,5 +111,10 @@ options:
     - name: plot7
       title: Cotribution of groups to dimension 2
       type: Bool
+      default: FALSE 
+      
+    - name: plot8
+      title: Scree plot
+      type: Bool
       default: FALSE     
 ...

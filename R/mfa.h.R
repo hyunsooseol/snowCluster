@@ -23,7 +23,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             plot4 = FALSE,
             plot5 = FALSE,
             plot6 = FALSE,
-            plot7 = FALSE, ...) {
+            plot7 = FALSE,
+            plot8 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -114,6 +115,10 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "plot7",
                 plot7,
                 default=FALSE)
+            private$..plot8 <- jmvcore::OptionBool$new(
+                "plot8",
+                plot8,
+                default=FALSE)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..facs)
@@ -133,6 +138,7 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..plot5)
             self$.addOption(private$..plot6)
             self$.addOption(private$..plot7)
+            self$.addOption(private$..plot8)
         }),
     active = list(
         vars = function() private$..vars$value,
@@ -152,7 +158,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         plot4 = function() private$..plot4$value,
         plot5 = function() private$..plot5$value,
         plot6 = function() private$..plot6$value,
-        plot7 = function() private$..plot7$value),
+        plot7 = function() private$..plot7$value,
+        plot8 = function() private$..plot8$value),
     private = list(
         ..vars = NA,
         ..facs = NA,
@@ -171,7 +178,8 @@ mfaOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..plot4 = NA,
         ..plot5 = NA,
         ..plot6 = NA,
-        ..plot7 = NA)
+        ..plot7 = NA,
+        ..plot8 = NA)
 )
 
 mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
@@ -182,6 +190,7 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         cg = function() private$.items[["cg"]],
         ci = function() private$.items[["ci"]],
         quanti = function() private$.items[["quanti"]],
+        plot8 = function() private$.items[["plot8"]],
         plot = function() private$.items[["plot"]],
         plot6 = function() private$.items[["plot6"]],
         plot7 = function() private$.items[["plot7"]],
@@ -281,6 +290,16 @@ mfaResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `title`="1", 
                         `type`="number", 
                         `superTitle`="Dimension"))))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot8",
+                title="Scree plot",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot8)",
+                width=500,
+                height=500,
+                renderFun=".plot8"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -404,6 +423,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param plot5 .
 #' @param plot6 .
 #' @param plot7 .
+#' @param plot8 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -411,6 +431,7 @@ mfaBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$quanti} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$plot8} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot7} \tab \tab \tab \tab \tab an image \cr
@@ -447,7 +468,8 @@ mfa <- function(
     plot4 = FALSE,
     plot5 = FALSE,
     plot6 = FALSE,
-    plot7 = FALSE) {
+    plot7 = FALSE,
+    plot8 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('mfa requires jmvcore to be installed (restart may be required)')
@@ -482,7 +504,8 @@ mfa <- function(
         plot4 = plot4,
         plot5 = plot5,
         plot6 = plot6,
-        plot7 = plot7)
+        plot7 = plot7,
+        plot8 = plot8)
 
     analysis <- mfaClass$new(
         options = options,

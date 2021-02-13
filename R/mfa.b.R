@@ -252,6 +252,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 # Plot==================================================
                 
+                
                 #  Groups of variables----------
                 
                 image <- self$results$plot
@@ -320,10 +321,13 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 image$setState(mfa)
                 
-              
+                # scree plot(plot 8)--------
                 
+                image <- self$results$plot8
+                image$setState(mfa)
             }
         },
+        
         
         .plot = function(image, ggtheme, theme, ...) {
             
@@ -465,7 +469,26 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             print(plot7)
             TRUE
             
+        },
+        
+        .plot8 = function(image, ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) <= 2)
+                return()
+            
+            mfa <- image$state
+            
+            plot8 <- factoextra::fviz_screeplot(mfa)
+            
+            plot8 <- plot8+ggtheme
+            
+            print(plot8)
+            TRUE
+            
+            
         }
+     
+        
         
     )
 )

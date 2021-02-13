@@ -81,6 +81,16 @@ items:
           type: number
           superTitle: 'Dimension'
 
+    - name:  plot8
+      title: Scree plot
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot8)
+      width: 500
+      height: 500
+      renderFun: .plot8     
+ 
     - name:  plot
       title: Variable groups
       type:  Image
@@ -160,6 +170,5 @@ items:
       width: 600
       height: 600
       renderFun: .plot5    
-      
 
 ...
