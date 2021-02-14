@@ -1,0 +1,16 @@
+---
+name:  disc
+title: Linear Discriminant
+jrs:   '1.1'
+
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+      
+    - name:  text
+      title: 'Prior probabilities of groups'
+      type:  Preformatted
+ 
+...

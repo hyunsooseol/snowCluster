@@ -1,0 +1,48 @@
+title: Linear Discriminant
+name: disc
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: dep
+            isTarget: true
+            maxItemCount: 1
+      - type: TargetLayoutBox
+        label: Covariates
+        children:
+          - type: VariablesListBox
+            name: covs
+            isTarget: true
+  - type: CollapseBox
+    label: Assumption checks
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: CheckBox
+        name: homo
+  - type: CollapseBox
+    label: Discriminant Analysis
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: CheckBox
+        name: prior
+      - type: CheckBox
+        name: gm
+      - type: CheckBox
+        name: coef
+      - type: CheckBox
+        name: trace
+  - type: CollapseBox
+    label: Plot
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: CheckBox
+        name: plot

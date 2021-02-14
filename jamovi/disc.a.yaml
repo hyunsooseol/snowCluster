@@ -1,0 +1,58 @@
+---
+name:  disc
+title: Linear Discriminant
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+
+    - name: dep
+      type: Variable
+      title: Dependent Variable
+      suggested:
+        - nominal
+      permitted:
+        - factor
+      
+    - name: covs
+      title: Covariates
+      type: Variables
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+    
+    - name: homo
+      title: Equal Variance
+      type: Bool 
+      default: FALSE
+
+    - name: prior
+      title: Prior probabilitY
+      type: Bool 
+      default: FALSE
+      
+    - name: gm
+      title: Group means
+      type: Bool 
+      default: FALSE  
+      
+    - name: coef
+      title: Coefficients of discriminants
+      type: Bool 
+      default: FALSE    
+
+    - name: trace
+      title: Proportion of trace
+      type: Bool 
+      default: FALSE    
+
+    - name: plot
+      title: group plot 
+      type: Bool
+      default: FALSE
+
+...
