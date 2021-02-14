@@ -93,7 +93,8 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
-        text = function() private$.items[["text"]]),
+        prior = function() private$.items[["prior"]],
+        gm = function() private$.items[["gm"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -106,10 +107,29 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
-            self$add(jmvcore::Preformatted$new(
+            self$add(jmvcore::Table$new(
                 options=options,
-                name="text",
-                title="Prior probabilities of groups"))}))
+                name="prior",
+                title="Prior probabilities of groups",
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="value", 
+                        `title`="Value"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="gm",
+                title="Group means",
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"))))}))
 
 discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "discBase",
@@ -146,8 +166,15 @@ discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
-#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$prior$asDF}
+#'
+#' \code{as.data.frame(results$prior)}
 #'
 #' @export
 disc <- function(

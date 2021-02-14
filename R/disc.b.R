@@ -14,11 +14,10 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = discBase,
     private = list(
     
-        
         #------------------------------------
         
         .init = function() {
-            if (is.null(self$data) | is.null(self$options$covs)) {
+            if (is.null(self$options$dep) | is.null(self$options$covs)) {
                 self$results$instructions$setVisible(visible = TRUE)
                 
             }
@@ -53,6 +52,10 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             data <- jmvcore::naOmit(data)
             
+            # for (i in seq_along(covs))
+            #     data[[i]] <- jmvcore::toNumeric(data[[i]])
+            # 
+            
         
             # dividing two datasets------------------------
             
@@ -64,20 +67,75 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             test <- data[!training_sample, ]
             
             
-            # Prior probabilities of groups--------------
-            #     setosa versicolor  virginica 
-            # 0.3536585  0.3414634  0.3048780 
-            
-            
             formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
             formula <- as.formula(formula)
             
+            # lda analysis-------
+            
             lda.train <- MASS::lda(formula, data=train)
             
-        
-            prior <- lda.train$prior
+            # creating table-----
             
-            self$results$text$setContent(prior)
+            value<- lda.train$prior
+            
+            prior<- as.data.frame(value)
+            
+            names<- dimnames(prior)[[1]]
+           
+            # Prior probabilities of groups table----
+            
+            table <- self$results$prior
+            
+            for (name in names) {
+                
+                row <- list()
+                
+                row[['value']] <- prior[name,1]
+                
+                table$addRow(rowKey=name, values=row)
+              
+                            }
+            
+            # Group means---------------
+            
+            gm <- lda.train$means
+            
+            covs <- self$options$covs 
+              
+            ncovs <- length(covs)
+            
+            names<- dimnames(gm)[[1]]
+              
+            table <- self$results$gm
+            
+            for (i in seq_along(covs)) {
+              
+                  cov <- covs[[i]]
+
+                table$addColumn(name = paste0(cov),
+                               type = 'number',
+                               format = 'zto')
+                             
+                }
+            
+            for (name in names) {
+                
+                row <- list()
+                
+                
+                for(j in seq_along(covs)){
+
+              row[[paste0("cov", j)]] <- gm[name ,j ]
+
+                }
+                
+                table$addRow(rowKey=name, values=row)
+             
+                  
+            }
+           
+            
+            
             
             
         })

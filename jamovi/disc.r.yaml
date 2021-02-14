@@ -9,8 +9,28 @@ items:
       type: Html
       visible: True
       
-    - name:  text
+    - name: prior
       title: 'Prior probabilities of groups'
-      type:  Preformatted
+      type: Table
+     
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
+        - name: value
+          title: 'Value'
+             
+    - name: gm
+      title: 'Group means'
+      type: Table
+     
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
  
 ...
