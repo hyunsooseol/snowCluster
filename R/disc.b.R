@@ -124,8 +124,10 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 
                 for(j in seq_along(covs)){
-
-              row[['cov']] <- gm[name ,j ]
+                    
+                    cov <- covs[[j]]
+                    
+                    row[[cov]] <- gm[name, j]
 
                 }
                 

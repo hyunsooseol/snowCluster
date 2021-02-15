@@ -35,6 +35,6 @@ items:
         - name: cov
           title: ''
           type: number
-          content: ($key)
+      
  
 ...
