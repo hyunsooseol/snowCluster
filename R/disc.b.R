@@ -29,7 +29,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <body>
             <div class='instructions'>
             
-            <p> The rationale of Multiple Factor Analysis is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
+            <p> The rationale of Discriminant Analysis is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
             <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
 
             </div>
@@ -101,9 +101,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             gm <- lda.train$means
             
             covs <- self$options$covs 
-              
-            # ncovs <- length(covs)
-            
+           
             names<- dimnames(gm)[[1]]
               
             table <- self$results$gm
@@ -136,6 +134,35 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                   
             }
            
+           # Coefficients of linear discriminants-------
+            
+            coef<- lda.train$scaling
+            
+            coef <- as.data.frame(coef)
+            
+            names <-  dimnames(coef)[[1]]
+            
+            table <- self$results$coef
+            
+            for (name in names) {
+                
+                row <- list()
+                
+                row[['ldone']] <- coef[name,1]
+                row[['ldtwo']] <- coef[name,2]
+                
+                table$addRow(rowKey=name, values=row)
+                
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             
             

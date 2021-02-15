@@ -9,7 +9,7 @@ disc(
   dep,
   covs,
   homo = FALSE,
-  prior = FALSE,
+  prior = TRUE,
   gm = FALSE,
   coef = FALSE,
   trace = FALSE,
@@ -41,6 +41,7 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
+  \code{results$coef} \tab \tab \tab \tab \tab a table \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

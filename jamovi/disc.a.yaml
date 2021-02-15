@@ -33,7 +33,7 @@ options:
     - name: prior
       title: Prior probabilitY
       type: Bool 
-      default: FALSE
+      default: TRUE
       
     - name: gm
       title: Group means

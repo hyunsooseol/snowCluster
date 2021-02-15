@@ -9,7 +9,7 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             dep = NULL,
             covs = NULL,
             homo = FALSE,
-            prior = FALSE,
+            prior = TRUE,
             gm = FALSE,
             coef = FALSE,
             trace = FALSE,
@@ -42,7 +42,7 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             private$..prior <- jmvcore::OptionBool$new(
                 "prior",
                 prior,
-                default=FALSE)
+                default=TRUE)
             private$..gm <- jmvcore::OptionBool$new(
                 "gm",
                 gm,
@@ -94,7 +94,8 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     active = list(
         instructions = function() private$.items[["instructions"]],
         prior = function() private$.items[["prior"]],
-        gm = function() private$.items[["gm"]]),
+        gm = function() private$.items[["gm"]],
+        coef = function() private$.items[["coef"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -111,6 +112,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="prior",
                 title="Prior probabilities of groups",
+                visible="(prior)",
                 columns=list(
                     list(
                         `name`="name", 
@@ -124,6 +126,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="gm",
                 title="Group means",
+                visible="(gm)",
                 columns=list(
                     list(
                         `name`="name", 
@@ -133,6 +136,25 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                     list(
                         `name`="cov", 
                         `title`="", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="coef",
+                title="Coefficients of linear discriminants",
+                visible="(coef)",
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="ldone", 
+                        `title`="LD1", 
+                        `type`="number"),
+                    list(
+                        `name`="ldtwo", 
+                        `title`="LD2", 
                         `type`="number"))))}))
 
 discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
@@ -172,6 +194,7 @@ discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -186,7 +209,7 @@ disc <- function(
     dep,
     covs,
     homo = FALSE,
-    prior = FALSE,
+    prior = TRUE,
     gm = FALSE,
     coef = FALSE,
     trace = FALSE,

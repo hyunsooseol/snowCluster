@@ -12,6 +12,7 @@ items:
     - name: prior
       title: 'Prior probabilities of groups'
       type: Table
+      visible: (prior)
      
       columns:
         - name: name
@@ -25,6 +26,7 @@ items:
     - name: gm
       title: 'Group means'
       type: Table
+      visible: (gm)
      
       columns:
         - name: name
@@ -36,5 +38,22 @@ items:
           title: ''
           type: number
       
- 
+    - name: coef
+      title: 'Coefficients of linear discriminants'
+      type: Table
+      visible: (coef)
+     
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+          
+        - name: ldone
+          title: 'LD1'
+          type: number
+      
+        - name: ldtwo
+          title: 'LD2'
+          type: number  
 ...
