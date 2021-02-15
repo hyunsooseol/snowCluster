@@ -102,7 +102,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             covs <- self$options$covs 
               
-            ncovs <- length(covs)
+            # ncovs <- length(covs)
             
             names<- dimnames(gm)[[1]]
               
@@ -125,7 +125,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 for(j in seq_along(covs)){
 
-              row[[paste0("cov", j)]] <- gm[name ,j ]
+              row[['cov']] <- gm[name ,j ]
 
                 }
                 

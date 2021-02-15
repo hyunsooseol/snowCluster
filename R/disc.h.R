@@ -129,6 +129,11 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `name`="name", 
                         `title`="", 
                         `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="cov", 
+                        `title`="", 
+                        `type`="number", 
                         `content`="($key)"))))}))
 
 discBase <- if (requireNamespace('jmvcore')) R6::R6Class(

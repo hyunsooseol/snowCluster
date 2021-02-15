@@ -32,5 +32,9 @@ items:
           type: 'text'
           content: ($key)
 
+        - name: cov
+          title: ''
+          type: number
+          content: ($key)
  
 ...
