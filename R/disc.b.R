@@ -3,6 +3,7 @@
 
 #' @importFrom MASS lda
 #' @importFrom jmvcore constructFormula
+#' @importFrom MASS lda
 #' @import MASS
 #' @import ggplot2
 #' @import jmvcore
@@ -156,14 +157,68 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             }
             
             
+            # Accuracy with training data-----------
+            
+            # lda.train <- predict(lda.iris)
+            # 
+            # train$lda <- lda.train$class
+            # table(train$lda,train$Species)
+            
+            
+             dep <- self$options$dep
+            
+            pred = predict(lda.train)
+            
+            res<- table(train[[dep]],pred$class)
             
             
             
             
+            # 
+            # training <- predict(lda.train)
+            # 
+            # 
+            # model <- predict(training)
+            # train$lda <- model$class
+            # 
+            # res<- table(train$lda,train$dep)
             
+            self$results$text$setContent(res)
             
+             # class<- training$class
             
+            #res <- table(class, dep)
             
+           # names<- dimnames(res)[[1]]
+            
+            # table <- self$results$tra
+            
+           
+            
+            # for (name in names) {
+            #     
+            #      name <- names[[i]]
+            #     
+            #     table$addColumn(name = paste0(name),
+            #                     type = 'Integer')
+            #                     
+            #     
+            # }
+            # 
+            # for (name in names) {
+            #     
+            #     row <- list()
+            #     
+            #    row[['name']] <- res[name, j]
+            #         
+            #    
+            #     
+            #     table$addRow(rowKey=name, values=row)
+            #     
+            #     
+            # }
+            # 
+            # 
             
             
             

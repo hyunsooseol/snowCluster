@@ -9,6 +9,10 @@ items:
       type: Html
       visible: True
       
+    - name:  text
+      title: 'Prediction'
+      type:  Preformatted
+
     - name: prior
       title: 'Prior probabilities of groups'
       type: Table
@@ -56,4 +60,21 @@ items:
         - name: ldtwo
           title: 'LD2'
           type: number  
+          
+    - name: tra
+      title: 'Prediction with training set'
+      type: Table
+      visible: (tra)
+     
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
+        - name: name
+          title: ''
+          type: number
+          content: ($key)  
+          
 ...

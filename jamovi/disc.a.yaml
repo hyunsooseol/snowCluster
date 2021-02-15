@@ -45,10 +45,15 @@ options:
       type: Bool 
       default: FALSE    
 
-    - name: trace
-      title: Proportion of trace
+    - name: tra
+      title: Training data 
       type: Bool 
-      default: FALSE    
+      default: FALSE  
+      
+    - name: tes
+      title: Test data 
+      type: Bool 
+      default: FALSE      
 
     - name: plot
       title: group plot 

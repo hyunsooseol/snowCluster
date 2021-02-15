@@ -12,7 +12,8 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             prior = TRUE,
             gm = FALSE,
             coef = FALSE,
-            trace = FALSE,
+            tra = FALSE,
+            tes = FALSE,
             plot = FALSE, ...) {
 
             super$initialize(
@@ -51,9 +52,13 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "coef",
                 coef,
                 default=FALSE)
-            private$..trace <- jmvcore::OptionBool$new(
-                "trace",
-                trace,
+            private$..tra <- jmvcore::OptionBool$new(
+                "tra",
+                tra,
+                default=FALSE)
+            private$..tes <- jmvcore::OptionBool$new(
+                "tes",
+                tes,
                 default=FALSE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
@@ -66,7 +71,8 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..prior)
             self$.addOption(private$..gm)
             self$.addOption(private$..coef)
-            self$.addOption(private$..trace)
+            self$.addOption(private$..tra)
+            self$.addOption(private$..tes)
             self$.addOption(private$..plot)
         }),
     active = list(
@@ -76,7 +82,8 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         prior = function() private$..prior$value,
         gm = function() private$..gm$value,
         coef = function() private$..coef$value,
-        trace = function() private$..trace$value,
+        tra = function() private$..tra$value,
+        tes = function() private$..tes$value,
         plot = function() private$..plot$value),
     private = list(
         ..dep = NA,
@@ -85,7 +92,8 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..prior = NA,
         ..gm = NA,
         ..coef = NA,
-        ..trace = NA,
+        ..tra = NA,
+        ..tes = NA,
         ..plot = NA)
 )
 
@@ -93,9 +101,11 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
+        text = function() private$.items[["text"]],
         prior = function() private$.items[["prior"]],
         gm = function() private$.items[["gm"]],
-        coef = function() private$.items[["coef"]]),
+        coef = function() private$.items[["coef"]],
+        tra = function() private$.items[["tra"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -108,6 +118,10 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text",
+                title="Prediction"))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="prior",
@@ -155,7 +169,23 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                     list(
                         `name`="ldtwo", 
                         `title`="LD2", 
-                        `type`="number"))))}))
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="tra",
+                title="Prediction with training set",
+                visible="(tra)",
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="number", 
+                        `content`="($key)"))))}))
 
 discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "discBase",
@@ -187,14 +217,17 @@ discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param prior .
 #' @param gm .
 #' @param coef .
-#' @param trace .
+#' @param tra .
+#' @param tes .
 #' @param plot .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -212,7 +245,8 @@ disc <- function(
     prior = TRUE,
     gm = FALSE,
     coef = FALSE,
-    trace = FALSE,
+    tra = FALSE,
+    tes = FALSE,
     plot = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
@@ -235,7 +269,8 @@ disc <- function(
         prior = prior,
         gm = gm,
         coef = coef,
-        trace = trace,
+        tra = tra,
+        tes = tes,
         plot = plot)
 
     analysis <- discClass$new(

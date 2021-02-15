@@ -28,17 +28,38 @@ children:
         name: homo
   - type: CollapseBox
     label: Discriminant Analysis
+    margin: normal
     collapsed: true
-    stretchFactor: 1
     children:
-      - type: CheckBox
-        name: prior
-      - type: CheckBox
-        name: gm
-      - type: CheckBox
-        name: coef
-      - type: CheckBox
-        name: trace
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        children:
+          - type: Label
+            label: Statistics
+            children:
+              - type: CheckBox
+                name: prior
+              - type: CheckBox
+                name: gm
+              - type: CheckBox
+                name: coef
+    
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Accuracy
+            children:
+              - type: CheckBox
+                name: tra
+              - type: CheckBox
+                name: tes
   - type: CollapseBox
     label: Plot
     collapsed: true

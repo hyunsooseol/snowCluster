@@ -12,7 +12,8 @@ disc(
   prior = TRUE,
   gm = FALSE,
   coef = FALSE,
-  trace = FALSE,
+  tra = FALSE,
+  tes = FALSE,
   plot = FALSE
 )
 }
@@ -31,7 +32,9 @@ disc(
 
 \item{coef}{.}
 
-\item{trace}{.}
+\item{tra}{.}
+
+\item{tes}{.}
 
 \item{plot}{.}
 }
@@ -39,9 +42,11 @@ disc(
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+  \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
+  \code{results$tra} \tab \tab \tab \tab \tab a table \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
