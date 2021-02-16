@@ -66,6 +66,7 @@ analyses:
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Linear Discriminant
+    menuSubgroup: Discriminant
 datasets:
   - name: iris
     path: iris.omv

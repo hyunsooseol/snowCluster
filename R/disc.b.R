@@ -171,56 +171,34 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             res<- table(train[[dep]],pred$class)
             
-            
-            
-            
-            # 
-            # training <- predict(lda.train)
-            # 
-            # 
-            # model <- predict(training)
-            # train$lda <- model$class
-            # 
-            # res<- table(train$lda,train$dep)
-            
-            self$results$text$setContent(res)
-            
-             # class<- training$class
-            
-            #res <- table(class, dep)
-            
-           # names<- dimnames(res)[[1]]
-            
-            # table <- self$results$tra
-            
+            res<- as.matrix(res)
            
+            names<- dimnames(res)[[1]]
             
-            # for (name in names) {
-            #     
-            #      name <- names[[i]]
-            #     
-            #     table$addColumn(name = paste0(name),
-            #                     type = 'Integer')
-            #                     
-            #     
-            # }
-            # 
-            # for (name in names) {
-            #     
-            #     row <- list()
-            #     
-            #    row[['name']] <- res[name, j]
-            #         
-            #    
-            #     
-            #     table$addRow(rowKey=name, values=row)
-            #     
-            #     
-            # }
-            # 
-            # 
+            table <- self$results$tra
             
-            
+            for (name in names) {
+
+                table$addColumn(name = paste0(name),
+                                type = 'Integer')
+                                   }
+
+            for (name in names) {
+
+                 row <- list()
+
+                for(j in seq_along(names)){
+                
+                     row[['value']] <- res[name,j]
+                
+                                    }
+
+                table$addRow(rowKey=name, values=row)
+
+            }
+
+
+
             
         })
 )

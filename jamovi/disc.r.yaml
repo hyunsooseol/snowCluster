@@ -62,7 +62,7 @@ items:
           type: number  
           
     - name: tra
-      title: 'Prediction with training set'
+      title: 'Prediction with training data set'
       type: Table
       visible: (tra)
      
@@ -72,9 +72,9 @@ items:
           type: 'text'
           content: ($key)
 
-        - name: name
+        - name: value
           title: ''
           type: number
-          content: ($key)  
+          
           
 ...

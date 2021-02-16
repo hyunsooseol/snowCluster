@@ -173,7 +173,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tra",
-                title="Prediction with training set",
+                title="Prediction with training data set",
                 visible="(tra)",
                 columns=list(
                     list(
@@ -182,10 +182,9 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `type`="text", 
                         `content`="($key)"),
                     list(
-                        `name`="name", 
+                        `name`="value", 
                         `title`="", 
-                        `type`="number", 
-                        `content`="($key)"))))}))
+                        `type`="number"))))}))
 
 discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "discBase",

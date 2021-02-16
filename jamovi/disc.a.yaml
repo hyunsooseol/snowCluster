@@ -2,6 +2,7 @@
 name:  disc
 title: Linear Discriminant
 menuGroup: snowCluster
+menuSubgroup: Discriminant
 version: '1.0.0'
 jas: '1.2'
 
