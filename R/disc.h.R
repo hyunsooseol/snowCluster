@@ -112,7 +112,8 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Linear Discriminant")
+                title="Linear Discriminant",
+                refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
                 name="instructions",
@@ -155,6 +156,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 options=options,
                 name="coef",
                 title="Coefficients of linear discriminants",
+                refs="MASS",
                 visible="(coef)",
                 columns=list(
                     list(
@@ -184,7 +186,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                     list(
                         `name`="value", 
                         `title`="", 
-                        `type`="number"))))}))
+                        `type`="Integer"))))}))
 
 discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "discBase",

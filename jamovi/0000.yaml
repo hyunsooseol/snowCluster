@@ -119,6 +119,11 @@ datasets:
     description: Example with groups of categorical variables
     tags:
       - Multiple Factor Analysis
+  - name: iris2
+    path: iris2.omv
+    description: Discrimant Analysis
+    tags:
+      - Discriminant
 usesNative: true
 minApp: 1.0.8
 
