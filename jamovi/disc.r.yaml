@@ -9,10 +9,6 @@ items:
       type: Html
       visible: True
       
-    - name:  text
-      title: 'Prediction'
-      type:  Preformatted
-
     - name: prior
       title: 'Prior probabilities of groups'
       type: Table
@@ -73,9 +69,17 @@ items:
           type: 'text'
           content: ($key)
 
-        - name: value
+    - name: tes
+      title: 'Prediction with test data set'
+      type: Table
+      visible: (tes)
+     
+      columns:
+        - name: name
           title: ''
-          type: number
-          
-          
+          type: 'text'
+          content: ($key)
+
+
+
 ...

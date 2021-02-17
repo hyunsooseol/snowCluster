@@ -189,7 +189,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
                 for(j in seq_along(names)){
                 
-                     row[['value']] <- res[name,j]
+                    row[[names[j]]] <- res[name,j]
                 
                                     }
 
@@ -197,8 +197,52 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
             }
 
+          # # Accuracy with test data-----------
 
-
+            # lda.test <- predict(lda.iris,test)
+            # test$lda <- lda.test$class
+            # table(test$lda,test$Species)
+            # 
+            
+            dep <- self$options$dep
+            
+            lda.test = predict(lda.train,test)
+            
+            test$lda <- lda.test$class
+            
+            res1<- table(test$lda,test[[dep]])
+            
+            res1<- as.matrix(res1)
+            
+            names<- dimnames(res1)[[1]]
+            
+            table <- self$results$tes
+            
+            for (name in names) {
+                
+                table$addColumn(name = paste0(name),
+                                type = 'Integer')
+            }
+            
+            for (name in names) {
+                
+                row <- list()
+                
+                for(j in seq_along(names)){
+                    
+                    row[[names[j]]] <- res1[name,j]
+                    
+                }
+                
+                table$addRow(rowKey=name, values=row)
+                
+            }
+            
+            
+            
+            
+            
+            
             
         })
 )

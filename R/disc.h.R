@@ -105,7 +105,8 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         prior = function() private$.items[["prior"]],
         gm = function() private$.items[["gm"]],
         coef = function() private$.items[["coef"]],
-        tra = function() private$.items[["tra"]]),
+        tra = function() private$.items[["tra"]],
+        tes = function() private$.items[["tes"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -182,11 +183,18 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `name`="name", 
                         `title`="", 
                         `type`="text", 
-                        `content`="($key)"),
+                        `content`="($key)"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="tes",
+                title="Prediction with test data set",
+                visible="(tes)",
+                columns=list(
                     list(
-                        `name`="value", 
+                        `name`="name", 
                         `title`="", 
-                        `type`="Integer"))))}))
+                        `type`="text", 
+                        `content`="($key)"))))}))
 
 discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "discBase",
@@ -229,6 +237,7 @@ discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
