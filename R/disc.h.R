@@ -101,7 +101,6 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
-        text = function() private$.items[["text"]],
         prior = function() private$.items[["prior"]],
         gm = function() private$.items[["gm"]],
         coef = function() private$.items[["coef"]],
@@ -120,10 +119,6 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
-            self$add(jmvcore::Preformatted$new(
-                options=options,
-                name="text",
-                title="Prediction"))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="prior",
@@ -148,11 +143,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `name`="name", 
                         `title`="", 
                         `type`="text", 
-                        `content`="($key)"),
-                    list(
-                        `name`="cov", 
-                        `title`="", 
-                        `type`="number"))))
+                        `content`="($key)"))))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="coef",
@@ -232,7 +223,6 @@ discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
-#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr

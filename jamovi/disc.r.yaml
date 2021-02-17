@@ -34,10 +34,6 @@ items:
           type: 'text'
           content: ($key)
 
-        - name: cov
-          title: ''
-          type: number
-      
     - name: coef
       title: 'Coefficients of linear discriminants'
       type: Table
