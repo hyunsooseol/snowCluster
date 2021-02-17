@@ -27,7 +27,7 @@ options:
         - numeric
     
     - name: homo
-      title: Equal Variance
+      title: Box's M
       type: Bool 
       default: FALSE
 
