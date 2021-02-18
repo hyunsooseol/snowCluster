@@ -26,11 +26,6 @@ options:
       permitted:
         - numeric
     
-    - name: homo
-      title: Box's M
-      type: Bool 
-      default: FALSE
-
     - name: prior
       title: Prior probabilitY
       type: Bool 
@@ -57,7 +52,12 @@ options:
       default: FALSE      
 
     - name: plot
-      title: group plot 
+      title: LD plot 
+      type: Bool
+      default: FALSE
+
+    - name: plot1
+      title: LD1 plot 
       type: Bool
       default: FALSE
 

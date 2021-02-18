@@ -76,6 +76,21 @@ items:
           type: 'text'
           content: ($key)
 
+    - name:  plot
+      title: LD plot
+      type:  Image
+      requiresData: true
+      visible: (plot)
+      width: 400
+      height: 400
+      renderFun: .plot
 
-
+    - name:  plot1
+      title: LD1 plot
+      type:  Image
+      requiresData: true
+      visible: (plot1)
+      width: 400
+      height: 400
+      renderFun: .plot1
 ...

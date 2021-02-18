@@ -8,13 +8,13 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
-            homo = FALSE,
             prior = TRUE,
             gm = FALSE,
             coef = FALSE,
             tra = FALSE,
             tes = FALSE,
-            plot = FALSE, ...) {
+            plot = FALSE,
+            plot1 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -36,10 +36,6 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
-            private$..homo <- jmvcore::OptionBool$new(
-                "homo",
-                homo,
-                default=FALSE)
             private$..prior <- jmvcore::OptionBool$new(
                 "prior",
                 prior,
@@ -64,37 +60,41 @@ discOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "plot",
                 plot,
                 default=FALSE)
+            private$..plot1 <- jmvcore::OptionBool$new(
+                "plot1",
+                plot1,
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
-            self$.addOption(private$..homo)
             self$.addOption(private$..prior)
             self$.addOption(private$..gm)
             self$.addOption(private$..coef)
             self$.addOption(private$..tra)
             self$.addOption(private$..tes)
             self$.addOption(private$..plot)
+            self$.addOption(private$..plot1)
         }),
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
-        homo = function() private$..homo$value,
         prior = function() private$..prior$value,
         gm = function() private$..gm$value,
         coef = function() private$..coef$value,
         tra = function() private$..tra$value,
         tes = function() private$..tes$value,
-        plot = function() private$..plot$value),
+        plot = function() private$..plot$value,
+        plot1 = function() private$..plot1$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
-        ..homo = NA,
         ..prior = NA,
         ..gm = NA,
         ..coef = NA,
         ..tra = NA,
         ..tes = NA,
-        ..plot = NA)
+        ..plot = NA,
+        ..plot1 = NA)
 )
 
 discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
@@ -105,7 +105,9 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
         gm = function() private$.items[["gm"]],
         coef = function() private$.items[["coef"]],
         tra = function() private$.items[["tra"]],
-        tes = function() private$.items[["tes"]]),
+        tes = function() private$.items[["tes"]],
+        plot = function() private$.items[["plot"]],
+        plot1 = function() private$.items[["plot1"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -185,7 +187,25 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `name`="name", 
                         `title`="", 
                         `type`="text", 
-                        `content`="($key)"))))}))
+                        `content`="($key)"))))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot",
+                title="LD plot",
+                requiresData=TRUE,
+                visible="(plot)",
+                width=400,
+                height=400,
+                renderFun=".plot"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot1",
+                title="LD1 plot",
+                requiresData=TRUE,
+                visible="(plot1)",
+                width=400,
+                height=400,
+                renderFun=".plot1"))}))
 
 discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
     "discBase",
@@ -213,13 +233,13 @@ discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param covs .
-#' @param homo .
 #' @param prior .
 #' @param gm .
 #' @param coef .
 #' @param tra .
 #' @param tes .
 #' @param plot .
+#' @param plot1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -228,6 +248,8 @@ discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -241,13 +263,13 @@ disc <- function(
     data,
     dep,
     covs,
-    homo = FALSE,
     prior = TRUE,
     gm = FALSE,
     coef = FALSE,
     tra = FALSE,
     tes = FALSE,
-    plot = FALSE) {
+    plot = FALSE,
+    plot1 = FALSE) {
 
     if ( ! requireNamespace('jmvcore'))
         stop('disc requires jmvcore to be installed (restart may be required)')
@@ -265,13 +287,13 @@ disc <- function(
     options <- discOptions$new(
         dep = dep,
         covs = covs,
-        homo = homo,
         prior = prior,
         gm = gm,
         coef = coef,
         tra = tra,
         tes = tes,
-        plot = plot)
+        plot = plot,
+        plot1 = plot1)
 
     analysis <- discClass$new(
         options = options,

@@ -30,7 +30,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <body>
             <div class='instructions'>
             
-            <p> The rationale of Discriminant Analysis is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
+            <p> The rationale of Discriminant Analysis is described in the <a href='https://rpubs.com/Nolan/298913#:~:text=Discriminant%20Analysis%20(DA)%20is%20a,measurable%20features%20of%20those%20objects.&text=Quadratic%20Discriminant%20Analysis%20(QDA)%20which,equal%20covariance%20across%20the%20classes.' target = '_blank'>page.</a></p>
             <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
 
             </div>
@@ -237,12 +237,55 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 table$addRow(rowKey=name, values=row)
                 
             }
+        
+            #  Group plot----------
             
+            state <- list(lda.train, train)
+           
+            image <- self$results$plot
             
+            image$setState(state)  
+            #---------------------
+           
+            image1 <- self$results$plot1
+            image1$setState(lda.train)
             
+           
+            },
             
+            .plot = function(image,...) {
+                
+                plot <- self$options$plot
+               
+                if (!plot)
+                    return()
+                
+                dep<- self$options$dep
+                
+                lda.train <- image$state[[1]]
+                train <- image$state[[2]]
+                
+                plot <- plot(lda.train, col = as.integer(train[[dep]]))
+              
+                print(plot)
+                TRUE
+            },
+        
+        .plot1 = function(image1,...) {
             
+            plot1 <- self$options$plot1
             
+            if (!plot1)
+                return()
             
-        })
-)
+            lda.train <- image1$state
+            
+            plot1 <- plot(lda.train, dimen=1, type="b")
+            
+            print(plot1)
+            TRUE
+        }
+        
+       
+         ))
+

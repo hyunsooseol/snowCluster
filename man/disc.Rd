@@ -8,13 +8,13 @@ disc(
   data,
   dep,
   covs,
-  homo = FALSE,
   prior = TRUE,
   gm = FALSE,
   coef = FALSE,
   tra = FALSE,
   tes = FALSE,
-  plot = FALSE
+  plot = FALSE,
+  plot1 = FALSE
 )
 }
 \arguments{
@@ -23,8 +23,6 @@ disc(
 \item{dep}{.}
 
 \item{covs}{.}
-
-\item{homo}{.}
 
 \item{prior}{.}
 
@@ -37,6 +35,8 @@ disc(
 \item{tes}{.}
 
 \item{plot}{.}
+
+\item{plot1}{.}
 }
 \value{
 A results object containing:
@@ -47,6 +47,8 @@ A results object containing:
   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
+  \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
