@@ -6,7 +6,7 @@ jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: 2021-2-13
+date: 2021-2-18
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
@@ -61,11 +61,11 @@ analyses:
     menuGroup: snowCluster
     menuSubgroup: Factor
     menuTitle: Multiple Factor Analysis
-  - title: Linear Discriminant
+  - title: Linear Discriminant Analysis
     name: disc
     ns: snowCluster
     menuGroup: snowCluster
-    menuTitle: Linear Discriminant
+    menuTitle: Linear Discriminant Analysis
     menuSubgroup: Discriminant
 datasets:
   - name: iris

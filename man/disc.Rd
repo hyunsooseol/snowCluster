@@ -2,7 +2,7 @@
 % Please edit documentation in R/disc.h.R
 \name{disc}
 \alias{disc}
-\title{Linear Discriminant}
+\title{Linear Discriminant Analysis}
 \usage{
 disc(
   data,
@@ -58,5 +58,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$prior)}
 }
 \description{
-Linear Discriminant
+Linear Discriminant Analysis
 }

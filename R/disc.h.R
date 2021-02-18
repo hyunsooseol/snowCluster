@@ -114,7 +114,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Linear Discriminant",
+                title="Linear Discriminant Analysis",
                 refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
@@ -227,7 +227,7 @@ discBase <- if (requireNamespace('jmvcore')) R6::R6Class(
                 requiresMissings = FALSE)
         }))
 
-#' Linear Discriminant
+#' Linear Discriminant Analysis
 #'
 #' 
 #' @param data .

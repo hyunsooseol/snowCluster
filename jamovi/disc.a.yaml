@@ -1,6 +1,6 @@
 ---
 name:  disc
-title: Linear Discriminant
+title: Linear Discriminant Analysis
 menuGroup: snowCluster
 menuSubgroup: Discriminant
 version: '1.0.0'
@@ -27,7 +27,7 @@ options:
         - numeric
     
     - name: prior
-      title: Prior probabilitY
+      title: Prior probability
       type: Bool 
       default: TRUE
       
