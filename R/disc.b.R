@@ -142,15 +142,27 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             coef <- as.data.frame(coef)
             
             names <-  dimnames(coef)[[1]]
+            dims <- dimnames(coef)[[2]]
             
             table <- self$results$coef
+            
+            
+            for (dim in dims) {
+                
+                table$addColumn(name = paste0(dim),
+                                type = 'number')
+            }
+            
             
             for (name in names) {
                 
                 row <- list()
                 
-                row[['ldone']] <- coef[name,1]
-                row[['ldtwo']] <- coef[name,2]
+                for(j in seq_along(names)){
+                    
+                    row[[names[j]]] <- coef[name,j]
+                    
+                }
                 
                 table$addRow(rowKey=name, values=row)
                 

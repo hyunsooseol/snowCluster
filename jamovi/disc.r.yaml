@@ -45,15 +45,7 @@ items:
           title: ''
           type: 'text'
           content: ($key)
-          
-        - name: ldone
-          title: 'LD1'
-          type: number
-      
-        - name: ldtwo
-          title: 'LD2'
-          type: number  
-          
+       
     - name: tra
       title: 'Prediction with training data set'
       type: Table
@@ -64,7 +56,7 @@ items:
           title: ''
           type: 'text'
           content: ($key)
-
+ 
     - name: tes
       title: 'Prediction with test data set'
       type: Table

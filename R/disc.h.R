@@ -157,15 +157,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                         `name`="name", 
                         `title`="", 
                         `type`="text", 
-                        `content`="($key)"),
-                    list(
-                        `name`="ldone", 
-                        `title`="LD1", 
-                        `type`="number"),
-                    list(
-                        `name`="ldtwo", 
-                        `title`="LD2", 
-                        `type`="number"))))
+                        `content`="($key)"))))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tra",
