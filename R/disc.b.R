@@ -44,6 +44,10 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .run = function() {
             
+            if (is.null(self$options$dep) || length(self$options$covs) == 0)
+                return()
+            
+            
             dep <- self$options$dep
             
             covs <- self$options$covs
