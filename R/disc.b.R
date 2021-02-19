@@ -158,9 +158,9 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 row <- list()
                 
-                for(j in seq_along(names)){
+                for(j in seq_along(dims)){
                     
-                    row[[names[j]]] <- coef[name,j]
+                    row[[dims[j]]] <- coef[name,j]
                     
                 }
                 
