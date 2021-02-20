@@ -31,6 +31,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <div class='instructions'>
             
             <p> The rationale of Discriminant Analysis is described in the <a href='https://rpubs.com/Nolan/298913#:~:text=Discriminant%20Analysis%20(DA)%20is%20a,measurable%20features%20of%20those%20objects.&text=Quadratic%20Discriminant%20Analysis%20(QDA)%20which,equal%20covariance%20across%20the%20classes.' target = '_blank'>page.</a></p>
+            <p> For convenience, 60% of the data as the training set and the remaining 40% for the testing set were used for analysis. </p>
             <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
 
             </div>

@@ -42,12 +42,12 @@ options:
       default: FALSE    
 
     - name: tra
-      title: Training data 
+      title: Training set 
       type: Bool 
       default: FALSE  
       
     - name: tes
-      title: Test data 
+      title: Testing set 
       type: Bool 
       default: FALSE      
 

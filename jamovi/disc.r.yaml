@@ -10,7 +10,7 @@ items:
       visible: True
       
     - name: prior
-      title: 'Prior probabilities of groups'
+      title: 'Prior probability of groups'
       type: Table
       visible: (prior)
      
@@ -47,7 +47,7 @@ items:
           content: ($key)
        
     - name: tra
-      title: 'Prediction with training data set'
+      title: 'Prediction with training dataset'
       type: Table
       visible: (tra)
      
@@ -58,7 +58,7 @@ items:
           content: ($key)
  
     - name: tes
-      title: 'Prediction with test data set'
+      title: 'Prediction with test dataset'
       type: Table
       visible: (tes)
      

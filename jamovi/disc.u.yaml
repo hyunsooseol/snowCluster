@@ -48,7 +48,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: Accuracy
+            label: Data split
             children:
               - type: CheckBox
                 name: tra

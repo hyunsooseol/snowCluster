@@ -124,7 +124,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="prior",
-                title="Prior probabilities of groups",
+                title="Prior probability of groups",
                 visible="(prior)",
                 columns=list(
                     list(
@@ -161,7 +161,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tra",
-                title="Prediction with training data set",
+                title="Prediction with training dataset",
                 visible="(tra)",
                 columns=list(
                     list(
@@ -172,7 +172,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tes",
-                title="Prediction with test data set",
+                title="Prediction with test dataset",
                 visible="(tes)",
                 columns=list(
                     list(
