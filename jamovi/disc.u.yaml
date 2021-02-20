@@ -48,7 +48,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: Data split
+            label: Confusion matrix
             children:
               - type: CheckBox
                 name: tra
