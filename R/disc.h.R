@@ -161,7 +161,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tra",
-                title="Prediction with training dataset",
+                title="Prediction with training set",
                 visible="(tra)",
                 columns=list(
                     list(
@@ -172,7 +172,7 @@ discResults <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tes",
-                title="Prediction with test dataset",
+                title="Prediction with test set",
                 visible="(tes)",
                 columns=list(
                     list(
