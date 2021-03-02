@@ -10,8 +10,7 @@ items:
       type: Table
       clearWith:
         - vars
-        - eigen
-      
+
       columns:
         - name: comp
           title: 'Component'
@@ -33,8 +32,7 @@ items:
       rows: (vars)
       clearWith:
         - vars
-        - loadingvar
-
+ 
       columns:
         - name: name
           title: ''
@@ -51,8 +49,7 @@ items:
       type: Table
       clearWith:
         - vars
-        - loadingind
-
+ 
       columns:
         - name: name
           title: ''
@@ -72,9 +69,6 @@ items:
       width: 500
       height: 500
       renderFun: .plot5
-      clearWith:
-        - vars
-        - plot5
  
     - name:  plot1
       title: Correlation between variables and dimensions
@@ -85,10 +79,7 @@ items:
       width: 500
       height: 500
       renderFun: .plot1
-      clearWith:
-        - vars
-        - plot1
-    
+ 
     - name:  plot2
       title: Coordinates of variable categories
       type:  Image
@@ -98,10 +89,7 @@ items:
       width: 500
       height: 500
       renderFun: .plot2
-      clearWith:
-        - vars
-        - plot2
-
+ 
     - name:  plot3
       title: Plot of individuals
       type:  Image
@@ -111,10 +99,7 @@ items:
       width: 500
       height: 500
       renderFun: .plot3
-      clearWith:
-        - vars
-        - plot3
-      
+  
     - name:  plot4
       title: Individuals by groups
       type:  Image
@@ -124,9 +109,7 @@ items:
       width: 500
       height: 500
       renderFun: .plot4
-      clearWith:
-        - vars
-        - plot4
+  
 ...
 
 

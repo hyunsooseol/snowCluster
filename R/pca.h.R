@@ -95,8 +95,7 @@ pcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Eigenvalues",
                 visible="(eigen)",
                 clearWith=list(
-                    "vars",
-                    "eigen"),
+                    "vars"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -123,10 +122,7 @@ pcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot)",
                 width=500,
                 height=500,
-                renderFun=".plot",
-                clearWith=list(
-                    "vars",
-                    "plot")))
+                renderFun=".plot"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -136,10 +132,7 @@ pcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot1)",
                 width=500,
                 height=500,
-                renderFun=".plot1",
-                clearWith=list(
-                    "vars",
-                    "plot1")))
+                renderFun=".plot1"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -149,10 +142,7 @@ pcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot2)",
                 width=500,
                 height=500,
-                renderFun=".plot2",
-                clearWith=list(
-                    "vars",
-                    "plot2")))}))
+                renderFun=".plot2"))}))
 
 pcaBase <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "pcaBase",

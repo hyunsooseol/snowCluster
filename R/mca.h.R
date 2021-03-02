@@ -131,8 +131,7 @@ mcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Eigenvalues",
                 visible="(eigen)",
                 clearWith=list(
-                    "vars",
-                    "eigen"),
+                    "vars"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -157,8 +156,7 @@ mcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(loadingvar)",
                 rows="(vars)",
                 clearWith=list(
-                    "vars",
-                    "loadingvar"),
+                    "vars"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -176,8 +174,7 @@ mcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Contributions of the rows to the dimensions(%)",
                 visible="(loadingind)",
                 clearWith=list(
-                    "vars",
-                    "loadingind"),
+                    "vars"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -198,10 +195,7 @@ mcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot5)",
                 width=500,
                 height=500,
-                renderFun=".plot5",
-                clearWith=list(
-                    "vars",
-                    "plot5")))
+                renderFun=".plot5"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -211,10 +205,7 @@ mcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot1)",
                 width=500,
                 height=500,
-                renderFun=".plot1",
-                clearWith=list(
-                    "vars",
-                    "plot1")))
+                renderFun=".plot1"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -224,10 +215,7 @@ mcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot2)",
                 width=500,
                 height=500,
-                renderFun=".plot2",
-                clearWith=list(
-                    "vars",
-                    "plot2")))
+                renderFun=".plot2"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -237,10 +225,7 @@ mcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot3)",
                 width=500,
                 height=500,
-                renderFun=".plot3",
-                clearWith=list(
-                    "vars",
-                    "plot3")))
+                renderFun=".plot3"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -250,10 +235,7 @@ mcaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot4)",
                 width=500,
                 height=500,
-                renderFun=".plot4",
-                clearWith=list(
-                    "vars",
-                    "plot4")))}))
+                renderFun=".plot4"))}))
 
 mcaBase <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "mcaBase",

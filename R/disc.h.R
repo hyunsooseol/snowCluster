@@ -127,8 +127,7 @@ discResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Prior probability of groups",
                 visible="(prior)",
                 clearWith=list(
-                    "vars",
-                    "prior"),
+                    "covs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -144,8 +143,7 @@ discResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Group means",
                 visible="(gm)",
                 clearWith=list(
-                    "vars",
-                    "gm"),
+                    "covs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -159,8 +157,7 @@ discResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 refs="MASS",
                 visible="(coef)",
                 clearWith=list(
-                    "vars",
-                    "coef"),
+                    "covs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -173,8 +170,7 @@ discResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Prediction with training set",
                 visible="(tra)",
                 clearWith=list(
-                    "vars",
-                    "tra"),
+                    "covs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -187,8 +183,7 @@ discResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Prediction with test set",
                 visible="(tes)",
                 clearWith=list(
-                    "vars",
-                    "tes"),
+                    "covs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -203,10 +198,7 @@ discResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot)",
                 width=400,
                 height=400,
-                renderFun=".plot",
-                clearWith=list(
-                    "vars",
-                    "plot")))
+                renderFun=".plot"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -215,10 +207,7 @@ discResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot1)",
                 width=400,
                 height=400,
-                renderFun=".plot1",
-                clearWith=list(
-                    "vars",
-                    "plot1")))}))
+                renderFun=".plot1"))}))
 
 discBase <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "discBase",

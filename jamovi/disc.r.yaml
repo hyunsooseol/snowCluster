@@ -14,9 +14,8 @@ items:
       type: Table
       visible: (prior)
       clearWith:
-        - vars
-        - prior
-     
+        - covs
+
       columns:
         - name: name
           title: ''
@@ -31,9 +30,8 @@ items:
       type: Table
       visible: (gm)
       clearWith:
-        - vars
-        - gm
-     
+        - covs
+ 
       columns:
         - name: name
           title: ''
@@ -46,9 +44,8 @@ items:
       refs: MASS
       visible: (coef)
       clearWith:
-        - vars
-        - coef
-     
+        - covs
+
       columns:
         - name: name
           title: ''
@@ -60,8 +57,7 @@ items:
       type: Table
       visible: (tra)
       clearWith:
-        - vars
-        - tra
+        - covs
      
       columns:
         - name: name
@@ -74,9 +70,8 @@ items:
       type: Table
       visible: (tes)
       clearWith:
-        - vars
-        - tes
-     
+        - covs 
+        
       columns:
         - name: name
           title: ''
@@ -91,9 +86,6 @@ items:
       width: 400
       height: 400
       renderFun: .plot
-      clearWith:
-        - vars
-        - plot
 
     - name:  plot1
       title: LD1 plot
@@ -103,7 +95,5 @@ items:
       width: 400
       height: 400
       renderFun: .plot1
-      clearWith:
-        - vars
-        - plot1
+ 
 ...

@@ -132,8 +132,7 @@ correspondenceResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Cl
                 title="Chi-square test",
                 rows=1,
                 clearWith=list(
-                    "vars",
-                    "chi"),
+                    "vars"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -155,8 +154,7 @@ correspondenceResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Cl
                 title="Eigenvalues",
                 visible="(eigen)",
                 clearWith=list(
-                    "vars",
-                    "eigen"),
+                    "vars"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -181,8 +179,7 @@ correspondenceResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Cl
                 visible="(loadingvar)",
                 rows="(vars)",
                 clearWith=list(
-                    "vars",
-                    "loadingvar"),
+                    "vars"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -200,8 +197,7 @@ correspondenceResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Cl
                 title="Contributions of the rows to the dimensions(%)",
                 visible="(loadingind)",
                 clearWith=list(
-                    "vars",
-                    "loadingind"),
+                    "vars"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -224,8 +220,7 @@ correspondenceResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Cl
                 height=500,
                 renderFun=".plot4",
                 clearWith=list(
-                    "vars",
-                    "plot4")))
+                    "vars")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -237,8 +232,7 @@ correspondenceResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Cl
                 height=500,
                 renderFun=".plot1",
                 clearWith=list(
-                    "vars",
-                    "plot1")))
+                    "vars")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -250,8 +244,7 @@ correspondenceResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Cl
                 height=500,
                 renderFun=".plot2",
                 clearWith=list(
-                    "vars",
-                    "plot2")))
+                    "vars")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -263,8 +256,7 @@ correspondenceResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Cl
                 height=500,
                 renderFun=".plot3",
                 clearWith=list(
-                    "vars",
-                    "plot3")))}))
+                    "vars")))}))
 
 correspondenceBase <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "correspondenceBase",
