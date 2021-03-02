@@ -10,6 +10,7 @@ items:
       rows: 1
       clearWith:
         - vars
+        - chi
       
       columns:
         - name: name
@@ -29,7 +30,8 @@ items:
       type: Table
       clearWith:
         - vars
-      
+        - eigen
+    
       columns:
         - name: comp
           title: 'Component'
@@ -51,6 +53,7 @@ items:
       rows: (vars)
       clearWith:
         - vars
+        - loadingvar
 
       columns:
         - name: name
@@ -68,6 +71,7 @@ items:
       type: Table
       clearWith:
         - vars
+        - loadingind
 
       columns:
         - name: name
@@ -87,7 +91,10 @@ items:
       visible: (plot4)
       width: 500
       height: 500
-      renderFun: .plot4     
+      renderFun: .plot4 
+      clearWith:
+            - vars
+            - plot4
 
     - name:  plot1
       title: Row points
@@ -98,6 +105,9 @@ items:
       width: 500
       height: 500
       renderFun: .plot1
+      clearWith:
+            - vars
+            - plot1
     
     - name:  plot2
       title: Column points
@@ -108,6 +118,9 @@ items:
       width: 500
       height: 500
       renderFun: .plot2
+      clearWith:
+            - vars
+            - plot2
       
     - name:  plot3
       title: Biplot
@@ -117,5 +130,8 @@ items:
       visible: (plot3)
       width: 500
       height: 500
-      renderFun: .plot3  
+      renderFun: .plot3
+      clearWith:
+            - vars
+            - plot3
 ...

@@ -13,6 +13,12 @@ items:
       type: Table
       rows: 0
       refs: snowCluster
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
       
       columns:
         - name: source
@@ -25,6 +31,12 @@ items:
     - name: clustering
       title: Clustering Table
       type: Table
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
       refs: snowCluster
 
       columns:
@@ -40,6 +52,12 @@ items:
       title: Centroids of clusters Table
       type:  Table
       rows: (k)
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
       refs: snowCluster
 
       columns:

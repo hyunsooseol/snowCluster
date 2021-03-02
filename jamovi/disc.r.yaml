@@ -13,6 +13,9 @@ items:
       title: 'Prior probability of groups'
       type: Table
       visible: (prior)
+      clearWith:
+        - vars
+        - prior
      
       columns:
         - name: name
@@ -27,6 +30,9 @@ items:
       title: 'Group means'
       type: Table
       visible: (gm)
+      clearWith:
+        - vars
+        - gm
      
       columns:
         - name: name
@@ -39,6 +45,9 @@ items:
       type: Table
       refs: MASS
       visible: (coef)
+      clearWith:
+        - vars
+        - coef
      
       columns:
         - name: name
@@ -50,6 +59,9 @@ items:
       title: 'Prediction with training set'
       type: Table
       visible: (tra)
+      clearWith:
+        - vars
+        - tra
      
       columns:
         - name: name
@@ -61,6 +73,9 @@ items:
       title: 'Prediction with test set'
       type: Table
       visible: (tes)
+      clearWith:
+        - vars
+        - tes
      
       columns:
         - name: name
@@ -76,6 +91,9 @@ items:
       width: 400
       height: 400
       renderFun: .plot
+      clearWith:
+        - vars
+        - plot
 
     - name:  plot1
       title: LD1 plot
@@ -85,4 +103,7 @@ items:
       width: 400
       height: 400
       renderFun: .plot1
+      clearWith:
+        - vars
+        - plot1
 ...

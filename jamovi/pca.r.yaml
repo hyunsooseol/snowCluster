@@ -10,6 +10,7 @@ items:
       type: Table
       clearWith:
         - vars
+        - eigen
       
       columns:
         - name: comp
@@ -34,6 +35,9 @@ items:
       width: 500
       height: 500
       renderFun: .plot
+      clearWith:
+            - vars
+            - plot
     
     - name:  plot1
       title: Individual Plot
@@ -44,6 +48,9 @@ items:
       width: 500
       height: 500
       renderFun: .plot1
+      clearWith:
+            - vars
+            - plot1
       
     - name:  plot2
       title: Biplot
@@ -53,7 +60,10 @@ items:
       visible: (plot2)
       width: 500
       height: 500
-      renderFun: .plot2  
+      renderFun: .plot2
+      clearWith:
+            - vars
+            - plot2
     
 
 ...
