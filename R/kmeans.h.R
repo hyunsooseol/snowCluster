@@ -188,7 +188,13 @@ kmeansResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot)",
                 width=700,
                 height=500,
-                renderFun=".plot"))
+                renderFun=".plot",
+                clearWith=list(
+                    "vars",
+                    "k",
+                    "algo",
+                    "nstart",
+                    "stand")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -197,7 +203,13 @@ kmeansResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot1)",
                 width=500,
                 height=500,
-                renderFun=".plot1"))
+                renderFun=".plot1",
+                clearWith=list(
+                    "vars",
+                    "k",
+                    "algo",
+                    "nstart",
+                    "stand")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -207,7 +219,13 @@ kmeansResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot2)",
                 width=500,
                 height=500,
-                renderFun=".plot2"))
+                renderFun=".plot2",
+                clearWith=list(
+                    "vars",
+                    "k",
+                    "algo",
+                    "nstart",
+                    "stand")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -217,7 +235,13 @@ kmeansResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot3)",
                 width=500,
                 height=500,
-                renderFun=".plot3"))}))
+                renderFun=".plot3",
+                clearWith=list(
+                    "vars",
+                    "k",
+                    "algo",
+                    "nstart",
+                    "stand")))}))
 
 kmeansBase <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "kmeansBase",

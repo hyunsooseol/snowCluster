@@ -218,7 +218,10 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Eigenvalues",
                 visible="(eigen)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -242,7 +245,10 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Contribution for groups of variables",
                 visible="(cg)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -260,7 +266,10 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Contribution of individuals",
                 visible="(ci)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -278,7 +287,10 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 title="Contribution of quantitative variables",
                 visible="(quanti)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -299,7 +311,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot8)",
                 width=500,
                 height=500,
-                renderFun=".plot8"))
+                renderFun=".plot8",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -309,7 +326,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot)",
                 width=500,
                 height=500,
-                renderFun=".plot"))
+                renderFun=".plot",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
@@ -319,7 +341,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot6)",
                 width=500,
                 height=500,
-                renderFun=".plot6"))
+                renderFun=".plot6",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot7",
@@ -329,7 +356,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot7)",
                 width=500,
                 height=500,
-                renderFun=".plot7"))
+                renderFun=".plot7",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -339,7 +371,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot1)",
                 width=700,
                 height=700,
-                renderFun=".plot1"))
+                renderFun=".plot1",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -349,7 +386,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot2)",
                 width=500,
                 height=500,
-                renderFun=".plot2"))
+                renderFun=".plot2",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -359,7 +401,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot3)",
                 width=500,
                 height=500,
-                renderFun=".plot3"))
+                renderFun=".plot3",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -369,7 +416,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot4)",
                 width=500,
                 height=500,
-                renderFun=".plot4"))
+                renderFun=".plot4",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
@@ -379,7 +431,12 @@ mfaResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot5)",
                 width=600,
                 height=600,
-                renderFun=".plot5"))}))
+                renderFun=".plot5",
+                clearWith=list(
+                    "vars",
+                    "groups",
+                    "type",
+                    "gn")))}))
 
 mfaBase <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "mfaBase",

@@ -73,6 +73,12 @@ items:
       width: 700
       height: 500
       renderFun: .plot
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
 
     - name:  plot1
       title: Optimal number of clusters
@@ -82,6 +88,12 @@ items:
       width: 500
       height: 500
       renderFun: .plot1
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
 
     - name:  plot2
       title: Cluster plot
@@ -92,6 +104,12 @@ items:
       width: 500
       height: 500
       renderFun: .plot2
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
       
     - name:  plot3
       title: Variables-PCA
@@ -102,7 +120,13 @@ items:
       width: 500
       height: 500
       renderFun: .plot3
-     
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
+   
  
       
 ...

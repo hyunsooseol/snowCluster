@@ -15,6 +15,9 @@ items:
       type: Table
       clearWith:
         - vars
+        - groups
+        - type
+        - gn
  
       columns:
         - name: comp
@@ -36,6 +39,9 @@ items:
       type: Table
       clearWith:
         - vars
+        - groups
+        - type
+        - gn
  
       columns:
         - name: name
@@ -53,6 +59,9 @@ items:
       type: Table
       clearWith:
         - vars
+        - groups
+        - type
+        - gn
  
       columns:
         - name: name
@@ -70,6 +79,9 @@ items:
       type: Table
       clearWith:
         - vars
+        - groups
+        - type
+        - gn
  
       columns:
         - name: name
@@ -90,6 +102,11 @@ items:
       width: 500
       height: 500
       renderFun: .plot8
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
  
     - name:  plot
       title: Variable groups
@@ -100,6 +117,11 @@ items:
       width: 500
       height: 500
       renderFun: .plot
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
  
     - name:  plot6
       title: Contribution of groups to dimension 1
@@ -110,6 +132,11 @@ items:
       width: 500
       height: 500
       renderFun: .plot6
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
   
     - name:  plot7
       title: Contribution of groups to dimension 2
@@ -120,6 +147,11 @@ items:
       width: 500
       height: 500
       renderFun: .plot7
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
  
     - name:  plot1
       title: Quantitative variables by groups
@@ -130,6 +162,11 @@ items:
       width: 700
       height: 700
       renderFun: .plot1
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
  
     - name:  plot2
       title: Contribution to dimension 1
@@ -140,6 +177,11 @@ items:
       width: 500
       height: 500
       renderFun: .plot2
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
  
     - name:  plot3
       title: Contribution to dimension 2
@@ -149,7 +191,12 @@ items:
       visible: (plot3)
       width: 500
       height: 500
-      renderFun: .plot3 
+      renderFun: .plot3
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
  
     - name:  plot4
       title: Graph of individuals
@@ -160,6 +207,11 @@ items:
       width: 500
       height: 500
       renderFun: .plot4
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
  
     - name:  plot5
       title: Individuals by group
@@ -170,5 +222,10 @@ items:
       width: 600
       height: 600
       renderFun: .plot5
+      clearWith:
+        - vars
+        - groups
+        - type
+        - gn
  
 ...
