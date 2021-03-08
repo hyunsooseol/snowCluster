@@ -369,7 +369,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
            
            plot3 <-
                factoextra::fviz_pca_var(res.pca, col.var = grp, 
-                                 palette = c("#0073C2FF", "#EFC000FF", "#868686FF"),
+                                 # palette = c("#0073C2FF", "#EFC000FF", "#868686FF"),
                                  legend.title = "Cluster")   
                                         
            plot3 <- plot3+ggtheme

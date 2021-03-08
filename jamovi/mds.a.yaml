@@ -1,0 +1,40 @@
+---
+name:  mds
+title: Multidimensional Scaling Plot
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: >
+            The data as a data frame.
+
+    - name: labels
+      title: Labels (Optional)
+      type: Variable
+      suggested:
+         - id
+      permitted:
+        - id
+        - factor
+  
+    - name: vars
+      title: Variables
+      type: Variables
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
+  
+    - name: plot
+      title: MDS Plot 
+      type: Bool
+      default: FALSE
+      
+ 
+  
+
+...

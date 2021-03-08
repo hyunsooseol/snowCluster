@@ -1,0 +1,20 @@
+---
+name:  mds
+title: Multidimensional Scaling Plot
+jrs:   '1.1'
+
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+
+    - name:  plot
+      title: MDS Plot
+      type:  Image
+      requiresData: true
+      visible: (plot)
+      width: 500
+      height: 500
+      renderFun: .plot
+...
