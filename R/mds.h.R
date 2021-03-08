@@ -79,7 +79,8 @@ mdsResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Multidimensional Scaling Plot")
+                title="Multidimensional Scaling Plot",
+                refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
                 name="instructions",

@@ -13,6 +13,34 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "mdsClass",
     inherit = mdsBase,
     private = list(
+        
+        #------------------------------------
+        
+        .init = function() {
+            if (is.null(self$options$vars) | is.null(self$options$labels)) {
+                self$results$instructions$setVisible(visible = TRUE)
+                
+            }
+            
+            self$results$instructions$setContent(
+                "<html>
+            <head>
+            </head>
+            <body>
+            <div class='instructions'>
+            
+            <p> The rationale of Classical Multidimensional Scaling is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/122-multidimensional-scaling-essentials-algorithms-and-r-code/' target = '_blank'>page.</a></p>
+            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
+
+            </div>
+            </body>
+            </html>"
+            )
+            
+        },
+        
+        #---------------------------------------------
+        
         .run = function() {
 
            
