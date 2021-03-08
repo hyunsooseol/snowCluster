@@ -72,6 +72,7 @@ analyses:
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Multidimensional Scaling Plot
+    menuSubgroup: MDS
 datasets:
   - name: iris
     path: iris.omv
@@ -129,6 +130,11 @@ datasets:
     description: Discrimant Analysis
     tags:
       - Discriminant
+  - name: swiss
+    path: swiss.omv
+    description: Multidimensional Scaling Plot
+    tags:
+      - MDS
 usesNative: true
 minApp: 1.0.8
 

@@ -2,6 +2,7 @@
 name:  mds
 title: Multidimensional Scaling Plot
 menuGroup: snowCluster
+menuSubgroup: MDS
 version: '1.0.0'
 jas: '1.2'
 
