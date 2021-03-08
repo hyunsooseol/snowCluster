@@ -8,7 +8,9 @@ mdsOptions <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         initialize = function(
             labels = NULL,
             vars = NULL,
-            plot = FALSE, ...) {
+            k = 2,
+            plot = FALSE,
+            plot1 = FALSE, ...) {
 
             super$initialize(
                 package='snowCluster',
@@ -31,30 +33,46 @@ mdsOptions <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..k <- jmvcore::OptionInteger$new(
+                "k",
+                k,
+                default=2,
+                min=1)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
                 default=FALSE)
+            private$..plot1 <- jmvcore::OptionBool$new(
+                "plot1",
+                plot1,
+                default=FALSE)
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
+            self$.addOption(private$..k)
             self$.addOption(private$..plot)
+            self$.addOption(private$..plot1)
         }),
     active = list(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
-        plot = function() private$..plot$value),
+        k = function() private$..k$value,
+        plot = function() private$..plot$value,
+        plot1 = function() private$..plot1$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
-        ..plot = NA)
+        ..k = NA,
+        ..plot = NA,
+        ..plot1 = NA)
 )
 
 mdsResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
-        plot = function() private$.items[["plot"]]),
+        plot = function() private$.items[["plot"]],
+        plot1 = function() private$.items[["plot1"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -75,7 +93,21 @@ mdsResults <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 visible="(plot)",
                 width=500,
                 height=500,
-                renderFun=".plot"))}))
+                renderFun=".plot",
+                clearWith=list(
+                    "vars")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot1",
+                title="K-means Plot",
+                requiresData=TRUE,
+                visible="(plot1)",
+                width=500,
+                height=500,
+                renderFun=".plot1",
+                clearWith=list(
+                    "vars",
+                    "k")))}))
 
 mdsBase <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "mdsBase",
@@ -103,11 +135,14 @@ mdsBase <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 #' @param data The data as a data frame.
 #' @param labels .
 #' @param vars .
+#' @param k .
 #' @param plot .
+#' @param plot1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -115,7 +150,9 @@ mds <- function(
     data,
     labels,
     vars,
-    plot = FALSE) {
+    k = 2,
+    plot = FALSE,
+    plot1 = FALSE) {
 
     if ( ! requireNamespace('jmvcore', quietly=TRUE))
         stop('mds requires jmvcore to be installed (restart may be required)')
@@ -132,7 +169,9 @@ mds <- function(
     options <- mdsOptions$new(
         labels = labels,
         vars = vars,
-        plot = plot)
+        k = k,
+        plot = plot,
+        plot1 = plot1)
 
     analysis <- mdsClass$new(
         options = options,

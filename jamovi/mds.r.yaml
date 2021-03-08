@@ -17,4 +17,19 @@ items:
       width: 500
       height: 500
       renderFun: .plot
+      clearWith:
+        - vars
+ 
+    - name:  plot1
+      title: K-means Plot
+      type:  Image
+      requiresData: true
+      visible: (plot1)
+      width: 500
+      height: 500
+      renderFun: .plot1
+      clearWith:
+        - vars
+        - k
+      
 ...

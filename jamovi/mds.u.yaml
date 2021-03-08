@@ -31,9 +31,14 @@ children:
           row: 0
         stretchFactor: 1
         children:
+          - name: k
+            type: TextBox
+            format: number
           - type: Label
-            label: "Plot"
+            label: "Plots"
             children:
               - type: CheckBox
                 name: plot
+              - type: CheckBox
+                name: plot1
      

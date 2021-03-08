@@ -20,6 +20,8 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 vars <- self$options$vars
                 
+                k <- self$options$k
+                
                 data <- self$data
                 
                 data <- jmvcore::naOmit(data)
@@ -52,6 +54,29 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 image <- self$results$plot
                 image$setState(state)
                 
+                
+                # kmeans clustering--------
+                
+                # clust <- kmeans(mds, 3)$cluster %>%
+                #     as.factor()
+                # mds <- mds %>%
+                #     mutate(groups = clust)
+                
+                clust <- stats::kmeans(mds, k)$cluster
+                clust <- as.factor(clust)
+                
+                mds1 <- mutate(mds,groups=clust)
+                
+                name1 <- rownames(data)
+                
+                state <- list(mds1, name1)
+                
+                #  MDS plot----------
+                
+                image1 <- self$results$plot1
+                image1$setState(state)
+                
+                
             }
         },
         
@@ -71,7 +96,30 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             plot <- plot+ggtheme
             print(plot)
             TRUE
-        }
+        },
         
+        .plot1 = function(image1,ggtheme, theme, ...) {
+            
+            if (length(self$options$vars) < 2)
+                return()
+            
+            mds1 <- image1$state[[1]]
+            name1 <- image1$state[[2]]
+            
+            plot1 <- ggpubr::ggscatter(mds1,
+                                      x = "Dim.1", y = "Dim.2", 
+                                      label = name1,
+                                      color = "groups",
+                                      palette = "jco",
+                                      size = 1, 
+                                      ellipse = TRUE,
+                                      ellipse.type = "convex",
+                                      repel = TRUE)
+        
+            plot1 <- plot1+ggtheme
+            print(plot1)
+            TRUE
+        }                         
+                                      
         )
 )
