@@ -93,6 +93,7 @@ datasets:
     tags:
       - Hierarchical Clustering
       - PCA Plot
+      - MDS
   - name: housetasks
     path: housetasks.omv
     description: contingency table
