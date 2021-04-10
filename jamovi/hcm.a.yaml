@@ -112,4 +112,6 @@ options:
       title: Plot pairs of variables
       type: Bool
       default: false
+
+
 ...

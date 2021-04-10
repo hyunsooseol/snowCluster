@@ -40,6 +40,9 @@ options:
       title: Cluster Dendrogram
       type: Bool
       default: TRUE
-      
+  
+    - name: clust
+      title: Cluster number
+      type: Output    
       
 ...

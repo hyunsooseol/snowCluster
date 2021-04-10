@@ -28,6 +28,8 @@ children:
       - name: k
         type: TextBox
         format: number
+      - type: Output
+        name: clust  
       - type: CheckBox
         name: plot
  

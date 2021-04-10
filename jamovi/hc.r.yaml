@@ -4,6 +4,20 @@ title: Cluster dendrogram
 jrs:   '1.1'
 refs: snowCluster
 items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True  
+  
+    - name: clust
+      title: Clustering
+      type: Output
+      varTitle: Clustering
+      measureType: continuous
+      clearWith:
+        - vars
+        - k
+
     - name:  plot
       title: Cluster Dendrogram
       type:  Image

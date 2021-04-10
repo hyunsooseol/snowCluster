@@ -10,7 +10,35 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     "hcClass",
     inherit = hcBase,
     private = list(
-        .run = function() {
+ 
+        #------------------------------------
+        
+        .init = function() {
+            if (is.null(self$data) | is.null(self$options$vars)) {
+                self$results$instructions$setVisible(visible = TRUE)
+                
+            }
+            
+            self$results$instructions$setContent(
+                "<html>
+            <head>
+            </head>
+            <body>
+            <div class='instructions'>
+            <p>The output of 'Cluster number' will be displayed in the datasheet.</p>
+
+            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
+
+            </div>
+            </body>
+            </html>"
+            )
+            
+        },
+        
+        #---------------------------------------------
+        
+         .run = function() {
 
             
             if (!is.null(self$options$vars)) {
@@ -39,7 +67,16 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             hc <- factoextra::hcut(data, k = self$options$k, stand = TRUE)
             
-            image <- self$results$plot
+            
+                #### Cluter number--------------------
+                
+                cluster <- hc$cluster
+                
+                self$results$clust$setValues(cluster)
+                
+                ### plot-------------------
+                
+                image <- self$results$plot
             
             # vars <- length(self$options$vars)
             case <- nrow(data)

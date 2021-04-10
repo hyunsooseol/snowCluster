@@ -20,6 +20,8 @@ hc(data, labels, vars, k = 2, plot = TRUE)
 \value{
 A results object containing:
 \tabular{llllll}{
+  \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+  \code{results$clust} \tab \tab \tab \tab \tab an output \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 }
 }

@@ -41,28 +41,35 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot",
                 plot,
                 default=TRUE)
+            private$..clust <- jmvcore::OptionOutput$new(
+                "clust")
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
             self$.addOption(private$..k)
             self$.addOption(private$..plot)
+            self$.addOption(private$..clust)
         }),
     active = list(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
         k = function() private$..k$value,
-        plot = function() private$..plot$value),
+        plot = function() private$..plot$value,
+        clust = function() private$..clust$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
         ..k = NA,
-        ..plot = NA)
+        ..plot = NA,
+        ..clust = NA)
 )
 
 hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcResults",
     inherit = jmvcore::Group,
     active = list(
+        instructions = function() private$.items[["instructions"]],
+        clust = function() private$.items[["clust"]],
         plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
@@ -72,6 +79,20 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="",
                 title="Cluster dendrogram",
                 refs="snowCluster")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="instructions",
+                title="Instructions",
+                visible=TRUE))
+            self$add(jmvcore::Output$new(
+                options=options,
+                name="clust",
+                title="Clustering",
+                varTitle="Clustering",
+                measureType="continuous",
+                clearWith=list(
+                    "vars",
+                    "k")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -113,6 +134,8 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
