@@ -156,9 +156,12 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                         }
                         
                         # resulting clustering vector-----
-                        options(max.print=999999)
+                        # options(max.print=999999)
+                        # 
+                        # self$results$text$setContent(cluster)
+
+                        self$results$clust$setValues(cluster)
                         
-                        self$results$text$setContent(cluster)
                         
                         ### Sum of squares Table----------
                         

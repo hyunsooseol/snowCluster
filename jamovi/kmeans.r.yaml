@@ -127,6 +127,16 @@ items:
         - nstart
         - stand
    
- 
+    - name: clust
+      title: Clustering
+      type: Output
+      varTitle: Clustering
+      measureType: continuous
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
       
 ...

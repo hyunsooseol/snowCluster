@@ -37,11 +37,21 @@ children:
       - name: plot
         type: CheckBox
       - name: plot1
-        type: CheckBox  
+        type: CheckBox
       - name: plot2
-        type: CheckBox  
+        type: CheckBox
       - name: plot3
-        type: CheckBox  
+        type: CheckBox
+  - type: CollapseBox
+    label: Save
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: Output
+            name: clust
 
-            
-        
+ 
