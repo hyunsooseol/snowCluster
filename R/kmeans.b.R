@@ -162,6 +162,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
 
                         self$results$clust$setValues(cluster)
                         
+                        self$results$clust$setRowNums(rownames(data))
                         
                         ### Sum of squares Table----------
                         

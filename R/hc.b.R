@@ -25,7 +25,7 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
-            <p>The output of 'Cluster number' will be displayed in the datasheet.</p>
+            <p>The output of <b> Cluster number </b> will be displayed in the datasheet.</p>
 
             <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
 
@@ -68,13 +68,17 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             hc <- factoextra::hcut(data, k = self$options$k, stand = TRUE)
             
             
-                #### Cluter number--------------------
+                #### Cluter number for the output variable--------------------
                 
                 cluster <- hc$cluster
                 
+            #    self$results$clust$setRowNums(rownames(data))
+                
                 self$results$clust$setValues(cluster)
                 
-                ### plot-------------------
+                
+                
+                ##### plot-------------------
                 
                 image <- self$results$plot
             
