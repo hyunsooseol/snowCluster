@@ -94,7 +94,7 @@ datasets:
       - Hierarchical Clustering
       - PCA Plot
       - MDS
-      - Clster dendrogram
+      - Cluster dendrogram
   - name: housetasks
     path: housetasks.omv
     description: contingency table

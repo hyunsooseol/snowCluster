@@ -42,7 +42,7 @@ options:
       default: TRUE
   
     - name: clust
-      title: Cluster number
+      title: Hierarchical cluster number
       type: Output    
       
 ...
