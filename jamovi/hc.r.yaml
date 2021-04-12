@@ -1,6 +1,6 @@
 ---
 name:  hc
-title: Cluster dendrogram
+title: Hierarchical Clustering Dendrogram
 jrs:   '1.1'
 refs: snowCluster
 items:

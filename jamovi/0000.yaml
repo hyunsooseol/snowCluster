@@ -44,12 +44,12 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Multiple Correspondence Analysis
     menuSubgroup: Correspondence
-  - title: Cluster dendrogram
+  - title: Hierarchical Clustering Dendrogram
     name: hc
     ns: snowCluster
     menuGroup: snowCluster
     menuSubgroup: Cluster
-    menuTitle: Cluster dendrogram
+    menuTitle: Hierarchical Clustering Dendrogram
   - title: Hierarchical clustering method
     name: hcm
     ns: snowCluster

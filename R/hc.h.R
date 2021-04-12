@@ -77,7 +77,7 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Cluster dendrogram",
+                title="Hierarchical Clustering Dendrogram",
                 refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
@@ -124,7 +124,7 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresMissings = FALSE)
         }))
 
-#' Cluster dendrogram
+#' Hierarchical Clustering Dendrogram
 #'
 #' 
 #' @param data The data as a data frame.

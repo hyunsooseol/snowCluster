@@ -2,7 +2,7 @@
 % Please edit documentation in R/hc.h.R
 \name{hc}
 \alias{hc}
-\title{Cluster dendrogram}
+\title{Hierarchical Clustering Dendrogram}
 \usage{
 hc(data, labels, vars, k = 2, plot = TRUE)
 }
@@ -26,5 +26,5 @@ A results object containing:
 }
 }
 \description{
-Cluster dendrogram
+Hierarchical Clustering Dendrogram
 }
