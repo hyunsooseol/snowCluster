@@ -131,7 +131,7 @@ items:
       title: Clustering
       type: Output
       varTitle: Clustering
-      measureType: continuous
+      measureType: nominal
       clearWith:
         - vars
         - k

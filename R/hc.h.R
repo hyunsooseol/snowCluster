@@ -89,7 +89,7 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="clust",
                 title="Clustering",
                 varTitle="Clustering",
-                measureType="continuous",
+                measureType="nominal",
                 clearWith=list(
                     "vars",
                     "k")))

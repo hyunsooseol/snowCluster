@@ -1,18 +1,17 @@
 ---
 title: Cluster Analysis
 name: snowCluster
-version: 6.3.1
+version: 6.3.2
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: 2021-4-10
+date: 2021-5-19
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
-  clustering,Correspondence and Multiple Correspondence Analysis, Multiple
-  Factor Analysis, Discriminant Analysis, Multidimensional Scaling, and various
-  visualization results.
+  clustering,Correspondence Analysis, Multiple Factor Analysis, Discriminant
+  Analysis, Multidimensional Scaling, and various visualization results.
 analyses:
   - title: K-means clustering method
     name: kmeans
