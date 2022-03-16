@@ -25,10 +25,13 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
-            <p> Do not move any variable into <b> Labels </b> box to get cluster number.</p>
-            <p>The result of <b> Hierarchical cluster number </b> will be displayed in the datasheet.</p>
-            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
-
+            <p><b>Instructions</b></p>
+            <p>____________________________________________________________________________________</p>
+            <p>1. Do not move any variable into <b> Labels </b> box to get cluster number.</p>
+            <p>2. The result of <b> Hierarchical cluster number </b> will be displayed in the datasheet.</p>
+            <p>3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>____________________________________________________________________________________</p>
+            
             </div>
             </body>
             </html>"

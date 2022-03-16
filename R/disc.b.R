@@ -29,11 +29,13 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
+            <p><b>Instructions</b></p>
+            <p>____________________________________________________________________________________</p>
+            <p> 1. The rationale of Discriminant Analysis is described in the <a href='https://rpubs.com/Nolan/298913' target = '_blank'>page.</a></p>
+            <p> 2. For convenience, 60% of the data as the training set and the remaining 40% for the testing set were used for analysis. </p>
+            <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>____________________________________________________________________________________</p>
             
-            <p> The rationale of Discriminant Analysis is described in the <a href='https://rpubs.com/Nolan/298913' target = '_blank'>page.</a></p>
-            <p> For convenience, 60% of the data as the training set and the remaining 40% for the testing set were used for analysis. </p>
-            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/'  target = '_blank'>GitHub.</a></p>
-
             </div>
             </body>
             </html>"

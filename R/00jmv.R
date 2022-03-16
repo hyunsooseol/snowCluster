@@ -5,7 +5,7 @@
     `snowCluster`=list(
         `type`="software", 
         `author`="Seol, H.", 
-        `year`=2020, 
+        `year`=2022, 
         `title`="snowCluster: Cluster Analysis", 
         `publisher`="[jamovi module]. Retrieved from https://github.com/hyunsooseol/snowCluster"), 
     `factoextra`=list(
