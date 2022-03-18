@@ -79,6 +79,7 @@ items:
         - algo
         - nstart
         - stand
+        - angle
 
     - name:  plot1
       title: Optimal number of clusters

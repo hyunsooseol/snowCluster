@@ -7,16 +7,19 @@
         `author`="Seol, H.", 
         `year`=2022, 
         `title`="snowCluster: Cluster Analysis", 
-        `publisher`="[jamovi module]. Retrieved from https://github.com/hyunsooseol/snowCluster"), 
+        `publisher`="[jamovi module]. Retrieved from https://github.com/hyunsooseol/snowCluster", 
+        `url`="https://github.com/hyunsooseol/snowCluster"), 
     `factoextra`=list(
         `type`="software", 
         `author`="Kassambara, A & Mundt, F.", 
         `year`=2020, 
         `title`="factoextra: Extract and Visualize the Results of Multivariate Data Analyses", 
-        `publisher`="[R package]. Retrieved from https://CRAN.R-project.org/package=factoextra"), 
+        `publisher`="[R package]. Retrieved from https://CRAN.R-project.org/package=factoextra", 
+        `url`="https://CRAN.R-project.org/package=factoextra"), 
     `MASS`=list(
         `type`="software", 
         `author`="Ripley, B., et.al.", 
         `year`=2021, 
         `title`="Support Functions and Datasets for Venables and Ripley's MASS", 
-        `publisher`="[R package]. Retrieved from https://CRAN.R-project.org/package=MASS"))
+        `publisher`="[R package]. Retrieved from https://CRAN.R-project.org/package=MASS", 
+        `url`="https://CRAN.R-project.org/package=MASS"))

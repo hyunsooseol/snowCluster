@@ -34,6 +34,12 @@ children:
     margin: normal
     collapsed: true
     children:
+      - type: TextBox
+        name: angle
+        format: number
+        suggestedValues:
+          - value: 0
+          - value: 45
       - name: plot
         type: CheckBox
       - name: plot1

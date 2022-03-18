@@ -12,6 +12,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             nstart = 10,
             stand = FALSE,
             plot = TRUE,
+            angle = 0,
             plot1 = FALSE,
             plot2 = FALSE,
             plot3 = FALSE, ...) {
@@ -55,6 +56,12 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot",
                 plot,
                 default=TRUE)
+            private$..angle <- jmvcore::OptionNumber$new(
+                "angle",
+                angle,
+                min=0,
+                max=45,
+                default=0)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -76,6 +83,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..nstart)
             self$.addOption(private$..stand)
             self$.addOption(private$..plot)
+            self$.addOption(private$..angle)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
@@ -88,6 +96,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         nstart = function() private$..nstart$value,
         stand = function() private$..stand$value,
         plot = function() private$..plot$value,
+        angle = function() private$..angle$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
@@ -99,6 +108,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..nstart = NA,
         ..stand = NA,
         ..plot = NA,
+        ..angle = NA,
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
@@ -201,7 +211,8 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "k",
                     "algo",
                     "nstart",
-                    "stand")))
+                    "stand",
+                    "angle")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -292,6 +303,8 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param nstart .
 #' @param stand .
 #' @param plot .
+#' @param angle a number from 0 to 45 defining the angle of the x-axis labels,
+#'   where 0 degrees represents completely horizontal labels.
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
@@ -323,6 +336,7 @@ kmeans <- function(
     nstart = 10,
     stand = FALSE,
     plot = TRUE,
+    angle = 0,
     plot1 = FALSE,
     plot2 = FALSE,
     plot3 = FALSE) {
@@ -344,6 +358,7 @@ kmeans <- function(
         nstart = nstart,
         stand = stand,
         plot = plot,
+        angle = angle,
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3)

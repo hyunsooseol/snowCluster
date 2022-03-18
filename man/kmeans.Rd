@@ -12,6 +12,7 @@ kmeans(
   nstart = 10,
   stand = FALSE,
   plot = TRUE,
+  angle = 0,
   plot1 = FALSE,
   plot2 = FALSE,
   plot3 = FALSE
@@ -31,6 +32,9 @@ kmeans(
 \item{stand}{.}
 
 \item{plot}{.}
+
+\item{angle}{a number from 0 to 45 defining the angle of the x-axis labels,
+where 0 degrees represents completely horizontal labels.}
 
 \item{plot1}{.}
 
