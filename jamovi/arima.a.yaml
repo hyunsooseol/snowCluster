@@ -1,0 +1,83 @@
+---
+name:  arima
+title: ARIMA Model
+menuGroup: snowCluster
+menuSubgroup: Time series
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: timeseries data format 
+
+    - name: dep
+      type: Variable
+      title: Dependent Variable
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+      description:
+          R: >
+            the dependent variable from `data`, variable must be numeric
+    - name: covs
+      title: Covariates
+      type: Variables
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+      default:
+      description:
+          R: the covariates from `data`
+
+    - name: time
+      title: Time
+      type: Variables
+      rejectUnusedLevels: true
+      suggested:
+        - nominal
+      default:
+      description:
+          R: the fixed factors from `data`
+
+    - name: freq
+      title: Frequency
+      type: Integer
+      min: 1
+      default: 12
+
+    - name: pred
+      title: Predition
+      type: Integer
+      min: 1
+      default: 10
+
+    - name: plot
+      title: 'Decomposition' 
+      type: Bool
+      default: TRUE
+
+    - name: box
+      title: 'Box plot'
+      type: Bool
+      default: false
+
+    - name: plot1
+      title: 'Automatic ARIMA forecasts' 
+      type: Bool
+      default: false
+
+    - name: plot2
+      title: 'Residual plot' 
+      type: Bool
+      default: false
+
+    - name: plot3
+      title: 'prediction' 
+      type: Bool
+      default: false
+
+...

@@ -1,0 +1,58 @@
+---
+name:  arima
+title: ARIMA Model
+jrs:   '1.1'
+refs: snowCluster
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+
+    - name:  text
+      title: ARIMA Model
+      type:  Preformatted
+
+    - name:  plot
+      title: "Decomposition"
+      type:  Image
+      visible: (plot)
+      width: 500
+      height: 500
+      renderFun: .plot
+
+    - name:  box
+      title: "Box plot"
+      requiresData: true
+      type:  Image
+      visible: (box)
+      width: 500
+      height: 300
+      renderFun: .box
+
+    - name:  plot1
+      title:  'Automatic ARIMA forecasts' 
+      type:  Image
+      visible: (plot1)
+      width: 500
+      height: 500
+      renderFun: .plot1
+
+    - name:  plot2
+      title:  'Residual plot' 
+      type:  Image
+      visible: (plot2)
+      width: 500
+      height: 500
+      renderFun: .plot2
+
+    - name:  plot3
+      title:  'Prediction' 
+      type:  Image
+      visible: (plot3)
+      refs: forecast
+      width: 500
+      height: 500
+      renderFun: .plot3
+
+...

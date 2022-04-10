@@ -22,4 +22,12 @@ refs:
        title: "Support Functions and Datasets for Venables and Ripley's MASS"
        publisher: '[R package]. Retrieved from https://CRAN.R-project.org/package=MASS'
        url: https://CRAN.R-project.org/package=MASS
-       
+   
+   forecast:
+       type: 'software'
+       author:  Hyndman, R., et.al.
+       year: 2022
+       title: "Forecasting Functions for Time Series and Linear Models"
+       publisher: '[R package]. Retrieved from https://CRAN.R-project.org/package=forecast'
+       url: https://CRAN.R-project.org/package=forecast
+           
