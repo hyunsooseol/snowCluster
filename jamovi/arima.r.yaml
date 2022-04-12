@@ -9,9 +9,64 @@ items:
       type: Html
       visible: True
 
-    - name:  text
-      title: ARIMA Model
-      type:  Preformatted
+    - name: coef
+      title: 'Model coefficients'
+      visible: (coef)
+      type: Table
+      clearWith:
+        - dep
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: co
+          title: 'Coefficients'
+          type: number
+        - name: se
+          title: 'se'
+          type: number
+ 
+    - name: fit
+      title: 'Model fit'
+      type: Table
+      visible: (fit)
+      clearWith:
+        - dep
+
+      columns:
+        - name: name
+          title: 'Fit index'
+          type: 'text'
+          content: ($key)
+
+        - name: value
+          title: 'Value'
+
+    - name: point
+      title: 'Prediction intervals'
+      visible: (point)
+      type: Table
+      clearWith:
+        - dep
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: po
+          title: 'Point forecast'
+          type: number
+        - name: lower
+          title: Lower
+          type: number
+          superTitle: '95% CI'
+        - name: upper
+          title: Upper
+          type: number
+          superTitle: '95% CI'    
 
     - name:  plot
       title: "Decomposition"
@@ -54,5 +109,10 @@ items:
       width: 500
       height: 500
       renderFun: .plot3
+
+
+
+
+
 
 ...

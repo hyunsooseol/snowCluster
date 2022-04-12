@@ -80,4 +80,20 @@ options:
       type: Bool
       default: false
 
+    - name: coef
+      title: 'Model coefficients'
+      type: Bool
+      default: True
+
+    - name: fit
+      title: 'Model fit '
+      type: Bool
+      default: True
+
+    - name: point
+      title: 'Point forecast '
+      type: Bool
+      default: True
+
+
 ...
