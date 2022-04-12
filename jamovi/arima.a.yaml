@@ -76,7 +76,7 @@ options:
       default: false
 
     - name: plot3
-      title: 'prediction' 
+      title: 'Prediction' 
       type: Bool
       default: false
 
@@ -88,12 +88,12 @@ options:
     - name: fit
       title: 'Model fit '
       type: Bool
-      default: True
+      default: false
 
     - name: point
-      title: 'Point forecast '
+      title: 'Prediction intervals '
       type: Bool
-      default: True
+      default: false
 
 
 ...

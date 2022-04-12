@@ -17,8 +17,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot2 = FALSE,
             plot3 = FALSE,
             coef = TRUE,
-            fit = TRUE,
-            point = TRUE, ...) {
+            fit = FALSE,
+            point = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -85,11 +85,11 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..fit <- jmvcore::OptionBool$new(
                 "fit",
                 fit,
-                default=TRUE)
+                default=FALSE)
             private$..point <- jmvcore::OptionBool$new(
                 "point",
                 point,
-                default=TRUE)
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -176,11 +176,11 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `content`="($key)"),
                     list(
                         `name`="co", 
-                        `title`="Coefficients", 
+                        `title`="Estimate", 
                         `type`="number"),
                     list(
                         `name`="se", 
-                        `title`="se", 
+                        `title`="SE", 
                         `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
@@ -192,7 +192,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 columns=list(
                     list(
                         `name`="name", 
-                        `title`="Fit index", 
+                        `title`="Fit Measures", 
                         `type`="text", 
                         `content`="($key)"),
                     list(
@@ -203,6 +203,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="point",
                 title="Prediction intervals",
                 visible="(point)",
+                refs="forecast",
                 clearWith=list(
                     "dep"),
                 columns=list(
@@ -339,8 +340,8 @@ arima <- function(
     plot2 = FALSE,
     plot3 = FALSE,
     coef = TRUE,
-    fit = TRUE,
-    point = TRUE) {
+    fit = FALSE,
+    point = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("arima requires jmvcore to be installed (restart may be required)")

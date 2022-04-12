@@ -150,6 +150,11 @@ datasets:
     description: time series giving the luteinizing hormone in blood samples
     tags:
       - time series
+  - name: AirPassengers
+    path: AirPassengers.omv
+    description: AirPassengers data
+    tags:
+      - time series
 usesNative: true
 minApp: 1.8.0
 

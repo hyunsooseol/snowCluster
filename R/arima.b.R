@@ -50,6 +50,11 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             </html>"
             )
             
+            if(self$options$fit)
+                self$results$fit$setNote(
+                    "Note",
+                    "LL=Log Likelihood."
+                )
             
         },
         
@@ -184,7 +189,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             
             mo<- data.frame(LL=mymodel$loglik,AIC=mymodel$aic,
-                            AICC=mymodel$aicc,BIC=mymodel$bic)
+                            AICc=mymodel$aicc,BIC=mymodel$bic)
             
             mo<- t(mo)
             names<- dimnames(mo)[[1]]

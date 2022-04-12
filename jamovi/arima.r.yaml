@@ -22,10 +22,10 @@ items:
           type: 'text'
           content: ($key)
         - name: co
-          title: 'Coefficients'
+          title: 'Estimate'
           type: number
         - name: se
-          title: 'se'
+          title: 'SE'
           type: number
  
     - name: fit
@@ -37,7 +37,7 @@ items:
 
       columns:
         - name: name
-          title: 'Fit index'
+          title: 'Fit Measures'
           type: 'text'
           content: ($key)
 
@@ -48,6 +48,7 @@ items:
       title: 'Prediction intervals'
       visible: (point)
       type: Table
+      refs: forecast
       clearWith:
         - dep
 

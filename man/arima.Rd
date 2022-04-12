@@ -17,8 +17,8 @@ arima(
   plot2 = FALSE,
   plot3 = FALSE,
   coef = TRUE,
-  fit = TRUE,
-  point = TRUE
+  fit = FALSE,
+  point = FALSE
 )
 }
 \arguments{
