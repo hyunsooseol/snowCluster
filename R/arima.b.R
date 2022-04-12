@@ -38,11 +38,12 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             <p><b>Univariate time series model</b></p>
             <p>_____________________________________________________________________________________________</p>
-            <p>1. The analysis options are classified by two factors.
+            <p>1. Do not move the variables into <b>Time or Covariates box.</b> Otherwise, the error messages will be appeared. 
+            <p>2. The analysis options are classified by two factors.
             <p><b>Frequency</b>= the number of observations per unit of time. <b>Predict</b>= Number of periods for forecasting. 
-            <p>2. The results were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
-            <p>3. The example of time series forecasting is described in the <a href='https://www.simplilearn.com/tutorials/data-science-tutorial/time-series-forecasting-in-r' target = '_blank'>page.</a></p>
-            <p>4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>3. The results were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
+            <p>4. The rationale of <b>forecast</b> R package in described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
+            <p>5. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>_____________________________________________________________________________________________</p>
             
             </div>
@@ -90,11 +91,14 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             image1 <- self$results$plot1
             image1$setState(tsdata)
             
-            # residual plot----------
+           
             
             mymodel <- forecast::auto.arima(tsdata)
             
-            res <- mymodel$residuals
+           
+            # residual plot----------
+            
+             res <- mymodel$residuals
             
             image2 <- self$results$plot2
             image2$setState(res)
@@ -105,6 +109,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             predict <- forecast::forecast(mymodel, level=c(95), h=pred*freq)
             
             
+            
             image3 <- self$results$plot3
             image3$setState(predict)
             
@@ -113,8 +118,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             table <- self$results$point
             
-           pre <- forecast::forecast(mymodel)
-           pre<- as.data.frame(pre)
+         #  pre <- forecast::forecast(mymodel)
+          
+             pre<- as.data.frame(predict)
             
             names<- dimnames(pre)[[1]]
             
@@ -123,8 +129,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 row <- list()
                 
                 row[["po"]]   <-  pre[name, 1]
-                row[["lower"]] <-  pre[name, 4]
-                row[["upper"]] <-  pre[name, 5]
+                row[["lower"]] <-  pre[name, 2]
+                row[["upper"]] <-  pre[name, 3]
                 
                 
                 table$addRow(rowKey=name, values=row)
