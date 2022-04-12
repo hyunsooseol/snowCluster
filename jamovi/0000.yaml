@@ -79,7 +79,7 @@ analyses:
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: ARIMA Model
-    menuSubgroup: Time series
+    menuSubgroup: Univariate time series
 datasets:
   - name: iris
     path: iris.omv
@@ -153,6 +153,11 @@ datasets:
   - name: AirPassengers
     path: AirPassengers.omv
     description: AirPassengers data
+    tags:
+      - time series
+  - name: beer
+    path: beer.omv
+    description: monthly-beer-production-in-austr.
     tags:
       - time series
 usesNative: true

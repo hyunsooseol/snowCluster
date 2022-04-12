@@ -2,7 +2,7 @@
 name:  arima
 title: ARIMA Model
 menuGroup: snowCluster
-menuSubgroup: Time series
+menuSubgroup: Univariate time series
 version: '1.0.0'
 jas: '1.2'
 

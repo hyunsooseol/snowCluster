@@ -36,13 +36,13 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <body>
             <div class='instructions'>
             
-            <p><b>ARIMA Model to univariate time series</b></p>
+            <p><b>Univariate time series model</b></p>
             <p>_____________________________________________________________________________________________</p>
             <p>1. The analysis options are classified by two factors.
             <p><b>Frequency</b>= the number of observations per unit of time. <b>Predict</b>= Number of periods for forecasting. 
-            <p>2.The results were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
+            <p>2. The results were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
             <p>3. The example of time series forecasting is described in the <a href='https://www.simplilearn.com/tutorials/data-science-tutorial/time-series-forecasting-in-r' target = '_blank'>page.</a></p>
-            <p>4.Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>_____________________________________________________________________________________________</p>
             
             </div>
