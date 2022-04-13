@@ -38,11 +38,11 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             <p><b>Univariate time series model</b></p>
             <p>_____________________________________________________________________________________________</p>
-            <p>1. Do not move the variables into <b>Time or Covariates box.</b> Otherwise, the error messages will be appeared. 
+            <p>1. Do NOT move the variables into <b>Time or Covariates box.</b> Otherwise, the error messages will be appeared. 
             <p>2. The analysis options are classified by two factors.
-            <p><b>Frequency</b>= the number of observations per unit of time. <b>Predict</b>= Number of periods for forecasting. 
+            <p><b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting. 
             <p>3. The results were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
-            <p>4. The rationale of <b>forecast</b> R package in described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
+            <p>4. The rationale of <b>forecast</b> R package is described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
             <p>5. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>_____________________________________________________________________________________________</p>
             
@@ -91,10 +91,11 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             image1 <- self$results$plot1
             image1$setState(tsdata)
             
-           
+           #################################################
             
             mymodel <- forecast::auto.arima(tsdata)
             
+            #############################################
            
             # residual plot----------
             
@@ -104,11 +105,12 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             image2$setState(res)
             
             
+            #############################################################
             # Forecast the Values for the Next 10 Years--------
             
             predict <- forecast::forecast(mymodel, level=c(95), h=pred*freq)
             
-            
+            ###########################################################
             
             image3 <- self$results$plot3
             image3$setState(predict)
@@ -153,8 +155,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                         coef <- rbind(coef, se=se)
                     }
                     
-                    ## Se non ci sono variabili di regressione
-                    ## sostituire intercetta con media
+                    
                     mch <- match("intercept", colnames(coef))
                     if (is.null(model$xreg) & !is.na(mch)) {
                         colnames(coef)[mch] <- "mean"

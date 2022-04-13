@@ -6,12 +6,12 @@ jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2022-04-09'
+date: '2022-04-13'
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
   clustering,Correspondence Analysis, Multiple Factor Analysis, Discriminant
-  Analysis, Multidimensional Scaling,Time Series Forecasting, and various
+  Analysis, Multidimensional Scaling, Univariate time series, and various
   visualization results.
 analyses:
   - title: K-means clustering method
@@ -157,7 +157,7 @@ datasets:
       - time series
   - name: beer
     path: beer.omv
-    description: monthly-beer-production-in-austr.
+    description: monthly-beer-production-in-Australia
     tags:
       - time series
 usesNative: true

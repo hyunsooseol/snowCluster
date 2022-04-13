@@ -50,7 +50,7 @@ options:
       default: 12
 
     - name: pred
-      title: Predition
+      title: Prediction
       type: Integer
       min: 1
       default: 10
