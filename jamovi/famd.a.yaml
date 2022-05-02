@@ -1,0 +1,78 @@
+---
+name:  famd
+title: Factor analysis of mixed data
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: >
+            The data as a data frame.
+
+    - name: vars
+      title: Variables
+      type: Variables
+
+    - name: labels
+      title: Labels(Optional) 
+      type: Variable
+      suggested:
+         - id
+      permitted:
+        - id
+        - factor
+
+    - name: eigen
+      title: 'Eigenvalues'
+      type: Bool
+      default: TRUE  
+
+    - name: ci
+      title: "Contribution of individuals"
+      type: Bool
+      default: FALSE
+     
+    - name: cg
+      title: Contribution of variables
+      type: Bool
+      default: FALSE 
+
+    - name: quanti
+      title: Contribution of quantitative variables
+      type: Bool
+      default: FALSE 
+      
+    - name: qual
+      title: Contribution of qualitative variables
+      type: Bool
+      default: FALSE         
+
+    - name: plot
+      title: Scree plot
+      type: Bool
+      default: TRUE   
+
+    - name: plot1
+      title: Graph of variables
+      type: Bool
+      default: FALSE    
+
+    - name: plot2
+      title: Quantitative variables
+      type: Bool
+      default: FALSE    
+
+    - name: plot3
+      title: Qualitative variables
+      type: Bool
+      default: FALSE    
+
+    - name: plot4
+      title: Graph of individuals
+      type: Bool
+      default: FALSE   
+      
+...

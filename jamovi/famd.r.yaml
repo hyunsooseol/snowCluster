@@ -1,0 +1,158 @@
+---
+name:  famd
+title: Factor analysis of mixed data
+jrs:   '1.1'
+
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+
+    - name: eigen
+      title: 'Eigenvalues'
+      visible: (eigen)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: comp
+          title: 'Component'
+          type: 'text'
+        - name: eigen
+          title: Eigenvalue
+          type: number
+        - name: varProp
+          title: '% of Variance'
+          type: number
+        - name: varCum
+          title: 'Cumulative %'
+          type: number
+
+    - name: ci
+      title: "Contribution of individuals"
+      visible: (ci)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
+    - name: cg
+      title: Contribution of variables
+      visible: (cg)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
+    - name: quanti
+      title: Contribution of quantitative variables
+      visible: (quanti)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
+    - name: qual
+      title: Contribution of qualitative variables
+      visible: (qual)
+      type: Table
+      clearWith:
+        - vars
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: pc1
+          title: '1'
+          type: number
+          superTitle: 'Dimension'
+
+    - name:  plot
+      title: Scree plot
+      type:  Image
+      refs: factoextra
+      visible: (plot)
+      width: 400
+      height: 400
+      renderFun: .plot
+      clearWith:
+        - vars
+
+    - name:  plot1
+      title: Graph of variables
+      type:  Image
+      refs: factoextra
+      visible: (plot1)
+      width: 400
+      height: 400
+      renderFun: .plot1
+      clearWith:
+        - vars
+
+    - name: plot2
+      title: Quantitative variables
+      type:  Image
+      refs: factoextra
+      visible: (plot2)
+      width: 400
+      height: 400
+      renderFun: .plot2
+      clearWith:
+        - vars
+
+    - name: plot3
+      title:  Qualitative variables
+      type:  Image
+      refs: factoextra
+      visible: (plot3)
+      width: 400
+      height: 400
+      renderFun: .plot3
+      clearWith:
+        - vars
+
+    - name: plot4
+      title: Graph of individuals 
+      type:  Image
+      refs: factoextra
+      visible: (plot4)
+      width: 400
+      height: 400
+      renderFun: .plot4
+      clearWith:
+        - vars
+
+
+
+...
