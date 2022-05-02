@@ -1,6 +1,7 @@
 ---
 name:  famd
 title: Factor analysis of mixed data
+refs: snowCluster
 jrs:   '1.1'
 
 items:

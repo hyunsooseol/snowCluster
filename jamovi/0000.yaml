@@ -10,9 +10,9 @@ date: '2022-05-01'
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
-  clustering,Correspondence Analysis, Multiple Factor Analysis, Discriminant
-  Analysis, Multidimensional Scaling, Univariate time series, and various
-  visualization results.
+  clustering,Correspondence Analysis, Multiple Factor Analysis, Factor analysis
+  of mixed data, Discriminant Analysis, Multidimensional Scaling, Univariate
+  time series, and various visualization results.
 analyses:
   - title: K-means clustering method
     name: kmeans
@@ -166,6 +166,11 @@ datasets:
     description: monthly-beer-production-in-Australia
     tags:
       - time series
+  - name: wine2
+    path: wine2.omv
+    description: FA of mixed data
+    tags:
+      - FA of mixed data
 usesNative: true
 minApp: 1.8.0
 

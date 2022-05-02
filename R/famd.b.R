@@ -32,12 +32,8 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <div class='instructions'>
            <p><b>Instructions</b></p>
             <p>____________________________________________________________________________________</p>
-            <p> 1. Specify 'Model Component'.</p>
-            <p> 2. Type of value indicates 's' for the variables are scaled to unit variance,'n' for categorical variables, or 'f' for frequencies.</p>
-            <p> 3. Move the variables into 'Variables'box.
-            <p> 4. Factor box can be specified for visualizing 'individuals by group' plot. </p>
-            <p> 5. The rationale of Multiple Factor Analysis is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
-            <p> 6. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 1. The rationale of Factor Analysis of mixed data is described in the <a href='https://rpkgs.datanovia.com/factoextra/reference/fviz_famd.html' target = '_blank'>page</a>.</p>
+            <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub</a>.</p>
             <p>____________________________________________________________________________________</p>
             
             </div>
@@ -73,7 +69,7 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 data[[i]] <- jmvcore::toNumeric(data[[i]])
             
             
-            # analysis##########################
+            # FA analysis of mixed data ##########################
             
             res <- FactoMineR::FAMD(data, graph = FALSE)
             
@@ -239,13 +235,11 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
             }
             
-            # scree plot(plot)--------
+            # plot--------
             
             image <- self$results$plot
             image$setState(res) 
             
-            
-            # Graph of variables
             image <- self$results$plot1
             image$setState(res)
             
@@ -258,7 +252,7 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             image <- self$results$plot4
             image$setState(res)
             
-            
+           
             
         }
         
