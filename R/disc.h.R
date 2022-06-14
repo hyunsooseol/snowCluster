@@ -197,17 +197,17 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="LD plot",
                 requiresData=TRUE,
                 visible="(plot)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
-                title="LD1 plot",
+                title="Histogram",
                 requiresData=TRUE,
                 visible="(plot1)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot1"))}))
 
 discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(

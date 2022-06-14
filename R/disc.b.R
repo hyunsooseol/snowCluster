@@ -259,14 +259,22 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
             }
         
-            #  Group plot----------
+            #  LD plot----------
             
-            state <- list(lda.train, train)
-           
+            # state <- list(lda.train, train)
+            # 
+            # image <- self$results$plot
+            # 
+            # image$setState(state)  
+            
+            df <- cbind(train, predict(lda.train)$x)
+            
+            
             image <- self$results$plot
             
-            image$setState(state)  
-            #---------------------
+            image$setState(df)
+            
+            # Histogram---------------------
            
             image1 <- self$results$plot1
             image1$setState(lda.train)
@@ -274,7 +282,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            
             },
             
-            .plot = function(image,...) {
+            .plot = function(image,ggtheme, theme,...) {
                 
                 plot <- self$options$plot
                
@@ -283,11 +291,22 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 dep<- self$options$dep
                 
-                lda.train <- image$state[[1]]
-                train <- image$state[[2]]
                 
-                plot <- plot(lda.train, col = as.integer(train[[dep]]))
-              
+                # 
+                # lda.train <- image$state[[1]]
+                # train <- image$state[[2]]
+                # 
+                # plot <- plot(lda.train, col = as.integer(train[[dep]]))
+                
+                df <- image$state
+                
+                Groups <- df[[dep]]
+                
+                plot<- ggplot(df, aes(LD1, LD2)) +
+                    geom_point(aes(color = Groups))
+                
+                plot <- plot+ggtheme
+                
                 print(plot)
                 TRUE
             },
@@ -307,6 +326,5 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             TRUE
         }
         
-       
          ))
 

@@ -83,17 +83,17 @@ items:
       type:  Image
       requiresData: true
       visible: (plot)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot
 
     - name:  plot1
-      title: LD1 plot
+      title: Histogram
       type:  Image
       requiresData: true
       visible: (plot1)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot1
  
 ...

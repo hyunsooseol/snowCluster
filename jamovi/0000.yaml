@@ -1,12 +1,12 @@
 ---
 title: Cluster Analysis
 name: snowCluster
-version: 6.5.0
+version: 6.5.1
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2022-05-01'
+date: '2022-06-14'
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
