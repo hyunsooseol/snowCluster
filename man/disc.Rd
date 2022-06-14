@@ -11,6 +11,7 @@ disc(
   prior = TRUE,
   gm = FALSE,
   coef = FALSE,
+  prop = FALSE,
   tra = FALSE,
   tes = FALSE,
   plot = FALSE,
@@ -30,6 +31,8 @@ disc(
 
 \item{coef}{.}
 
+\item{prop}{.}
+
 \item{tra}{.}
 
 \item{tes}{.}
@@ -45,6 +48,7 @@ A results object containing:
   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
+  \code{results$prop} \tab \tab \tab \tab \tab a table \cr
   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr

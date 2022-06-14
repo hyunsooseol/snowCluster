@@ -41,6 +41,11 @@ options:
       type: Bool 
       default: FALSE    
 
+    - name: prop
+      title: Proportion of trace
+      type: Bool 
+      default: FALSE    
+      
     - name: tra
       title: Training set 
       type: Bool 

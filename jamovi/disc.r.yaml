@@ -15,6 +15,7 @@ items:
       visible: (prior)
       clearWith:
         - covs
+        - dep
 
       columns:
         - name: name
@@ -31,6 +32,7 @@ items:
       visible: (gm)
       clearWith:
         - covs
+        - dep
  
       columns:
         - name: name
@@ -45,6 +47,7 @@ items:
       visible: (coef)
       clearWith:
         - covs
+        - dep
 
       columns:
         - name: name
@@ -52,12 +55,32 @@ items:
           type: 'text'
           content: ($key)
        
+    - name: prop
+      title: 'Proportion of trace'
+      type: Table
+      visible: (prop)
+      rows: 1
+      clearWith:
+        - covs
+        - dep     
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: Proportion(%)
+        - name: LD1
+          type: number
+        - name: LD2
+          type: number
+
     - name: tra
       title: 'Prediction with training set'
       type: Table
       visible: (tra)
       clearWith:
         - covs
+        - dep
      
       columns:
         - name: name
@@ -71,6 +94,7 @@ items:
       visible: (tes)
       clearWith:
         - covs 
+        - dep
         
       columns:
         - name: name

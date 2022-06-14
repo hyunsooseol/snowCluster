@@ -67,6 +67,8 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
             # dividing two datasets------------------------
             
+           # set.seed(123) # Set seed for reproducibility
+            
             training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.6,0.4))
             
             
@@ -78,9 +80,13 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
             formula <- as.formula(formula)
             
-            # lda analysis-------
+            ####LDA ANALYSIS##############################################
+            
             
             lda.train <- MASS::lda(formula, data=train)
+            
+           ###################################################
+            
             
             # creating table-----
             
@@ -174,6 +180,24 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 table$addRow(rowKey=name, values=row)
                 
             }
+            
+            # proportion of trace----------
+           
+            prop.lda = lda.train$svd^2/sum(lda.train$svd^2)
+            
+            ###################
+            
+            table <- self$results$prop
+            
+            ld1 <- prop.lda[[1]]
+            ld2 <- prop.lda[[2]]
+            
+            row <- list()
+            
+            row[['LD1']] <- ld1
+            row[['LD2']] <- ld2
+            
+            table$setRow(rowNo = 1, values = row)
             
             
             # Accuracy with training data-----------
@@ -303,7 +327,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 Groups <- df[[dep]]
                 
                 plot<- ggplot(df, aes(LD1, LD2)) +
-                    geom_point(aes(color = Groups))
+                    geom_point(aes(color = Groups, shape = Groups ))
                 
                 plot <- plot+ggtheme
                 

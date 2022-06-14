@@ -38,6 +38,8 @@ children:
                 name: gm
               - type: CheckBox
                 name: coef
+              - type: CheckBox
+                name: prop
     
       - type: LayoutBox
         stretchFactor: 1

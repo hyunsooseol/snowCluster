@@ -11,6 +11,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             prior = TRUE,
             gm = FALSE,
             coef = FALSE,
+            prop = FALSE,
             tra = FALSE,
             tes = FALSE,
             plot = FALSE,
@@ -48,6 +49,10 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "coef",
                 coef,
                 default=FALSE)
+            private$..prop <- jmvcore::OptionBool$new(
+                "prop",
+                prop,
+                default=FALSE)
             private$..tra <- jmvcore::OptionBool$new(
                 "tra",
                 tra,
@@ -70,6 +75,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..prior)
             self$.addOption(private$..gm)
             self$.addOption(private$..coef)
+            self$.addOption(private$..prop)
             self$.addOption(private$..tra)
             self$.addOption(private$..tes)
             self$.addOption(private$..plot)
@@ -81,6 +87,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         prior = function() private$..prior$value,
         gm = function() private$..gm$value,
         coef = function() private$..coef$value,
+        prop = function() private$..prop$value,
         tra = function() private$..tra$value,
         tes = function() private$..tes$value,
         plot = function() private$..plot$value,
@@ -91,6 +98,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..prior = NA,
         ..gm = NA,
         ..coef = NA,
+        ..prop = NA,
         ..tra = NA,
         ..tes = NA,
         ..plot = NA,
@@ -105,6 +113,7 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         prior = function() private$.items[["prior"]],
         gm = function() private$.items[["gm"]],
         coef = function() private$.items[["coef"]],
+        prop = function() private$.items[["prop"]],
         tra = function() private$.items[["tra"]],
         tes = function() private$.items[["tes"]],
         plot = function() private$.items[["plot"]],
@@ -128,7 +137,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Prior probability of groups",
                 visible="(prior)",
                 clearWith=list(
-                    "covs"),
+                    "covs",
+                    "dep"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -144,7 +154,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Group means",
                 visible="(gm)",
                 clearWith=list(
-                    "covs"),
+                    "covs",
+                    "dep"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -158,7 +169,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="MASS",
                 visible="(coef)",
                 clearWith=list(
-                    "covs"),
+                    "covs",
+                    "dep"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -167,11 +179,33 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `content`="($key)"))))
             self$add(jmvcore::Table$new(
                 options=options,
+                name="prop",
+                title="Proportion of trace",
+                visible="(prop)",
+                rows=1,
+                clearWith=list(
+                    "covs",
+                    "dep"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="Proportion(%)"),
+                    list(
+                        `name`="LD1", 
+                        `type`="number"),
+                    list(
+                        `name`="LD2", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
                 name="tra",
                 title="Prediction with training set",
                 visible="(tra)",
                 clearWith=list(
-                    "covs"),
+                    "covs",
+                    "dep"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -184,7 +218,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Prediction with test set",
                 visible="(tes)",
                 clearWith=list(
-                    "covs"),
+                    "covs",
+                    "dep"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -239,6 +274,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param prior .
 #' @param gm .
 #' @param coef .
+#' @param prop .
 #' @param tra .
 #' @param tes .
 #' @param plot .
@@ -249,6 +285,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$prop} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
@@ -269,6 +306,7 @@ disc <- function(
     prior = TRUE,
     gm = FALSE,
     coef = FALSE,
+    prop = FALSE,
     tra = FALSE,
     tes = FALSE,
     plot = FALSE,
@@ -293,6 +331,7 @@ disc <- function(
         prior = prior,
         gm = gm,
         coef = coef,
+        prop = prop,
         tra = tra,
         tes = tes,
         plot = plot,
