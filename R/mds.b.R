@@ -95,7 +95,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 clust <- stats::kmeans(mds, k)$cluster
                 clust <- as.factor(clust)
                 
-                mds1 <- mutate(mds,groups=clust)
+                mds1 <- mutate(mds,Groups=clust)
                 
                 name1 <- rownames(data)
                 
@@ -139,7 +139,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             plot1 <- ggpubr::ggscatter(mds1,
                                       x = "Dim.1", y = "Dim.2", 
                                       label = name1,
-                                      color = "groups",
+                                      color = "Groups",
                                       palette = "jco",
                                       size = 1, 
                                       ellipse = TRUE,
