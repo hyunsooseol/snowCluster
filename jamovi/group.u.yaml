@@ -20,10 +20,15 @@ children:
             name: facs
             isTarget: true
             maxItemCount: 1      
-  - type: LayoutBox
-    margin: large
+  - type: CollapseBox
+    label: Analysis 
+    margin: normal
+    collapsed: true
     children:
-      - type: CheckBox
-        name: plot
-      - type: CheckBox
-        name: plot1
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: plot
+          - type: CheckBox
+            name: plot1

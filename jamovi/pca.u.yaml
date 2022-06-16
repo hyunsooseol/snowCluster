@@ -24,9 +24,10 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1      
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
+  - type: CollapseBox
+    label: Analysis 
+    margin: normal
+    collapsed: true
     children:
       - type: LayoutBox
         margin: large
@@ -36,7 +37,7 @@ children:
         stretchFactor: 1
         children:
           - type: Label
-            label: "Principal Components"
+            label: "Statistics"
             children:
               - type: CheckBox
                 name: eigen

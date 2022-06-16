@@ -24,25 +24,30 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1      
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
+  - type: CollapseBox
+    label: Analysis 
+    margin: normal
+    collapsed: true
     children:
       - type: LayoutBox
         margin: large
-        cell:
-          column: 0
-          row: 0
         stretchFactor: 1
         children:
-          - name: k
-            type: TextBox
-            format: number
-          - type: Label
-            label: "Plots"
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
             children:
-              - type: CheckBox
-                name: plot
-              - type: CheckBox
-                name: plot1
+              - name: k
+                type: TextBox
+                format: number
+              - type: Label
+                label: "Plots"
+                children:
+                  - type: CheckBox
+                    name: plot
+                  - type: CheckBox
+                    name: plot1
      
