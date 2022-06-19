@@ -98,7 +98,26 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 # init. contribution of columns to the dimensions table-------
                 
-                loadingvar<- res.ca$col$contrib
+                # loadingvar<- res.ca$col$contrib
+                
+                colvar <- self$options$colvar
+                
+                if(colvar=="coord"){
+                    
+                    loadingvar <- res.ca$col$coord
+                    
+                } else if(colvar=="cos2"){
+                    
+                    loadingvar <- res.ca$col$cos2
+                    
+                } else {
+                    
+                    loadingvar <- res.ca$col$contrib
+                    
+                    #    self$results$text$setContent(loadingind)
+                    
+                }
+              
                
                 table <- self$results$loadingvar
                 
@@ -129,8 +148,27 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 # init. contribution of rows to the dimensions table-------
                 
-                loadingind<- res.ca$row$contrib
+               # loadingind<- res.ca$row$contrib
                 
+                rowvar <- self$options$rowvar
+                
+                if(rowvar=="coord"){
+                    
+                    loadingind <- res.ca$row$coord
+                    
+                } else if(rowvar=="cos2"){
+                    
+                    loadingind <- res.ca$row$cos2
+                    
+                } else {
+                    
+                    loadingind <- res.ca$row$contrib
+                    
+                    #    self$results$text$setContent(loadingind)
+                    
+                }
+                
+               
                 table <- self$results$loadingind
                 
                 
@@ -192,7 +230,12 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             res.ca <- image1$state
             
-            plot1 <- factoextra::fviz_ca_row(res.ca, repel = TRUE)
+          #  rowvar <- self$options$rowvar
+            
+            plot1 <- factoextra::fviz_ca_row(res.ca, 
+                                             # col.row = rowvar,
+                                             # gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                             repel = TRUE)
             
             
             plot1 <- plot1+ggtheme

@@ -35,8 +35,16 @@ children:
         type: CheckBox
       - name: loadingvar
         type: CheckBox
+        children:
+          - type: ComboBox
+            name: colvar
+            enable: (loadingvar) 
       - name: loadingind
         type: CheckBox  
+        children:
+          - type: ComboBox
+            name: rowvar
+            enable: (loadingind) 
   - type: CollapseBox
     label: Plots
     margin: normal

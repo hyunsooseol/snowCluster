@@ -41,13 +41,31 @@ options:
       type: Bool
       default: FALSE  
 
-    - name: loadingvar
-      title: Contributions of the columns to the dimensions
+    - name: rowvar
+      title: Rows
+      type: List
+      options:
+        - coord
+        - cos2
+        - contrib
+      default: coord
+
+    - name: loadingind
+      title: Results for the rows to the dimensions
       type: Bool
       default: FALSE  
 
-    - name: loadingind
-      title: Contributions of the rows to the dimensions
+    - name: colvar
+      title: Columns
+      type: List
+      options:
+        - coord
+        - cos2
+        - contrib
+      default: coord
+
+    - name: loadingvar
+      title: Results for the columns to the dimensions
       type: Bool
       default: FALSE  
 
