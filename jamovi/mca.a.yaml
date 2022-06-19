@@ -35,13 +35,31 @@ options:
       type: Bool
       default: TRUE  
 
-    - name: loadingvar
-      title: Contributions of the columns to the dimensions
+    - name: rowvar
+      title: Rows
+      type: List
+      options:
+        - coord
+        - cos2
+        - contrib
+      default: coord
+
+    - name: loadingind
+      title: Individuals 
       type: Bool
       default: FALSE  
 
-    - name: loadingind
-      title: Contributions of the rows to the dimensions
+    - name: colvar
+      title: Columns
+      type: List
+      options:
+        - coord
+        - cos2
+        - contrib
+      default: coord
+
+    - name: loadingvar
+      title: Variable categories 
       type: Bool
       default: FALSE  
 

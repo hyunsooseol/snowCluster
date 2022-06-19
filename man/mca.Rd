@@ -9,8 +9,10 @@ mca(
   facs,
   vars,
   eigen = TRUE,
-  loadingvar = FALSE,
+  rowvar = "coord",
   loadingind = FALSE,
+  colvar = "coord",
+  loadingvar = FALSE,
   plot1 = TRUE,
   plot2 = FALSE,
   plot3 = FALSE,
@@ -27,9 +29,13 @@ mca(
 
 \item{eigen}{.}
 
-\item{loadingvar}{.}
+\item{rowvar}{.}
 
 \item{loadingind}{.}
+
+\item{colvar}{.}
+
+\item{loadingvar}{.}
 
 \item{plot1}{.}
 

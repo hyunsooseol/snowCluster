@@ -9,8 +9,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             facs = NULL,
             vars = NULL,
             eigen = TRUE,
-            loadingvar = FALSE,
+            rowvar = "coord",
             loadingind = FALSE,
+            colvar = "coord",
+            loadingvar = FALSE,
             plot1 = TRUE,
             plot2 = FALSE,
             plot3 = FALSE,
@@ -42,13 +44,29 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "eigen",
                 eigen,
                 default=TRUE)
-            private$..loadingvar <- jmvcore::OptionBool$new(
-                "loadingvar",
-                loadingvar,
-                default=FALSE)
+            private$..rowvar <- jmvcore::OptionList$new(
+                "rowvar",
+                rowvar,
+                options=list(
+                    "coord",
+                    "cos2",
+                    "contrib"),
+                default="coord")
             private$..loadingind <- jmvcore::OptionBool$new(
                 "loadingind",
                 loadingind,
+                default=FALSE)
+            private$..colvar <- jmvcore::OptionList$new(
+                "colvar",
+                colvar,
+                options=list(
+                    "coord",
+                    "cos2",
+                    "contrib"),
+                default="coord")
+            private$..loadingvar <- jmvcore::OptionBool$new(
+                "loadingvar",
+                loadingvar,
                 default=FALSE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
@@ -74,8 +92,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..facs)
             self$.addOption(private$..vars)
             self$.addOption(private$..eigen)
-            self$.addOption(private$..loadingvar)
+            self$.addOption(private$..rowvar)
             self$.addOption(private$..loadingind)
+            self$.addOption(private$..colvar)
+            self$.addOption(private$..loadingvar)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
@@ -86,8 +106,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         facs = function() private$..facs$value,
         vars = function() private$..vars$value,
         eigen = function() private$..eigen$value,
-        loadingvar = function() private$..loadingvar$value,
+        rowvar = function() private$..rowvar$value,
         loadingind = function() private$..loadingind$value,
+        colvar = function() private$..colvar$value,
+        loadingvar = function() private$..loadingvar$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
@@ -97,8 +119,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..facs = NA,
         ..vars = NA,
         ..eigen = NA,
-        ..loadingvar = NA,
+        ..rowvar = NA,
         ..loadingind = NA,
+        ..colvar = NA,
+        ..loadingvar = NA,
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
@@ -132,7 +156,9 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Eigenvalues",
                 visible="(eigen)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "rowvar",
+                    "colvar"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -153,11 +179,12 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingvar",
-                title="Contributions of the columns to the dimensions(%)",
+                title="Result for the variable categories to the dimensions",
                 visible="(loadingvar)",
-                rows="(vars)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "rowvar",
+                    "colvar"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -172,10 +199,12 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingind",
-                title="Contributions of the rows to the dimensions(%)",
+                title="Result for the individuals to the dimensions",
                 visible="(loadingind)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "rowvar",
+                    "colvar"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -265,8 +294,10 @@ mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param facs .
 #' @param vars .
 #' @param eigen .
-#' @param loadingvar .
+#' @param rowvar .
 #' @param loadingind .
+#' @param colvar .
+#' @param loadingvar .
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
@@ -296,8 +327,10 @@ mca <- function(
     facs,
     vars,
     eigen = TRUE,
-    loadingvar = FALSE,
+    rowvar = "coord",
     loadingind = FALSE,
+    colvar = "coord",
+    loadingvar = FALSE,
     plot1 = TRUE,
     plot2 = FALSE,
     plot3 = FALSE,
@@ -322,8 +355,10 @@ mca <- function(
         facs = facs,
         vars = vars,
         eigen = eigen,
-        loadingvar = loadingvar,
+        rowvar = rowvar,
         loadingind = loadingind,
+        colvar = colvar,
+        loadingvar = loadingvar,
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3,

@@ -84,7 +84,29 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 # ncp: number of dimensions kept in the results (by default 5)
                 # the number of dimension is 5(default in R package)
                 
-                loadingvar<- res.mca$var$eta2
+               # loadingvar<- res.mca$var$eta2
+                
+                colvar <- self$options$colvar
+                
+                if(colvar=="coord"){
+                    
+                    loadingvar <- res.mca$var$coord
+                   
+                    
+                } else if(colvar=="cos2"){
+                    
+                    loadingvar <- res.mca$var$cos2
+                    
+                    
+                } else {
+                    
+                    loadingvar <- res.mca$var$contrib
+                    
+                   
+                }
+                
+                df <- res.mca$var$coord
+                names<- dimnames(df)[[1]]
                 
                 table <- self$results$loadingvar
                 
@@ -98,25 +120,45 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     )
                 
                 
-                for (i in seq_along(self$options$vars)) {
+                for (name in names) {
                     
                     row <- list()
                     
                     
                     for (j in seq_along(1:5)) {
-                        row[[paste0("pc", j)]] <- loadingvar[i, j]
+                        row[[paste0("pc", j)]] <- loadingvar[name, j]
                     }
                     
                     
-                    table$setRow(rowNo=i, values=row)
+                    table$addRow(rowKey=name, values=row)
                     
                 }
                 
                 # init. contribution of rows to the dimensions table-------
                 # the number of dimension is 5(default in R package)
                 
-                loadingind<- res.mca$ind$contrib
+              #  loadingind<- res.mca$ind$contrib
+               
+                rowvar <- self$options$rowvar
                 
+                if(rowvar=="coord"){
+                    
+                    loadingind <- res.mca$ind$coord
+                    
+                } else if(rowvar=="cos2"){
+                    
+                    loadingind <- res.mca$ind$cos2
+                    
+                } else {
+                    
+                    loadingind <- res.mca$ind$contrib
+                    
+                    #    self$results$text$setContent(loadingind)
+                    
+                }
+                
+                
+                 
                 table <- self$results$loadingind
                 
                 

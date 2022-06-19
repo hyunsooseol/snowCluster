@@ -10,6 +10,8 @@ items:
       type: Table
       clearWith:
         - vars
+        - rowvar
+        - colvar   
 
       columns:
         - name: comp
@@ -26,13 +28,14 @@ items:
           type: number
 
     - name: loadingvar
-      title: Contributions of the columns to the dimensions(%)
+      title: Result for the variable categories to the dimensions
       visible: (loadingvar)
       type: Table
-      rows: (vars)
       clearWith:
         - vars
- 
+        - rowvar
+        - colvar
+        
       columns:
         - name: name
           title: ''
@@ -44,12 +47,14 @@ items:
           superTitle: 'Dimension'
 
     - name: loadingind
-      title: Contributions of the rows to the dimensions(%)
+      title: Result for the individuals to the dimensions
       visible: (loadingind)
       type: Table
       clearWith:
         - vars
- 
+        - rowvar
+        - colvar
+        
       columns:
         - name: name
           title: ''
