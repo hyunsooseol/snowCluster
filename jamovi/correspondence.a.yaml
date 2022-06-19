@@ -51,7 +51,7 @@ options:
       default: coord
 
     - name: loadingind
-      title: Results for the rows to the dimensions
+      title: Rows to the dimensions
       type: Bool
       default: FALSE  
 
@@ -65,7 +65,7 @@ options:
       default: coord
 
     - name: loadingvar
-      title: Results for the columns to the dimensions
+      title: Columns to the dimensions
       type: Bool
       default: FALSE  
 
