@@ -45,7 +45,7 @@ options:
       default: coord
 
     - name: loadingind
-      title: Individuals 
+      title: Observations across dimensions 
       type: Bool
       default: FALSE  
 
@@ -59,7 +59,7 @@ options:
       default: coord
 
     - name: loadingvar
-      title: Variable categories 
+      title: Variable categories across dimensions
       type: Bool
       default: FALSE  
 

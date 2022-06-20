@@ -45,13 +45,13 @@ options:
       title: Rows
       type: List
       options:
-        - coord
+        - coordinates
         - cos2
-        - contrib
-      default: coord
+        - contribution
+      default: coordinates
 
     - name: loadingind
-      title: Rows to the dimensions
+      title: Rows across dimensions
       type: Bool
       default: FALSE  
 
@@ -59,13 +59,13 @@ options:
       title: Columns
       type: List
       options:
-        - coord
+        - coordinates
         - cos2
-        - contrib
-      default: coord
+        - contribution
+      default: coordinates
 
     - name: loadingvar
-      title: Columns to the dimensions
+      title: Columns across dimensions
       type: Bool
       default: FALSE  
 

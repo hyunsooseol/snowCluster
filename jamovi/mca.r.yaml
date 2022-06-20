@@ -28,7 +28,7 @@ items:
           type: number
 
     - name: loadingvar
-      title: Result for the variable categories to the dimensions
+      title: Variable categories across dimensions
       visible: (loadingvar)
       type: Table
       clearWith:
@@ -47,7 +47,7 @@ items:
           superTitle: 'Dimension'
 
     - name: loadingind
-      title: Result for the individuals to the dimensions
+      title: Observations across dimensions
       visible: (loadingind)
       type: Table
       clearWith:

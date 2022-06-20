@@ -102,7 +102,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 colvar <- self$options$colvar
                 
-                if(colvar=="coord"){
+                if(colvar=="coordinates"){
                     
                     loadingvar <- res.ca$col$coord
                     
@@ -152,7 +152,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 rowvar <- self$options$rowvar
                 
-                if(rowvar=="coord"){
+                if(rowvar=="coordinates"){
                     
                     loadingind <- res.ca$row$coord
                     

@@ -10,9 +10,9 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             vars = NULL,
             chi = TRUE,
             eigen = FALSE,
-            rowvar = "coord",
+            rowvar = "coordinates",
             loadingind = FALSE,
-            colvar = "coord",
+            colvar = "coordinates",
             loadingvar = FALSE,
             plot1 = TRUE,
             plot2 = FALSE,
@@ -53,10 +53,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 "rowvar",
                 rowvar,
                 options=list(
-                    "coord",
+                    "coordinates",
                     "cos2",
-                    "contrib"),
-                default="coord")
+                    "contribution"),
+                default="coordinates")
             private$..loadingind <- jmvcore::OptionBool$new(
                 "loadingind",
                 loadingind,
@@ -65,10 +65,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 "colvar",
                 colvar,
                 options=list(
-                    "coord",
+                    "coordinates",
                     "cos2",
-                    "contrib"),
-                default="coord")
+                    "contribution"),
+                default="coordinates")
             private$..loadingvar <- jmvcore::OptionBool$new(
                 "loadingvar",
                 loadingvar,
@@ -204,7 +204,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingvar",
-                title="Result for the column variables to the dimensions",
+                title="`Columns across dimensions - ${colvar}`",
                 visible="(loadingvar)",
                 rows="(vars)",
                 clearWith=list(
@@ -225,7 +225,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingind",
-                title="Result for the row variables to the dimensions",
+                title="`Rows across dimensions - ${rowvar}`",
                 visible="(loadingind)",
                 clearWith=list(
                     "vars",
@@ -360,9 +360,9 @@ correspondence <- function(
     vars,
     chi = TRUE,
     eigen = FALSE,
-    rowvar = "coord",
+    rowvar = "coordinates",
     loadingind = FALSE,
-    colvar = "coord",
+    colvar = "coordinates",
     loadingvar = FALSE,
     plot1 = TRUE,
     plot2 = FALSE,

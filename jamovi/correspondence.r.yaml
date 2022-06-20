@@ -49,7 +49,7 @@ items:
           type: number
 
     - name: loadingvar
-      title: Result for the column variables to the dimensions
+      title: '`Columns across dimensions - ${colvar}`'
       visible: (loadingvar)
       type: Table
       rows: (vars)
@@ -69,7 +69,7 @@ items:
           superTitle: 'Dimension'
 
     - name: loadingind
-      title: Result for the row variables to the dimensions
+      title: '`Rows across dimensions - ${rowvar}`'
       visible: (loadingind)
       type: Table
       clearWith:
