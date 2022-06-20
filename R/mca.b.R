@@ -5,6 +5,7 @@
 #' @importFrom factoextra fviz_mca_var
 #' @importFrom factoextra get_mca_ind
 #' @importFrom factoextra fviz_screeplot
+#' @importFrom factoextra fviz_mca_biplot
 #' @import ggplot2
 #' @export
 
@@ -209,7 +210,11 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                
                image5 <- self$results$plot5
                image5$setState(res.mca)
+              
+               #Biplot------
                
+               image6 <- self$results$plot6
+               image6$setState(res.mca)
                
             }
         },
@@ -301,8 +306,25 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     plot5 <- plot5+ggtheme
     print(plot5)
     TRUE
-}
-        
+},
+ 
+
+.plot6 = function(image6, ggtheme, theme, ...) {
+    
+    if (length(self$options$vars) <= 2)
+        return()
+    
+    
+    res.mca <- image6$state
+    
+    plot6 <- factoextra::fviz_mca_biplot(res.mca, 
+                                         repel = TRUE, # Avoid text overlapping (slow if many point)
+                                         ggtheme = theme_minimal())
+    
+    plot6 <- plot6+ggtheme
+    print(plot6)
+    TRUE
+}       
     ))
 
 

@@ -9,15 +9,16 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             facs = NULL,
             vars = NULL,
             eigen = TRUE,
-            rowvar = "coord",
+            rowvar = "coordinates",
             loadingind = FALSE,
-            colvar = "coord",
+            colvar = "coordinates",
             loadingvar = FALSE,
-            plot1 = TRUE,
+            plot1 = FALSE,
             plot2 = FALSE,
             plot3 = FALSE,
             plot4 = FALSE,
-            plot5 = FALSE, ...) {
+            plot5 = TRUE,
+            plot6 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -48,10 +49,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "rowvar",
                 rowvar,
                 options=list(
-                    "coord",
+                    "coordinates",
                     "cos2",
-                    "contrib"),
-                default="coord")
+                    "contribution"),
+                default="coordinates")
             private$..loadingind <- jmvcore::OptionBool$new(
                 "loadingind",
                 loadingind,
@@ -60,10 +61,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "colvar",
                 colvar,
                 options=list(
-                    "coord",
+                    "coordinates",
                     "cos2",
-                    "contrib"),
-                default="coord")
+                    "contribution"),
+                default="coordinates")
             private$..loadingvar <- jmvcore::OptionBool$new(
                 "loadingvar",
                 loadingvar,
@@ -71,7 +72,7 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
-                default=TRUE)
+                default=FALSE)
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
@@ -87,6 +88,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..plot5 <- jmvcore::OptionBool$new(
                 "plot5",
                 plot5,
+                default=TRUE)
+            private$..plot6 <- jmvcore::OptionBool$new(
+                "plot6",
+                plot6,
                 default=FALSE)
 
             self$.addOption(private$..facs)
@@ -101,6 +106,7 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot3)
             self$.addOption(private$..plot4)
             self$.addOption(private$..plot5)
+            self$.addOption(private$..plot6)
         }),
     active = list(
         facs = function() private$..facs$value,
@@ -114,7 +120,8 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
         plot4 = function() private$..plot4$value,
-        plot5 = function() private$..plot5$value),
+        plot5 = function() private$..plot5$value,
+        plot6 = function() private$..plot6$value),
     private = list(
         ..facs = NA,
         ..vars = NA,
@@ -127,7 +134,8 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot2 = NA,
         ..plot3 = NA,
         ..plot4 = NA,
-        ..plot5 = NA)
+        ..plot5 = NA,
+        ..plot6 = NA)
 )
 
 mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -138,6 +146,7 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         loadingvar = function() private$.items[["loadingvar"]],
         loadingind = function() private$.items[["loadingind"]],
         plot5 = function() private$.items[["plot5"]],
+        plot6 = function() private$.items[["plot6"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]],
@@ -179,7 +188,7 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingvar",
-                title="Variable categories across dimensions",
+                title="`Variable categories across dimensions - ${colvar}`",
                 visible="(loadingvar)",
                 clearWith=list(
                     "vars",
@@ -199,7 +208,7 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingind",
-                title="Observations across dimensions",
+                title="`Observations across dimensions - ${rowvar}`",
                 visible="(loadingind)",
                 clearWith=list(
                     "vars",
@@ -226,6 +235,15 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=500,
                 height=500,
                 renderFun=".plot5"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot6",
+                title="Biplot",
+                refs="factoextra",
+                visible="(plot6)",
+                width=500,
+                height=500,
+                renderFun=".plot6"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -303,12 +321,14 @@ mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot3 .
 #' @param plot4 .
 #' @param plot5 .
+#' @param plot6 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
@@ -327,15 +347,16 @@ mca <- function(
     facs,
     vars,
     eigen = TRUE,
-    rowvar = "coord",
+    rowvar = "coordinates",
     loadingind = FALSE,
-    colvar = "coord",
+    colvar = "coordinates",
     loadingvar = FALSE,
-    plot1 = TRUE,
+    plot1 = FALSE,
     plot2 = FALSE,
     plot3 = FALSE,
     plot4 = FALSE,
-    plot5 = FALSE) {
+    plot5 = TRUE,
+    plot6 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("mca requires jmvcore to be installed (restart may be required)")
@@ -363,7 +384,8 @@ mca <- function(
         plot2 = plot2,
         plot3 = plot3,
         plot4 = plot4,
-        plot5 = plot5)
+        plot5 = plot5,
+        plot6 = plot6)
 
     analysis <- mcaClass$new(
         options = options,

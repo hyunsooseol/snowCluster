@@ -39,10 +39,10 @@ options:
       title: Rows
       type: List
       options:
-        - coord
+        - coordinates
         - cos2
-        - contrib
-      default: coord
+        - contribution
+      default: coordinates
 
     - name: loadingind
       title: Observations across dimensions 
@@ -53,10 +53,10 @@ options:
       title: Columns
       type: List
       options:
-        - coord
+        - coordinates
         - cos2
-        - contrib
-      default: coord
+        - contribution
+      default: coordinates
 
     - name: loadingvar
       title: Variable categories across dimensions
@@ -66,7 +66,7 @@ options:
     - name: plot1
       title: Correlation between variables and dimensions 
       type: Bool
-      default: TRUE
+      default: false
     
     - name: plot2
       title: Coordinates of variable categories
@@ -86,5 +86,10 @@ options:
     - name: plot5
       title: Scree plot
       type: Bool
-      default: FALSE          
+      default: TRUE     
+      
+    - name: plot6
+      title: Biplot
+      type: Bool
+      default: FALSE            
 ...

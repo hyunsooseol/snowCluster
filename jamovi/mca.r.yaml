@@ -28,7 +28,7 @@ items:
           type: number
 
     - name: loadingvar
-      title: Variable categories across dimensions
+      title: '`Variable categories across dimensions - ${colvar}`'
       visible: (loadingvar)
       type: Table
       clearWith:
@@ -47,7 +47,7 @@ items:
           superTitle: 'Dimension'
 
     - name: loadingind
-      title: Observations across dimensions
+      title: '`Observations across dimensions - ${rowvar}`'
       visible: (loadingind)
       type: Table
       clearWith:
@@ -75,6 +75,15 @@ items:
       height: 500
       renderFun: .plot5
  
+    - name:  plot6
+      title: Biplot
+      type:  Image
+      refs: factoextra
+      visible: (plot6)
+      width: 500
+      height: 500
+      renderFun: .plot6
+
     - name:  plot1
       title: Correlation between variables and dimensions
       type:  Image

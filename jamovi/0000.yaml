@@ -112,19 +112,16 @@ datasets:
     description: contingency table
     tags:
       - Correspondence
-      - CA Plot
   - name: smoke
     path: smoke.omv
     description: the frequencies of smoking categories in each group
     tags:
       - Correspondence
-      - CA Plot
   - name: poison
     path: poison.omv
     description: children who suffered from food poisoning
     tags:
       - Multiple Correspondence
-      - MCA Plot
   - name: wine
     path: wine.omv
     description: wine data in FactoMineR R package
