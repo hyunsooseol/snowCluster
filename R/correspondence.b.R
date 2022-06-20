@@ -114,9 +114,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     
                     loadingvar <- res.ca$col$contrib
                     
-                    #    self$results$text$setContent(loadingind)
-                    
-                }
+                     }
               
                
                 table <- self$results$loadingvar

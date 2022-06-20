@@ -13,9 +13,12 @@ mfa(
   type = "n,s,s,s,s,s",
   gn = "a,b,c,d,e,f",
   eigen = TRUE,
+  colvar = "coordinates",
+  rowvar = "coordinates",
   cg = FALSE,
   ci = FALSE,
   quanti = FALSE,
+  quanvar = "coordinates",
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -44,11 +47,17 @@ mfa(
 
 \item{eigen}{.}
 
+\item{colvar}{.}
+
+\item{rowvar}{.}
+
 \item{cg}{.}
 
 \item{ci}{.}
 
 \item{quanti}{.}
+
+\item{quanvar}{.}
 
 \item{plot}{.}
 

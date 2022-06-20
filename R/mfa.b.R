@@ -153,7 +153,26 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 # 
                 
                 grouping <- factoextra::get_mfa_var(mfa, "group")
-                res<- grouping$contrib
+              
+                #  res<- grouping$contrib
+                
+                
+                colvar <- self$options$colvar
+                
+                if(colvar=="coordinates"){
+                    
+                    res <- grouping$coord
+                    
+                } else if(colvar=="cos2"){
+                    
+                    res <- grouping$cos2
+                    
+                } else {
+                    
+                    res <- grouping$contrib
+                    
+                }
+                
                   
                 names <- dimnames(res)[[1]]   
                 table <- self$results$cg
@@ -186,7 +205,25 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 # contribution of  individuals-----------
                 
                 
-                ind<-mfa$ind$contrib
+            #    ind<-mfa$ind$contrib
+                
+                rowvar <- self$options$rowvar
+                
+                if(rowvar=="coordinates"){
+                    
+                    ind<-mfa$ind$coord
+                    
+                } else if(rowvar=="cos2"){
+                    
+                    ind<-mfa$ind$cos2
+                    
+                } else {
+                    
+                    ind<-mfa$ind$contrib
+                    
+                }
+                
+                
                 
                 names <- dimnames(ind)[[1]]  
                 
@@ -219,7 +256,24 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 # Contribution of quantitative variables--------------
                 
                 quanti <- factoextra::get_mfa_var(mfa, "quanti.var")
-                res.quanti<- quanti$contrib
+              #  res.quanti<- quanti$contrib
+                
+                quanvar <- self$options$quanvar
+                
+                if(quanvar=="coordinates"){
+                    
+                    res.quanti<- quanti$coord
+                    
+                } else if(quanvar=="cos2"){
+                    
+                    res.quanti<- quanti$cos2
+                    
+                } else {
+                    
+                    res.quanti<- quanti$contrib
+                    
+                }
+                
                 
                 names <- dimnames(res.quanti)[[1]]
                 table <- self$results$quanti

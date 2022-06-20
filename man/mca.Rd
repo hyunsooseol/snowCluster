@@ -13,11 +13,11 @@ mca(
   loadingind = FALSE,
   colvar = "coordinates",
   loadingvar = FALSE,
-  plot1 = TRUE,
+  plot1 = FALSE,
   plot2 = FALSE,
   plot3 = FALSE,
   plot4 = FALSE,
-  plot5 = FALSE,
+  plot5 = TRUE,
   plot6 = FALSE
 )
 }

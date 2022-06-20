@@ -18,7 +18,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+
       columns:
         - name: comp
           title: 'Component'
@@ -34,7 +37,7 @@ items:
           type: number
 
     - name: cg
-      title: Contribution for groups of variables
+      title: '`Groups of variables - ${colvar}`'
       visible: (cg)
       type: Table
       clearWith:
@@ -42,7 +45,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
       columns:
         - name: name
           title: ''
@@ -54,7 +60,7 @@ items:
           superTitle: 'Dimension'
 
     - name: ci
-      title: Contribution of individuals
+      title: '`Individuals - ${rowvar}`'
       visible: (ci)
       type: Table
       clearWith:
@@ -62,7 +68,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
       columns:
         - name: name
           title: ''
@@ -74,7 +83,7 @@ items:
           superTitle: 'Dimension'
 
     - name: quanti
-      title: Contribution of quantitative variables
+      title: '`Quantitative variables - ${colvar}`'
       visible: (quanti)
       type: Table
       clearWith:
@@ -82,7 +91,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
       columns:
         - name: name
           title: ''
@@ -107,7 +119,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
     - name:  plot
       title: Variable groups
       type:  Image
@@ -122,7 +137,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
     - name:  plot6
       title: Contribution of groups to dimension 1
       type:  Image
@@ -137,7 +155,10 @@ items:
         - groups
         - type
         - gn
-  
+        - colvar
+        - rowvar
+        - quanvar
+
     - name:  plot7
       title: Contribution of groups to dimension 2
       type:  Image
@@ -152,7 +173,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
     - name:  plot1
       title: Quantitative variables by groups
       type:  Image
@@ -167,7 +191,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
     - name:  plot2
       title: Contribution to dimension 1
       type:  Image
@@ -182,7 +209,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
     - name:  plot3
       title: Contribution to dimension 2
       type:  Image
@@ -197,7 +227,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
     - name:  plot4
       title: Graph of individuals
       type:  Image
@@ -212,7 +245,10 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
+        
     - name:  plot5
       title: Individuals by group
       type:  Image
@@ -227,5 +263,7 @@ items:
         - groups
         - type
         - gn
- 
+        - colvar
+        - rowvar
+        - quanvar
 ...

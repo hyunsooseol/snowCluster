@@ -58,20 +58,47 @@ options:
       type: Bool
       default: TRUE  
       
+    - name: colvar
+      title: Columns
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
+      
+    - name: rowvar
+      title: Rows
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
+
     - name: cg
-      title: Contribution for groups of variables
+      title: Groups of variables
       type: Bool
       default: FALSE 
  
     - name: ci
-      title: Contribution of individuals
+      title: Individuals
       type: Bool
       default: FALSE   
  
     - name: quanti
-      title: Contribution of quantitative variables
+      title: Quantitative variables
       type: Bool
       default: FALSE   
+
+    - name: quanvar
+      title: Columns
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
 
     - name: plot
       title: The groups of variables

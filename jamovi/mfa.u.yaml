@@ -22,7 +22,7 @@ children:
         children:
           - type: VariablesListBox
             name: facs
-            isTarget: true 
+            isTarget: true
             maxItemCount: 1
       - type: TargetLayoutBox
         children:
@@ -66,10 +66,21 @@ children:
             name: eigen
           - type: CheckBox
             name: cg
+            children:
+              - type: ComboBox
+                name: colvar
+                enable: (cg)
           - type: CheckBox
             name: ci
+            children:
+              - type: ComboBox
+                name: rowvar
           - type: CheckBox
             name: quanti
+            children:
+              - type: ComboBox
+                name: quanvar
+                enable: (quanti)            
   - type: CollapseBox
     label: Plots
     margin: normal
@@ -93,9 +104,9 @@ children:
               - type: CheckBox
                 name: plot6
               - type: CheckBox
-                name: plot7    
+                name: plot7
           - type: Label
-            label: Quantitative 
+            label: Quantitative
             fitToGrid: true
             children:
               - type: CheckBox
@@ -103,7 +114,7 @@ children:
               - type: CheckBox
                 name: plot2
               - type: CheckBox
-                name: plot3 
+                name: plot3
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -119,4 +130,5 @@ children:
                 name: plot4
               - type: CheckBox
                 name: plot5
+ 
  
