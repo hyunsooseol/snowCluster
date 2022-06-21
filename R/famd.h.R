@@ -9,6 +9,10 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             labels = NULL,
             eigen = TRUE,
+            rowvar = "coordinates",
+            colvar = "coordinates",
+            quanvar = "coordinates",
+            qualvar = "coordinates",
             ci = FALSE,
             cg = FALSE,
             quanti = FALSE,
@@ -40,6 +44,38 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "eigen",
                 eigen,
                 default=TRUE)
+            private$..rowvar <- jmvcore::OptionList$new(
+                "rowvar",
+                rowvar,
+                options=list(
+                    "coordinates",
+                    "cos2",
+                    "contribution"),
+                default="coordinates")
+            private$..colvar <- jmvcore::OptionList$new(
+                "colvar",
+                colvar,
+                options=list(
+                    "coordinates",
+                    "cos2",
+                    "contribution"),
+                default="coordinates")
+            private$..quanvar <- jmvcore::OptionList$new(
+                "quanvar",
+                quanvar,
+                options=list(
+                    "coordinates",
+                    "cos2",
+                    "contribution"),
+                default="coordinates")
+            private$..qualvar <- jmvcore::OptionList$new(
+                "qualvar",
+                qualvar,
+                options=list(
+                    "coordinates",
+                    "cos2",
+                    "contribution"),
+                default="coordinates")
             private$..ci <- jmvcore::OptionBool$new(
                 "ci",
                 ci,
@@ -80,6 +116,10 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..vars)
             self$.addOption(private$..labels)
             self$.addOption(private$..eigen)
+            self$.addOption(private$..rowvar)
+            self$.addOption(private$..colvar)
+            self$.addOption(private$..quanvar)
+            self$.addOption(private$..qualvar)
             self$.addOption(private$..ci)
             self$.addOption(private$..cg)
             self$.addOption(private$..quanti)
@@ -94,6 +134,10 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars = function() private$..vars$value,
         labels = function() private$..labels$value,
         eigen = function() private$..eigen$value,
+        rowvar = function() private$..rowvar$value,
+        colvar = function() private$..colvar$value,
+        quanvar = function() private$..quanvar$value,
+        qualvar = function() private$..qualvar$value,
         ci = function() private$..ci$value,
         cg = function() private$..cg$value,
         quanti = function() private$..quanti$value,
@@ -107,6 +151,10 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars = NA,
         ..labels = NA,
         ..eigen = NA,
+        ..rowvar = NA,
+        ..colvar = NA,
+        ..quanvar = NA,
+        ..qualvar = NA,
         ..ci = NA,
         ..cg = NA,
         ..quanti = NA,
@@ -152,7 +200,14 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Eigenvalues",
                 visible="(eigen)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -173,10 +228,17 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="ci",
-                title="Contribution of individuals",
+                title="`Individuals across dimensions - ${rowvar}`",
                 visible="(ci)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -191,10 +253,17 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="cg",
-                title="Contribution of variables",
+                title="`Variables across dimensions - ${colvar}`",
                 visible="(cg)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -209,10 +278,17 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="quanti",
-                title="Contribution of quantitative variables",
+                title="`Quantitative variables across dimensions - ${quanvar}`",
                 visible="(quanti)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -227,10 +303,17 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="qual",
-                title="Contribution of qualitative variables",
+                title="`Qualitative variables across dimensions - ${qualvar}`",
                 visible="(qual)",
                 clearWith=list(
-                    "vars"),
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -248,55 +331,90 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Scree plot",
                 refs="factoextra",
                 visible="(plot)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot",
                 clearWith=list(
-                    "vars")))
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
                 title="Graph of variables",
                 refs="factoextra",
                 visible="(plot1)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot1",
                 clearWith=list(
-                    "vars")))
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
                 title="Quantitative variables",
                 refs="factoextra",
                 visible="(plot2)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot2",
                 clearWith=list(
-                    "vars")))
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
                 title="Qualitative variables",
                 refs="factoextra",
                 visible="(plot3)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot3",
                 clearWith=list(
-                    "vars")))
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
                 title="Graph of individuals",
                 refs="factoextra",
                 visible="(plot4)",
-                width=400,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot4",
                 clearWith=list(
-                    "vars")))}))
+                    "vars",
+                    "labels",
+                    "type",
+                    "gn",
+                    "colvar",
+                    "rowvar",
+                    "quanvar",
+                    "qualvar")))}))
 
 famdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "famdBase",
@@ -325,6 +443,10 @@ famdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars .
 #' @param labels .
 #' @param eigen .
+#' @param rowvar .
+#' @param colvar .
+#' @param quanvar .
+#' @param qualvar .
 #' @param ci .
 #' @param cg .
 #' @param quanti .
@@ -361,6 +483,10 @@ famd <- function(
     vars,
     labels,
     eigen = TRUE,
+    rowvar = "coordinates",
+    colvar = "coordinates",
+    quanvar = "coordinates",
+    qualvar = "coordinates",
     ci = FALSE,
     cg = FALSE,
     quanti = FALSE,
@@ -387,6 +513,10 @@ famd <- function(
         vars = vars,
         labels = labels,
         eigen = eigen,
+        rowvar = rowvar,
+        colvar = colvar,
+        quanvar = quanvar,
+        qualvar = qualvar,
         ci = ci,
         cg = cg,
         quanti = quanti,

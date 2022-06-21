@@ -30,23 +30,59 @@ options:
       type: Bool
       default: TRUE  
 
+    - name: rowvar
+      title: Component
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
+
+    - name: colvar
+      title: Component
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
+
+    - name: quanvar
+      title: Component
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
+
+    - name: qualvar
+      title: Component
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates      
+      
     - name: ci
-      title: "Contribution of individuals"
+      title: "Individuals"
       type: Bool
       default: FALSE
      
     - name: cg
-      title: Contribution of variables
+      title: Variables
       type: Bool
       default: FALSE 
 
     - name: quanti
-      title: Contribution of quantitative variables
+      title: Quantitative variables
       type: Bool
       default: FALSE 
       
     - name: qual
-      title: Contribution of qualitative variables
+      title: Qualitative variables
       type: Bool
       default: FALSE         
 

@@ -9,6 +9,10 @@ famd(
   vars,
   labels,
   eigen = TRUE,
+  rowvar = "coordinates",
+  colvar = "coordinates",
+  quanvar = "coordinates",
+  qualvar = "coordinates",
   ci = FALSE,
   cg = FALSE,
   quanti = FALSE,
@@ -28,6 +32,14 @@ famd(
 \item{labels}{.}
 
 \item{eigen}{.}
+
+\item{rowvar}{.}
+
+\item{colvar}{.}
+
+\item{quanvar}{.}
+
+\item{qualvar}{.}
 
 \item{ci}{.}
 

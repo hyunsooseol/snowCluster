@@ -103,11 +103,29 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             }
             
             
-            # contribution of  individuals-----------
+            # individuals-----------
             
             
-            ind<-res$ind$contrib
+          #  ind<-res$ind$contrib
             
+            rowvar <- self$options$rowvar
+            
+            if(rowvar=="coordinates"){
+                
+                ind<-res$ind$coord
+                
+            } else if(rowvar=="cos2"){
+                
+                ind<-res$ind$cos2
+                
+            } else {
+                
+                ind<-res$ind$contrib
+                
+            }
+            
+            
+
             names <- dimnames(ind)[[1]]  
             
             table <- self$results$ci
@@ -136,10 +154,28 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
             }
             
-            # contribution of  variables-----------
+            # variables-----------
             
             
-            v<-res$var$contrib
+           # v<-res$var$contrib
+            
+            colvar <- self$options$colvar
+            
+            if(colvar=="coordinates"){
+                
+                v<-res$var$coord
+                
+            } else if(colvar=="cos2"){
+                
+                v<-res$var$cos2
+                
+            } else {
+                
+                v<-res$var$contrib
+                
+            }
+            
+            
             
             names <- dimnames(v)[[1]]  
             
@@ -169,10 +205,27 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
             }
             
-            # contribution of  quanti. variables-----------
+            # quanti. variables-----------
             
             
-            quanti<-res$quanti.var$contrib
+         #   quanti<-res$quanti.var$contrib
+            
+            quanvar <- self$options$quanvar
+            
+            if(quanvar=="coordinates"){
+                
+                quanti<-res$quanti.var$coord
+                
+            } else if(quanvar=="cos2"){
+                
+                quanti<-res$quanti.var$cos2
+                
+            } else {
+                
+                quanti<-res$quanti.var$contrib
+                
+            }
+            
             
             names <- dimnames(quanti)[[1]]  
             
@@ -202,10 +255,28 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
             }
             
-            # contribution of  quali. variables-----------
+            #  quali. variables-----------
             
             
-            qual<-res$quali.var$contrib
+        #    qual<-res$quali.var$contrib
+            
+            
+            qualvar <- self$options$qualvar
+            
+            if(qualvar=="coordinates"){
+                
+                qual<-res$quali.var$coord
+                
+            } else if(qualvar=="cos2"){
+                
+                qual<-res$quali.var$cos2
+                
+            } else {
+                
+                qual<-res$quali.var$contrib
+                
+            }
+            
             
             names <- dimnames(qual)[[1]]  
             

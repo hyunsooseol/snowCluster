@@ -36,7 +36,7 @@ options:
       default: TRUE  
 
     - name: rowvar
-      title: Rows
+      title: Component
       type: List
       options:
         - coordinates
@@ -50,7 +50,7 @@ options:
       default: FALSE  
 
     - name: colvar
-      title: Columns
+      title: Component
       type: List
       options:
         - coordinates

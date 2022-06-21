@@ -16,7 +16,14 @@ items:
       type: Table
       clearWith:
         - vars
-
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
+        
       columns:
         - name: comp
           title: 'Component'
@@ -32,11 +39,18 @@ items:
           type: number
 
     - name: ci
-      title: "Contribution of individuals"
+      title:  '`Individuals across dimensions - ${rowvar}`'
       visible: (ci)
       type: Table
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
 
       columns:
         - name: name
@@ -49,11 +63,18 @@ items:
           superTitle: 'Dimension'
 
     - name: cg
-      title: Contribution of variables
+      title:  '`Variables across dimensions - ${colvar}`'
       visible: (cg)
       type: Table
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
 
       columns:
         - name: name
@@ -66,11 +87,18 @@ items:
           superTitle: 'Dimension'
 
     - name: quanti
-      title: Contribution of quantitative variables
+      title:  '`Quantitative variables across dimensions - ${quanvar}`'
       visible: (quanti)
       type: Table
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
 
       columns:
         - name: name
@@ -83,11 +111,18 @@ items:
           superTitle: 'Dimension'
 
     - name: qual
-      title: Contribution of qualitative variables
+      title: '`Qualitative variables across dimensions - ${qualvar}`'
       visible: (qual)
       type: Table
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
 
       columns:
         - name: name
@@ -104,55 +139,90 @@ items:
       type:  Image
       refs: factoextra
       visible: (plot)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
 
     - name:  plot1
       title: Graph of variables
       type:  Image
       refs: factoextra
       visible: (plot1)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot1
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
 
     - name: plot2
       title: Quantitative variables
       type:  Image
       refs: factoextra
       visible: (plot2)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot2
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
 
     - name: plot3
       title:  Qualitative variables
       type:  Image
       refs: factoextra
       visible: (plot3)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot3
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar
 
     - name: plot4
       title: Graph of individuals 
       type:  Image
       refs: factoextra
       visible: (plot4)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot4
       clearWith:
         - vars
+        - labels
+        - type
+        - gn
+        - colvar
+        - rowvar
+        - quanvar
+        - qualvar 
 
 
 

@@ -36,12 +36,28 @@ children:
                 name: eigen
               - type: CheckBox
                 name: ci
+                children:
+                  - type: ComboBox
+                    name: rowvar
+                    enable: (ci)
               - type: CheckBox
                 name: cg  
+                children:
+                  - type: ComboBox
+                    name: colvar
+                    enable: (cg)
               - type: CheckBox
                 name: quanti  
+                children:
+                  - type: ComboBox
+                    name: quanvar
+                    enable: (quanti)                
               - type: CheckBox
                 name: qual
+                children:
+                  - type: ComboBox
+                    name: qualvar
+                    enable: (qual)   
       - type: LayoutBox
         stretchFactor: 1
         margin: large

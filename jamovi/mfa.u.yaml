@@ -75,6 +75,7 @@ children:
             children:
               - type: ComboBox
                 name: rowvar
+                enable: (ci)
           - type: CheckBox
             name: quanti
             children:

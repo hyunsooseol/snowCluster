@@ -59,7 +59,7 @@ options:
       default: TRUE  
       
     - name: colvar
-      title: Columns
+      title: Component
       type: List
       options:
         - coordinates
@@ -68,7 +68,7 @@ options:
       default: coordinates
       
     - name: rowvar
-      title: Rows
+      title: Component
       type: List
       options:
         - coordinates
