@@ -372,7 +372,9 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             # Quantitative variables
              
-            plot2<- factoextra::fviz_famd_var(res, "quanti.var", repel = TRUE, col.var = "black")
+            plot2<- factoextra::fviz_famd_var(res, "quanti.var", 
+                                              col.var = "black",
+                                              repel = TRUE)
             
             plot2 <- plot2+ggtheme
             
