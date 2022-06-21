@@ -31,7 +31,7 @@ options:
       default: TRUE  
 
     - name: rowvar
-      title: Component
+      title: Type
       type: List
       options:
         - coordinates
@@ -40,7 +40,7 @@ options:
       default: coordinates
 
     - name: colvar
-      title: Component
+      title: Type
       type: List
       options:
         - coordinates
@@ -49,7 +49,7 @@ options:
       default: coordinates
 
     - name: quanvar
-      title: Component
+      title: Type
       type: List
       options:
         - coordinates
@@ -58,7 +58,7 @@ options:
       default: coordinates
 
     - name: qualvar
-      title: Component
+      title: Type
       type: List
       options:
         - coordinates

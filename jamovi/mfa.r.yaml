@@ -83,7 +83,7 @@ items:
           superTitle: 'Dimension'
 
     - name: quanti
-      title: '`Quantitative variables - ${colvar}`'
+      title: '`Quantitative variables - ${quanvar}`'
       visible: (quanti)
       type: Table
       clearWith:

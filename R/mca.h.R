@@ -208,7 +208,7 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="loadingind",
-                title="`Observations across dimensions - ${rowvar}`",
+                title="`Individuals across dimensions - ${rowvar}`",
                 visible="(loadingind)",
                 clearWith=list(
                     "vars",

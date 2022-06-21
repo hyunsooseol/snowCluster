@@ -330,7 +330,7 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="quanti",
-                title="`Quantitative variables - ${colvar}`",
+                title="`Quantitative variables - ${quanvar}`",
                 visible="(quanti)",
                 clearWith=list(
                     "vars",

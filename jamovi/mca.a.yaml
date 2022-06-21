@@ -36,7 +36,7 @@ options:
       default: TRUE  
 
     - name: rowvar
-      title: Component
+      title: Type
       type: List
       options:
         - coordinates
@@ -45,12 +45,12 @@ options:
       default: coordinates
 
     - name: loadingind
-      title: Observations across dimensions 
+      title: Individuals 
       type: Bool
       default: FALSE  
 
     - name: colvar
-      title: Component
+      title: Type
       type: List
       options:
         - coordinates
@@ -59,7 +59,7 @@ options:
       default: coordinates
 
     - name: loadingvar
-      title: Variable categories across dimensions
+      title: Variable categories 
       type: Bool
       default: FALSE  
 

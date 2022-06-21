@@ -59,7 +59,7 @@ options:
       default: TRUE  
       
     - name: colvar
-      title: Component
+      title: Type
       type: List
       options:
         - coordinates
@@ -68,7 +68,7 @@ options:
       default: coordinates
       
     - name: rowvar
-      title: Component
+      title: Type
       type: List
       options:
         - coordinates
@@ -92,7 +92,7 @@ options:
       default: FALSE   
 
     - name: quanvar
-      title: Columns
+      title: Type
       type: List
       options:
         - coordinates
