@@ -101,7 +101,7 @@ options:
       default: coordinates
 
     - name: plot
-      title: The groups of variables
+      title: Variable groups
       type: Bool
       default: FALSE   
 
