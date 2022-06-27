@@ -4,7 +4,7 @@
 \alias{hc}
 \title{Hierarchical Clustering Dendrogram}
 \usage{
-hc(data, labels, vars, k = 2, plot = TRUE)
+hc(data, labels, vars, k = 2, type = "rectangle", plot = TRUE)
 }
 \arguments{
 \item{data}{The data as a data frame.}
@@ -14,6 +14,8 @@ hc(data, labels, vars, k = 2, plot = TRUE)
 \item{vars}{.}
 
 \item{k}{.}
+
+\item{type}{.}
 
 \item{plot}{.}
 }

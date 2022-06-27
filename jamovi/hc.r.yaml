@@ -17,6 +17,7 @@ items:
       clearWith:
         - vars
         - k
+        - type
 
     - name:  plot
       title: Cluster Dendrogram
@@ -24,8 +25,11 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot)
-      width: 400
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot
-   
+      clearWith:
+        - vars
+        - k
+        - type
 ...

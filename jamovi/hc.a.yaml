@@ -36,6 +36,15 @@ options:
       type: Integer
       min: 1
       
+    - name: type
+      title: Type
+      type: List
+      options:
+        - rectangle
+        - circular
+        - phylogenic
+      default: rectangle
+
     - name: plot
       title: Cluster Dendrogram
       type: Bool

@@ -9,6 +9,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             labels = NULL,
             vars = NULL,
             k = 2,
+            type = "rectangle",
             plot = TRUE, ...) {
 
             super$initialize(
@@ -37,6 +38,14 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 k,
                 default=2,
                 min=1)
+            private$..type <- jmvcore::OptionList$new(
+                "type",
+                type,
+                options=list(
+                    "rectangle",
+                    "circular",
+                    "phylogenic"),
+                default="rectangle")
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -47,6 +56,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
             self$.addOption(private$..k)
+            self$.addOption(private$..type)
             self$.addOption(private$..plot)
             self$.addOption(private$..clust)
         }),
@@ -54,12 +64,14 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
         k = function() private$..k$value,
+        type = function() private$..type$value,
         plot = function() private$..plot$value,
         clust = function() private$..clust$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
         ..k = NA,
+        ..type = NA,
         ..plot = NA,
         ..clust = NA)
 )
@@ -92,7 +104,8 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 measureType="nominal",
                 clearWith=list(
                     "vars",
-                    "k")))
+                    "k",
+                    "type")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -100,9 +113,13 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot)",
-                width=400,
-                height=400,
-                renderFun=".plot"))}))
+                width=500,
+                height=500,
+                renderFun=".plot",
+                clearWith=list(
+                    "vars",
+                    "k",
+                    "type")))}))
 
 hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcBase",
@@ -131,6 +148,7 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param labels .
 #' @param vars .
 #' @param k .
+#' @param type .
 #' @param plot .
 #' @return A results object containing:
 #' \tabular{llllll}{
@@ -145,6 +163,7 @@ hc <- function(
     labels,
     vars,
     k = 2,
+    type = "rectangle",
     plot = TRUE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
@@ -163,6 +182,7 @@ hc <- function(
         labels = labels,
         vars = vars,
         k = k,
+        type = type,
         plot = plot)
 
     analysis <- hcClass$new(

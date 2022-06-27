@@ -23,17 +23,40 @@ children:
           - type: VariablesListBox
             name: labels
             isTarget: true
-            maxItemCount: 1      
+            maxItemCount: 1
   - type: CollapseBox
     label: Hierarchical Clustering
     margin: normal
     collapsed: true
     children:
-      - name: k
-        type: TextBox
-        format: number
-      - type: CheckBox
-        name: plot
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Options
+            children:
+              - name: k
+                type: TextBox
+                format: number
+              - type: ComboBox
+                name: type
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Plot
+            children:
+              - type: CheckBox
+                name: plot
+                children: []
   - type: CollapseBox
     label: Save
     collapsed: true
@@ -44,5 +67,4 @@ children:
         stretchFactor: 1
         children:
           - type: Output
-            name: clust 
-      
+            name: clust

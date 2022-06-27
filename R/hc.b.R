@@ -86,11 +86,11 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 image <- self$results$plot
             
             # vars <- length(self$options$vars)
-            case <- nrow(data)
-            
-            width <- 200 + case * 10
-            
-            image$setSize(width, 500)
+            # case <- nrow(data)
+            # 
+            # width <- 200 + case * 10
+            # 
+            # image$setSize(width, 500)
             
             
             image$setState(hc)
@@ -106,14 +106,19 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             if (length(self$options$vars) < 2)
                 return()
             
+            type <- self$options$type
             
             hc <- image$state
             
             
-            plot <- factoextra:: fviz_dend(hc, rect = TRUE, cex = 0.8,
+            plot <- factoextra:: fviz_dend(hc, rect = TRUE,
+                                           repel = TRUE,
+                                           type = type,
+                                           horiz= TRUE,
                                            color_labels_by_k = TRUE)
             
             plot <- plot+ggtheme
+            
             print(plot)
             TRUE
             
