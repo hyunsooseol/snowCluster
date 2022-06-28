@@ -37,7 +37,7 @@ options:
       min: 1
       
     - name: type
-      title: Type
+      title: Type of plot
       type: List
       options:
         - rectangle
