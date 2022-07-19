@@ -17,7 +17,10 @@ items:
       clearWith:
         - vars
         - k
+        - stand
+        - metric
         - type
+        - method
 
     - name:  plot
       title: Cluster Dendrogram
@@ -31,5 +34,8 @@ items:
       clearWith:
         - vars
         - k
+        - stand
+        - metric
         - type
+        - method
 ...

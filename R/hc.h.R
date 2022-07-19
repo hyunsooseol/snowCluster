@@ -8,7 +8,10 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             labels = NULL,
             vars = NULL,
+            stand = TRUE,
             k = 2,
+            metric = "euclidean",
+            method = "ward.D2",
             type = "rectangle",
             plot = TRUE, ...) {
 
@@ -33,11 +36,36 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..stand <- jmvcore::OptionBool$new(
+                "stand",
+                stand,
+                default=TRUE)
             private$..k <- jmvcore::OptionInteger$new(
                 "k",
                 k,
                 default=2,
                 min=1)
+            private$..metric <- jmvcore::OptionList$new(
+                "metric",
+                metric,
+                options=list(
+                    "euclidean",
+                    "manhattan",
+                    "maximum",
+                    "canberra",
+                    "binary",
+                    "minkowski"),
+                default="euclidean")
+            private$..method <- jmvcore::OptionList$new(
+                "method",
+                method,
+                options=list(
+                    "ward.D",
+                    "ward.D2",
+                    "single",
+                    "complete",
+                    "average"),
+                default="ward.D2")
             private$..type <- jmvcore::OptionList$new(
                 "type",
                 type,
@@ -55,7 +83,10 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
+            self$.addOption(private$..stand)
             self$.addOption(private$..k)
+            self$.addOption(private$..metric)
+            self$.addOption(private$..method)
             self$.addOption(private$..type)
             self$.addOption(private$..plot)
             self$.addOption(private$..clust)
@@ -63,14 +94,20 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
+        stand = function() private$..stand$value,
         k = function() private$..k$value,
+        metric = function() private$..metric$value,
+        method = function() private$..method$value,
         type = function() private$..type$value,
         plot = function() private$..plot$value,
         clust = function() private$..clust$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
+        ..stand = NA,
         ..k = NA,
+        ..metric = NA,
+        ..method = NA,
         ..type = NA,
         ..plot = NA,
         ..clust = NA)
@@ -105,7 +142,10 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "k",
-                    "type")))
+                    "stand",
+                    "metric",
+                    "type",
+                    "method")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -119,7 +159,10 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "k",
-                    "type")))}))
+                    "stand",
+                    "metric",
+                    "type",
+                    "method")))}))
 
 hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcBase",
@@ -147,7 +190,10 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data The data as a data frame.
 #' @param labels .
 #' @param vars .
+#' @param stand .
 #' @param k .
+#' @param metric .
+#' @param method .
 #' @param type .
 #' @param plot .
 #' @return A results object containing:
@@ -162,7 +208,10 @@ hc <- function(
     data,
     labels,
     vars,
+    stand = TRUE,
     k = 2,
+    metric = "euclidean",
+    method = "ward.D2",
     type = "rectangle",
     plot = TRUE) {
 
@@ -181,7 +230,10 @@ hc <- function(
     options <- hcOptions$new(
         labels = labels,
         vars = vars,
+        stand = stand,
         k = k,
+        metric = metric,
+        method = method,
         type = type,
         plot = plot)
 

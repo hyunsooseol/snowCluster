@@ -30,12 +30,40 @@ options:
       permitted:
         - numeric  
 
+    - name: stand
+      title: Standardize data
+      type: Bool
+      default: TRUE 
+
     - name: k
       title: Number of clusters
       default: 2
       type: Integer
       min: 1
-      
+
+    - name: metric
+      title: Distance measure
+      type: List
+      options:
+        - euclidean
+        - manhattan
+        - maximum
+        - canberra
+        - binary
+        - minkowski
+      default: euclidean 
+
+    - name: method
+      title: Clustering method
+      type: List
+      options:
+        - ward.D
+        - ward.D2
+        - single
+        - complete
+        - average
+      default: ward.D2
+
     - name: type
       title: Type of plot
       type: List

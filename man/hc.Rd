@@ -4,7 +4,17 @@
 \alias{hc}
 \title{Hierarchical Clustering Dendrogram}
 \usage{
-hc(data, labels, vars, k = 2, type = "rectangle", plot = TRUE)
+hc(
+  data,
+  labels,
+  vars,
+  stand = TRUE,
+  k = 2,
+  metric = "euclidean",
+  method = "ward.D2",
+  type = "rectangle",
+  plot = TRUE
+)
 }
 \arguments{
 \item{data}{The data as a data frame.}
@@ -13,7 +23,13 @@ hc(data, labels, vars, k = 2, type = "rectangle", plot = TRUE)
 
 \item{vars}{.}
 
+\item{stand}{.}
+
 \item{k}{.}
+
+\item{metric}{.}
+
+\item{method}{.}
 
 \item{type}{.}
 

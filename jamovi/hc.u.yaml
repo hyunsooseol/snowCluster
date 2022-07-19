@@ -39,9 +39,15 @@ children:
           - type: Label
             label: Options
             children:
+              - type: CheckBox
+                name: stand
               - name: k
                 type: TextBox
                 format: number
+              - type: ComboBox
+                name: metric
+              - type: ComboBox
+                name: method
               - type: ComboBox
                 name: type
       - type: LayoutBox

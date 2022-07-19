@@ -68,7 +68,12 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             # Compute hierarchical clustering and cut into 4 clusters
             
-            hc <- factoextra::hcut(data, k = self$options$k, stand = TRUE)
+            hc <- factoextra::hcut(data, 
+                                   k = self$options$k, 
+                                   stand= self$options$stand,
+                                   hc_metric = self$options$metric,
+                                   hc_method = self$options$method
+                                  )
             
             
                 #### Cluter number for the output variable--------------------
