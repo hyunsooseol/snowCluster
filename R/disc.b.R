@@ -4,6 +4,7 @@
 #' @importFrom MASS lda
 #' @importFrom jmvcore constructFormula
 #' @importFrom MASS lda
+#' @importFrom klaR partimat
 #' @import MASS
 #' @import ggplot2
 #' @import jmvcore
@@ -87,7 +88,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
            ###################################################
             
-            
+           
             # creating table-----
             
             value<- lda.train$prior
@@ -304,6 +305,15 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             image1$setState(lda.train)
             
            
+            # partion plots---------------------
+            
+            image2 <- self$results$plot2
+            
+            state <- list(formula, train)
+            
+            image2$setState(state)
+            
+            
             },
             
             .plot = function(image,ggtheme, theme,...) {
@@ -348,7 +358,30 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             print(plot1)
             TRUE
+        },
+        
+        .plot2 = function(image2,...) {
+          
+          plot2 <- self$options$plot2
+          
+          if (!plot2)
+            return()
+          
+          method <- self$options$method
+        
+          formula <- image2$state[[1]]
+          train <- image2$state[[2]]
+          
+          
+          ########## Partition plots###########
+          
+          plot2 <- klaR::partimat(formula, data=train, method=method)
+          
+          
+          print(plot2)
+          TRUE
         }
         
+       
          ))
 

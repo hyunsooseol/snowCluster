@@ -65,5 +65,17 @@ options:
       title: Histogram
       type: Bool
       default: FALSE
+      
+    - name: plot2
+      title: Partition plots
+      type: Bool
+      default: FALSE
 
+    - name: method
+      title: Method
+      type: List
+      options:
+        - lda
+        - qda
+      default: lda
 ...
