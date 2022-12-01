@@ -1,0 +1,22 @@
+---
+name:  tree
+title: Classification Analysis
+jrs:   '1.1'
+
+items:
+    - name:  text
+      title: Classification Analysis
+      type:  Preformatted
+
+    - name:  plot
+      title: Tree plot
+      type:  Image
+      visible: (plot)
+      width: 600
+      height: 600
+      renderFun: .plot
+      clearWith:
+        - covs 
+        - dep
+        - tw
+...

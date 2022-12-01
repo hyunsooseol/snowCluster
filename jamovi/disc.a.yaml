@@ -2,7 +2,7 @@
 name:  disc
 title: Linear Discriminant Analysis
 menuGroup: snowCluster
-menuSubgroup: Discriminant
+menuSubgroup: Classification
 version: '1.0.0'
 jas: '1.2'
 

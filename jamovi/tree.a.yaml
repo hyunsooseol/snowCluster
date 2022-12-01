@@ -1,0 +1,40 @@
+---
+name:  tree
+title: Classification Analysis
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+
+    - name: dep
+      type: Variable
+      title: Dependent Variable
+      suggested:
+        - nominal
+      permitted:
+        - factor
+      
+    - name: covs
+      title: Covariates
+      type: Variables
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+
+    - name: tw
+      title: font size
+      type: Number
+      min: 0.5
+      default: 1.1
+
+    - name: plot
+      title: Tree plot 
+      type: Bool
+      default: FALSE
+      
+      
+      

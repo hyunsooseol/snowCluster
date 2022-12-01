@@ -1,0 +1,33 @@
+title: Classification Analysis
+name: tree
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: dep
+            isTarget: true
+            maxItemCount: 1
+      - type: TargetLayoutBox
+        label: Covariates
+        children:
+          - type: VariablesListBox
+            name: covs
+            isTarget: true
+  - type: CollapseBox
+    label: Plots
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: CheckBox
+        name: plot
+        children:
+          - name: tw
+            type: TextBox
+            format: number
+            
