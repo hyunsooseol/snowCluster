@@ -9,7 +9,8 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             dep = NULL,
             covs = NULL,
             tw = 1.1,
-            plot = FALSE, ...) {
+            plot = FALSE,
+            tab = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -40,22 +41,29 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot",
                 plot,
                 default=FALSE)
+            private$..tab <- jmvcore::OptionBool$new(
+                "tab",
+                tab,
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
             self$.addOption(private$..tw)
             self$.addOption(private$..plot)
+            self$.addOption(private$..tab)
         }),
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
         tw = function() private$..tw$value,
-        plot = function() private$..plot$value),
+        plot = function() private$..plot$value,
+        tab = function() private$..tab$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
         ..tw = NA,
-        ..plot = NA)
+        ..plot = NA,
+        ..tab = NA)
 )
 
 treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -63,6 +71,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         text = function() private$.items[["text"]],
+        tab = function() private$.items[["tab"]],
         plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
@@ -75,6 +84,20 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="text",
                 title="Classification Analysis"))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="tab",
+                title="Confusion Matrix",
+                visible="(tab)",
+                clearWith=list(
+                    "covs",
+                    "dep"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -116,11 +139,19 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param covs .
 #' @param tw .
 #' @param plot .
+#' @param tab .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$tab$asDF}
+#'
+#' \code{as.data.frame(results$tab)}
 #'
 #' @export
 tree <- function(
@@ -128,7 +159,8 @@ tree <- function(
     dep,
     covs,
     tw = 1.1,
-    plot = FALSE) {
+    plot = FALSE,
+    tab = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("tree requires jmvcore to be installed (restart may be required)")
@@ -147,7 +179,8 @@ tree <- function(
         dep = dep,
         covs = covs,
         tw = tw,
-        plot = plot)
+        plot = plot,
+        tab = tab)
 
     analysis <- treeClass$new(
         options = options,

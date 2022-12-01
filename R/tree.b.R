@@ -5,6 +5,7 @@
 #' @importFrom rpart rpart
 #' @importFrom rpart.plot rpart.plot
 #' @importFrom rpart rpart.control
+#' @importFrom caret confusionMatrix
 #' @import ggplot2
 #' @import jmvcore
 #' @export
@@ -65,6 +66,46 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         image <- self$results$plot
         image$setState(model.train)
+        
+        # Prediction and Confusion Matrix-----
+        
+        pred<- stats::predict(model.train,test,type='class')
+        
+        actual <- test[[dep]]
+        
+        ##############
+        eval<- caret::confusionMatrix(actual, pred, mod='everything')
+        ####################
+        tab<- eval$table
+        
+        res1<- as.matrix(tab)
+        
+        names<- dimnames(res1)[[1]]
+        
+        table <- self$results$tab
+        
+        for (name in names) {
+          
+          table$addColumn(name = paste0(name),
+                          type = 'Integer',
+                          superTitle = 'Predicted')
+        }
+        
+        for (name in names) {
+          
+          row <- list()
+          
+          for(j in seq_along(names)){
+            
+            row[[names[j]]] <- res1[name,j]
+            
+          }
+          
+          table$addRow(rowKey=name, values=row)
+          
+        }
+        
+        
         
       },
       

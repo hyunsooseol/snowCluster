@@ -8,6 +8,20 @@ items:
       title: Classification Analysis
       type:  Preformatted
 
+    - name: tab
+      title: 'Confusion Matrix'
+      type: Table
+      visible: (tab)
+      clearWith:
+        - covs 
+        - dep
+        
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
     - name:  plot
       title: Tree plot
       type:  Image

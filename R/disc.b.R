@@ -33,7 +33,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <p><b>Instructions</b></p>
             <p>____________________________________________________________________________________</p>
             <p> 1. The rationale of Discriminant Analysis is described in the <a href='https://rpubs.com/Nolan/298913' target = '_blank'>page.</a></p>
-            <p> 2. For convenience, 60% of the data as the training set and the remaining 40% for the testing set were used for analysis. </p>
+            <p> 2. For convenience, 70% of the data as the training set and the remaining 30% for the testing set were used for analysis. </p>
             <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
@@ -68,9 +68,9 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
             # dividing two datasets------------------------
             
-           # set.seed(123) # Set seed for reproducibility
+            set.seed(1234) # Set seed for reproducibility
             
-            training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.6,0.4))
+            training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.7,0.3))
             
             
             train <- data[training_sample, ]

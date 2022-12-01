@@ -36,5 +36,8 @@ options:
       type: Bool
       default: FALSE
       
-      
+    - name: tab
+      title: Confusion matrix 
+      type: Bool 
+      default: FALSE          
       

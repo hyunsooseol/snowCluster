@@ -30,4 +30,6 @@ children:
           - name: tw
             type: TextBox
             format: number
+      - type: CheckBox
+        name: tab        
             
