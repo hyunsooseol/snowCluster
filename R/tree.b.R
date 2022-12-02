@@ -124,7 +124,40 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         table$setRow(rowNo = 1, values = row)
         
+      # Statistics by class-----------
         
+        table <- self$results$cla
+        
+        cla<- eval[["byClass"]]
+        cla<- t(cla)
+        cla <- as.data.frame(cla)
+        
+        names<- dimnames(cla)[[1]]
+        dims <- dimnames(cla)[[2]]
+        covs <- self$options$covs 
+        
+        for (dim in dims) {
+          
+          table$addColumn(name = paste0(dim),
+                          type = 'number')
+        }
+        
+        
+        for (name in names) {
+          
+          row <- list()
+          
+          
+          for(j in seq_along(dims)){
+            
+            row[[dims[j]]] <- cla[name,j]
+            
+          }
+          
+          table$addRow(rowKey=name, values=row)
+          
+          
+        }
         
       },
       

@@ -4,7 +4,16 @@
 \alias{tree}
 \title{Classification Analysis}
 \usage{
-tree(data, dep, covs, tw = 1.1, plot = FALSE, over = TRUE, tab = FALSE)
+tree(
+  data,
+  dep,
+  covs,
+  tw = 1.1,
+  plot = FALSE,
+  over = TRUE,
+  tab = FALSE,
+  cla = FALSE
+)
 }
 \arguments{
 \item{data}{.}
@@ -20,6 +29,8 @@ tree(data, dep, covs, tw = 1.1, plot = FALSE, over = TRUE, tab = FALSE)
 \item{over}{.}
 
 \item{tab}{.}
+
+\item{cla}{.}
 }
 \value{
 A results object containing:
@@ -27,6 +38,7 @@ A results object containing:
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
+  \code{results$cla} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 }
 

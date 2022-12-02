@@ -48,6 +48,20 @@ items:
           type: 'text'
           content: ($key)
 
+    - name: cla
+      title: 'Statistics by class'
+      type: Table
+      visible: (cla)
+      clearWith:
+        - covs
+        - dep
+ 
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
     - name:  plot
       title: Tree plot
       type:  Image

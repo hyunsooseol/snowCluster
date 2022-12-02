@@ -25,11 +25,8 @@ children:
     collapsed: true
     children:
       - type: LayoutBox
-        margin: large
-        cell:
-          column: 0
-          row: 0
         stretchFactor: 1
+        margin: large
         children:
           - type: Label
             label: Table
@@ -38,12 +35,17 @@ children:
                 name: over
               - type: CheckBox
                 name: tab
+              - type: CheckBox
+                name: tab
+              - type: CheckBox
+                name: cla
       - type: LayoutBox
+        stretchFactor: 1
         margin: large
         cell:
           column: 1
           row: 0
-        stretchFactor: 1
+        fitToGrid: true
         children:
           - type: Label
             label: Plot

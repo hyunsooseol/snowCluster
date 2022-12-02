@@ -11,7 +11,8 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             tw = 1.1,
             plot = FALSE,
             over = TRUE,
-            tab = FALSE, ...) {
+            tab = FALSE,
+            cla = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -50,6 +51,10 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "tab",
                 tab,
                 default=FALSE)
+            private$..cla <- jmvcore::OptionBool$new(
+                "cla",
+                cla,
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -57,6 +62,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot)
             self$.addOption(private$..over)
             self$.addOption(private$..tab)
+            self$.addOption(private$..cla)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -64,14 +70,16 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         tw = function() private$..tw$value,
         plot = function() private$..plot$value,
         over = function() private$..over$value,
-        tab = function() private$..tab$value),
+        tab = function() private$..tab$value,
+        cla = function() private$..cla$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
         ..tw = NA,
         ..plot = NA,
         ..over = NA,
-        ..tab = NA)
+        ..tab = NA,
+        ..cla = NA)
 )
 
 treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -81,6 +89,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         text = function() private$.items[["text"]],
         over = function() private$.items[["over"]],
         tab = function() private$.items[["tab"]],
+        cla = function() private$.items[["cla"]],
         plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
@@ -136,6 +145,20 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `title`="", 
                         `type`="text", 
                         `content`="($key)"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="cla",
+                title="Statistics by class",
+                visible="(cla)",
+                clearWith=list(
+                    "covs",
+                    "dep"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -179,11 +202,13 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot .
 #' @param over .
 #' @param tab .
+#' @param cla .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$over} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
@@ -201,7 +226,8 @@ tree <- function(
     tw = 1.1,
     plot = FALSE,
     over = TRUE,
-    tab = FALSE) {
+    tab = FALSE,
+    cla = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("tree requires jmvcore to be installed (restart may be required)")
@@ -222,7 +248,8 @@ tree <- function(
         tw = tw,
         plot = plot,
         over = over,
-        tab = tab)
+        tab = tab,
+        cla = cla)
 
     analysis <- treeClass$new(
         options = options,
