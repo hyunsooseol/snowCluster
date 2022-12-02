@@ -36,8 +36,6 @@ children:
               - type: CheckBox
                 name: tab
               - type: CheckBox
-                name: tab
-              - type: CheckBox
                 name: cla
       - type: LayoutBox
         stretchFactor: 1
