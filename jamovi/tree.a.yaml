@@ -36,8 +36,14 @@ options:
       type: Bool
       default: FALSE
       
+    - name: over
+      title: Overall statistics 
+      type: Bool 
+      default: TRUE   
+      
     - name: tab
       title: Confusion matrix 
       type: Bool 
       default: FALSE          
+
       

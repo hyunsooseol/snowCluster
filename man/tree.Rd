@@ -4,7 +4,7 @@
 \alias{tree}
 \title{Classification Analysis}
 \usage{
-tree(data, dep, covs, tw = 1.1, plot = FALSE, tab = FALSE)
+tree(data, dep, covs, tw = 1.1, plot = FALSE, over = TRUE, tab = FALSE)
 }
 \arguments{
 \item{data}{.}
@@ -17,21 +17,24 @@ tree(data, dep, covs, tw = 1.1, plot = FALSE, tab = FALSE)
 
 \item{plot}{.}
 
+\item{over}{.}
+
 \item{tab}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 
-\code{results$tab$asDF}
+\code{results$over$asDF}
 
-\code{as.data.frame(results$tab)}
+\code{as.data.frame(results$over)}
 }
 \description{
 Classification Analysis

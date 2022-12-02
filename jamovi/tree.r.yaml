@@ -5,8 +5,34 @@ jrs:   '1.1'
 
 items:
     - name:  text
-      title: Classification Analysis
+      title: ''
       type:  Preformatted
+
+    - name: over
+      title: 'Overall statistics'
+      type: Table
+      rows: 1
+      visible: (over)
+      clearWith:
+        - covs
+        - dep
+      refs: caret    
+
+      columns:
+        - name: accu
+          title: 'Accuracy'
+          type: number
+        - name: lower
+          title: 'Lower'
+          type: number
+          superTitle: 'Accuracy 95% CI'
+        - name: upper
+          title: 'Upper'
+          type: number
+          superTitle: 'Accuracy 95% CI'
+        - name: kappa
+          title: 'Kappa'
+          type: number
 
     - name: tab
       title: 'Confusion Matrix'

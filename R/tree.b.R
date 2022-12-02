@@ -73,9 +73,10 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         actual <- test[[dep]]
         
-        ##############
+        #######################
         eval<- caret::confusionMatrix(actual, pred, mod='everything')
-        ####################
+        ######################
+        
         tab<- eval$table
         
         res1<- as.matrix(tab)
@@ -104,6 +105,24 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           table$addRow(rowKey=name, values=row)
           
         }
+        
+        # Overall statistics-----------
+        
+        table <- self$results$over
+        
+        acc<- eval[["overall"]][1]
+        acclow <- eval[["overall"]][3]
+        acchigh <- eval[["overall"]][4]
+        kappa <- eval[["overall"]][2]
+        
+        row <- list()
+        
+        row[['accu']] <- acc
+        row[['lower']] <- acclow
+        row[['upper']] <- acchigh
+        row[['kappa']] <- kappa
+        
+        table$setRow(rowNo = 1, values = row)
         
         
         

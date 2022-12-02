@@ -20,16 +20,37 @@ children:
             name: covs
             isTarget: true
   - type: CollapseBox
-    label: Plots
+    label: Analysis
+    margin: normal
     collapsed: true
-    stretchFactor: 1
     children:
-      - type: CheckBox
-        name: plot
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
         children:
-          - name: tw
-            type: TextBox
-            format: number
-      - type: CheckBox
-        name: tab        
-            
+          - type: Label
+            label: Table
+            children:
+              - type: CheckBox
+                name: over
+              - type: CheckBox
+                name: tab
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Plot
+            children:
+              - type: CheckBox
+                name: plot
+                children:
+                  - name: tw
+                    type: TextBox
+                    format: number

@@ -10,6 +10,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             covs = NULL,
             tw = 1.1,
             plot = FALSE,
+            over = TRUE,
             tab = FALSE, ...) {
 
             super$initialize(
@@ -41,6 +42,10 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot",
                 plot,
                 default=FALSE)
+            private$..over <- jmvcore::OptionBool$new(
+                "over",
+                over,
+                default=TRUE)
             private$..tab <- jmvcore::OptionBool$new(
                 "tab",
                 tab,
@@ -50,6 +55,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..covs)
             self$.addOption(private$..tw)
             self$.addOption(private$..plot)
+            self$.addOption(private$..over)
             self$.addOption(private$..tab)
         }),
     active = list(
@@ -57,12 +63,14 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         covs = function() private$..covs$value,
         tw = function() private$..tw$value,
         plot = function() private$..plot$value,
+        over = function() private$..over$value,
         tab = function() private$..tab$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
         ..tw = NA,
         ..plot = NA,
+        ..over = NA,
         ..tab = NA)
 )
 
@@ -71,6 +79,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         text = function() private$.items[["text"]],
+        over = function() private$.items[["over"]],
         tab = function() private$.items[["tab"]],
         plot = function() private$.items[["plot"]]),
     private = list(),
@@ -83,7 +92,36 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
-                title="Classification Analysis"))
+                title=""))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="over",
+                title="Overall statistics",
+                rows=1,
+                visible="(over)",
+                clearWith=list(
+                    "covs",
+                    "dep"),
+                refs="caret",
+                columns=list(
+                    list(
+                        `name`="accu", 
+                        `title`="Accuracy", 
+                        `type`="number"),
+                    list(
+                        `name`="lower", 
+                        `title`="Lower", 
+                        `type`="number", 
+                        `superTitle`="Accuracy 95% CI"),
+                    list(
+                        `name`="upper", 
+                        `title`="Upper", 
+                        `type`="number", 
+                        `superTitle`="Accuracy 95% CI"),
+                    list(
+                        `name`="kappa", 
+                        `title`="Kappa", 
+                        `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tab",
@@ -139,19 +177,21 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param covs .
 #' @param tw .
 #' @param plot .
+#' @param over .
 #' @param tab .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$over} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 #'
-#' \code{results$tab$asDF}
+#' \code{results$over$asDF}
 #'
-#' \code{as.data.frame(results$tab)}
+#' \code{as.data.frame(results$over)}
 #'
 #' @export
 tree <- function(
@@ -160,6 +200,7 @@ tree <- function(
     covs,
     tw = 1.1,
     plot = FALSE,
+    over = TRUE,
     tab = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
@@ -180,6 +221,7 @@ tree <- function(
         covs = covs,
         tw = tw,
         plot = plot,
+        over = over,
         tab = tab)
 
     analysis <- treeClass$new(
