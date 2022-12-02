@@ -25,12 +25,6 @@ options:
       permitted:
         - numeric
 
-    - name: tw
-      title: font size
-      type: Number
-      min: 0.5
-      default: 1.1
-
     - name: plot
       title: Tree plot 
       type: Bool

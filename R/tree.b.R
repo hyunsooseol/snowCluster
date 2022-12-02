@@ -4,7 +4,7 @@
 #' @importFrom jmvcore constructFormula
 #' @importFrom rpart rpart
 #' @importFrom rpart.plot rpart.plot
-#' @importFrom rpart rpart.control
+#' @importFrom party ctree
 #' @importFrom caret confusionMatrix
 #' @import ggplot2
 #' @import jmvcore
@@ -35,11 +35,22 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           #                       control = rpart.control(minsplit=2))
           # 
           # rpart.plot::rpart.plot(model, tweak = 1.1)
-          
+         
+        
+        # Using party package--------
+        # data(iris)
+        # irisct <- party::ctree(Species ~ .,data = iris)
+        # plot(irisct)
+        # pred <- predict(irisct)
+        # actual <- iris$Species
+        # table(predict(irisct), iris$Species)
+        # eval<- caret::confusionMatrix(pred,actual)
+        # 
+         
           
         dep <- self$options$dep
         covs <- self$options$covs
-        tw <- self$options$tw
+       
         
         data <- self$data
         data <- jmvcore::naOmit(data)
@@ -54,28 +65,34 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
         formula <- as.formula(formula)
         
-        ### Analysis-----------
+        ### Analysis using party package-----------
         
-        model.train <- rpart::rpart(formula, data=train,
-                              control = rpart::rpart.control(minsplit=2))
-        
-        #self$results$text$setContent(model.train)
-        
-        
-        # Tree plot----------
+        model.train <- party::ctree(formula, data=train)
+                            
+       # Tree plot----------
         
         image <- self$results$plot
         image$setState(model.train)
         
         # Prediction and Confusion Matrix-----
         
-        pred<- stats::predict(model.train,test,type='class')
+        # pred<- stats::predict(model.train,test,type='class')
+        # 
+        # # self$results$text$setContent(pred)
+        # 
+        # actual <- test[[dep]]
+        # 
+        # #######################
+        # eval<- caret::confusionMatrix(actual, pred, mod='everything')
+        # ######################
         
-        actual <- test[[dep]]
+        pred<-predict(model.train, test)
         
-        #######################
-        eval<- caret::confusionMatrix(actual, pred, mod='everything')
-        ######################
+        self$results$text$setContent(pred)
+        
+        eval<- caret::confusionMatrix(pred, test[[dep]]) 
+        
+        #---------------------------
         
         tab<- eval$table
         
@@ -164,11 +181,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       
         .plot = function(image,...) {
          
-          tw <- self$options$tw
+         model.train <- image$state
           
-          model.train <- image$state
-          
-          plot <- rpart.plot::rpart.plot(model.train, tweak = tw)
+          plot <- plot(model.train)
           
           print(plot)
           TRUE

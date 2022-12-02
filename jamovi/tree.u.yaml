@@ -50,7 +50,4 @@ children:
             children:
               - type: CheckBox
                 name: plot
-                children:
-                  - name: tw
-                    type: TextBox
-                    format: number
+ 

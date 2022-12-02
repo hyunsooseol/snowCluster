@@ -8,7 +8,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
-            tw = 1.1,
             plot = FALSE,
             over = TRUE,
             tab = FALSE,
@@ -34,11 +33,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
-            private$..tw <- jmvcore::OptionNumber$new(
-                "tw",
-                tw,
-                min=0.5,
-                default=1.1)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -58,7 +52,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
-            self$.addOption(private$..tw)
             self$.addOption(private$..plot)
             self$.addOption(private$..over)
             self$.addOption(private$..tab)
@@ -67,7 +60,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
-        tw = function() private$..tw$value,
         plot = function() private$..plot$value,
         over = function() private$..over$value,
         tab = function() private$..tab$value,
@@ -75,7 +67,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..dep = NA,
         ..covs = NA,
-        ..tw = NA,
         ..plot = NA,
         ..over = NA,
         ..tab = NA,
@@ -198,7 +189,6 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param covs .
-#' @param tw .
 #' @param plot .
 #' @param over .
 #' @param tab .
@@ -223,7 +213,6 @@ tree <- function(
     data,
     dep,
     covs,
-    tw = 1.1,
     plot = FALSE,
     over = TRUE,
     tab = FALSE,
@@ -245,7 +234,6 @@ tree <- function(
     options <- treeOptions$new(
         dep = dep,
         covs = covs,
-        tw = tw,
         plot = plot,
         over = over,
         tab = tab,

@@ -27,4 +27,5 @@ Imports:
     klaR,
     caret,
     rpart,
-    rpart.plot
+    rpart.plot,
+    party
