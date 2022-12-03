@@ -148,6 +148,7 @@ datasets:
     description: Discrimant Analysis
     tags:
       - Discriminant
+      - Classification
   - name: swiss
     path: swiss.omv
     description: Multidimensional Scaling Plot

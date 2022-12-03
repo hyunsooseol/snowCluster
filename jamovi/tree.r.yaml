@@ -2,8 +2,13 @@
 name:  tree
 title: Classification Analysis
 jrs:   '1.1'
-
+refs: snowCluster
 items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+      
     - name:  text
       title: ''
       type:  Preformatted
@@ -38,6 +43,7 @@ items:
       title: 'Confusion Matrix'
       type: Table
       visible: (tab)
+      refs: caret 
       clearWith:
         - covs 
         - dep
@@ -52,6 +58,7 @@ items:
       title: 'Statistics by class'
       type: Table
       visible: (cla)
+      refs: caret 
       clearWith:
         - covs
         - dep
@@ -63,14 +70,15 @@ items:
           content: ($key)
 
     - name:  plot
-      title: Tree plot
+      title: Decision tree plot
       type:  Image
       visible: (plot)
       width: 600
       height: 600
       renderFun: .plot
+      refs: party
       clearWith:
         - covs 
         - dep
-        - tw
+       
 ...

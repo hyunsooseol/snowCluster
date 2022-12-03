@@ -77,6 +77,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "treeResults",
     inherit = jmvcore::Group,
     active = list(
+        instructions = function() private$.items[["instructions"]],
         text = function() private$.items[["text"]],
         over = function() private$.items[["over"]],
         tab = function() private$.items[["tab"]],
@@ -88,7 +89,13 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Classification Analysis")
+                title="Classification Analysis",
+                refs="snowCluster")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="instructions",
+                title="Instructions",
+                visible=TRUE))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
@@ -127,6 +134,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="tab",
                 title="Confusion Matrix",
                 visible="(tab)",
+                refs="caret",
                 clearWith=list(
                     "covs",
                     "dep"),
@@ -141,6 +149,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="cla",
                 title="Statistics by class",
                 visible="(cla)",
+                refs="caret",
                 clearWith=list(
                     "covs",
                     "dep"),
@@ -153,15 +162,15 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Tree plot",
+                title="Decision tree plot",
                 visible="(plot)",
                 width=600,
                 height=600,
                 renderFun=".plot",
+                refs="party",
                 clearWith=list(
                     "covs",
-                    "dep",
-                    "tw")))}))
+                    "dep")))}))
 
 treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "treeBase",
@@ -195,6 +204,7 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param cla .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$over} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tab} \tab \tab \tab \tab \tab a table \cr

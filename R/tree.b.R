@@ -2,8 +2,6 @@
 # This file is a generated template, your changes will not be overwritten
 #' @importFrom caret createDataPartition
 #' @importFrom jmvcore constructFormula
-#' @importFrom rpart rpart
-#' @importFrom rpart.plot rpart.plot
 #' @importFrom party ctree
 #' @importFrom caret confusionMatrix
 #' @import ggplot2
@@ -15,6 +13,36 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     inherit = treeBase,
     private = list(
  
+      #------------------------------------
+      
+      .init = function() {
+        if (is.null(self$options$dep) | is.null(self$options$covs)) {
+          self$results$instructions$setVisible(visible = TRUE)
+          
+        }
+        
+        self$results$instructions$setContent(
+          "<html>
+            <head>
+            </head>
+            <body>
+            <div class='instructions'>
+            <p><b>Instructions</b></p>
+            <p>____________________________________________________________________________________</p>
+            <p> 1. Classification analysis based on <b>party</b> R package.</p>
+            <p> 2. For convenience, 70% of the data as the training set and the remaining 30% for the testing set were used for analysis. </p>
+            <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>____________________________________________________________________________________</p>
+            
+            </div>
+            </body>
+            </html>"
+        )
+        
+      },
+      
+      #---------------------------------------------
+      
       
       
       .run = function() {
@@ -88,8 +116,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         pred<-predict(model.train, test)
         
-        self$results$text$setContent(pred)
+        #self$results$text$setContent(pred)
         
+        #----------------------------
         eval<- caret::confusionMatrix(pred, test[[dep]]) 
         
         #---------------------------

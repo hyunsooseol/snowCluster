@@ -26,6 +26,4 @@ Imports:
     ggpubr,
     klaR,
     caret,
-    rpart,
-    rpart.plot,
     party

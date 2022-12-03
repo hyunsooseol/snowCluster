@@ -24,6 +24,7 @@ tree(data, dep, covs, plot = FALSE, over = TRUE, tab = FALSE, cla = FALSE)
 \value{
 A results object containing:
 \tabular{llllll}{
+  \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab} \tab \tab \tab \tab \tab a table \cr

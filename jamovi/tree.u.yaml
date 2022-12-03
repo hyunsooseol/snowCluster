@@ -29,7 +29,7 @@ children:
         margin: large
         children:
           - type: Label
-            label: Table
+            label: Tables
             children:
               - type: CheckBox
                 name: over
