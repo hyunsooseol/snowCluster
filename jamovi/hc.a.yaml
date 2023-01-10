@@ -79,7 +79,7 @@ options:
       default: TRUE
   
     - name: clust
-      title: Hierarchical cluster number
+      title: Cluster number
       type: Output    
       
 ...

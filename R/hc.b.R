@@ -28,7 +28,7 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <p><b>Instructions</b></p>
             <p>____________________________________________________________________________________</p>
             <p>1. Do not move any variable into <b> Labels </b> box to get cluster number.</p>
-            <p>2. The result of <b> Hierarchical cluster number </b> will be displayed in the datasheet.</p>
+            <p>2. Cluster numbers will be displayed in the datasheet. </p>
             <p>3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
@@ -80,10 +80,18 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 cluster <- hc$cluster
               
-                self$results$clust$setRowNums(rownames(data))
                 
-                self$results$clust$setValues(cluster)
+                #self$results$text$setContent(cluster)
+                # self$results$clust$setValues(cluster)
+                # self$results$clust$setRowNums(rownames(data))
                 
+                if (self$options$clust&& self$results$clust$isNotFilled()){
+                  
+                  
+                  self$results$clust$setRowNums(rownames(data))
+                  self$results$clust$setValues(cluster)
+                  
+                }
                 
                 
                 ##### plot-------------------
