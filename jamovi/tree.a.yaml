@@ -25,6 +25,12 @@ options:
       permitted:
         - numeric
 
+    - name: per
+      title: Set(%)
+      type: Number
+      min: 0.1
+      default: 0.7
+
     - name: plot
       title: Tree plot 
       type: Bool

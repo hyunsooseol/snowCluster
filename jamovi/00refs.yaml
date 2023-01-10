@@ -2,9 +2,9 @@ refs:
    snowCluster:
        type: 'software'
        author: Seol, H.
-       year: 2022
+       year: 2023
        title: "snowCluster: Multivariate Analysis"
-       publisher: '(Version 6.8.0)[jamovi module]. https://github.com/hyunsooseol/snowCluster'
+       publisher: '(Version 6.8.1)[jamovi module]. https://github.com/hyunsooseol/snowCluster'
        url: https://github.com/hyunsooseol/snowCluster
        
    factoextra:

@@ -50,4 +50,9 @@ children:
             children:
               - type: CheckBox
                 name: plot
- 
+          - type: Label
+            label: Training
+            children:
+              - type: TextBox
+                name: per
+                format: number

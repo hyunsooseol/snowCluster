@@ -21,6 +21,7 @@ items:
       clearWith:
         - covs
         - dep
+        - per
       refs: caret    
 
       columns:
@@ -47,6 +48,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - per
         
       columns:
         - name: name
@@ -62,6 +64,7 @@ items:
       clearWith:
         - covs
         - dep
+        - per
  
       columns:
         - name: name
@@ -80,5 +83,6 @@ items:
       clearWith:
         - covs 
         - dep
+        - per
        
 ...

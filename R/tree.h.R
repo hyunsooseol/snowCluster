@@ -8,6 +8,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
+            per = 0.7,
             plot = FALSE,
             over = TRUE,
             tab = FALSE,
@@ -33,6 +34,11 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..per <- jmvcore::OptionNumber$new(
+                "per",
+                per,
+                min=0.1,
+                default=0.7)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -52,6 +58,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
+            self$.addOption(private$..per)
             self$.addOption(private$..plot)
             self$.addOption(private$..over)
             self$.addOption(private$..tab)
@@ -60,6 +67,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
+        per = function() private$..per$value,
         plot = function() private$..plot$value,
         over = function() private$..over$value,
         tab = function() private$..tab$value,
@@ -67,6 +75,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..dep = NA,
         ..covs = NA,
+        ..per = NA,
         ..plot = NA,
         ..over = NA,
         ..tab = NA,
@@ -108,7 +117,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(over)",
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 refs="caret",
                 columns=list(
                     list(
@@ -137,7 +147,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="caret",
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -152,7 +163,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="caret",
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -170,7 +182,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="party",
                 clearWith=list(
                     "covs",
-                    "dep")))}))
+                    "dep",
+                    "per")))}))
 
 treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "treeBase",
@@ -198,6 +211,7 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param covs .
+#' @param per .
 #' @param plot .
 #' @param over .
 #' @param tab .
@@ -223,6 +237,7 @@ tree <- function(
     data,
     dep,
     covs,
+    per = 0.7,
     plot = FALSE,
     over = TRUE,
     tab = FALSE,
@@ -244,6 +259,7 @@ tree <- function(
     options <- treeOptions$new(
         dep = dep,
         covs = covs,
+        per = per,
         plot = plot,
         over = over,
         tab = tab,

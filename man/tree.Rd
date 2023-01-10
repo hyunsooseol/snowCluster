@@ -4,7 +4,16 @@
 \alias{tree}
 \title{Classification Analysis}
 \usage{
-tree(data, dep, covs, plot = FALSE, over = TRUE, tab = FALSE, cla = FALSE)
+tree(
+  data,
+  dep,
+  covs,
+  per = 0.7,
+  plot = FALSE,
+  over = TRUE,
+  tab = FALSE,
+  cla = FALSE
+)
 }
 \arguments{
 \item{data}{.}
@@ -12,6 +21,8 @@ tree(data, dep, covs, plot = FALSE, over = TRUE, tab = FALSE, cla = FALSE)
 \item{dep}{.}
 
 \item{covs}{.}
+
+\item{per}{.}
 
 \item{plot}{.}
 
