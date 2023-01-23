@@ -14,12 +14,24 @@ description: >-
   of mixed data, Discriminant Analysis, Multidimensional Scaling, Univariate
   time series, Classification Analysis, and various visualization results.
 analyses:
-  - title: K-means clustering method
+  - title: K-means Clustering
     name: kmeans
     ns: snowCluster
     menuGroup: snowCluster
-    menuTitle: K-means clustering method
+    menuTitle: K-means Clustering
     menuSubgroup: Cluster
+  - title: Hierarchical Clustering
+    name: hcm
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuSubgroup: Cluster
+    menuTitle: Hierarchical Clustering
+  - title: Clustering Dendrogram
+    name: hc
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuSubgroup: Cluster
+    menuTitle: Clustering Dendrogram
   - title: PCA Plot
     name: pca
     ns: snowCluster
@@ -44,18 +56,6 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Multiple Correspondence Analysis
     menuSubgroup: Correspondence
-  - title: Hierarchical Clustering Dendrogram
-    name: hc
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuSubgroup: Cluster
-    menuTitle: Hierarchical Clustering Dendrogram
-  - title: Hierarchical clustering method
-    name: hcm
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuSubgroup: Cluster
-    menuTitle: Hierarchical clustering method
   - title: Multiple Factor Analysis
     name: mfa
     ns: snowCluster

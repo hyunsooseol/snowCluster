@@ -102,6 +102,8 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "pair",
                 pair,
                 default=FALSE)
+            private$..clust <- jmvcore::OptionOutput$new(
+                "clust")
 
             self$.addOption(private$..podatki)
             self$.addOption(private$..imena)
@@ -116,6 +118,7 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..horiz)
             self$.addOption(private$..heat)
             self$.addOption(private$..pair)
+            self$.addOption(private$..clust)
         }),
     active = list(
         podatki = function() private$..podatki$value,
@@ -130,7 +133,8 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         dend = function() private$..dend$value,
         horiz = function() private$..horiz$value,
         heat = function() private$..heat$value,
-        pair = function() private$..pair$value),
+        pair = function() private$..pair$value,
+        clust = function() private$..clust$value),
     private = list(
         ..podatki = NA,
         ..imena = NA,
@@ -144,7 +148,8 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..dend = NA,
         ..horiz = NA,
         ..heat = NA,
-        ..pair = NA)
+        ..pair = NA,
+        ..clust = NA)
 )
 
 hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -156,14 +161,16 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         groups = function() private$.items[["groups"]],
         plot = function() private$.items[["plot"]],
         heat = function() private$.items[["heat"]],
-        pairs = function() private$.items[["pairs"]]),
+        pairs = function() private$.items[["pairs"]],
+        clust = function() private$.items[["clust"]]),
     private = list(),
     public=list(
         initialize=function(options) {
             super$initialize(
                 options=options,
                 name="",
-                title="Hierarchical clustering method")
+                title="Hierarchical Clustering",
+                refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
                 name="instructions",
@@ -238,7 +245,20 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible=FALSE,
                 width=600,
                 height=600,
-                renderFun=".pairs"))}))
+                renderFun=".pairs"))
+            self$add(jmvcore::Output$new(
+                options=options,
+                name="clust",
+                title="Clustering",
+                varTitle="Clustering",
+                measureType="nominal",
+                clearWith=list(
+                    "dis",
+                    "method",
+                    "group",
+                    "grp",
+                    "hght",
+                    "case")))}))
 
 hcmBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcmBase",
@@ -260,7 +280,7 @@ hcmBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresMissings = FALSE)
         }))
 
-#' Hierarchical clustering method
+#' Hierarchical Clustering
 #'
 #' 
 #' @param data .
@@ -285,6 +305,7 @@ hcmBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$heat} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$pairs} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

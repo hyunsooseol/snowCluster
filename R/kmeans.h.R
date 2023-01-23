@@ -134,7 +134,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="K-means clustering method",
+                title="K-means Clustering",
                 refs="snowCluster")
             self$add(jmvcore::Preformatted$new(
                 options=options,
@@ -293,7 +293,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresMissings = FALSE)
         }))
 
-#' K-means clustering method
+#' K-means Clustering
 #'
 #' 
 #' @param data The data as a data frame.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/kmeans.h.R
 \name{kmeans}
 \alias{kmeans}
-\title{K-means clustering method}
+\title{K-means Clustering}
 \usage{
 kmeans(
   data,
@@ -33,7 +33,7 @@ kmeans(
 
 \item{plot}{.}
 
-\item{angle}{a number from 0 to 45 defining the angle of the x-axis labels,
+\item{angle}{a number from 0 to 90 defining the angle of the x-axis labels,
 where 0 degrees represents completely horizontal labels.}
 
 \item{plot1}{.}
@@ -63,5 +63,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$ss)}
 }
 \description{
-K-means clustering method
+K-means Clustering
 }

@@ -1,6 +1,6 @@
 ---
 name:  kmeans
-title: K-means clustering method
+title: K-means Clustering 
 menuGroup: snowCluster
 menuSubgroup: Cluster
 version: '1.0.0'

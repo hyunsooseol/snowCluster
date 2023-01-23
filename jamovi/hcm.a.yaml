@@ -1,6 +1,6 @@
 ---
 name:  hcm
-title: Hierarchical clustering method
+title: Hierarchical Clustering 
 menuGroup: snowCluster
 version: '1.0.0'
 jas: '1.2'
@@ -113,5 +113,8 @@ options:
       type: Bool
       default: false
 
+    - name: clust
+      title: Cluster number
+      type: Output
 
 ...

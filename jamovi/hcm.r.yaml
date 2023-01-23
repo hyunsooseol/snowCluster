@@ -1,8 +1,8 @@
 ---
 name:  hcm
-title: Hierarchical clustering method
+title: Hierarchical Clustering 
 jrs:   '1.1'
-
+refs: snowCluster
 items:
     - name: instructions
       title: Instructions
@@ -76,5 +76,16 @@ items:
       height: 600
       renderFun: .pairs       
 
-  
+    - name: clust
+      title: Clustering
+      type: Output
+      varTitle: Clustering
+      measureType: nominal
+      clearWith:
+        - dis
+        - method
+        - group
+        - grp
+        - hght
+        - case
 ...

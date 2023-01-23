@@ -2,7 +2,7 @@
 % Please edit documentation in R/hcm.h.R
 \name{hcm}
 \alias{hcm}
-\title{Hierarchical clustering method}
+\title{Hierarchical Clustering}
 \usage{
 hcm(
   data,
@@ -59,6 +59,7 @@ A results object containing:
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$heat} \tab \tab \tab \tab \tab an image \cr
   \code{results$pairs} \tab \tab \tab \tab \tab an image \cr
+  \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -68,5 +69,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$izpis)}
 }
 \description{
-Hierarchical clustering method
+Hierarchical Clustering
 }

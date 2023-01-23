@@ -1,6 +1,6 @@
 ---
 name:  kmeans
-title: K-means clustering method
+title: K-means Clustering 
 jrs:   '1.1'
 refs: snowCluster
 items:

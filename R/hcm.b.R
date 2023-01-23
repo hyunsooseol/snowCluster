@@ -112,6 +112,19 @@ hcmClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             freq=tab[i,2]
         ))	
     }  
+    
+    #############################################
+    # Cluster membership-------------
+    
+    m<- as.data.frame(razrez)
+    mem<- m[,1]
+    
+    self$results$clust$setValues(mem)
+    
+    self$results$clust$setRowNums(rownames(data))
+    #############################
+    
+    
     #providing plot		
     if(dend == TRUE){
         image <- self$results$plot

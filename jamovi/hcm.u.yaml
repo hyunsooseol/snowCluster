@@ -1,4 +1,4 @@
-title: Hierarchical clustering method
+title: Hierarchical Clustering 
 name: hcm
 jus: '3.0'
 stage: 0
@@ -62,7 +62,6 @@ children:
                 name: group
                 format: number
                 enable: (grp_number)
-            
   - type: CollapseBox
     label: Plots
     margin: normal
@@ -79,5 +78,16 @@ children:
       - type: CheckBox
         name: pair
         enable: (!case)
+  - type: CollapseBox
+    label: Save
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: Output
+            name: clust
       
   
