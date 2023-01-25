@@ -98,7 +98,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Classification Analysis",
+                title="Decision Tree",
                 refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
@@ -205,7 +205,7 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresMissings = FALSE)
         }))
 
-#' Classification Analysis
+#' Decision Tree
 #'
 #' 
 #' @param data .

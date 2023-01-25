@@ -2,7 +2,7 @@
 % Please edit documentation in R/tree.h.R
 \name{tree}
 \alias{tree}
-\title{Classification Analysis}
+\title{Decision Tree}
 \usage{
 tree(
   data,
@@ -50,5 +50,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$over)}
 }
 \description{
-Classification Analysis
+Decision Tree
 }

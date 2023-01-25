@@ -2,6 +2,7 @@
 
 export(arima)
 export(arimaClass)
+export(caret)
 export(correspondence)
 export(correspondenceClass)
 export(disc)

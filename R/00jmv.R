@@ -7,7 +7,7 @@
         `author`="Seol, H.", 
         `year`=2023, 
         `title`="snowCluster: Multivariate Analysis", 
-        `publisher`="(Version 6.8.3)[jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
+        `publisher`="(Version 6.9.0)[jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
         `url`="https://github.com/hyunsooseol/snowCluster"), 
     `factoextra`=list(
         `type`="software", 

@@ -1,6 +1,6 @@
 ---
 name:  tree
-title: Classification Analysis
+title: Decision Tree
 menuGroup: snowCluster
 version: '1.0.0'
 jas: '1.2'
