@@ -4,24 +4,73 @@
 \alias{caret}
 \title{Machine Learning}
 \usage{
-caret(data, dep, group, alt = "notequal", varEq = TRUE)
+caret(
+  data,
+  dep,
+  covs,
+  scale,
+  mecon,
+  method = "rpart",
+  number = 10,
+  repeats = 5,
+  per = 0.7,
+  over = TRUE,
+  tab = FALSE,
+  cla = FALSE,
+  plot = FALSE,
+  plot1 = FALSE,
+  plot2 = FALSE
+)
 }
 \arguments{
 \item{data}{.}
 
 \item{dep}{.}
 
-\item{group}{.}
+\item{covs}{.}
 
-\item{alt}{.}
+\item{scale}{.}
 
-\item{varEq}{.}
+\item{mecon}{.}
+
+\item{method}{.}
+
+\item{number}{.}
+
+\item{repeats}{.}
+
+\item{per}{.}
+
+\item{over}{.}
+
+\item{tab}{.}
+
+\item{cla}{.}
+
+\item{plot}{.}
+
+\item{plot1}{.}
+
+\item{plot2}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
+  \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$over} \tab \tab \tab \tab \tab a table \cr
+  \code{results$tab} \tab \tab \tab \tab \tab a table \cr
+  \code{results$cla} \tab \tab \tab \tab \tab a table \cr
+  \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 }
+
+Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+
+\code{results$over$asDF}
+
+\code{as.data.frame(results$over)}
 }
 \description{
 Machine Learning

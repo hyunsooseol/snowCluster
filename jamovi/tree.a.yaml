@@ -20,10 +20,6 @@ options:
     - name: covs
       title: Covariates
       type: Variables
-      suggested:
-        - continuous
-      permitted:
-        - numeric
 
     - name: per
       title: Set(%)

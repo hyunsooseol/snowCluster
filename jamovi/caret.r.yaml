@@ -2,10 +2,138 @@
 name:  caret
 title: Machine Learning
 jrs:   '1.1'
-
+refs: snowCluster
 items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+
     - name:  text
-      title: Machine Learning
+      title: Model information
       type:  Preformatted
+
+    - name: over
+      title: 'Overall statistics'
+      type: Table
+      rows: 1
+      visible: (over)
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+      refs: caret    
+
+      columns:
+        - name: accu
+          title: 'Accuracy'
+          type: number
+        - name: lower
+          title: 'Lower'
+          type: number
+          superTitle: 'Accuracy 95% CI'
+        - name: upper
+          title: 'Upper'
+          type: number
+          superTitle: 'Accuracy 95% CI'
+        - name: kappa
+          title: 'Kappa'
+          type: number
+
+    - name: tab
+      title: 'Confusion Matrix'
+      type: Table
+      visible: (tab)
+      refs: caret 
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
+    - name: cla
+      title: 'Statistics by class'
+      type: Table
+      visible: (cla)
+      refs: caret 
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
+    - name:  plot
+      title: rpart plot
+      type:  Image
+      visible: (plot)
+      width: 600
+      height: 600
+      renderFun: .plot
+      refs: caret
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+
+    - name:  plot1
+      title: Variable importance plot
+      type:  Image
+      visible: (plot1)
+      width: 600
+      height: 600
+      renderFun: .plot1
+      refs: caret
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        
+    - name:  plot2
+      title: Box plot
+      type:  Image
+      visible: (plot2)
+      width: 600
+      height: 600
+      renderFun: .plot2
+      refs: caret
+      clearWith:
+        - covs 
+        - dep
+
 
 ...

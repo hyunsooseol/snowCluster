@@ -29,11 +29,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "factor"))
             private$..covs <- jmvcore::OptionVariables$new(
                 "covs",
-                covs,
-                suggested=list(
-                    "continuous"),
-                permitted=list(
-                    "numeric"))
+                covs)
             private$..per <- jmvcore::OptionNumber$new(
                 "per",
                 per,

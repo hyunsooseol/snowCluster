@@ -10,27 +10,109 @@ options:
       type: Data
 
     - name: dep
-      title: Dependent Variable
       type: Variable
+      title: Target
+      suggested:
+        - nominal
+      permitted:
+        - factor 
 
-    - name: group
-      title: Grouping Variable
-      type: Variable
-
-    - name: alt
-      title: Alternative hypothesis
+    - name: covs
+      title: Predictors
+      type: Variables
+ 
+    - name: scale
+      title: Scaling
       type: List
       options:
-        - title: Not equal
-          name:  notequal
-        - title: One greater
-          name:  onegreater
-        - title: Two greater
-          name:  twogreater
-      default: notequal
+        - title: Standardization
+          name:  stand
+        - title: Normalization
+          name:  normal
 
-    - name: varEq
-      title: Assume equal variances
+    - name: mecon
+      title: Methods
+      type: List
+      options:
+        - title: repeatedcv
+          name:  repeatedcv
+        - title: boot
+          name:  boot
+ 
+    - name: method
+      title: Methods
+      type: List
+      options:
+        - title: lm
+          name:  lm
+        - title: glm
+          name:  glm
+        - title: pls
+          name:  pls
+        - title: ctree
+          name:  ctree
+        - title: knn
+          name:  knn
+        - title: rpart
+          name:  rpart
+        - title: ranger
+          name:  ranger
+        - title: nnet
+          name:  nnet
+        - title: neuralnet
+          name:  neuralnet
+        - title: xgbTree
+          name:  xgbTree
+        - title: lasso
+          name:  lasso
+      default: rpart
+
+    - name: number
+      title: Number
+      type: Number
+      min: 10
+      default: 10    
+
+    - name: repeats
+      title: Repeats
+      type: Number
+      min: 5
+      default: 5    
+
+    - name: per
+      title: Split set
+      type: Number
+      min: 0.1
+      default: 0.7    
+
+    - name: over
+      title: Overall statistics 
+      type: Bool 
+      default: TRUE   
+      
+    - name: tab
+      title: Confusion matrix 
+      type: Bool 
+      default: FALSE          
+
+    - name: cla
+      title: Statistics by class
+      type: Bool 
+      default: FALSE     
+
+    - name: plot
+      title: rpart  
       type: Bool
-      default: true
+      default: FALSE
+
+    - name: plot1
+      title: Variable importance  
+      type: Bool
+      default: FALSE
+
+    - name: plot2
+      title: Box plot  
+      type: Bool
+      default: FALSE
+
 ...

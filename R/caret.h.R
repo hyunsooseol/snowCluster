@@ -7,9 +7,19 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             dep = NULL,
-            group = NULL,
-            alt = "notequal",
-            varEq = TRUE, ...) {
+            covs = NULL,
+            scale = NULL,
+            mecon = NULL,
+            method = "rpart",
+            number = 10,
+            repeats = 5,
+            per = 0.7,
+            over = TRUE,
+            tab = FALSE,
+            cla = FALSE,
+            plot = FALSE,
+            plot1 = FALSE,
+            plot2 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -19,56 +29,283 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             private$..dep <- jmvcore::OptionVariable$new(
                 "dep",
-                dep)
-            private$..group <- jmvcore::OptionVariable$new(
-                "group",
-                group)
-            private$..alt <- jmvcore::OptionList$new(
-                "alt",
-                alt,
+                dep,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
+            private$..covs <- jmvcore::OptionVariables$new(
+                "covs",
+                covs)
+            private$..scale <- jmvcore::OptionList$new(
+                "scale",
+                scale,
                 options=list(
-                    "notequal",
-                    "onegreater",
-                    "twogreater"),
-                default="notequal")
-            private$..varEq <- jmvcore::OptionBool$new(
-                "varEq",
-                varEq,
+                    "stand",
+                    "normal"))
+            private$..mecon <- jmvcore::OptionList$new(
+                "mecon",
+                mecon,
+                options=list(
+                    "repeatedcv",
+                    "boot"))
+            private$..method <- jmvcore::OptionList$new(
+                "method",
+                method,
+                options=list(
+                    "lm",
+                    "glm",
+                    "pls",
+                    "ctree",
+                    "knn",
+                    "rpart",
+                    "ranger",
+                    "nnet",
+                    "neuralnet",
+                    "xgbTree",
+                    "lasso"),
+                default="rpart")
+            private$..number <- jmvcore::OptionNumber$new(
+                "number",
+                number,
+                min=10,
+                default=10)
+            private$..repeats <- jmvcore::OptionNumber$new(
+                "repeats",
+                repeats,
+                min=5,
+                default=5)
+            private$..per <- jmvcore::OptionNumber$new(
+                "per",
+                per,
+                min=0.1,
+                default=0.7)
+            private$..over <- jmvcore::OptionBool$new(
+                "over",
+                over,
                 default=TRUE)
+            private$..tab <- jmvcore::OptionBool$new(
+                "tab",
+                tab,
+                default=FALSE)
+            private$..cla <- jmvcore::OptionBool$new(
+                "cla",
+                cla,
+                default=FALSE)
+            private$..plot <- jmvcore::OptionBool$new(
+                "plot",
+                plot,
+                default=FALSE)
+            private$..plot1 <- jmvcore::OptionBool$new(
+                "plot1",
+                plot1,
+                default=FALSE)
+            private$..plot2 <- jmvcore::OptionBool$new(
+                "plot2",
+                plot2,
+                default=FALSE)
 
             self$.addOption(private$..dep)
-            self$.addOption(private$..group)
-            self$.addOption(private$..alt)
-            self$.addOption(private$..varEq)
+            self$.addOption(private$..covs)
+            self$.addOption(private$..scale)
+            self$.addOption(private$..mecon)
+            self$.addOption(private$..method)
+            self$.addOption(private$..number)
+            self$.addOption(private$..repeats)
+            self$.addOption(private$..per)
+            self$.addOption(private$..over)
+            self$.addOption(private$..tab)
+            self$.addOption(private$..cla)
+            self$.addOption(private$..plot)
+            self$.addOption(private$..plot1)
+            self$.addOption(private$..plot2)
         }),
     active = list(
         dep = function() private$..dep$value,
-        group = function() private$..group$value,
-        alt = function() private$..alt$value,
-        varEq = function() private$..varEq$value),
+        covs = function() private$..covs$value,
+        scale = function() private$..scale$value,
+        mecon = function() private$..mecon$value,
+        method = function() private$..method$value,
+        number = function() private$..number$value,
+        repeats = function() private$..repeats$value,
+        per = function() private$..per$value,
+        over = function() private$..over$value,
+        tab = function() private$..tab$value,
+        cla = function() private$..cla$value,
+        plot = function() private$..plot$value,
+        plot1 = function() private$..plot1$value,
+        plot2 = function() private$..plot2$value),
     private = list(
         ..dep = NA,
-        ..group = NA,
-        ..alt = NA,
-        ..varEq = NA)
+        ..covs = NA,
+        ..scale = NA,
+        ..mecon = NA,
+        ..method = NA,
+        ..number = NA,
+        ..repeats = NA,
+        ..per = NA,
+        ..over = NA,
+        ..tab = NA,
+        ..cla = NA,
+        ..plot = NA,
+        ..plot1 = NA,
+        ..plot2 = NA)
 )
 
 caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "caretResults",
     inherit = jmvcore::Group,
     active = list(
-        text = function() private$.items[["text"]]),
+        instructions = function() private$.items[["instructions"]],
+        text = function() private$.items[["text"]],
+        over = function() private$.items[["over"]],
+        tab = function() private$.items[["tab"]],
+        cla = function() private$.items[["cla"]],
+        plot = function() private$.items[["plot"]],
+        plot1 = function() private$.items[["plot1"]],
+        plot2 = function() private$.items[["plot2"]]),
     private = list(),
     public=list(
         initialize=function(options) {
             super$initialize(
                 options=options,
                 name="",
-                title="Machine Learning")
+                title="Machine Learning",
+                refs="snowCluster")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="instructions",
+                title="Instructions",
+                visible=TRUE))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
-                title="Machine Learning"))}))
+                title="Model information"))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="over",
+                title="Overall statistics",
+                rows=1,
+                visible="(over)",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "scale",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method"),
+                refs="caret",
+                columns=list(
+                    list(
+                        `name`="accu", 
+                        `title`="Accuracy", 
+                        `type`="number"),
+                    list(
+                        `name`="lower", 
+                        `title`="Lower", 
+                        `type`="number", 
+                        `superTitle`="Accuracy 95% CI"),
+                    list(
+                        `name`="upper", 
+                        `title`="Upper", 
+                        `type`="number", 
+                        `superTitle`="Accuracy 95% CI"),
+                    list(
+                        `name`="kappa", 
+                        `title`="Kappa", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="tab",
+                title="Confusion Matrix",
+                visible="(tab)",
+                refs="caret",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "scale",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="cla",
+                title="Statistics by class",
+                visible="(cla)",
+                refs="caret",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "scale",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"))))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot",
+                title="rpart plot",
+                visible="(plot)",
+                width=600,
+                height=600,
+                renderFun=".plot",
+                refs="caret",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "scale",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot1",
+                title="Variable importance plot",
+                visible="(plot1)",
+                width=600,
+                height=600,
+                renderFun=".plot1",
+                refs="caret",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "scale",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot2",
+                title="Box plot",
+                visible="(plot2)",
+                width=600,
+                height=600,
+                renderFun=".plot2",
+                refs="caret",
+                clearWith=list(
+                    "covs",
+                    "dep")))}))
 
 caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "caretBase",
@@ -95,39 +332,83 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data .
 #' @param dep .
-#' @param group .
-#' @param alt .
-#' @param varEq .
+#' @param covs .
+#' @param scale .
+#' @param mecon .
+#' @param method .
+#' @param number .
+#' @param repeats .
+#' @param per .
+#' @param over .
+#' @param tab .
+#' @param cla .
+#' @param plot .
+#' @param plot1 .
+#' @param plot2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$over} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$over$asDF}
+#'
+#' \code{as.data.frame(results$over)}
 #'
 #' @export
 caret <- function(
     data,
     dep,
-    group,
-    alt = "notequal",
-    varEq = TRUE) {
+    covs,
+    scale,
+    mecon,
+    method = "rpart",
+    number = 10,
+    repeats = 5,
+    per = 0.7,
+    over = TRUE,
+    tab = FALSE,
+    cla = FALSE,
+    plot = FALSE,
+    plot1 = FALSE,
+    plot2 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("caret requires jmvcore to be installed (restart may be required)")
 
     if ( ! missing(dep)) dep <- jmvcore::resolveQuo(jmvcore::enquo(dep))
-    if ( ! missing(group)) group <- jmvcore::resolveQuo(jmvcore::enquo(group))
+    if ( ! missing(covs)) covs <- jmvcore::resolveQuo(jmvcore::enquo(covs))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(dep), dep, NULL),
-            `if`( ! missing(group), group, NULL))
+            `if`( ! missing(covs), covs, NULL))
 
+    for (v in dep) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- caretOptions$new(
         dep = dep,
-        group = group,
-        alt = alt,
-        varEq = varEq)
+        covs = covs,
+        scale = scale,
+        mecon = mecon,
+        method = method,
+        number = number,
+        repeats = repeats,
+        per = per,
+        over = over,
+        tab = tab,
+        cla = cla,
+        plot = plot,
+        plot1 = plot1,
+        plot2 = plot2)
 
     analysis <- caretClass$new(
         options = options,

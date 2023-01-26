@@ -26,4 +26,11 @@ Imports:
     ggpubr,
     klaR,
     caret,
-    party
+    party,
+    xgboost,
+    rpart.plot,
+    ranger,
+    neuralnet,
+    pls,
+    elasticnet,
+    nnet

@@ -75,6 +75,12 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Decision Tree
     menuSubgroup: Classification
+  - title: Machine Learning
+    name: caret
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Machine Learning
+    menuSubgroup: Classification
   - title: Multidimensional Scaling Plot
     name: mds
     ns: snowCluster
@@ -93,11 +99,6 @@ analyses:
     menuGroup: snowCluster
     menuSubgroup: Factor
     menuTitle: Factor analysis of mixed data
-  - title: Machine Learning
-    name: caret
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuTitle: Machine Learning
 datasets:
   - name: iris
     path: iris.omv
