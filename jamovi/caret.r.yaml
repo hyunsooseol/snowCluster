@@ -87,6 +87,24 @@ items:
           type: 'text'
           content: ($key)
 
+    - name:  plot2
+      title: Model selection plot
+      type:  Image
+      visible: (plot2)
+      width: 600
+      height: 350
+      renderFun: .plot2
+      refs: caret
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method 
+
     - name:  plot
       title: rpart plot
       type:  Image
@@ -122,18 +140,5 @@ items:
         - number
         - repeats
         - method
-        
-    - name:  plot2
-      title: Box plot
-      type:  Image
-      visible: (plot2)
-      width: 600
-      height: 600
-      renderFun: .plot2
-      refs: caret
-      clearWith:
-        - covs 
-        - dep
-
-
+       
 ...

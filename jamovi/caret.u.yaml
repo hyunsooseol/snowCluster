@@ -36,8 +36,6 @@ children:
               - type: TextBox
                 name: per
                 format: number
-              - type: CheckBox
-                name: plot2
           - type: Label
             label: Tuning parameters
             children:
@@ -74,6 +72,8 @@ children:
           - type: Label
             label: 'Plots'
             children:
+              - type: CheckBox
+                name: plot2
               - type: CheckBox
                 name: plot
               - type: CheckBox

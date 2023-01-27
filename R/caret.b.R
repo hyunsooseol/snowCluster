@@ -6,7 +6,6 @@
 #' @importFrom caret confusionMatrix
 #' @importFrom caret trainControl
 #' @importFrom caret varImp
-#' @importFrom caret featurePlot
 #' @import caret
 #' @import xgboost
 #' @import rpart.plot
@@ -16,6 +15,7 @@
 #' @import party
 #' @import elasticnet
 #' @import nnet
+#' @import gbm
 #' @import ggplot2
 #' @import jmvcore
 #' @export
@@ -43,7 +43,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <p><b>Instructions</b></p>
             <p>____________________________________________________________________________________</p>
             <p> 1. Machine learning based on <b>caret</b> R package.</p>
-            <p> 2. The rationale of caret R package is described in the <a href='https://topepo.github.io/caret/' target = '_blank'>Talk slides by Max Kuhn</a>.</p>
+            <p> 2. The rationale of caret R package is described in the <a href='https://topepo.github.io/caret/' target = '_blank'>page</a>.</p>
             <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
@@ -91,7 +91,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 # trainControl-----------
                 
-                fitControl <- caret::trainControl(method = mecon, number =number , repeats = repeats)
+                fitControl <- caret::trainControl(method = mecon, 
+                                                  number =number , 
+                                                  repeats = repeats)
               
                 
                 # Train dataset---------------
@@ -119,7 +121,20 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
                 self$results$text$setContent(fit)
                 
+                
+                ####### Plot##############################
+                
+                # Model selection plot----------
+                
+                if(isTRUE(self$options$plot2)){
+                
+                  image2 <- self$results$plot2
+                  
+                  image2$setState(fit)
+                
+                }
                 # rpart plot----------
+                
                 if(self$options$method=='rpart'){
                 
                   rp<- fit$finalModel  
@@ -139,39 +154,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 image1$setState(vi)
                 }
                 
-                #Box plot----------
-
-                if(isTRUE(self$options$plot2)){
-
-                 
-                  x <- self$options$covs
-                  y <- self$options$dep
-                 
-                  pre<- self$data[x]
-                  tar<- self$data[y]
-                  
-                  state <- list(pre, tar)
-                  
-                  image2 <- self$results$plot2 
-                  image2$setState(state)
-                  
-                  # xCol <- jmvcore::toNumeric(self$data[x])
-                  # yCol <- jmvcore::toNumeric(self$data[y])
-                  # 
-                  # data <- data.frame(x=xCol, y=yCol)
-                  # data <- jmvcore::naOmit(data)
-                  # 
-                  # 
-                  # self$results$text$setContent(state)
-                  # 
-                  # 
-                  # 
-                  
-                  # image2$setState(data)
-                  # 
-                  
-                }
-
+                
                 #######################################
                 
                 
@@ -272,20 +255,34 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 
                 },
+          ##########################################################
+      .plot2 = function(image2,ggtheme, theme,...) {
+        
+        if (is.null(image2$state))
+          return(FALSE)
+        
+        fit <- image2$state
+        
+        plot2 <- ggplot2::ggplot(fit)
+        
+        print(plot2)
+        TRUE
+        
+      },
                 
-                
-                .plot = function(image,...) {
+      .plot = function(image,...) {
                   
-                  if (is.null(image$state))
-                    return(FALSE)
+          if (is.null(image$state))
+              return(FALSE)
+      
+              rp <- image$state
                   
-                  rp <- image$state
-                  
-                  plot<- rpart.plot::rpart.plot(rp)
-                  
-                  print(plot)
-                  TRUE
+            plot<- rpart.plot::rpart.plot(rp)
+            
+              print(plot)
+              TRUE
                 },
+      
                   
       .plot1 = function(image1,...) {
         
@@ -298,25 +295,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         print(plot1)
         TRUE
-      },
-      
-      .plot2 = function(image2,...) {
-        
-         if (is.null(image2$state))
-           return(FALSE)
-
-        pre <- image2$state[[1]]
-        tar <- image2$state[[2]]
-       
-        
-        plot2<- caret::featurePlot(pre,tar, "box")
-        
-        print(plot2)
-        TRUE
       }
       
-          
-          
-            
-        )
+   
+   )
 )

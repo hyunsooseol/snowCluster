@@ -33,4 +33,7 @@ Imports:
     neuralnet,
     pls,
     elasticnet,
-    nnet
+    nnet,
+    reshape2,
+    gbm
+    

@@ -19,7 +19,7 @@ caret(
   cla = FALSE,
   plot = FALSE,
   plot1 = FALSE,
-  plot2 = FALSE
+  plot2 = TRUE
 )
 }
 \arguments{
@@ -61,9 +61,9 @@ A results object containing:
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
+  \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
-  \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

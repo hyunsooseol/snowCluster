@@ -43,10 +43,6 @@ options:
       title: Methods
       type: List
       options:
-        - title: lm
-          name:  lm
-        - title: glm
-          name:  glm
         - title: pls
           name:  pls
         - title: ctree
@@ -63,8 +59,8 @@ options:
           name:  neuralnet
         - title: xgbTree
           name:  xgbTree
-        - title: lasso
-          name:  lasso
+        - title: gbm
+          name:  gbm
       default: rpart
 
     - name: number
@@ -111,8 +107,7 @@ options:
       default: FALSE
 
     - name: plot2
-      title: Box plot  
+      title: Model selection  
       type: Bool
-      default: FALSE
-
+      default: TRUE
 ...

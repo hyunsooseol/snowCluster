@@ -19,7 +19,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             cla = FALSE,
             plot = FALSE,
             plot1 = FALSE,
-            plot2 = FALSE, ...) {
+            plot2 = TRUE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -53,8 +53,6 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "method",
                 method,
                 options=list(
-                    "lm",
-                    "glm",
                     "pls",
                     "ctree",
                     "knn",
@@ -63,7 +61,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "nnet",
                     "neuralnet",
                     "xgbTree",
-                    "lasso"),
+                    "gbm"),
                 default="rpart")
             private$..number <- jmvcore::OptionNumber$new(
                 "number",
@@ -103,7 +101,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
-                default=FALSE)
+                default=TRUE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -161,9 +159,9 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         over = function() private$.items[["over"]],
         tab = function() private$.items[["tab"]],
         cla = function() private$.items[["cla"]],
+        plot2 = function() private$.items[["plot2"]],
         plot = function() private$.items[["plot"]],
-        plot1 = function() private$.items[["plot1"]],
-        plot2 = function() private$.items[["plot2"]]),
+        plot1 = function() private$.items[["plot1"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -260,6 +258,24 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `content`="($key)"))))
             self$add(jmvcore::Image$new(
                 options=options,
+                name="plot2",
+                title="Model selection plot",
+                visible="(plot2)",
+                width=600,
+                height=350,
+                renderFun=".plot2",
+                refs="caret",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "scale",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method")))
+            self$add(jmvcore::Image$new(
+                options=options,
                 name="plot",
                 title="rpart plot",
                 visible="(plot)",
@@ -293,19 +309,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "method")))
-            self$add(jmvcore::Image$new(
-                options=options,
-                name="plot2",
-                title="Box plot",
-                visible="(plot2)",
-                width=600,
-                height=600,
-                renderFun=".plot2",
-                refs="caret",
-                clearWith=list(
-                    "covs",
-                    "dep")))}))
+                    "method")))}))
 
 caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "caretBase",
@@ -352,9 +356,9 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$over} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -379,7 +383,7 @@ caret <- function(
     cla = FALSE,
     plot = FALSE,
     plot1 = FALSE,
-    plot2 = FALSE) {
+    plot2 = TRUE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("caret requires jmvcore to be installed (restart may be required)")
