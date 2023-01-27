@@ -5,6 +5,7 @@
 #' @importFrom jmvcore constructFormula
 #' @importFrom MASS lda
 #' @importFrom klaR partimat
+#' @importFrom caret createDataPartition
 #' @import MASS
 #' @import ggplot2
 #' @import jmvcore
@@ -33,8 +34,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <p><b>Instructions</b></p>
             <p>____________________________________________________________________________________</p>
             <p> 1. The rationale of Discriminant Analysis is described in the <a href='https://rpubs.com/Nolan/298913' target = '_blank'>page.</a></p>
-            <p> 2. For convenience, 70% of the data as the training set and the remaining 30% for the testing set were used for analysis. </p>
-            <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
@@ -53,36 +53,29 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             
             dep <- self$options$dep
-            
             covs <- self$options$covs
-            
+            per <- self$options$per
             
             data <- self$data
-            
             data <- jmvcore::naOmit(data)
             
-            # for (i in seq_along(covs))
-            #     data[[i]] <- jmvcore::toNumeric(data[[i]])
-            # 
-            
-        
-            # dividing two datasets------------------------
+           # dividing two datasets------------------------
             
             set.seed(1234) # Set seed for reproducibility
             
-            training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.7,0.3))
+            # training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.7,0.3))
+            # train <- data[training_sample, ]
+            # test <- data[!training_sample, ]
             
-            
-            train <- data[training_sample, ]
-            
-            test <- data[!training_sample, ]
+            split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
+            train <-data[split1,]
+            test <- data[-split1,] 
             
             
             formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
             formula <- as.formula(formula)
             
             ####LDA ANALYSIS##############################################
-            
             
             lda.train <- MASS::lda(formula, data=train)
             

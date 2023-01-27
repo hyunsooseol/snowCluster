@@ -8,6 +8,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
+            per = 0.7,
             prior = TRUE,
             gm = FALSE,
             coef = FALSE,
@@ -39,6 +40,12 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..per <- jmvcore::OptionNumber$new(
+                "per",
+                per,
+                min=0.1,
+                max=1,
+                default=0.7)
             private$..prior <- jmvcore::OptionBool$new(
                 "prior",
                 prior,
@@ -85,6 +92,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
+            self$.addOption(private$..per)
             self$.addOption(private$..prior)
             self$.addOption(private$..gm)
             self$.addOption(private$..coef)
@@ -99,6 +107,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
+        per = function() private$..per$value,
         prior = function() private$..prior$value,
         gm = function() private$..gm$value,
         coef = function() private$..coef$value,
@@ -112,6 +121,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..dep = NA,
         ..covs = NA,
+        ..per = NA,
         ..prior = NA,
         ..gm = NA,
         ..coef = NA,
@@ -310,6 +320,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param covs .
+#' @param per .
 #' @param prior .
 #' @param gm .
 #' @param coef .
@@ -345,6 +356,7 @@ disc <- function(
     data,
     dep,
     covs,
+    per = 0.7,
     prior = TRUE,
     gm = FALSE,
     coef = FALSE,
@@ -372,6 +384,7 @@ disc <- function(
     options <- discOptions$new(
         dep = dep,
         covs = covs,
+        per = per,
         prior = prior,
         gm = gm,
         coef = coef,

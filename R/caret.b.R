@@ -81,8 +81,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 set.seed(1234)
                 
                 split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
-                
-               
                 train <-data[split1,]
                 test <- data[-split1,] 
                 

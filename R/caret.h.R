@@ -77,6 +77,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "per",
                 per,
                 min=0.1,
+                max=1,
                 default=0.7)
             private$..over <- jmvcore::OptionBool$new(
                 "over",

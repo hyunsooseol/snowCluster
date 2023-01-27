@@ -54,6 +54,11 @@ children:
             children:
               - type: CheckBox
                 name: tra
+                children:
+                  - type: TextBox
+                    name: per
+                    enable: (tra)
+                    format: number
               - type: CheckBox
                 name: tes
   - type: CollapseBox
