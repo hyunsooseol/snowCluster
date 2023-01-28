@@ -251,7 +251,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="over",
-                title="Overall statistics with testing set",
+                title="Overall statistics with test set",
                 rows=1,
                 visible="(over)",
                 clearWith=list(
@@ -287,7 +287,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tra",
-                title="Prediction with training set",
+                title="Confusion matrix with training set",
                 visible="(tra)",
                 clearWith=list(
                     "covs",
@@ -309,7 +309,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tes",
-                title="Prediction with test set",
+                title="Confusion matrix with test set",
                 visible="(tes)",
                 clearWith=list(
                     "covs",

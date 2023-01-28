@@ -16,7 +16,8 @@ items:
       clearWith:
         - covs
         - dep
-
+        - per
+      
       columns:
         - name: name
           title: ''
@@ -33,6 +34,7 @@ items:
       clearWith:
         - covs
         - dep
+        - per
  
       columns:
         - name: name
@@ -48,6 +50,7 @@ items:
       clearWith:
         - covs
         - dep
+        - per
 
       columns:
         - name: name
@@ -62,7 +65,8 @@ items:
       rows: 1
       clearWith:
         - covs
-        - dep     
+        - dep 
+        - per
 
       columns:
         - name: name
@@ -75,12 +79,13 @@ items:
           type: number
 
     - name: tra
-      title: 'Prediction with training set'
+      title: 'Confusion matrix with training set'
       type: Table
       visible: (tra)
       clearWith:
         - covs
         - dep
+        - per
      
       columns:
         - name: name
@@ -89,12 +94,13 @@ items:
           content: ($key)
  
     - name: tes
-      title: 'Prediction with test set'
+      title: 'Confusion matrix with test set'
       type: Table
       visible: (tes)
       clearWith:
         - covs 
         - dep
+        - per
         
       columns:
         - name: name
@@ -113,6 +119,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - per
 
     - name:  plot1
       title: Histogram
@@ -125,6 +132,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - per
 
     - name:  plot2
       title: Partition plots
@@ -138,4 +146,5 @@ items:
         - covs 
         - dep
         - method
+        - per
 ...

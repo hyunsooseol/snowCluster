@@ -168,7 +168,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(prior)",
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -185,7 +186,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(gm)",
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -200,7 +202,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(coef)",
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -215,7 +218,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 rows=1,
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -231,11 +235,12 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tra",
-                title="Prediction with training set",
+                title="Confusion matrix with training set",
                 visible="(tra)",
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -245,11 +250,12 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tes",
-                title="Prediction with test set",
+                title="Confusion matrix with test set",
                 visible="(tes)",
                 clearWith=list(
                     "covs",
-                    "dep"),
+                    "dep",
+                    "per"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -267,7 +273,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot",
                 clearWith=list(
                     "covs",
-                    "dep")))
+                    "dep",
+                    "per")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -279,7 +286,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot1",
                 clearWith=list(
                     "covs",
-                    "dep")))
+                    "dep",
+                    "per")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -292,7 +300,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "method")))}))
+                    "method",
+                    "per")))}))
 
 discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "discBase",

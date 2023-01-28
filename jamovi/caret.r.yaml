@@ -47,7 +47,7 @@ items:
           type: number
 
     - name: over
-      title: 'Overall statistics with testing set'
+      title: 'Overall statistics with test set'
       type: Table
       rows: 1
       visible: (over)
@@ -80,7 +80,7 @@ items:
           type: number
 
     - name: tra
-      title: 'Prediction with training set'
+      title: 'Confusion matrix with training set'
       type: Table
       visible: (tra)
       clearWith:
@@ -102,7 +102,7 @@ items:
           content: ($key)
  
     - name: tes
-      title: 'Prediction with test set'
+      title: 'Confusion matrix with test set'
       type: Table
       visible: (tes)
       clearWith:

@@ -80,7 +80,7 @@ children:
               - type: CheckBox
                 name: tra
           - type: Label
-            label: 'Testing set'
+            label: 'Test set'
             children:
               - type: CheckBox
                 name: over

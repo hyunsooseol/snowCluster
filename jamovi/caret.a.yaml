@@ -99,12 +99,12 @@ options:
       default: 0.7    
 
     - name: over1
-      title: Overall with training set 
+      title: Overall statistics 
       type: Bool 
       default: TRUE   
       
     - name: over
-      title: Overall with testing set 
+      title: Overall statistics 
       type: Bool 
       default: FALSE   
       
@@ -114,12 +114,12 @@ options:
       default: FALSE     
 
     - name: tra
-      title: Training set 
+      title: Confusion matrix
       type: Bool 
       default: TRUE  
       
     - name: tes
-      title: Testing set 
+      title: Confusion matrix
       type: Bool 
       default: FALSE      
 
