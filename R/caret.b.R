@@ -110,7 +110,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                       trControl = fitControl)
                   
 
-                } else{
+                } 
+                
+                if(self$options$scale=='normal'){
 
                   fit <- caret::train(formula,
                                       data=train,
@@ -121,6 +123,19 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
                 }
 
+                
+                if(self$options$scale=='pca'){
+                  
+                  fit <- caret::train(formula,
+                                      data=train,
+                                      method = method,
+                                      preProcess = "pca",
+                                      tuneLength = tune,
+                                      trControl = fitControl)
+                  
+                }
+                
+                
                 self$results$text$setContent(fit)
                 
                 
@@ -157,13 +172,13 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 }
                 
                 
-                #######################################
+                #########TRAINING SET#############################
                 
                 # Predict with train set-----------------
                 
                 pred.tr<-predict(fit, train)
                 
-               # Confusion matrix(test set)---------------------------
+               # Confusion matrix(train set)---------------------------
                 
                 eval.tr<- caret::confusionMatrix(pred.tr, train[[dep]]) 
                 
@@ -198,12 +213,67 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   
                 }
                 
+                # Overall statistics with train data-----------
+                
+                table <- self$results$over1
+                
+                acc<- eval.tr[["overall"]][1]
+                acclow <- eval.tr[["overall"]][3]
+                acchigh <- eval.tr[["overall"]][4]
+                kappa <- eval.tr[["overall"]][2]
+                
+                row <- list()
+                
+                row[['accu']] <- acc
+                row[['lower']] <- acclow
+                row[['upper']] <- acchigh
+                row[['kappa']] <- kappa
+                
+                table$setRow(rowNo = 1, values = row)
+                
+                # # Statistics by class WITH TRAIN-----------
+                # 
+                # table <- self$results$cla1
+                # 
+                # cla1<- eval.tr[["byClass"]]
+                # cla1<- t(cla1)
+                # cla1 <- as.data.frame(cla1)
+                # 
+                # names<- dimnames(cla1)[[1]]
+                # dims <- dimnames(cla1)[[2]]
+                # covs <- self$options$covs 
+                # 
+                # for (dim in dims) {
+                #   
+                #   table$addColumn(name = paste0(dim),
+                #                   type = 'number')
+                # }
+                # 
+                # 
+                # for (name in names) {
+                #   
+                #   row <- list()
+                #   
+                #   
+                #   for(j in seq_along(dims)){
+                #     
+                #     row[[dims[j]]] <- cla1[name,j]
+                #     
+                #   }
+                #   
+                #   table$addRow(rowKey=name, values=row)
+                #   
+                #   
+                # }
+                # 
+                
+                ############TEST SET####################################
                 
                 # Predict with test set-----------------
                 
                 pred<-predict(fit, test)
                 
-              #  self$results$text$setContent(pred)
+              # self$results$text$setContent(pred)
                 
                 # Confusion matrix(test set)---------------------------
                 
@@ -240,7 +310,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   
                 }
                 
-                # Overall statistics-----------
+                # Overall statistics with test data-----------
                 
                 table <- self$results$over
                 
@@ -292,7 +362,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   
                   
                 }
-                
                 
                 
                 },

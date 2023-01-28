@@ -15,7 +15,8 @@ caret(
   repeats = 5,
   tune = 10,
   per = 0.7,
-  over = TRUE,
+  over1 = TRUE,
+  over = FALSE,
   cla = FALSE,
   tra = TRUE,
   tes = FALSE,
@@ -45,6 +46,8 @@ caret(
 
 \item{per}{.}
 
+\item{over1}{.}
+
 \item{over}{.}
 
 \item{cla}{.}
@@ -64,6 +67,7 @@ A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$over1} \tab \tab \tab \tab \tab a table \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
@@ -75,9 +79,9 @@ A results object containing:
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 
-\code{results$over$asDF}
+\code{results$over1$asDF}
 
-\code{as.data.frame(results$over)}
+\code{as.data.frame(results$over1)}
 }
 \description{
 Machine Learning

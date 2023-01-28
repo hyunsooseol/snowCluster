@@ -29,6 +29,8 @@ options:
           name:  stand
         - title: Normalization
           name:  normal
+        - title: PCA
+          name:  pca 
 
     - name: mecon
       title: Methods
@@ -96,10 +98,15 @@ options:
       max: 1.0
       default: 0.7    
 
-    - name: over
-      title: Overall statistics 
+    - name: over1
+      title: Overall with training set 
       type: Bool 
       default: TRUE   
+      
+    - name: over
+      title: Overall with testing set 
+      type: Bool 
+      default: FALSE   
       
     - name: cla
       title: Statistics by class

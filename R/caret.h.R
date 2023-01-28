@@ -15,7 +15,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             repeats = 5,
             tune = 10,
             per = 0.7,
-            over = TRUE,
+            over1 = TRUE,
+            over = FALSE,
             cla = FALSE,
             tra = TRUE,
             tes = FALSE,
@@ -44,7 +45,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 scale,
                 options=list(
                     "stand",
-                    "normal"))
+                    "normal",
+                    "pca"))
             private$..mecon <- jmvcore::OptionList$new(
                 "mecon",
                 mecon,
@@ -90,10 +92,14 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0.1,
                 max=1,
                 default=0.7)
+            private$..over1 <- jmvcore::OptionBool$new(
+                "over1",
+                over1,
+                default=TRUE)
             private$..over <- jmvcore::OptionBool$new(
                 "over",
                 over,
-                default=TRUE)
+                default=FALSE)
             private$..cla <- jmvcore::OptionBool$new(
                 "cla",
                 cla,
@@ -128,6 +134,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..repeats)
             self$.addOption(private$..tune)
             self$.addOption(private$..per)
+            self$.addOption(private$..over1)
             self$.addOption(private$..over)
             self$.addOption(private$..cla)
             self$.addOption(private$..tra)
@@ -146,6 +153,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         repeats = function() private$..repeats$value,
         tune = function() private$..tune$value,
         per = function() private$..per$value,
+        over1 = function() private$..over1$value,
         over = function() private$..over$value,
         cla = function() private$..cla$value,
         tra = function() private$..tra$value,
@@ -163,6 +171,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..repeats = NA,
         ..tune = NA,
         ..per = NA,
+        ..over1 = NA,
         ..over = NA,
         ..cla = NA,
         ..tra = NA,
@@ -178,6 +187,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         instructions = function() private$.items[["instructions"]],
         text = function() private$.items[["text"]],
+        over1 = function() private$.items[["over1"]],
         over = function() private$.items[["over"]],
         tra = function() private$.items[["tra"]],
         tes = function() private$.items[["tes"]],
@@ -204,8 +214,44 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Model information"))
             self$add(jmvcore::Table$new(
                 options=options,
+                name="over1",
+                title="Overall statistics with training set",
+                rows=1,
+                visible="(over1)",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "scale",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method",
+                    "tune"),
+                refs="caret",
+                columns=list(
+                    list(
+                        `name`="accu", 
+                        `title`="Accuracy", 
+                        `type`="number"),
+                    list(
+                        `name`="lower", 
+                        `title`="Lower", 
+                        `type`="number", 
+                        `superTitle`="Accuracy 95% CI"),
+                    list(
+                        `name`="upper", 
+                        `title`="Upper", 
+                        `type`="number", 
+                        `superTitle`="Accuracy 95% CI"),
+                    list(
+                        `name`="kappa", 
+                        `title`="Kappa", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
                 name="over",
-                title="Overall statistics",
+                title="Overall statistics with testing set",
                 rows=1,
                 visible="(over)",
                 clearWith=list(
@@ -395,6 +441,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param repeats .
 #' @param tune .
 #' @param per .
+#' @param over1 .
 #' @param over .
 #' @param cla .
 #' @param tra .
@@ -406,6 +453,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$over1} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$over} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
@@ -417,9 +465,9 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 #'
-#' \code{results$over$asDF}
+#' \code{results$over1$asDF}
 #'
-#' \code{as.data.frame(results$over)}
+#' \code{as.data.frame(results$over1)}
 #'
 #' @export
 caret <- function(
@@ -433,7 +481,8 @@ caret <- function(
     repeats = 5,
     tune = 10,
     per = 0.7,
-    over = TRUE,
+    over1 = TRUE,
+    over = FALSE,
     cla = FALSE,
     tra = TRUE,
     tes = FALSE,
@@ -464,6 +513,7 @@ caret <- function(
         repeats = repeats,
         tune = tune,
         per = per,
+        over1 = over1,
         over = over,
         cla = cla,
         tra = tra,

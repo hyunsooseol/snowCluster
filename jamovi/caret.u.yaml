@@ -33,6 +33,9 @@ children:
             children:
               - type: ComboBox
                 name: scale
+              - type: TextBox
+                name: per
+                format: number
           - type: Label
             label: Tuning parameters
             children:
@@ -47,6 +50,15 @@ children:
               - type: TextBox
                 name: tune
                 format: number
+          - type: Label
+            label: 'Plots'
+            children:
+              - type: CheckBox
+                name: plot2
+              - type: CheckBox
+                name: plot
+              - type: CheckBox
+                name: plot1
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -61,30 +73,19 @@ children:
               - type: ComboBox
                 name: method
           - type: Label
-            label: 'Statistics'
+            label: 'Training set'
+            children:
+              - type: CheckBox
+                name: over1
+              - type: CheckBox
+                name: tra
+          - type: Label
+            label: 'Testing set'
             children:
               - type: CheckBox
                 name: over
               - type: CheckBox
-                name: cla
-          - type: Label
-            label: 'Confusion matrix'
-            children:
-              - type: CheckBox
-                name: tra
-                children:
-                  - type: TextBox
-                    name: per
-                    format: number
-                    enable: (tra)
-              - type: CheckBox
                 name: tes
-          - type: Label
-            label: 'Plots'
-            children:
               - type: CheckBox
-                name: plot2
-              - type: CheckBox
-                name: plot
-              - type: CheckBox
-                name: plot1
+                name: cla 
+ 

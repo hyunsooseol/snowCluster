@@ -13,8 +13,41 @@ items:
       title: Model information
       type:  Preformatted
 
+    - name: over1
+      title: 'Overall statistics with training set'
+      type: Table
+      rows: 1
+      visible: (over1)
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+      refs: caret    
+
+      columns:
+        - name: accu
+          title: 'Accuracy'
+          type: number
+        - name: lower
+          title: 'Lower'
+          type: number
+          superTitle: 'Accuracy 95% CI'
+        - name: upper
+          title: 'Upper'
+          type: number
+          superTitle: 'Accuracy 95% CI'
+        - name: kappa
+          title: 'Kappa'
+          type: number
+
     - name: over
-      title: 'Overall statistics'
+      title: 'Overall statistics with testing set'
       type: Table
       rows: 1
       visible: (over)
