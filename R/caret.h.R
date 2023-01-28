@@ -11,6 +11,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             scale = NULL,
             mecon = NULL,
             method = "rpart",
+            cm1 = "knn",
             number = 10,
             repeats = 5,
             tune = 10,
@@ -22,7 +23,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             tes = FALSE,
             plot = FALSE,
             plot1 = FALSE,
-            plot2 = TRUE, ...) {
+            plot2 = TRUE,
+            plot3 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -71,6 +73,24 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "fda",
                     "bag"),
                 default="rpart")
+            private$..cm1 <- jmvcore::OptionList$new(
+                "cm1",
+                cm1,
+                options=list(
+                    "mda",
+                    "pls",
+                    "ctree",
+                    "knn",
+                    "rpart",
+                    "ranger",
+                    "nnet",
+                    "neuralnet",
+                    "avNNet",
+                    "xgbTree",
+                    "gbm",
+                    "fda",
+                    "bag"),
+                default="knn")
             private$..number <- jmvcore::OptionNumber$new(
                 "number",
                 number,
@@ -124,12 +144,17 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot2",
                 plot2,
                 default=TRUE)
+            private$..plot3 <- jmvcore::OptionBool$new(
+                "plot3",
+                plot3,
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
             self$.addOption(private$..scale)
             self$.addOption(private$..mecon)
             self$.addOption(private$..method)
+            self$.addOption(private$..cm1)
             self$.addOption(private$..number)
             self$.addOption(private$..repeats)
             self$.addOption(private$..tune)
@@ -142,6 +167,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
+            self$.addOption(private$..plot3)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -149,6 +175,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         scale = function() private$..scale$value,
         mecon = function() private$..mecon$value,
         method = function() private$..method$value,
+        cm1 = function() private$..cm1$value,
         number = function() private$..number$value,
         repeats = function() private$..repeats$value,
         tune = function() private$..tune$value,
@@ -160,13 +187,15 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         tes = function() private$..tes$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
-        plot2 = function() private$..plot2$value),
+        plot2 = function() private$..plot2$value,
+        plot3 = function() private$..plot3$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
         ..scale = NA,
         ..mecon = NA,
         ..method = NA,
+        ..cm1 = NA,
         ..number = NA,
         ..repeats = NA,
         ..tune = NA,
@@ -178,7 +207,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..tes = NA,
         ..plot = NA,
         ..plot1 = NA,
-        ..plot2 = NA)
+        ..plot2 = NA,
+        ..plot3 = NA)
 )
 
 caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -194,7 +224,8 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         cla = function() private$.items[["cla"]],
         plot2 = function() private$.items[["plot2"]],
         plot = function() private$.items[["plot"]],
-        plot1 = function() private$.items[["plot1"]]),
+        plot1 = function() private$.items[["plot1"]],
+        plot3 = function() private$.items[["plot3"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -406,7 +437,27 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "number",
                     "repeats",
                     "method",
-                    "tune")))}))
+                    "tune")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot3",
+                title="Comparing model predictions",
+                visible="(plot3)",
+                width=600,
+                height=600,
+                renderFun=".plot3",
+                refs="caret",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "scale",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method",
+                    "tune",
+                    "cm1")))}))
 
 caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "caretBase",
@@ -437,6 +488,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param scale .
 #' @param mecon .
 #' @param method .
+#' @param cm1 .
 #' @param number .
 #' @param repeats .
 #' @param tune .
@@ -449,6 +501,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
+#' @param plot3 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -461,6 +514,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -477,6 +531,7 @@ caret <- function(
     scale,
     mecon,
     method = "rpart",
+    cm1 = "knn",
     number = 10,
     repeats = 5,
     tune = 10,
@@ -488,7 +543,8 @@ caret <- function(
     tes = FALSE,
     plot = FALSE,
     plot1 = FALSE,
-    plot2 = TRUE) {
+    plot2 = TRUE,
+    plot3 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("caret requires jmvcore to be installed (restart may be required)")
@@ -509,6 +565,7 @@ caret <- function(
         scale = scale,
         mecon = mecon,
         method = method,
+        cm1 = cm1,
         number = number,
         repeats = repeats,
         tune = tune,
@@ -520,7 +577,8 @@ caret <- function(
         tes = tes,
         plot = plot,
         plot1 = plot1,
-        plot2 = plot2)
+        plot2 = plot2,
+        plot3 = plot3)
 
     analysis <- caretClass$new(
         options = options,

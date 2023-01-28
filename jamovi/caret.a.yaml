@@ -42,7 +42,7 @@ options:
           name:  boot
  
     - name: method
-      title: Methods
+      title: Model
       type: List
       options:
         - title: mda
@@ -72,6 +72,38 @@ options:
         - title: bag
           name:  bag  
       default: rpart
+
+    - name: cm1
+      title: Comparative model
+      type: List
+      options:
+        - title: mda
+          name:  mda  
+        - title: pls
+          name:  pls
+        - title: ctree
+          name:  ctree
+        - title: knn
+          name:  knn
+        - title: rpart
+          name:  rpart
+        - title: ranger
+          name:  ranger
+        - title: nnet
+          name:  nnet
+        - title: neuralnet
+          name:  neuralnet
+        - title: avNNet
+          name:  avNNet
+        - title: xgbTree
+          name:  xgbTree
+        - title: gbm
+          name:  gbm
+        - title: fda
+          name:  fda
+        - title: bag
+          name:  bag  
+      default: knn
 
     - name: number
       title: Number
@@ -137,4 +169,9 @@ options:
       title: Model selection  
       type: Bool
       default: TRUE
+
+    - name: plot3
+      title: Model comparison plot 
+      type: Bool
+      default: FALSE
 ...

@@ -201,5 +201,25 @@ items:
         - repeats
         - method
         - tune
+
+    - name:  plot3
+      title: Comparing model predictions
+      type:  Image
+      visible: (plot3)
+      width: 600
+      height: 600
+      renderFun: .plot3
+      refs: caret
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+        - cm1
        
 ...
