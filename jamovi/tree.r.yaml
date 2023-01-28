@@ -14,7 +14,7 @@ items:
       type:  Preformatted
 
     - name: over
-      title: 'Overall statistics'
+      title: 'Overall statistics with test set'
       type: Table
       rows: 1
       visible: (over)
@@ -41,7 +41,7 @@ items:
           type: number
 
     - name: tab
-      title: 'Confusion Matrix'
+      title: 'Confusion Matrix with test set'
       type: Table
       visible: (tab)
       refs: caret 
@@ -57,7 +57,7 @@ items:
           content: ($key)
 
     - name: cla
-      title: 'Statistics by class'
+      title: 'Statistics by class with test set'
       type: Table
       visible: (cla)
       refs: caret 

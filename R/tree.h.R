@@ -34,6 +34,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "per",
                 per,
                 min=0.1,
+                max=1,
                 default=0.7)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
@@ -108,7 +109,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="over",
-                title="Overall statistics",
+                title="Overall statistics with test set",
                 rows=1,
                 visible="(over)",
                 clearWith=list(
@@ -138,7 +139,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tab",
-                title="Confusion Matrix",
+                title="Confusion Matrix with test set",
                 visible="(tab)",
                 refs="caret",
                 clearWith=list(
@@ -154,7 +155,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="cla",
-                title="Statistics by class",
+                title="Statistics by class with test set",
                 visible="(cla)",
                 refs="caret",
                 clearWith=list(

@@ -29,6 +29,12 @@ children:
         margin: large
         children:
           - type: Label
+            label: 'Data split'
+            children:
+              - type: TextBox
+                name: per
+                format: number
+          - type: Label
             label: Tables
             children:
               - type: CheckBox
@@ -50,9 +56,4 @@ children:
             children:
               - type: CheckBox
                 name: plot
-          - type: Label
-            label: Training
-            children:
-              - type: TextBox
-                name: per
-                format: number
+
