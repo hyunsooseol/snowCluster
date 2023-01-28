@@ -35,5 +35,7 @@ Imports:
     elasticnet,
     nnet,
     reshape2,
-    gbm
+    gbm,
+    earth,
+    mda
     

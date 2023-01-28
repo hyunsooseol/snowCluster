@@ -43,6 +43,8 @@ options:
       title: Methods
       type: List
       options:
+        - title: mda
+          name:  mda  
         - title: pls
           name:  pls
         - title: ctree
@@ -57,10 +59,16 @@ options:
           name:  nnet
         - title: neuralnet
           name:  neuralnet
+        - title: avNNet
+          name:  avNNet
         - title: xgbTree
           name:  xgbTree
         - title: gbm
           name:  gbm
+        - title: fda
+          name:  fda
+        - title: bag
+          name:  bag  
       default: rpart
 
     - name: number
@@ -75,6 +83,12 @@ options:
       min: 5
       default: 5    
 
+    - name: tune
+      title: Tune Length
+      type: Number
+      min: 3
+      default: 10   
+      
     - name: per
       title: Split set
       type: Number
@@ -87,15 +101,20 @@ options:
       type: Bool 
       default: TRUE   
       
-    - name: tab
-      title: Confusion matrix 
-      type: Bool 
-      default: FALSE          
-
     - name: cla
       title: Statistics by class
       type: Bool 
       default: FALSE     
+
+    - name: tra
+      title: Training set 
+      type: Bool 
+      default: TRUE  
+      
+    - name: tes
+      title: Testing set 
+      type: Bool 
+      default: FALSE      
 
     - name: plot
       title: rpart  

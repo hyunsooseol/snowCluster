@@ -16,6 +16,8 @@
 #' @import elasticnet
 #' @import nnet
 #' @import gbm
+#' @import mda
+#' @import earth
 #' @import ggplot2
 #' @import jmvcore
 #' @export
@@ -68,6 +70,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 mecon <- self$options$mecon
                 repeats <- self$options$repeats
                 number <- self$options$number
+                tune <- self$options$tune
                 per <- self$options$per
                 method <- self$options$method
                 
@@ -91,7 +94,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 fitControl <- caret::trainControl(method = mecon, 
                                                   number =number , 
-                                                  repeats = repeats)
+                                                  repeats = repeats,
+                                                  p=per,)
               
                 
                 # Train dataset---------------
@@ -102,7 +106,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                       data=train,
                                       method = method,
                                       preProcess = c("center", "scale"),
-                                      tuneLength = 10,
+                                      tuneLength = tune,
                                       trControl = fitControl)
                   
 
@@ -112,7 +116,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                       data=train,
                                       method = method,
                                       preProcess = "range",
-                                      tuneLength = 10,
+                                      tuneLength = tune,
                                       trControl = fitControl)
 
                 }
@@ -155,15 +159,54 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 #######################################
                 
+                # Predict with train set-----------------
+                
+                pred.tr<-predict(fit, train)
+                
+               # Confusion matrix(test set)---------------------------
+                
+                eval.tr<- caret::confusionMatrix(pred.tr, train[[dep]]) 
+                
+                #---------------------------
+                
+                tab.tr<- eval.tr$table
+                
+                res1.tr<- as.matrix(tab.tr)
+                
+                names<- dimnames(res1.tr)[[1]]
+                
+                table <- self$results$tra
+                
+                for (name in names) {
+                  
+                  table$addColumn(name = paste0(name),
+                                  type = 'Integer',
+                                  superTitle = 'Predicted')
+                }
+                
+                for (name in names) {
+                  
+                  row <- list()
+                  
+                  for(j in seq_along(names)){
+                    
+                    row[[names[j]]] <- res1.tr[name,j]
+                    
+                  }
+                  
+                  table$addRow(rowKey=name, values=row)
+                  
+                }
                 
                 
-                # Predict-----------------
+                # Predict with test set-----------------
                 
                 pred<-predict(fit, test)
                 
               #  self$results$text$setContent(pred)
                 
-                #----------------------------
+                # Confusion matrix(test set)---------------------------
+                
                 eval<- caret::confusionMatrix(pred, test[[dep]]) 
                 
                 #---------------------------
@@ -174,7 +217,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 names<- dimnames(res1)[[1]]
                 
-                table <- self$results$tab
+                table <- self$results$tes
                 
                 for (name in names) {
                   
