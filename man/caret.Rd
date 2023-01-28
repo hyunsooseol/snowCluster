@@ -13,10 +13,12 @@ caret(
   method = "rpart",
   number = 10,
   repeats = 5,
+  tune = 10,
   per = 0.7,
   over = TRUE,
-  tab = FALSE,
   cla = FALSE,
+  tra = TRUE,
+  tes = FALSE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = TRUE
@@ -39,13 +41,17 @@ caret(
 
 \item{repeats}{.}
 
+\item{tune}{.}
+
 \item{per}{.}
 
 \item{over}{.}
 
-\item{tab}{.}
-
 \item{cla}{.}
+
+\item{tra}{.}
+
+\item{tes}{.}
 
 \item{plot}{.}
 
@@ -59,7 +65,8 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
-  \code{results$tab} \tab \tab \tab \tab \tab a table \cr
+  \code{results$tra} \tab \tab \tab \tab \tab a table \cr
+  \code{results$tes} \tab \tab \tab \tab \tab a table \cr
   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr

@@ -33,9 +33,6 @@ children:
             children:
               - type: ComboBox
                 name: scale
-              - type: TextBox
-                name: per
-                format: number
           - type: Label
             label: Tuning parameters
             children:
@@ -47,6 +44,9 @@ children:
               - type: TextBox
                 name: repeats
                 format: number
+              - type: TextBox
+                name: tune
+                format: number
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -56,19 +56,29 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: 'Train method'
+            label: 'Model list'
             children:
               - type: ComboBox
                 name: method
           - type: Label
-            label: 'Tables'
+            label: 'Statistics'
             children:
               - type: CheckBox
                 name: over
               - type: CheckBox
-                name: tab
-              - type: CheckBox
                 name: cla
+          - type: Label
+            label: 'Confusion matrix'
+            children:
+              - type: CheckBox
+                name: tra
+                children:
+                  - type: TextBox
+                    name: per
+                    format: number
+                    enable: (tra)
+              - type: CheckBox
+                name: tes
           - type: Label
             label: 'Plots'
             children:

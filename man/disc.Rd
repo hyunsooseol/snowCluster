@@ -8,6 +8,7 @@ disc(
   data,
   dep,
   covs,
+  per = 0.7,
   prior = TRUE,
   gm = FALSE,
   coef = FALSE,
@@ -26,6 +27,8 @@ disc(
 \item{dep}{.}
 
 \item{covs}{.}
+
+\item{per}{.}
 
 \item{prior}{.}
 

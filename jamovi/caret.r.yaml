@@ -27,6 +27,7 @@ items:
         - number
         - repeats
         - method
+        - tune
       refs: caret    
 
       columns:
@@ -45,11 +46,10 @@ items:
           title: 'Kappa'
           type: number
 
-    - name: tab
-      title: 'Confusion Matrix'
+    - name: tra
+      title: 'Prediction with training set'
       type: Table
-      visible: (tab)
-      refs: caret 
+      visible: (tra)
       clearWith:
         - covs 
         - dep
@@ -59,6 +59,30 @@ items:
         - number
         - repeats
         - method
+        - tune
+      refs: caret    
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+ 
+    - name: tes
+      title: 'Prediction with test set'
+      type: Table
+      visible: (tes)
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+      refs: caret    
 
       columns:
         - name: name
@@ -80,6 +104,7 @@ items:
         - number
         - repeats
         - method
+        - tune
 
       columns:
         - name: name
@@ -103,7 +128,8 @@ items:
         - mecon
         - number
         - repeats
-        - method 
+        - method
+        - tune
 
     - name:  plot
       title: rpart plot
@@ -122,6 +148,7 @@ items:
         - number
         - repeats
         - method
+        - tune
 
     - name:  plot1
       title: Variable importance plot
@@ -140,5 +167,6 @@ items:
         - number
         - repeats
         - method
+        - tune
        
 ...
