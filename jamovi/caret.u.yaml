@@ -37,6 +37,11 @@ children:
                 name: per
                 format: number
           - type: Label
+            label: Training Model 
+            children:
+              - type: ComboBox
+                name: method
+          - type: Label
             label: Tuning parameters
             children:
               - type: ComboBox
@@ -66,11 +71,6 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: Model list
-            children:
-              - type: ComboBox
-                name: method
-          - type: Label
             label: Training set
             children:
               - type: CheckBox
@@ -85,6 +85,8 @@ children:
                   - type: ComboBox
                     name: cm1
                     enable: (plot)
+              - type: CheckBox
+                name: plot4
           - type: Label
             label: Test set
             children:
@@ -96,3 +98,4 @@ children:
                 name: cla
               - type: CheckBox
                 name: plot3
+ 

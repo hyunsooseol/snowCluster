@@ -15,8 +15,8 @@ options:
       suggested:
         - nominal
       permitted:
-        - factor 
-
+        - factor           
+    
     - name: covs
       title: Predictors
       type: Variables
@@ -105,7 +105,7 @@ options:
           name:  mda  
         - title: bag
           name:  bag  
-      default: knn
+      default: ctree
 
     - name: number
       title: Number
@@ -163,9 +163,9 @@ options:
       default: FALSE      
 
     - name: plot
-      title: ROC plot          
+      title: ROC curve         
       type: Bool
-      default: TRUE
+      default: FALSE
 
     - name: plot1
       title: Variable importance  
@@ -178,9 +178,12 @@ options:
       default: TRUE
 
     - name: plot3
-      title: ROC plot          
+      title: ROC curve         
       type: Bool
-      default: TRUE
+      default: FALSE
 
- 
+    - name: plot4
+      title: Calibration curve         
+      type: Bool
+      default: FALSE
 ...

@@ -11,7 +11,7 @@ caret(
   scale,
   mecon,
   method = "pls",
-  cm1 = "knn",
+  cm1 = "ctree",
   number = 10,
   repeats = 5,
   tune = 10,
@@ -22,10 +22,11 @@ caret(
   cla1 = FALSE,
   tra = TRUE,
   tes = FALSE,
-  plot = TRUE,
+  plot = FALSE,
   plot1 = FALSE,
   plot2 = TRUE,
-  plot3 = TRUE
+  plot3 = FALSE,
+  plot4 = FALSE
 )
 }
 \arguments{
@@ -70,6 +71,8 @@ caret(
 \item{plot2}{.}
 
 \item{plot3}{.}
+
+\item{plot4}{.}
 }
 \value{
 A results object containing:
@@ -86,6 +89,7 @@ A results object containing:
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

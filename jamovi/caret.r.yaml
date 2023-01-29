@@ -193,7 +193,7 @@ items:
       width: 500
       height: 500
       renderFun: .plot
-      refs: caret
+      refs: MLeval
       clearWith:
         - covs 
         - dep
@@ -244,5 +244,23 @@ items:
         - method
         - tune
 
- 
+    - name:  plot4
+      title: Calibration curve with training set               
+      type:  Image
+      visible: (plot4)
+      width: 500
+      height: 500
+      renderFun: .plot4
+      refs: MLeval
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+        - cm1 
 ...

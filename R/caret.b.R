@@ -158,6 +158,12 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                  image$setState(state)
                    
               
+                 # Calibration curve---------
+                 
+                 image4 <- self$results$plot4   
+                 state <- list(fit,comp)
+                 image4$setState(state)
+                 
                  
                  # Model selection plot----------
                 
@@ -166,12 +172,14 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
              
                 # Variable importance plot----------
+               
+                if(self$options$plot1==TRUE){  
                 
                 vi<- caret::varImp(fit)
                 
                 image1 <- self$results$plot1
                 image1$setState(vi)
-               
+                }
                 
                 
                 #########     TRAINING SET    #############################
@@ -433,16 +441,39 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       
       .plot3 = function(image3,...) {
         
+        # ROC with test set-----
+        
         if (is.null(image3$state))
           return(FALSE)
         
         pred1<- image3$state
         
-        ROC <- MLeval::evalm(pred1)
+        res <- MLeval::evalm(pred1)
         
-        plot3 <- ROC$roc
+        plot3 <- res$roc
         
         print(plot3)
+        TRUE
+      },
+      
+      .plot4 = function(image4,...) {
+        
+        if (is.null(image4$state))
+          return(FALSE)
+        
+        state<- image4$state
+        
+        fit <- state[[1]]
+        comp <- state[[2]]
+        
+        
+        res<- MLeval::evalm(list(fit,comp),
+                            gnames=c(self$options$method,self$options$cm1))
+        
+        # Calibration curve
+        plot4 <- res$cc
+        
+        print(plot4)
         TRUE
       }
       

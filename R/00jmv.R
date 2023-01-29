@@ -7,7 +7,7 @@
         `author`="Seol, H.", 
         `year`=2023, 
         `title`="snowCluster: Multivariate Analysis", 
-        `publisher`="(Version 6.9.0)[jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
+        `publisher`="(Version 7.0.0)[jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
         `url`="https://github.com/hyunsooseol/snowCluster"), 
     `factoextra`=list(
         `type`="software", 
@@ -42,5 +42,12 @@
         `author`="Kuhn, M., et.al.", 
         `year`=2022, 
         `title`="caret: Classification and Regression Training", 
-        `publisher`="[R package]. https://CRAN.R-project.org/package=caret", 
-        `url`="https://CRAN.R-project.org/package=caret"))
+        `publisher`="(Version 6.0-93)[R package]. https://CRAN.R-project.org/package=caret", 
+        `url`="https://CRAN.R-project.org/package=caret"), 
+    `MLeval`=list(
+        `type`="software", 
+        `author`="John, C.", 
+        `year`=2020, 
+        `title`="MLeval: Machine Learning Model Evaluation", 
+        `publisher`="(Version 0.3)[R package]. https://CRAN.R-project.org/package=MLeval", 
+        `url`="https://CRAN.R-project.org/package=MLeval"))
