@@ -56,8 +56,6 @@ children:
               - type: CheckBox
                 name: plot2
               - type: CheckBox
-                name: plot
-              - type: CheckBox
                 name: plot1
       - type: LayoutBox
         stretchFactor: 1
@@ -79,6 +77,14 @@ children:
                 name: over1
               - type: CheckBox
                 name: tra
+              - type: CheckBox
+                name: cla1
+              - type: CheckBox
+                name: plot
+                children:
+                  - type: ComboBox
+                    name: cm1
+                    enable: (plot)
           - type: Label
             label: Test set
             children:
@@ -88,19 +94,5 @@ children:
                 name: tes
               - type: CheckBox
                 name: cla
-  - type: CollapseBox
-    label: 'Comparing model predictions'
-    margin: normal
-    collapsed: true
-    children:
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        children:
-          - type: Label
-            label: 'Model'
-            children:
-              - type: ComboBox
-                name: cm1
               - type: CheckBox
                 name: plot3

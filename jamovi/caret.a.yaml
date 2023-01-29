@@ -36,6 +36,8 @@ options:
       title: Methods
       type: List
       options:
+        - title: cv
+          name:  cv
         - title: repeatedcv
           name:  repeatedcv
         - title: boot
@@ -45,8 +47,6 @@ options:
       title: Model
       type: List
       options:
-        - title: mda
-          name:  mda  
         - title: pls
           name:  pls
         - title: ctree
@@ -69,16 +69,16 @@ options:
           name:  gbm
         - title: fda
           name:  fda
+        - title: mda
+          name:  mda  
         - title: bag
           name:  bag  
-      default: rpart
+      default: pls
 
     - name: cm1
-      title: Comparative model
+      title: Model
       type: List
       options:
-        - title: mda
-          name:  mda  
         - title: pls
           name:  pls
         - title: ctree
@@ -101,6 +101,8 @@ options:
           name:  gbm
         - title: fda
           name:  fda
+        - title: mda
+          name:  mda  
         - title: bag
           name:  bag  
       default: knn
@@ -145,6 +147,11 @@ options:
       type: Bool 
       default: FALSE     
 
+    - name: cla1
+      title: Statistics by class
+      type: Bool 
+      default: FALSE    
+
     - name: tra
       title: Confusion matrix
       type: Bool 
@@ -156,9 +163,9 @@ options:
       default: FALSE      
 
     - name: plot
-      title: rpart  
+      title: ROC plot          
       type: Bool
-      default: FALSE
+      default: TRUE
 
     - name: plot1
       title: Variable importance  
@@ -171,7 +178,9 @@ options:
       default: TRUE
 
     - name: plot3
-      title: Model comparison plot 
+      title: ROC plot          
       type: Bool
-      default: FALSE
+      default: TRUE
+
+ 
 ...

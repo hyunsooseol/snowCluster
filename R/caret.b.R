@@ -6,6 +6,7 @@
 #' @importFrom caret confusionMatrix
 #' @importFrom caret trainControl
 #' @importFrom caret varImp
+#' @importFrom MLeval evalm
 #' @import caret
 #' @import xgboost
 #' @import rpart.plot
@@ -90,15 +91,17 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
                 formula <- as.formula(formula)
                 
+               
                 # trainControl-----------
                 
                 fitControl <- caret::trainControl(method = mecon, 
                                                   number =number , 
                                                   repeats = repeats,
-                                                  p=per,)
-              
-                
-                # Train dataset---------------
+                                                  p=per,
+                                                  classProbs=T,
+                                                  savePredictions = T)
+               
+                # Training dataset---------------
                
                 if(self$options$scale=='stand'){
 
@@ -135,62 +138,50 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   
                 }
                 
-                if(isTRUE(self$options$plot3)){
-                  
-                  cm1 <- caret::train(formula,
-                                      data=train,
-                                      method = method,
-                                      preProcess = "pca",
-                                      tuneLength = tune,
-                                      trControl = fitControl)
-                  
-                }
+                comp <- caret::train(formula,
+                                     data=train,
+                                     method = cm1,
+                                     preProcess = c("center", "scale"),
+                                     tuneLength = tune,
+                                     trControl = fitControl)
+                
+                # Model information-----------
+                
+                 self$results$text$setContent(fit)
                 
                 
                 
-                self$results$text$setContent(fit)
+                # Comparing ROC curves with training set-----------------
                 
-                
-                ####### Plot##############################
-                
-                # Model selection plot----------
-                
-                if(isTRUE(self$options$plot2)){
-                
-                  image2 <- self$results$plot2
-                  
-                  image2$setState(fit)
-                
-                }
-                # rpart plot----------
-                
-                if(self$options$method=='rpart'){
-                
-                  rp<- fit$finalModel  
-                
-                image <- self$results$plot
-                image$setState(rp)
-               
-                }
+                 image <- self$results$plot   
+                 state <- list(fit,comp)
+                 image$setState(state)
+                   
               
-                # Variable importance plot----------
+                 
+                 # Model selection plot----------
                 
-                if(isTRUE(self$options$plot1)){
+                 image2 <- self$results$plot2
+                 image2$setState(fit)
+                
+             
+                # Variable importance plot----------
                 
                 vi<- caret::varImp(fit)
                 
                 image1 <- self$results$plot1
                 image1$setState(vi)
-                }
+               
                 
                 
-                #########TRAINING SET#############################
+                #########     TRAINING SET    #############################
                 
                 # Predict with train set-----------------
                 
                 pred.tr<-predict(fit, train)
                 
-               # Confusion matrix(train set)---------------------------
+               
+                # Confusion matrix(train set)---------------------------
                 
                 eval.tr<- caret::confusionMatrix(pred.tr, train[[dep]]) 
                 
@@ -225,7 +216,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   
                 }
                 
-                # Overall statistics with train data-----------
+                # Overall statistics with training set-----------
                 
                 table <- self$results$over1
                 
@@ -243,49 +234,58 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 table$setRow(rowNo = 1, values = row)
                 
-                # # Statistics by class WITH TRAIN-----------
-                # 
-                # table <- self$results$cla1
-                # 
-                # cla1<- eval.tr[["byClass"]]
-                # cla1<- t(cla1)
-                # cla1 <- as.data.frame(cla1)
-                # 
-                # names<- dimnames(cla1)[[1]]
-                # dims <- dimnames(cla1)[[2]]
-                # covs <- self$options$covs 
-                # 
-                # for (dim in dims) {
-                #   
-                #   table$addColumn(name = paste0(dim),
-                #                   type = 'number')
-                # }
-                # 
-                # 
-                # for (name in names) {
-                #   
-                #   row <- list()
-                #   
-                #   
-                #   for(j in seq_along(dims)){
-                #     
-                #     row[[dims[j]]] <- cla1[name,j]
-                #     
-                #   }
-                #   
-                #   table$addRow(rowKey=name, values=row)
-                #   
-                #   
-                # }
-                # 
-                
-                ############TEST SET####################################
+                # Statistics by class WITH TRAINing set-----------
+
+                table <- self$results$cla1
+
+                cla1<- eval.tr[["byClass"]]
+                cla1<- t(cla1)
+                cla1 <- as.data.frame(cla1)
+
+                names<- dimnames(cla1)[[1]]
+                dims <- dimnames(cla1)[[2]]
+                covs <- self$options$covs
+
+                for (dim in dims) {
+
+                  table$addColumn(name = paste0(dim),
+                                  type = 'number')
+                }
+
+
+                for (name in names) {
+
+                  row <- list()
+
+
+                  for(j in seq_along(dims)){
+
+                    row[[dims[j]]] <- cla1[name,j]
+
+                  }
+
+                  table$addRow(rowKey=name, values=row)
+
+
+                }
+
+
+                ############ TEST SET  ####################################
                 
                 # Predict with test set-----------------
-                
+               
                 pred<-predict(fit, test)
                 
-              # self$results$text$setContent(pred)
+                # ROC curve with test set------
+                
+                pred1<-predict(fit, test, type='prob')
+               
+                pred1<- data.frame(pred1, test[[dep]], 
+                           Group = self$options$method)
+                
+                image3 <- self$results$plot3
+                image3$setState(pred1)
+              
                 
                 # Confusion matrix(test set)---------------------------
                 
@@ -375,24 +375,31 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   
                 }
                 
-                # Comparing predictions-----------
-               
-                if(isTRUE(self$options$plot3)){
-                
-                  predictions <- data.frame(
-                    
-                    Base_model = predict(fit, test),
-                    Comparative_model = predict(cm1, test)
-                  )
-                 
-                  image3 <- self$results$plot3
-                  
-                  image3$setState(predictions)
-                  
-                }
                 
                 },
-          ##########################################################
+          
+      ##########################################################
+      .plot = function(image,...) {
+        
+        if (is.null(image$state))
+          return(FALSE)
+        
+          state<- image$state
+         
+           fit <- state[[1]]
+           comp <- state[[2]]
+           
+                  
+        res<- MLeval::evalm(list(fit,comp),
+                            gnames=c(self$options$method,self$options$cm1))
+       
+        plot <- res$roc
+        
+        print(plot)
+        TRUE
+      },
+      
+      
       .plot2 = function(image2,ggtheme, theme,...) {
         
         if (is.null(image2$state))
@@ -409,20 +416,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
       },
                 
-      .plot = function(image,...) {
-                  
-          if (is.null(image$state))
-              return(FALSE)
-      
-              rp <- image$state
-                  
-            plot<- rpart.plot::rpart.plot(rp)
-            
-              print(plot)
-              TRUE
-                },
-      
-                  
+  
       .plot1 = function(image1,...) {
         
         if (is.null(image1$state))
@@ -436,26 +430,22 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         TRUE
       },
       
-      .plot3 = function(image3,ggtheme, theme,...) {
+      
+      .plot3 = function(image3,...) {
         
         if (is.null(image3$state))
           return(FALSE)
         
-        predictions <- image3$state
+        pred1<- image3$state
         
-        plot3 <- ggplot2::ggplot(
-          data = predictions,
-          ggplot2::aes(x = Base_model, y = Comparative_model))+ 
-          ggplot2::geom_point()
-          
-          plot3 <- plot3+ggtheme
+        ROC <- MLeval::evalm(pred1)
         
+        plot3 <- ROC$roc
         
         print(plot3)
         TRUE
-        
       }
       
-   
-   )
+     
+       )
 )

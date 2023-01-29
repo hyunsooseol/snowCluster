@@ -10,7 +10,7 @@ caret(
   covs,
   scale,
   mecon,
-  method = "rpart",
+  method = "pls",
   cm1 = "knn",
   number = 10,
   repeats = 5,
@@ -19,12 +19,13 @@ caret(
   over1 = TRUE,
   over = FALSE,
   cla = FALSE,
+  cla1 = FALSE,
   tra = TRUE,
   tes = FALSE,
-  plot = FALSE,
+  plot = TRUE,
   plot1 = FALSE,
   plot2 = TRUE,
-  plot3 = FALSE
+  plot3 = TRUE
 )
 }
 \arguments{
@@ -56,6 +57,8 @@ caret(
 
 \item{cla}{.}
 
+\item{cla1}{.}
+
 \item{tra}{.}
 
 \item{tes}{.}
@@ -77,6 +80,7 @@ A results object containing:
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
+  \code{results$cla1} \tab \tab \tab \tab \tab a table \cr
   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr

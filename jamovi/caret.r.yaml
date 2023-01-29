@@ -123,8 +123,30 @@ items:
           type: 'text'
           content: ($key)
 
+    - name: cla1
+      title: 'Statistics by class with training set'
+      type: Table
+      visible: (cla1)
+      refs: caret 
+      clearWith:
+        - covs 
+        - dep
+        - scale
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
     - name: cla
-      title: 'Statistics by class'
+      title: 'Statistics by class with test set'
       type: Table
       visible: (cla)
       refs: caret 
@@ -149,8 +171,8 @@ items:
       title: Model selection plot
       type:  Image
       visible: (plot2)
-      width: 600
-      height: 350
+      width: 500
+      height: 300
       renderFun: .plot2
       refs: caret
       clearWith:
@@ -165,11 +187,11 @@ items:
         - tune
 
     - name:  plot
-      title: rpart plot
+      title: ROC plot with training set               
       type:  Image
       visible: (plot)
-      width: 600
-      height: 600
+      width: 500
+      height: 500
       renderFun: .plot
       refs: caret
       clearWith:
@@ -182,6 +204,7 @@ items:
         - repeats
         - method
         - tune
+        - cm1
 
     - name:  plot1
       title: Variable importance plot
@@ -203,11 +226,11 @@ items:
         - tune
 
     - name:  plot3
-      title: Comparing model predictions
+      title: ROC plot with test set               
       type:  Image
       visible: (plot3)
-      width: 600
-      height: 600
+      width: 500
+      height: 500
       renderFun: .plot3
       refs: caret
       clearWith:
@@ -220,6 +243,6 @@ items:
         - repeats
         - method
         - tune
-        - cm1
-       
+
+ 
 ...

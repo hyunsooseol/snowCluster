@@ -37,5 +37,6 @@ Imports:
     reshape2,
     gbm,
     earth,
-    mda
+    mda,
+    MLeval
     
