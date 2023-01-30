@@ -21,17 +21,6 @@ options:
       title: Predictors
       type: Variables
  
-    - name: scale
-      title: Scaling
-      type: List
-      options:
-        - title: Standardization
-          name:  stand
-        - title: Normalization
-          name:  normal
-        - title: PCA
-          name:  pca 
-
     - name: mecon
       title: Methods
       type: List

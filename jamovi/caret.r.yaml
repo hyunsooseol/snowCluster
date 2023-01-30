@@ -21,7 +21,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -54,7 +53,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -86,7 +84,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -108,7 +105,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -131,7 +127,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -153,7 +148,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -178,7 +172,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -197,7 +190,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -217,7 +209,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -232,11 +223,10 @@ items:
       width: 500
       height: 500
       renderFun: .plot3
-      refs: caret
+      refs: MLeval
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -255,7 +245,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number

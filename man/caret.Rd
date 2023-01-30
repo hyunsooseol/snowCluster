@@ -8,7 +8,6 @@ caret(
   data,
   dep,
   covs,
-  scale,
   mecon,
   method = "pls",
   cm1 = "ctree",
@@ -35,8 +34,6 @@ caret(
 \item{dep}{.}
 
 \item{covs}{.}
-
-\item{scale}{.}
 
 \item{mecon}{.}
 

@@ -103,8 +103,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                
                 # Training dataset---------------
                
-                if(self$options$scale=='stand'){
-
                   fit <- caret::train(formula,
                                       data=train,
                                       method = method,
@@ -113,30 +111,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                       trControl = fitControl)
                   
 
-                } 
-                
-                if(self$options$scale=='normal'){
-
-                  fit <- caret::train(formula,
-                                      data=train,
-                                      method = method,
-                                      preProcess = "range",
-                                      tuneLength = tune,
-                                      trControl = fitControl)
-
-                }
-
-                
-                if(self$options$scale=='pca'){
-                  
-                  fit <- caret::train(formula,
-                                      data=train,
-                                      method = method,
-                                      preProcess = "pca",
-                                      tuneLength = tune,
-                                      trControl = fitControl)
-                  
-                }
+               # Compare ROC curves------------------ 
                 
                 comp <- caret::train(formula,
                                      data=train,
@@ -150,26 +125,28 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                  self$results$text$setContent(fit)
                 
                 
-                
                 # Comparing ROC curves with training set-----------------
                 
+                if(self$options$plot==TRUE){ 
+                  
                  image <- self$results$plot   
                  state <- list(fit,comp)
                  image$setState(state)
                    
-              
+                }
                  # Calibration curve---------
                  
+                if(self$options$plot4==TRUE){ 
                  image4 <- self$results$plot4   
                  state <- list(fit,comp)
                  image4$setState(state)
-                 
+                }
                  
                  # Model selection plot----------
-                
+                if(self$options$plot2==TRUE){ 
                  image2 <- self$results$plot2
                  image2$setState(fit)
-                
+                }
              
                 # Variable importance plot----------
                
@@ -286,6 +263,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 # ROC curve with test set------
                 
+                if(self$options$plot3==TRUE){  
+                  
                 pred1<-predict(fit, test, type='prob')
                
                 pred1<- data.frame(pred1, test[[dep]], 
@@ -293,7 +272,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 image3 <- self$results$plot3
                 image3$setState(pred1)
-              
+                }
                 
                 # Confusion matrix(test set)---------------------------
                 
