@@ -31,6 +31,8 @@ children:
           - type: Label
             label: Data
             children:
+              - type: ComboBox
+                name: scale
               - type: TextBox
                 name: per
                 format: number

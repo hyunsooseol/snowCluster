@@ -103,6 +103,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                
                 # Training dataset---------------
                
+                if(self$options$scale=='stand'){ 
+                  
                   fit <- caret::train(formula,
                                       data=train,
                                       method = method,
@@ -110,16 +112,33 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                       tuneLength = tune,
                                       trControl = fitControl)
                   
+                  # Compare ROC curves------------------ 
+                  comp <- caret::train(formula,
+                                       data=train,
+                                       method = cm1,
+                                       preProcess = c("center", "scale"),
+                                       tuneLength = tune,
+                                       trControl = fitControl)
+                } else{
+                 
+                    fit <- caret::train(formula,
+                                        data=train,
+                                        method = method,
+                                      # preProcess = c("center", "scale"),
+                                        tuneLength = tune,
+                                        trControl = fitControl)
+                  
+                    # Compare ROC curves------------------ 
+                    comp <- caret::train(formula,
+                                         data=train,
+                                         method = cm1,
+                                        #preProcess = c("center", "scale"),
+                                         tuneLength = tune,
+                                         trControl = fitControl)
+                  
+                }
 
-               # Compare ROC curves------------------ 
-                
-                comp <- caret::train(formula,
-                                     data=train,
-                                     method = cm1,
-                                     preProcess = c("center", "scale"),
-                                     tuneLength = tune,
-                                     trControl = fitControl)
-                
+              
                 # Model information-----------
                 
                  self$results$text$setContent(fit)

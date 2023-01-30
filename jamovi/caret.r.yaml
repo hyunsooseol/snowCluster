@@ -21,6 +21,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number
@@ -53,6 +54,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number
@@ -84,6 +86,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number
@@ -106,6 +109,7 @@ items:
         - covs 
         - dep
         - per
+        - scale
         - mecon
         - number
         - repeats
@@ -128,6 +132,7 @@ items:
         - covs 
         - dep
         - per
+        - scale
         - mecon
         - number
         - repeats
@@ -148,6 +153,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number
@@ -172,6 +178,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number
@@ -190,6 +197,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number
@@ -209,6 +217,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number
@@ -227,6 +236,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number
@@ -245,6 +255,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - scale
         - per
         - mecon
         - number

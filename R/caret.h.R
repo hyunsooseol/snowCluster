@@ -8,6 +8,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
+            scale = "stand",
             mecon = NULL,
             method = "pls",
             cm1 = "ctree",
@@ -43,6 +44,13 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..covs <- jmvcore::OptionVariables$new(
                 "covs",
                 covs)
+            private$..scale <- jmvcore::OptionList$new(
+                "scale",
+                scale,
+                options=list(
+                    "stand",
+                    "none"),
+                default="stand")
             private$..mecon <- jmvcore::OptionList$new(
                 "mecon",
                 mecon,
@@ -154,6 +162,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
+            self$.addOption(private$..scale)
             self$.addOption(private$..mecon)
             self$.addOption(private$..method)
             self$.addOption(private$..cm1)
@@ -176,6 +185,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
+        scale = function() private$..scale$value,
         mecon = function() private$..mecon$value,
         method = function() private$..method$value,
         cm1 = function() private$..cm1$value,
@@ -197,6 +207,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..dep = NA,
         ..covs = NA,
+        ..scale = NA,
         ..mecon = NA,
         ..method = NA,
         ..cm1 = NA,
@@ -260,6 +271,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -295,6 +307,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -329,6 +342,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -351,6 +365,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
+                    "scale",
                     "mecon",
                     "number",
                     "repeats",
@@ -373,6 +388,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
+                    "scale",
                     "mecon",
                     "number",
                     "repeats",
@@ -393,6 +409,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -417,6 +434,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -435,6 +453,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -454,6 +473,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -472,6 +492,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -490,6 +511,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
+                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -524,6 +546,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param covs .
+#' @param scale .
 #' @param mecon .
 #' @param method .
 #' @param cm1 .
@@ -570,6 +593,7 @@ caret <- function(
     data,
     dep,
     covs,
+    scale = "stand",
     mecon,
     method = "pls",
     cm1 = "ctree",
@@ -605,6 +629,7 @@ caret <- function(
     options <- caretOptions$new(
         dep = dep,
         covs = covs,
+        scale = scale,
         mecon = mecon,
         method = method,
         cm1 = cm1,

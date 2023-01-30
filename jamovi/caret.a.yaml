@@ -21,6 +21,16 @@ options:
       title: Predictors
       type: Variables
  
+    - name: scale
+      title: Scaling
+      type: List
+      options:
+        - title: Standardization
+          name:  stand
+        - title: none
+          name:  none
+      default: stand
+      
     - name: mecon
       title: Methods
       type: List
