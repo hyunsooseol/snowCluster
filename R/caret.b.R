@@ -119,7 +119,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                        preProcess = c("center", "scale"),
                                        tuneLength = tune,
                                        trControl = fitControl)
-                } else{
+                } 
+                
+                if(self$options$scale=='none'){ 
                  
                     fit <- caret::train(formula,
                                         data=train,
