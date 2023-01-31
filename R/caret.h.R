@@ -24,7 +24,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             tes = FALSE,
             plot = FALSE,
             plot1 = FALSE,
-            plot2 = TRUE,
+            plot2 = FALSE,
             plot3 = FALSE,
             plot4 = FALSE, ...) {
 
@@ -74,7 +74,9 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gbm",
                     "fda",
                     "mda",
-                    "bag"),
+                    "bag",
+                    "svmLinear",
+                    "svmRadial"),
                 default="pls")
             private$..cm1 <- jmvcore::OptionList$new(
                 "cm1",
@@ -92,7 +94,9 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gbm",
                     "fda",
                     "mda",
-                    "bag"),
+                    "bag",
+                    "svmLinear",
+                    "svmRadial"),
                 default="ctree")
             private$..number <- jmvcore::OptionNumber$new(
                 "number",
@@ -150,7 +154,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
-                default=TRUE)
+                default=FALSE)
             private$..plot3 <- jmvcore::OptionBool$new(
                 "plot3",
                 plot3,
@@ -609,7 +613,7 @@ caret <- function(
     tes = FALSE,
     plot = FALSE,
     plot1 = FALSE,
-    plot2 = TRUE,
+    plot2 = FALSE,
     plot3 = FALSE,
     plot4 = FALSE) {
 

@@ -1,7 +1,7 @@
 Package: snowCluster
 Type: Package
 Title: Multivariate Analysis
-Version: 7.0.0
+Version: 7.0.1
 Author: Hyunsoo Seol
 Maintainer: Hyunsoo Seol <snow@cau.ac.kr>
 Description: This module allows users to analyze k-means and hierarchical
@@ -38,5 +38,6 @@ Imports:
     gbm,
     earth,
     mda,
-    MLeval
+    MLeval,
+    kernlab
     

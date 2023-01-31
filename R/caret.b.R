@@ -18,6 +18,7 @@
 #' @import nnet
 #' @import gbm
 #' @import mda
+#' @import kernlab
 #' @import earth
 #' @import ggplot2
 #' @import jmvcore

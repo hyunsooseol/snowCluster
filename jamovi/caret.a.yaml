@@ -72,6 +72,10 @@ options:
           name:  mda  
         - title: bag
           name:  bag  
+        - title: svmLinear
+          name:  svmLinear  
+        - title: svmRadial
+          name: svmRadial
       default: pls
 
     - name: cm1
@@ -104,6 +108,10 @@ options:
           name:  mda  
         - title: bag
           name:  bag  
+        - title: svmLinear
+          name:  svmLinear  
+        - title: svmRadial
+          name: svmRadial  
       default: ctree
 
     - name: number
@@ -174,7 +182,7 @@ options:
     - name: plot2
       title: Model selection  
       type: Bool
-      default: TRUE
+      default: FALSE
 
     - name: plot3
       title: ROC curve         
