@@ -24,7 +24,7 @@ caret(
   tes = FALSE,
   plot = FALSE,
   plot1 = FALSE,
-  plot2 = TRUE,
+  plot2 = FALSE,
   plot3 = FALSE,
   plot4 = FALSE
 )

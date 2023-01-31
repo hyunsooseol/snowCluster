@@ -85,8 +85,9 @@ children:
                   - type: ComboBox
                     name: cm1
                     enable: (plot)
-              - type: CheckBox
-                name: plot4
+                  - type: CheckBox
+                    name: plot4
+                    enable: (plot)
           - type: Label
             label: Test set
             children:
