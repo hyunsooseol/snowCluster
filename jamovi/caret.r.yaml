@@ -19,9 +19,9 @@ items:
       rows: 1
       visible: (over1)
       clearWith:
+        - facs
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -54,13 +54,13 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
         - repeats
         - method
         - tune
+        - facs
       refs: caret    
 
       columns:
@@ -86,13 +86,13 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
         - repeats
         - method
         - tune
+        - facs
       refs: caret    
 
       columns:
@@ -109,12 +109,12 @@ items:
         - covs 
         - dep
         - per
-        - scale
         - mecon
         - number
         - repeats
         - method
         - tune
+        - facs
       refs: caret    
 
       columns:
@@ -132,12 +132,12 @@ items:
         - covs 
         - dep
         - per
-        - scale
         - mecon
         - number
         - repeats
         - method
         - tune
+        - facs
 
       columns:
         - name: name
@@ -153,13 +153,13 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
         - repeats
         - method
         - tune
+        - facs
 
       columns:
         - name: name
@@ -178,13 +178,13 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
         - repeats
         - method
         - tune
+        - facs
 
     - name:  plot
       title: ROC plot with training set               
@@ -195,9 +195,9 @@ items:
       renderFun: .plot
       refs: MLeval
       clearWith:
+        - facs
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
@@ -217,13 +217,13 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
         - repeats
         - method
         - tune
+        - facs
 
     - name:  plot3
       title: ROC plot with test set               
@@ -236,13 +236,13 @@ items:
       clearWith:
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number
         - repeats
         - method
         - tune
+        - facs
 
     - name:  plot4
       title: Calibration curve with training set               
@@ -253,9 +253,9 @@ items:
       renderFun: .plot4
       refs: MLeval
       clearWith:
+        - facs
         - covs 
         - dep
-        - scale
         - per
         - mecon
         - number

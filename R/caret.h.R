@@ -8,7 +8,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
-            scale = "stand",
+            facs = NULL,
             mecon = NULL,
             method = "pls",
             cm1 = "ctree",
@@ -43,14 +43,21 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "factor"))
             private$..covs <- jmvcore::OptionVariables$new(
                 "covs",
-                covs)
-            private$..scale <- jmvcore::OptionList$new(
-                "scale",
-                scale,
-                options=list(
-                    "stand",
-                    "none"),
-                default="stand")
+                covs,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"),
+                default=NULL)
+            private$..facs <- jmvcore::OptionVariables$new(
+                "facs",
+                facs,
+                rejectUnusedLevels=TRUE,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"),
+                default=NULL)
             private$..mecon <- jmvcore::OptionList$new(
                 "mecon",
                 mecon,
@@ -166,7 +173,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
-            self$.addOption(private$..scale)
+            self$.addOption(private$..facs)
             self$.addOption(private$..mecon)
             self$.addOption(private$..method)
             self$.addOption(private$..cm1)
@@ -189,7 +196,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
-        scale = function() private$..scale$value,
+        facs = function() private$..facs$value,
         mecon = function() private$..mecon$value,
         method = function() private$..method$value,
         cm1 = function() private$..cm1$value,
@@ -211,7 +218,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..dep = NA,
         ..covs = NA,
-        ..scale = NA,
+        ..facs = NA,
         ..mecon = NA,
         ..method = NA,
         ..cm1 = NA,
@@ -273,9 +280,9 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 rows=1,
                 visible="(over1)",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -311,13 +318,13 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
                     "repeats",
                     "method",
-                    "tune"),
+                    "tune",
+                    "facs"),
                 refs="caret",
                 columns=list(
                     list(
@@ -346,13 +353,13 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
                     "repeats",
                     "method",
-                    "tune"),
+                    "tune",
+                    "facs"),
                 refs="caret",
                 columns=list(
                     list(
@@ -369,12 +376,12 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "scale",
                     "mecon",
                     "number",
                     "repeats",
                     "method",
-                    "tune"),
+                    "tune",
+                    "facs"),
                 refs="caret",
                 columns=list(
                     list(
@@ -392,12 +399,12 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "scale",
                     "mecon",
                     "number",
                     "repeats",
                     "method",
-                    "tune"),
+                    "tune",
+                    "facs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -413,13 +420,13 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
                     "repeats",
                     "method",
-                    "tune"),
+                    "tune",
+                    "facs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -438,13 +445,13 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
                     "repeats",
                     "method",
-                    "tune")))
+                    "tune",
+                    "facs")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -455,9 +462,9 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot",
                 refs="MLeval",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -477,13 +484,13 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
                     "repeats",
                     "method",
-                    "tune")))
+                    "tune",
+                    "facs")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -496,13 +503,13 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
                     "repeats",
                     "method",
-                    "tune")))
+                    "tune",
+                    "facs")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -513,9 +520,9 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot4",
                 refs="MLeval",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
-                    "scale",
                     "per",
                     "mecon",
                     "number",
@@ -549,8 +556,8 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data .
 #' @param dep .
-#' @param covs .
-#' @param scale .
+#' @param covs the covariates from \code{data}
+#' @param facs the fixed factors from \code{data}
 #' @param mecon .
 #' @param method .
 #' @param cm1 .
@@ -596,8 +603,8 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 caret <- function(
     data,
     dep,
-    covs,
-    scale = "stand",
+    covs = NULL,
+    facs = NULL,
     mecon,
     method = "pls",
     cm1 = "ctree",
@@ -622,18 +629,21 @@ caret <- function(
 
     if ( ! missing(dep)) dep <- jmvcore::resolveQuo(jmvcore::enquo(dep))
     if ( ! missing(covs)) covs <- jmvcore::resolveQuo(jmvcore::enquo(covs))
+    if ( ! missing(facs)) facs <- jmvcore::resolveQuo(jmvcore::enquo(facs))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(dep), dep, NULL),
-            `if`( ! missing(covs), covs, NULL))
+            `if`( ! missing(covs), covs, NULL),
+            `if`( ! missing(facs), facs, NULL))
 
     for (v in dep) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
+    for (v in facs) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- caretOptions$new(
         dep = dep,
         covs = covs,
-        scale = scale,
+        facs = facs,
         mecon = mecon,
         method = method,
         cm1 = cm1,

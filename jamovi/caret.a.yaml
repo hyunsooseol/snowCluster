@@ -18,19 +18,28 @@ options:
         - factor           
     
     - name: covs
-      title: Predictors
+      title: Covariates
       type: Variables
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+      default:
+      description:
+          R: the covariates from `data`
+
+    - name: facs
+      title: Factors
+      type: Variables
+      rejectUnusedLevels: true
+      suggested:
+        - nominal
+      permitted:
+        - factor
+      default:
+      description:
+          R: the fixed factors from `data`
  
-    - name: scale
-      title: Scaling
-      type: List
-      options:
-        - title: Standardization
-          name:  stand
-        - title: none
-          name:  none
-      default: stand
-      
     - name: mecon
       title: Methods
       type: List

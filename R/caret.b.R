@@ -66,9 +66,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 if (is.null(self$options$dep) || length(self$options$covs) == 0)
                   return()
                 
-                dep <- self$options$dep
-                covs <- self$options$covs
-                
+               
                 mecon <- self$options$mecon
                 repeats <- self$options$repeats
                 number <- self$options$number
@@ -78,22 +76,44 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 cm1 <- self$options$cm1
                 
                 data <- self$data
+                dep <- self$options$dep
+                covs <- self$options$covs
+                facs <- self$options$facs
+                
+              
+                data[[dep]] <- jmvcore::toNumeric(self$data[[dep]])
+
+                for (fac in facs)
+                  data[[fac]] <- jmvcore::toNumeric(self$data[[fac]])
+
+                for (cov in covs)
+                  data[[cov]] <- jmvcore::toNumeric(self$data[[cov]])
+                
+                
                 data <- jmvcore::naOmit(data)
                 
+                
+                # scaling------------
+                
+                data[[dep]] <- factor(data[[dep]])
+                data[covs] <- scale(data[covs])
+                data[facs] <- factor(data[facs])
+               
+                # formula-----------------
+                
+                formula <- jmvcore::constructFormula(self$options$dep, 
+                                                     self$options$covs) # Combine facotr variable?????
+                formula <- as.formula(formula)
                
                 #Create Train dataset-----------------
                 
                 set.seed(1234)
                 
-                split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
+                split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
                 train <-data[split1,]
                 test <- data[-split1,] 
                 
-                formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
-                formula <- as.formula(formula)
-                
-               
-                # trainControl-----------
+                # trainControl function-----------
                 
                 fitControl <- caret::trainControl(method = mecon, 
                                                   number =number , 
@@ -104,12 +124,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                
                 # Training dataset---------------
                
-                if(self$options$scale=='stand'){ 
-                  
                   fit <- caret::train(formula,
                                       data=train,
                                       method = method,
-                                      preProcess = c("center", "scale"),
                                       tuneLength = tune,
                                       trControl = fitControl)
                   
@@ -117,32 +134,11 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   comp <- caret::train(formula,
                                        data=train,
                                        method = cm1,
-                                       preProcess = c("center", "scale"),
                                        tuneLength = tune,
                                        trControl = fitControl)
-                } 
-                
-                if(self$options$scale=='none'){ 
-                 
-                    fit <- caret::train(formula,
-                                        data=train,
-                                        method = method,
-                                      # preProcess = c("center", "scale"),
-                                        tuneLength = tune,
-                                        trControl = fitControl)
-                  
-                    # Compare ROC curves------------------ 
-                    comp <- caret::train(formula,
-                                         data=train,
-                                         method = cm1,
-                                        #preProcess = c("center", "scale"),
-                                         tuneLength = tune,
-                                         trControl = fitControl)
-                  
-                }
-
               
-                # Model information-----------
+                
+                 # Model information-----------
                 
                  self$results$text$setContent(fit)
                 

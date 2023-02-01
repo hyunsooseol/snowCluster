@@ -12,12 +12,18 @@ children:
           - type: VariablesListBox
             name: dep
             isTarget: true
-            maxItemCount: 1
+            maxItemCount: 1 
       - type: TargetLayoutBox
-        label: Predictors
+        label: Covariates
         children:
           - type: VariablesListBox
             name: covs
+            isTarget: true
+      - type: TargetLayoutBox
+        label: Factors
+        children:
+          - type: VariablesListBox
+            name: facs
             isTarget: true
   - type: CollapseBox
     label: Analysis
@@ -31,8 +37,6 @@ children:
           - type: Label
             label: Data
             children:
-              - type: ComboBox
-                name: scale
               - type: TextBox
                 name: per
                 format: number
