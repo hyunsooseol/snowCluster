@@ -90,7 +90,20 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 for(cov in covs)
                   data[[cov]] <- jmvcore::toNumeric(data[[cov]])
                 
-                data <- na.omit(data)
+                # data[[dep]] <- jmvcore::toNumeric(data[[dep]])
+                 
+                # When caretList() runs a tree-based model 
+                # (here rpart, but also applies to random forests), 
+                # it converts the factor levels into variables which are used to split the tree. 
+                # For these variables, names starting with a number are not allowed nor that they contain spaces. 
+                # So for each of these variables, you can convert the level names to valid labels with the following code.
+                # 
+                # 
+                
+                
+                data[[dep]] <- factor(data[[dep]])
+                
+                 data <- na.omit(data)
                 
                 # data[[dep]] <- jmvcore::toNumeric(self$data[[dep]])
                 # 
