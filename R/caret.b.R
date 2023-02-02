@@ -8,7 +8,7 @@
 #' @importFrom caret varImp
 #' @importFrom MLeval evalm
 #' @importFrom caret preProcess
-#' @import caTools
+#' @importFrom caTools sample.split
 #' @import caret
 #' @import xgboost
 #' @import rpart.plot
@@ -87,7 +87,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 # data cleaning--------------- 
                 
                 for(fac in facs)
-                  data[[fac]]<-factor(data[[fac]])
+                  data[[fac]]<-as.factor(data[[fac]])
                 for(cov in covs)
                   data[[cov]] <- jmvcore::toNumeric(data[[cov]])
                 
@@ -102,9 +102,11 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 # 
                 
                 
-                data[[dep]] <- factor(data[[dep]])
+                data[[dep]] <- as.factor(data[[dep]])
+               
+                #data[facs] <- factor(data[facs])
                 
-                 data <- na.omit(data)
+                data <- na.omit(data)
                 
                 # data[[dep]] <- jmvcore::toNumeric(self$data[[dep]])
                 # 
@@ -115,49 +117,45 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 # data[[cov]] <- jmvcore::toNumeric(self$data[[cov]])
 
                
-               # pro <- caret::preProcess(data[[covs]],
-               #                   method = c("center", "scale"))
+               #  pro <- caret::preProcess(data[[dep]],
+               #                    method = c("center", "scale"))
+               #  
+               #   self$results$text$setContent(pro)
                # 
-               # self$results$text$setContent(pro)
+                
                # 
                # formula-----------------
-               # formula <- paste0(self$options$dep, " ~ .")
                # formula <- jmvcore::constructFormula(dep = self$options$dep,
                #                                        terms = c(self$options$covs,
                #                                                   self$options$facs))
-               #  formula <- as.formula(formula)
-
+               
+                # formula <- as.formula(paste(self$options$dep, 
+                #                             paste0(c(self$options$covs,self$options$facs), 
+                #                             collapse ="+"), sep="~")) 
+                # 
                 
-                ### formula-------------
+                # To speed up the function------
                 
-                formula <- as.formula(paste(self$options$dep, 
-                                            paste0(c(self$options$covs,self$options$facs), 
-                                            collapse ="+"), sep="~")) 
+                 formula <- as.formula(paste0(self$options$dep, " ~ ."))
                 
                 
-                
-                #Create Train dataset-----------------
+                # Create Train/test dataset using caret package-----------------
                 
                 set.seed(1234)
                 
-                 split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
-                 train <-data[split1,]
-                 test <- data[-split1,] 
+                 # split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
+                 # train <-data[split1,]
+                 # test <- data[-split1,]
+
+                  
+                # OR Using caTools package-----------
                 
+                  sample = caTools::sample.split(data, SplitRatio = 0.8)
+                  
+                  train = subset(data, sample == TRUE)
+                  test  = subset(data, sample == FALSE)
                 
-                #  split1 <- function(data) {
-                #   set.seed(42)
-                #   sample = sample.split(data, SplitRatio = 0.8)
-                #   train = subset(data, sample == TRUE)
-                #   test  = subset(data, sample == FALSE)
-                #   return (list(train, test))
-                # }
-                # 
-                # 
-                #  train <-split1(data)[[1]]
-                #  test <-split1(data)[[2]] 
-                # 
-                
+
                 # trainControl function-----------
                 
                 fitControl <- caret::trainControl(method = mecon, 
