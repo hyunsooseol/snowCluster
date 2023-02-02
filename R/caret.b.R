@@ -49,8 +49,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <p><b>Instructions</b></p>
             <p>____________________________________________________________________________________</p>
             <p> 1. Machine learning based on <b>caret</b> R package.</p>
-            <p> 2. The rationale of caret R package is described in the <a href='https://topepo.github.io/caret/' target = '_blank'>page</a>.</p>
-            <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 2. For target variable, names starting with a number are not allowed.</p> 
+            <p> 3. The rationale of caret R package is described in the <a href='https://topepo.github.io/caret/' target = '_blank'>page</a>.</p>
+            <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
