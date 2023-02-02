@@ -47,17 +47,15 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 suggested=list(
                     "continuous"),
                 permitted=list(
-                    "numeric"),
-                default=NULL)
+                    "numeric"))
             private$..facs <- jmvcore::OptionVariables$new(
                 "facs",
                 facs,
-                rejectUnusedLevels=TRUE,
                 suggested=list(
-                    "nominal"),
+                    "nominal",
+                    "ordinal"),
                 permitted=list(
-                    "factor"),
-                default=NULL)
+                    "factor"))
             private$..mecon <- jmvcore::OptionList$new(
                 "mecon",
                 mecon,
@@ -556,8 +554,8 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data .
 #' @param dep .
-#' @param covs the covariates from \code{data}
-#' @param facs the fixed factors from \code{data}
+#' @param covs .
+#' @param facs .
 #' @param mecon .
 #' @param method .
 #' @param cm1 .
@@ -603,8 +601,8 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 caret <- function(
     data,
     dep,
-    covs = NULL,
-    facs = NULL,
+    covs,
+    facs,
     mecon,
     method = "pls",
     cm1 = "ctree",

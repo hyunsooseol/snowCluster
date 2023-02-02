@@ -24,21 +24,15 @@ options:
         - continuous
       permitted:
         - numeric
-      default:
-      description:
-          R: the covariates from `data`
-
+ 
     - name: facs
       title: Factors
       type: Variables
-      rejectUnusedLevels: true
       suggested:
         - nominal
+        - ordinal
       permitted:
         - factor
-      default:
-      description:
-          R: the fixed factors from `data`
  
     - name: mecon
       title: Methods

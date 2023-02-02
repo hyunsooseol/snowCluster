@@ -7,8 +7,8 @@
 caret(
   data,
   dep,
-  covs = NULL,
-  facs = NULL,
+  covs,
+  facs,
   mecon,
   method = "pls",
   cm1 = "ctree",
@@ -34,9 +34,9 @@ caret(
 
 \item{dep}{.}
 
-\item{covs}{the covariates from \code{data}}
+\item{covs}{.}
 
-\item{facs}{the fixed factors from \code{data}}
+\item{facs}{.}
 
 \item{mecon}{.}
 

@@ -39,5 +39,6 @@ Imports:
     earth,
     mda,
     MLeval,
-    kernlab
+    kernlab,
+    caTools
     

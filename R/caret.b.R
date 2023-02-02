@@ -7,6 +7,8 @@
 #' @importFrom caret trainControl
 #' @importFrom caret varImp
 #' @importFrom MLeval evalm
+#' @importFrom caret preProcess
+#' @import caTools
 #' @import caret
 #' @import xgboost
 #' @import rpart.plot
@@ -81,37 +83,66 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 facs <- self$options$facs
                 
               
-                data[[dep]] <- jmvcore::toNumeric(self$data[[dep]])
+                # data cleaning--------------- 
+                
+                for(fac in facs)
+                  data[[fac]]<-factor(data[[fac]])
+                for(cov in covs)
+                  data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+                
+                data <- na.omit(data)
+                
+                # data[[dep]] <- jmvcore::toNumeric(self$data[[dep]])
+                # 
+                # for (fac in facs)
+                #   data[[fac]] <- jmvcore::toNumeric(self$data[[fac]])
+                # 
+                # for (cov in covs)
+                # data[[cov]] <- jmvcore::toNumeric(self$data[[cov]])
 
-                for (fac in facs)
-                  data[[fac]] <- jmvcore::toNumeric(self$data[[fac]])
+               
+               # pro <- caret::preProcess(data[[covs]],
+               #                   method = c("center", "scale"))
+               # 
+               # self$results$text$setContent(pro)
+               # 
+               # formula-----------------
+               # formula <- paste0(self$options$dep, " ~ .")
+               # formula <- jmvcore::constructFormula(dep = self$options$dep,
+               #                                        terms = c(self$options$covs,
+               #                                                   self$options$facs))
+               #  formula <- as.formula(formula)
 
-                for (cov in covs)
-                  data[[cov]] <- jmvcore::toNumeric(self$data[[cov]])
+                
+                ### formula-------------
+                
+                formula <- as.formula(paste(self$options$dep, 
+                                            paste0(c(self$options$covs,self$options$facs), 
+                                            collapse ="+"), sep="~")) 
                 
                 
-                data <- jmvcore::naOmit(data)
                 
-                
-                # scaling------------
-                
-                data[[dep]] <- factor(data[[dep]])
-                data[covs] <- scale(data[covs])
-                data[facs] <- factor(data[facs])
-               
-                # formula-----------------
-                
-                formula <- jmvcore::constructFormula(self$options$dep, 
-                                                     self$options$covs) # Combine facotr variable?????
-                formula <- as.formula(formula)
-               
                 #Create Train dataset-----------------
                 
                 set.seed(1234)
                 
-                split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
-                train <-data[split1,]
-                test <- data[-split1,] 
+                 split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
+                 train <-data[split1,]
+                 test <- data[-split1,] 
+                
+                
+                #  split1 <- function(data) {
+                #   set.seed(42)
+                #   sample = sample.split(data, SplitRatio = 0.8)
+                #   train = subset(data, sample == TRUE)
+                #   test  = subset(data, sample == FALSE)
+                #   return (list(train, test))
+                # }
+                # 
+                # 
+                #  train <-split1(data)[[1]]
+                #  test <-split1(data)[[2]] 
+                # 
                 
                 # trainControl function-----------
                 
@@ -127,21 +158,21 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   fit <- caret::train(formula,
                                       data=train,
                                       method = method,
+                                      preProcess = c("center","scale"),
                                       tuneLength = tune,
                                       trControl = fitControl)
                   
-                  # Compare ROC curves------------------ 
-                  comp <- caret::train(formula,
-                                       data=train,
-                                       method = cm1,
-                                       tuneLength = tune,
-                                       trControl = fitControl)
-              
-                
-                 # Model information-----------
+                # Model information-----------
                 
                  self$results$text$setContent(fit)
                 
+                 # Compare ROC curves------------------ 
+                 comp <- caret::train(formula,
+                                      data=train,
+                                      method = cm1,
+                                      tuneLength = tune,
+                                      trControl = fitControl)
+                 
                 
                 # Comparing ROC curves with training set-----------------
                 
