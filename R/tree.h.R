@@ -8,6 +8,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
+            facs = NULL,
             per = 0.7,
             plot = FALSE,
             over = TRUE,
@@ -29,7 +30,19 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "factor"))
             private$..covs <- jmvcore::OptionVariables$new(
                 "covs",
-                covs)
+                covs,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..facs <- jmvcore::OptionVariables$new(
+                "facs",
+                facs,
+                suggested=list(
+                    "nominal",
+                    "ordinal"),
+                permitted=list(
+                    "factor"))
             private$..per <- jmvcore::OptionNumber$new(
                 "per",
                 per,
@@ -55,6 +68,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
+            self$.addOption(private$..facs)
             self$.addOption(private$..per)
             self$.addOption(private$..plot)
             self$.addOption(private$..over)
@@ -64,6 +78,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
+        facs = function() private$..facs$value,
         per = function() private$..per$value,
         plot = function() private$..plot$value,
         over = function() private$..over$value,
@@ -72,6 +87,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..dep = NA,
         ..covs = NA,
+        ..facs = NA,
         ..per = NA,
         ..plot = NA,
         ..over = NA,
@@ -115,7 +131,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "per"),
+                    "per",
+                    "facs"),
                 refs="caret",
                 columns=list(
                     list(
@@ -145,7 +162,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "per"),
+                    "per",
+                    "facs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -161,7 +179,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "per"),
+                    "per",
+                    "facs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -180,7 +199,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "per")))}))
+                    "per",
+                    "facs")))}))
 
 treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "treeBase",
@@ -208,6 +228,7 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param covs .
+#' @param facs .
 #' @param per .
 #' @param plot .
 #' @param over .
@@ -234,6 +255,7 @@ tree <- function(
     data,
     dep,
     covs,
+    facs,
     per = 0.7,
     plot = FALSE,
     over = TRUE,
@@ -245,17 +267,21 @@ tree <- function(
 
     if ( ! missing(dep)) dep <- jmvcore::resolveQuo(jmvcore::enquo(dep))
     if ( ! missing(covs)) covs <- jmvcore::resolveQuo(jmvcore::enquo(covs))
+    if ( ! missing(facs)) facs <- jmvcore::resolveQuo(jmvcore::enquo(facs))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(dep), dep, NULL),
-            `if`( ! missing(covs), covs, NULL))
+            `if`( ! missing(covs), covs, NULL),
+            `if`( ! missing(facs), facs, NULL))
 
     for (v in dep) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
+    for (v in facs) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- treeOptions$new(
         dep = dep,
         covs = covs,
+        facs = facs,
         per = per,
         plot = plot,
         over = over,

@@ -2,6 +2,7 @@
 # This file is a generated template, your changes will not be overwritten
 #' @importFrom caret createDataPartition
 #' @importFrom jmvcore constructFormula
+#' @importFrom caret preProcess
 #' @importFrom party ctree
 #' @importFrom caret confusionMatrix
 #' @import ggplot2
@@ -30,7 +31,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <p><b>Instructions</b></p>
             <p>____________________________________________________________________________________</p>
             <p> 1. Classification analysis based on <b>party</b> R package.</p>
-            <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 2. The values for the target variable cannot be a number. </p> 
+            <p> 3. Continuous variables were standardized using <b> caret::prePrecess()</b>. </p>
+            <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
@@ -77,28 +80,77 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           
         dep <- self$options$dep
         covs <- self$options$covs
+        facs <- self$options$facs
+        
         per <- self$options$per
         
         data <- self$data
-        data <- jmvcore::naOmit(data)
+       
+        
+        # data cleaning--------------- 
+        
+        for(fac in facs)
+          data[[fac]]<-as.factor(data[[fac]])
+        
+        for(cov in covs)
+          data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+        
+        data[[dep]] <- as.factor(data[[dep]])
+        
+        data <- jmvcore::naOmit(data) 
+        
         
         ###########################################################
         set.seed(1234)
         
-        split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
+        # split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
+        # 
+        # ##########################################################
+        # train <-data[split1,]
+        # test <- data[-split1,] 
+        #   
+        # formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
+        # formula <- as.formula(formula)
+        # 
+        # 
         
-        ##########################################################
-        train <-data[split1,]
-        test <- data[-split1,] 
-          
-        formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
-        formula <- as.formula(formula)
+        # To speed up the function------
+        
+        formula <- as.formula(paste0(self$options$dep, " ~ ."))
+        
+        
+        # Create Train/test dataset using caret package-----------------
+        
+        set.seed(1234)
+        
+        split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
+        train1 <-data[split1,]
+        test1 <- data[-split1,]
+        
+        # Transformed dataset-----------------
+        
+        preProcValues <- caret::preProcess(train1, 
+                                           method = c("center", "scale"))
+        
+        train <- predict(preProcValues, train1)
+        
+        # check<- head(trainTransformed)
+        # self$results$text$setContent(check)
+        
+        test <- predict(preProcValues, test1)
+        
+        
         
         ### Analysis using party package-----------
         
         model.train <- party::ctree(formula, data=train)
                             
-       # Tree plot----------
+       # Model information--------
+        
+      #  self$results$text$setContent(model.train)
+        
+        
+        # Tree plot----------
         
         image <- self$results$plot
         image$setState(model.train)

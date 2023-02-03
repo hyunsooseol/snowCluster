@@ -102,10 +102,11 @@ analyses:
 datasets:
   - name: iris
     path: iris.omv
-    description: kmeans & Group plot
+    description: 'kmeans, Group plot, and Classification'
     tags:
       - Kmeans
       - Group plot
+      - Classification
   - name: usarrests
     path: USArrests.omv
     description: Violent Crime Rates by US State
@@ -150,16 +151,14 @@ datasets:
     description: Example with groups of categorical variables
     tags:
       - Multiple Factor Analysis
-  - name: iris2
-    path: iris2.omv
-    description: Discrimant & Machine Learning
+  - name: credit
+    path: credit.omv
+    description: German credit
     tags:
-      - Discriminant
-      - Classification
       - Machine Learning
   - name: sim
     path: sim.omv
-    description: Machine Learning
+    description: Simulation data
     tags:
       - Machine Learning
   - name: swiss

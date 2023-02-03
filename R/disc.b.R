@@ -59,7 +59,12 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             data <- self$data
             data <- jmvcore::naOmit(data)
             
-           # dividing two datasets------------------------
+            for(cov in covs)
+              data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+            
+            data[[dep]] <- as.factor(data[[dep]])
+            
+            # dividing two datasets------------------------
             
             set.seed(1234) # Set seed for reproducibility
             

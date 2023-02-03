@@ -50,8 +50,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <p>____________________________________________________________________________________</p>
             <p> 1. Machine learning based on <b>caret</b> R package.</p>
             <p> 2. The values for the target variable cannot be a number. </p> 
-            <p> 3. The rationale of caret R package is described in the <a href='https://topepo.github.io/caret/' target = '_blank'>page</a>.</p>
-            <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 3. Continuous variables were standardized using <b> caret::prePrecess()</b>. </p>
+            <p> 4. The rationale of caret R package is described in the <a href='https://topepo.github.io/caret/' target = '_blank'>page</a>.</p>
+            <p> 5. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
@@ -88,6 +89,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 for(fac in facs)
                   data[[fac]]<-as.factor(data[[fac]])
+                
                 for(cov in covs)
                   data[[cov]] <- jmvcore::toNumeric(data[[cov]])
                 
@@ -108,6 +110,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 data <- na.omit(data)
                 
+                #a <- is.factor(data[[fac]])
+                #self$results$text$setContent(a)
+                
+                
                 # data[[dep]] <- jmvcore::toNumeric(self$data[[dep]])
                 # 
                 # for (fac in facs)
@@ -117,12 +123,12 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 # data[[cov]] <- jmvcore::toNumeric(self$data[[cov]])
 
                
-               #  pro <- caret::preProcess(data[[dep]],
-               #                    method = c("center", "scale"))
-               #  
-               #   self$results$text$setContent(pro)
-               # 
-                
+               # data <- caret::preProcess(data,
+               #                   method = "scale")
+
+               #  self$results$text$setContent(pre)
+
+
                # 
                # formula-----------------
                # formula <- jmvcore::constructFormula(dep = self$options$dep,
@@ -143,20 +149,48 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 set.seed(1234)
                 
-                 # split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
-                 # train <-data[split1,]
-                 # test <- data[-split1,]
+                  split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
+                  train1 <-data[split1,]
+                  test1 <- data[-split1,]
 
+                # Transformed dataset-----------------
                   
-                # OR Using caTools package-----------
-                
-                  sample = caTools::sample.split(data, SplitRatio = 0.8)
+                  preProcValues <- caret::preProcess(train1, 
+                                                     method = c("center", "scale"))
                   
-                  train = subset(data, sample == TRUE)
-                  test  = subset(data, sample == FALSE)
+                  train <- predict(preProcValues, train1)
+                  
+                  # check<- head(trainTransformed)
+                  # self$results$text$setContent(check)
+                  
+                  test <- predict(preProcValues, test1)
+                    
                 
+                # Example------------------
+                  
+                  # mat1=caret::preProcess(mat, method=c("pca", "zv"))
+                  # transformed = predict(mat1, mat)
+                  # model_gbm <- train(data=transformed, method='gbm',  trControl=myControl)
+                  # 
+                 ####################################################
+                  
+                  
+                # # OR Using caTools package-----------
+                # 
+                #   sample = caTools::sample.split(data, SplitRatio = 0.8)
+                #   
+                #   train = subset(data, sample == TRUE)
+                #   test  = subset(data, sample == FALSE)
+                # 
 
-                # trainControl function-----------
+                   # train <- caret::preProcess(train,
+                   #                   method = "scale")
+                  
+                  #  self$results$text$setContent(pre)
+                  
+                  
+                  
+                  # trainControl function-----------
                 
                 fitControl <- caret::trainControl(method = mecon, 
                                                   number =number , 
@@ -170,7 +204,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   fit <- caret::train(formula,
                                       data=train,
                                       method = method,
-                                      preProcess = c("center","scale"),
                                       tuneLength = tune,
                                       trControl = fitControl)
                   

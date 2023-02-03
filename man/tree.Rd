@@ -8,6 +8,7 @@ tree(
   data,
   dep,
   covs,
+  facs,
   per = 0.7,
   plot = FALSE,
   over = TRUE,
@@ -21,6 +22,8 @@ tree(
 \item{dep}{.}
 
 \item{covs}{.}
+
+\item{facs}{.}
 
 \item{per}{.}
 

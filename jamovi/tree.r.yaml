@@ -22,6 +22,7 @@ items:
         - covs
         - dep
         - per
+        - facs
       refs: caret    
 
       columns:
@@ -49,6 +50,7 @@ items:
         - covs 
         - dep
         - per
+        - facs
         
       columns:
         - name: name
@@ -65,6 +67,7 @@ items:
         - covs
         - dep
         - per
+        - facs
  
       columns:
         - name: name
@@ -84,5 +87,6 @@ items:
         - covs 
         - dep
         - per
+        - facs
        
 ...
