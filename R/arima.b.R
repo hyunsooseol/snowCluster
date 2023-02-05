@@ -290,12 +290,16 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
            # 
            # 
            
-           forecast <- predict(res, future)
-           self$results$text$setContent(forecast) 
+           pre <- predict(res, future)
+           self$results$text$setContent(pre) 
            # unrecognized "GMT" error !!! or no response. . . 
            
-              state <- list(res, forecast)
-              image4$setState(state)
+              image4 <- self$results$plot4
+              
+              image4$setState(pre)
+              
+              # state <- list(res, pre)
+              # image4$setState(state)
              
               
             } 
@@ -390,10 +394,15 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           if (is.null(image4$state))
             return(FALSE)
           
-          res<- image4$state[[1]]
-          forecast <- image4$state[[2]]
+          # res<- image4$state[[1]]
+          # pre <- image4$state[[2]]
+          # plot4<- plot(res, pre) 
           
-          plot4<- plot(res, forecast) 
+          ddata <- image4$state
+          
+         
+          plot4 <- plot(ddata[[1]], ddata[[2]])
+          
         
           print(plot4)
           TRUE
