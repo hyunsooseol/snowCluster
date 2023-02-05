@@ -235,7 +235,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot)",
                 width=500,
                 height=500,
-                renderFun=".plot"))
+                renderFun=".plot",
+                clearWith=list(
+                    "dep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="box",
@@ -244,7 +246,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(box)",
                 width=500,
                 height=300,
-                renderFun=".box"))
+                renderFun=".box",
+                clearWith=list(
+                    "dep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -252,7 +256,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot1)",
                 width=500,
                 height=500,
-                renderFun=".plot1"))
+                renderFun=".plot1",
+                clearWith=list(
+                    "dep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -260,7 +266,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot2)",
                 width=500,
                 height=500,
-                renderFun=".plot2"))
+                renderFun=".plot2",
+                clearWith=list(
+                    "dep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -269,16 +277,21 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="forecast",
                 width=500,
                 height=500,
-                renderFun=".plot3"))
+                renderFun=".plot3",
+                clearWith=list(
+                    "dep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
-                title="Exploring dataset",
+                title="Forcast plot",
                 visible="(plot4)",
                 refs="prophet",
                 width=500,
                 height=500,
-                renderFun=".plot4"))}))
+                renderFun=".plot4",
+                clearWith=list(
+                    "dep",
+                    "time")))}))
 
 arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "arimaBase",

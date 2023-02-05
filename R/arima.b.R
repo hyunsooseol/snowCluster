@@ -63,7 +63,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
         },
         
-        
+       ################################################################## 
                 .run = function() {
 
             
@@ -104,20 +104,152 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             image1 <- self$results$plot1
             image1$setState(tsdata)
 
+            # residual plot----------
+            
+            res <- mymodel$residuals
+            
+            image2 <- self$results$plot2
+            image2$setState(res)
+            
+            
+            #############################################################
+            # Forecast the Values for the Next 10 Years--------
+            
+            predict <- forecast::forecast(mymodel, level=c(95), h=pred*freq)
+            
+            ###########################################################
+            
+            image3 <- self$results$plot3
+            image3$setState(predict)
+            
+            
+            # Prediction interval table---------
+            
+            table <- self$results$point
+            
+            #  pre <- forecast::forecast(mymodel)
+            
+            pre<- as.data.frame(predict)
+            
+            names<- dimnames(pre)[[1]]
+            
+            for (name in names) {
+              
+              row <- list()
+              
+              row[["po"]]   <-  pre[name, 1]
+              row[["lower"]] <-  pre[name, 2]
+              row[["upper"]] <-  pre[name, 3]
+              
+              
+              table$addRow(rowKey=name, values=row)
+              
+            }
+            
+            
+            # ARIMA coefficients Table-------
+            
+            fun <- function(model, dig){
+              
+              if (length(model$coef) > 0) {
+                cat("\nCoefficients:\n")
+                coef <- round(model$coef, digits=dig)
+                
+                if (NROW(model$var.coef)) {
+                  se <- rep.int(0, length(coef))
+                  se[model$mask] <- round(sqrt(diag(model$var.coef)), digits=dig)
+                  coef <- matrix(coef, 1L, dimnames = list(NULL, names(coef)))
+                  coef <- rbind(coef, se=se)
+                }
+                
+                
+                mch <- match("intercept", colnames(coef))
+                if (is.null(model$xreg) & !is.na(mch)) {
+                  colnames(coef)[mch] <- "mean"
+                }
+                print.default(coef, print.gap = 2)
+              }
+            }
+            
+            res<- fun(mymodel,4)
+            res <- t(res)
+            colnames(res)[1]<-'Coefficients'
+            res <- as.data.frame(res)
+            
+            # populating coef. table----------
+            
+            table <- self$results$coef
+            
+            names <- dimnames(res)[[1]]
+            
+            
+            for (name in names) {
+              
+              row <- list()
+              
+              row[["co"]] <- res[name, 1]
+              row[["se"]] <- res[name, 2]
+              
+              table$addRow(rowKey=name, values=row)
+              
+            }
+            
+            # fit table------
+            
+            log<- mymodel$loglik
+            aic<- mymodel$aic
+            aicc<- mymodel$aicc
+            bic<- mymodel$bic
+            
+            
+            mo<- data.frame(LL=mymodel$loglik,AIC=mymodel$aic,
+                            AICc=mymodel$aicc,BIC=mymodel$bic)
+            
+            mo<- t(mo)
+            names<- dimnames(mo)[[1]]
+            
+            # populating fit table------
+            
+            table <- self$results$fit
+            
+            for (name in names) {
+              
+              row <- list()
+              
+              row[['value']] <- mo[name,1]
+              
+              table$addRow(rowKey=name, values=row)
+              
+            }
+            
+            
+            }
+            
+            
          } else{
+           
+           # prophet analysis example in R----------
+           
+           # library(prophet)
+           # df <- read.csv('https://raw.githubusercontent.com/facebook/prophet/main/examples/example_wp_log_peyton_manning.csv')
+           # m <- prophet(df)
+           # future <- make_future_dataframe(m, periods = 365)
+           # forecast <- predict(m, future)
+           # plot(m, forecast)
+           # prophet_plot_components(m, forecast)
+           # 
            
            # Prophet Analysis-----------------------
            
            res <- prophet::prophet(data)
            
            #----------------------------------------------
-           
-           #self$results$text$setContent(res) OK
+           #self$results$text$setContent(res) OK!
            
            # Basic predictions---------
            
            future <- prophet::make_future_dataframe(res, periods = 365)
-         # self$results$text$setContent(future) OK 
+         # self$results$text$setContent(future) OK! 
            
            # time <- self$options$time
            # 
@@ -148,141 +280,15 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
            # 
            # 
            
-           
            forecast <- predict(res, future)
-           self$results$text$setContent(forecast) # unrecognized "GMT" error !!! 
-           
+           self$results$text$setContent(forecast) 
+           # unrecognized "GMT" error !!! or no response. . . 
            
               state <- list(res, forecast)
               image4$setState(state)
-              
              
               
             } 
-            
-            
-            
-            # residual plot----------
-            
-             res <- mymodel$residuals
-            
-            image2 <- self$results$plot2
-            image2$setState(res)
-            
-            
-            #############################################################
-            # Forecast the Values for the Next 10 Years--------
-            
-            predict <- forecast::forecast(mymodel, level=c(95), h=pred*freq)
-            
-            ###########################################################
-            
-            image3 <- self$results$plot3
-            image3$setState(predict)
-            
-            
-            # Prediction interval table---------
-            
-            table <- self$results$point
-            
-         #  pre <- forecast::forecast(mymodel)
-          
-             pre<- as.data.frame(predict)
-            
-            names<- dimnames(pre)[[1]]
-            
-            for (name in names) {
-                
-                row <- list()
-                
-                row[["po"]]   <-  pre[name, 1]
-                row[["lower"]] <-  pre[name, 2]
-                row[["upper"]] <-  pre[name, 3]
-                
-                
-                table$addRow(rowKey=name, values=row)
-                
-            }
-            
-            
-            # ARIMA coefficients Table-------
-            
-            fun <- function(model, dig){
-                
-                if (length(model$coef) > 0) {
-                    cat("\nCoefficients:\n")
-                    coef <- round(model$coef, digits=dig)
-                    
-                    if (NROW(model$var.coef)) {
-                        se <- rep.int(0, length(coef))
-                        se[model$mask] <- round(sqrt(diag(model$var.coef)), digits=dig)
-                        coef <- matrix(coef, 1L, dimnames = list(NULL, names(coef)))
-                        coef <- rbind(coef, se=se)
-                    }
-                    
-                    
-                    mch <- match("intercept", colnames(coef))
-                    if (is.null(model$xreg) & !is.na(mch)) {
-                        colnames(coef)[mch] <- "mean"
-                    }
-                    print.default(coef, print.gap = 2)
-                }
-            }
-            
-            res<- fun(mymodel,4)
-            res <- t(res)
-            colnames(res)[1]<-'Coefficients'
-            res <- as.data.frame(res)
-            
-            # populating coef. table----------
-            
-            table <- self$results$coef
-        
-            names <- dimnames(res)[[1]]
-                
-             
-            for (name in names) {
-                
-                row <- list()
-                
-                row[["co"]] <- res[name, 1]
-                row[["se"]] <- res[name, 2]
-                
-            table$addRow(rowKey=name, values=row)
-                
-            }
-            
-            # fit table------
-            
-            log<- mymodel$loglik
-            aic<- mymodel$aic
-            aicc<- mymodel$aicc
-            bic<- mymodel$bic
-            
-            
-            mo<- data.frame(LL=mymodel$loglik,AIC=mymodel$aic,
-                            AICc=mymodel$aicc,BIC=mymodel$bic)
-            
-            mo<- t(mo)
-            names<- dimnames(mo)[[1]]
-            
-            # populating fit table------
-            
-            table <- self$results$fit
-            
-            for (name in names) {
-                
-                row <- list()
-                
-                row[['value']] <- mo[name,1]
-                
-                table$addRow(rowKey=name, values=row)
-                
-            }
-            
-            
-            }
-            
             
             },
             

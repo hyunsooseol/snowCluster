@@ -80,6 +80,8 @@ items:
       width: 500
       height: 500
       renderFun: .plot
+      clearWith:
+        - dep
 
     - name:  box
       title: "Box plot"
@@ -89,6 +91,8 @@ items:
       width: 500
       height: 300
       renderFun: .box
+      clearWith:
+        - dep
 
     - name:  plot1
       title:  'Automatic ARIMA forecasts' 
@@ -97,6 +101,8 @@ items:
       width: 500
       height: 500
       renderFun: .plot1
+      clearWith:
+        - dep
 
     - name:  plot2
       title:  'Residual plot' 
@@ -105,6 +111,8 @@ items:
       width: 500
       height: 500
       renderFun: .plot2
+      clearWith:
+        - dep
 
     - name:  plot3
       title:  'Prediction' 
@@ -114,15 +122,20 @@ items:
       width: 500
       height: 500
       renderFun: .plot3
+      clearWith:
+        - dep
 
     - name:  plot4
-      title:  'Exploring dataset' 
+      title:  'Forcast plot' 
       type:  Image
       visible: (plot4)
       refs: prophet
       width: 500
       height: 500
       renderFun: .plot4
+      clearWith:
+        - dep
+        - time
 
 
 ...

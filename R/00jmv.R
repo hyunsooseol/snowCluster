@@ -7,11 +7,11 @@
         `author`="Seol, H.", 
         `year`=2023, 
         `title`="snowCluster: Multivariate Analysis", 
-        `publisher`="(Version 7.0.1)[jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
+        `publisher`="(Version 7.0.2)[jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
         `url`="https://github.com/hyunsooseol/snowCluster"), 
     `factoextra`=list(
         `type`="software", 
-        `author`="Kassambara, A & Mundt, F.", 
+        `author`="Kassambara, A. & Mundt, F.", 
         `year`=2020, 
         `title`="factoextra: Extract and Visualize the Results of Multivariate Data Analyses", 
         `publisher`="[R package]. https://CRAN.R-project.org/package=factoextra", 
@@ -50,4 +50,11 @@
         `year`=2020, 
         `title`="MLeval: Machine Learning Model Evaluation", 
         `publisher`="(Version 0.3)[R package]. https://CRAN.R-project.org/package=MLeval", 
-        `url`="https://CRAN.R-project.org/package=MLeval"))
+        `url`="https://CRAN.R-project.org/package=MLeval"), 
+    `prophet`=list(
+        `type`="software", 
+        `author`="Taylor, S. & Letham, B.", 
+        `year`=2021, 
+        `title`="MLeval: Machine Learning Model Evaluation", 
+        `publisher`="(Version 0.3)[R package]. https://CRAN.R-project.org/package=prophet", 
+        `url`="https://CRAN.R-project.org/package=prophet"))
