@@ -67,12 +67,16 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 .run = function() {
 
             
-            if (!is.null(self$options$dep)) {
+            if(is.null(self$options$dep))
+              return()
             
             dep  <- self$options$dep
             time <- self$options$time
             freq <- self$options$freq
             pred <- self$options$pred
+            
+            if(is.null(self$options$time)){
+            
             
             # get the data
             
@@ -81,8 +85,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             #------------------
 
-            if(is.null(self$options$time)) {
-            
             tsdata <- stats::ts(data, frequency = freq)
             ddata <- stats::decompose(tsdata, "multiplicative")
 
@@ -222,11 +224,19 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
             }
             
-            
             }
             
-            
-         } else{
+         if(!is.null(self$options$time)){
+           
+           
+           dep  <- self$options$dep
+           time <- self$options$time
+           
+           
+           # get the data
+           
+           data <- self$data
+           data <- jmvcore::naOmit(data)
            
            # prophet analysis example in R----------
            

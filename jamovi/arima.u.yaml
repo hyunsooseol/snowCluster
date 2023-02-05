@@ -13,12 +13,6 @@ children:
             name: dep
             isTarget: true
             maxItemCount: 1
-      - type: TargetLayoutBox
-        label: Time
-        children:
-          - type: VariablesListBox
-            name: time
-            isTarget: true
   - type: CollapseBox
     label: ARIMA Analysis
     margin: normal
@@ -63,23 +57,28 @@ children:
             label: Table
             children:
               - type: CheckBox
-                name: coef                
+                name: coef
               - type: CheckBox
-                name: fit  
+                name: fit
               - type: CheckBox
-                name: point                       
+                name: point
   - type: CollapseBox
     label: Prophet Analysis
     margin: normal
     collapsed: true
     children:
-      - type: LayoutBox
+      - type: VariableSupplier
+        persistentItems: false
         stretchFactor: 1
-        margin: large
         children:
+          - type: TargetLayoutBox
+            label: Time
+            children:
+              - type: VariablesListBox
+                name: time
+                isTarget: true
           - type: Label
             label: Plots
             children:
               - type: CheckBox
                 name: plot4
-               
