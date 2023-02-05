@@ -224,20 +224,25 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
             }
             
-            }
-            
-         if(!is.null(self$options$time)){
+            } else{
            
-           
-           dep  <- self$options$dep
-           time <- self$options$time
-           
-           
-           # get the data
-           
-           data <- self$data
-           data <- jmvcore::naOmit(data)
-           
+              
+              # Prophet Analysis -----------
+              res <- prophet::prophet(data)
+              # Basic predictions ------------------------------------
+              future <- prophet::make_future_dataframe(res, 
+                                                       periods = 365)
+              #############   A L E R T  ##############
+              # function returns error in Windows 10-11
+              # No errors in Ubuntu 22.04.1
+              fore <- predict(res, future)
+              #########################################
+              
+              state <- list(res, fore)
+              image4 <- self$results$plot4
+              image4$setState(state)
+              
+          
            # prophet analysis example in R----------
            
            # library(prophet)
@@ -247,20 +252,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
            # forecast <- predict(m, future)
            # plot(m, forecast)
            # prophet_plot_components(m, forecast)
-           # 
+           #------------------------------------------------ 
            
-           # Prophet Analysis-----------------------
-           
-           res <- prophet::prophet(data)
-           
-           #----------------------------------------------
-           #self$results$text$setContent(res) OK!
-           
-           # Basic predictions---------
-           
-           future <- prophet::make_future_dataframe(res, periods = 365)
-         # self$results$text$setContent(future) OK! 
-           
+          
            # time <- self$options$time
            # 
            # data[[time]] <- as.POSIXct(data[[time]], tz = "UTC")
@@ -289,18 +283,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
            # data[[time]] <- lubridate::force_tz(data[[time]], "UTC")
            # 
            # 
-           
-           pre <- predict(res, future)
-           self$results$text$setContent(pre) 
-           # unrecognized "GMT" error !!! or no response. . . 
-           
-              image4 <- self$results$plot4
-              
-              image4$setState(pre)
-              
-              # state <- list(res, pre)
-              # image4$setState(state)
-             
+         
               
             } 
             
@@ -394,16 +377,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           if (is.null(image4$state))
             return(FALSE)
           
-          # res<- image4$state[[1]]
-          # pre <- image4$state[[2]]
-          # plot4<- plot(res, pre) 
-          
-          ddata <- image4$state
-          
-         
-          plot4 <- plot(ddata[[1]], ddata[[2]])
-          
-        
+          res<- image4$state[[1]]
+          fore <- image4$state[[2]]
+          plot4<- plot(res, fore)
           print(plot4)
           TRUE
         }
