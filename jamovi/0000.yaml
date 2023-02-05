@@ -87,11 +87,11 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Multidimensional Scaling Plot
     menuSubgroup: MDS
-  - title: ARIMA Model
+  - title: Univariate time series
     name: arima
     ns: snowCluster
     menuGroup: snowCluster
-    menuTitle: ARIMA Model
+    menuTitle: Univariate time series
     menuSubgroup: Univariate time series
   - title: Factor analysis of mixed data
     name: famd
@@ -171,12 +171,17 @@ datasets:
     path: lh.omv
     description: time series giving the luteinizing hormone in blood samples
     tags:
-      - time series
+      - ARIMA
   - name: AirPassengers
     path: AirPassengers.omv
     description: AirPassengers data
     tags:
-      - time series
+      - ARIMA
+  - name: prophet
+    path: prophet.omv
+    description: Prophet data
+    tags:
+      - Prophet
   - name: beer
     path: beer.omv
     description: monthly-beer-production-in-Australia

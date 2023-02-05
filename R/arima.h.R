@@ -7,7 +7,6 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             dep = NULL,
-            covs = NULL,
             time = NULL,
             freq = 12,
             pred = 10,
@@ -18,7 +17,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot3 = FALSE,
             coef = TRUE,
             fit = FALSE,
-            point = FALSE, ...) {
+            point = FALSE,
+            plot4 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -33,14 +33,6 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
-            private$..covs <- jmvcore::OptionVariables$new(
-                "covs",
-                covs,
-                suggested=list(
-                    "continuous"),
-                permitted=list(
-                    "numeric"),
-                default=NULL)
             private$..time <- jmvcore::OptionVariables$new(
                 "time",
                 time,
@@ -90,9 +82,12 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "point",
                 point,
                 default=FALSE)
+            private$..plot4 <- jmvcore::OptionBool$new(
+                "plot4",
+                plot4,
+                default=FALSE)
 
             self$.addOption(private$..dep)
-            self$.addOption(private$..covs)
             self$.addOption(private$..time)
             self$.addOption(private$..freq)
             self$.addOption(private$..pred)
@@ -104,10 +99,10 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..coef)
             self$.addOption(private$..fit)
             self$.addOption(private$..point)
+            self$.addOption(private$..plot4)
         }),
     active = list(
         dep = function() private$..dep$value,
-        covs = function() private$..covs$value,
         time = function() private$..time$value,
         freq = function() private$..freq$value,
         pred = function() private$..pred$value,
@@ -118,10 +113,10 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot3 = function() private$..plot3$value,
         coef = function() private$..coef$value,
         fit = function() private$..fit$value,
-        point = function() private$..point$value),
+        point = function() private$..point$value,
+        plot4 = function() private$..plot4$value),
     private = list(
         ..dep = NA,
-        ..covs = NA,
         ..time = NA,
         ..freq = NA,
         ..pred = NA,
@@ -132,7 +127,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot3 = NA,
         ..coef = NA,
         ..fit = NA,
-        ..point = NA)
+        ..point = NA,
+        ..plot4 = NA)
 )
 
 arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -140,6 +136,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
+        text = function() private$.items[["text"]],
         coef = function() private$.items[["coef"]],
         fit = function() private$.items[["fit"]],
         point = function() private$.items[["point"]],
@@ -147,20 +144,25 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         box = function() private$.items[["box"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
-        plot3 = function() private$.items[["plot3"]]),
+        plot3 = function() private$.items[["plot3"]],
+        plot4 = function() private$.items[["plot4"]]),
     private = list(),
     public=list(
         initialize=function(options) {
             super$initialize(
                 options=options,
                 name="",
-                title="ARIMA Model",
+                title="Univariate time series",
                 refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text",
+                title=""))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="coef",
@@ -267,7 +269,16 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="forecast",
                 width=500,
                 height=500,
-                renderFun=".plot3"))}))
+                renderFun=".plot3"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot4",
+                title="Exploring dataset",
+                visible="(plot4)",
+                refs="prophet",
+                width=500,
+                height=500,
+                renderFun=".plot4"))}))
 
 arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "arimaBase",
@@ -289,13 +300,12 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresMissings = FALSE)
         }))
 
-#' ARIMA Model
+#' Univariate time series
 #'
 #' 
 #' @param data timeseries data format
 #' @param dep the dependent variable from \code{data}, variable must be
 #'   numeric
-#' @param covs the covariates from \code{data}
 #' @param time the fixed factors from \code{data}
 #' @param freq .
 #' @param pred .
@@ -307,9 +317,11 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param coef .
 #' @param fit .
 #' @param point .
+#' @param plot4 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$fit} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$point} \tab \tab \tab \tab \tab a table \cr
@@ -318,6 +330,7 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -330,7 +343,6 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 arima <- function(
     data,
     dep,
-    covs = NULL,
     time = NULL,
     freq = 12,
     pred = 10,
@@ -341,25 +353,23 @@ arima <- function(
     plot3 = FALSE,
     coef = TRUE,
     fit = FALSE,
-    point = FALSE) {
+    point = FALSE,
+    plot4 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("arima requires jmvcore to be installed (restart may be required)")
 
     if ( ! missing(dep)) dep <- jmvcore::resolveQuo(jmvcore::enquo(dep))
-    if ( ! missing(covs)) covs <- jmvcore::resolveQuo(jmvcore::enquo(covs))
     if ( ! missing(time)) time <- jmvcore::resolveQuo(jmvcore::enquo(time))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(dep), dep, NULL),
-            `if`( ! missing(covs), covs, NULL),
             `if`( ! missing(time), time, NULL))
 
 
     options <- arimaOptions$new(
         dep = dep,
-        covs = covs,
         time = time,
         freq = freq,
         pred = pred,
@@ -370,7 +380,8 @@ arima <- function(
         plot3 = plot3,
         coef = coef,
         fit = fit,
-        point = point)
+        point = point,
+        plot4 = plot4)
 
     analysis <- arimaClass$new(
         options = options,

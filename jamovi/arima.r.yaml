@@ -1,6 +1,6 @@
 ---
 name:  arima
-title: ARIMA Model
+title: Univariate time series
 jrs:   '1.1'
 refs: snowCluster
 items:
@@ -8,6 +8,10 @@ items:
       title: Instructions
       type: Html
       visible: True
+
+    - name:  text
+      title: ''
+      type:  Preformatted
 
     - name: coef
       title: 'Model coefficients'
@@ -111,9 +115,14 @@ items:
       height: 500
       renderFun: .plot3
 
-
-
-
+    - name:  plot4
+      title:  'Exploring dataset' 
+      type:  Image
+      visible: (plot4)
+      refs: prophet
+      width: 500
+      height: 500
+      renderFun: .plot4
 
 
 ...

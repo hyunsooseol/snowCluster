@@ -40,5 +40,7 @@ Imports:
     mda,
     MLeval,
     kernlab,
-    caTools
+    caTools,
+    prophet,
+    lubridate
     

@@ -7,9 +7,14 @@
 #' @import forecast 
 #' @import ggplot2
 #' @import jmvcore
+#' @import prophet 
+#' @import lubridate
 #' @importFrom magrittr %>%
 #' @importFrom forecast auto.arima
 #' @importFrom forecast forecast
+#' @importFrom prophet prophet
+#' @importFrom prophet make_future_dataframe
+#' @importFrom lubridate force_tz
 #' @export
 
 
@@ -36,12 +41,11 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <body>
             <div class='instructions'>
             
-            <p><b>Univariate time series model</b></p>
+            <p><b>Instructions</b></p>
             <p>_____________________________________________________________________________________________</p>
-            <p>1. Do NOT move the variables into <b>Time or Covariates box.</b> Otherwise, the error messages will be appeared. 
-            <p>2. The analysis options are classified by two factors.
-            <p><b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting. 
-            <p>3. The results were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
+            <p>1. Do NOT move the variables into <b>Time box.</b> Otherwise, the error messages will be appeared. 
+            <p>2. ARIMA options are classified by two factors; <b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting.</p>
+            <p>3. The results of ARIMA were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
             <p>4. The rationale of <b>forecast</b> R package is described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
             <p>5. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>_____________________________________________________________________________________________</p>
@@ -67,36 +71,97 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             dep  <- self$options$dep
             time <- self$options$time
-            covs <- self$options$covs
             freq <- self$options$freq
             pred <- self$options$pred
             
             # get the data
             
             data <- self$data
-            
             data <- jmvcore::naOmit(data)
             
-            tsdata <- stats::ts(data, frequency = freq) 
+            #------------------
+
+            if(is.null(self$options$time)) {
             
+            tsdata <- stats::ts(data, frequency = freq)
             ddata <- stats::decompose(tsdata, "multiplicative")
+
             
-            # Decompose plot----------
-            
-            image <- self$results$plot
-            image$setState(ddata)
-            
-            # forcasts from ARIMA-------
-            
-            image1 <- self$results$plot1
-            image1$setState(tsdata)
-            
-           #################################################
+            #################################################
             
             mymodel <- forecast::auto.arima(tsdata)
             
             #############################################
+            
+            
+            # Decompose plot----------
+
+            image <- self$results$plot
+            image$setState(ddata)
+
+            # forcasts from ARIMA-------
+
+            image1 <- self$results$plot1
+            image1$setState(tsdata)
+
+         } else{
            
+           # Prophet Analysis-----------------------
+           
+           res <- prophet::prophet(data)
+           
+           #----------------------------------------------
+           
+           #self$results$text$setContent(res) OK
+           
+           # Basic predictions---------
+           
+           future <- prophet::make_future_dataframe(res, periods = 365)
+         # self$results$text$setContent(future) OK 
+           
+           # time <- self$options$time
+           # 
+           # data[[time]] <- as.POSIXct(data[[time]], tz = "UTC")
+           # 
+           # res <- prophet::prophet(data)
+           # 
+           # # Basic predictions---------
+           # 
+           # future <- prophet::make_future_dataframe(res, periods = 365)
+           # forecast <- predict(res, future)
+           # 
+           
+           # time <- self$options$time
+           # 
+           # # Convert the time column to a character type
+           # data[[time]] <- as.character(data[[time]])
+           # 
+           # # # Convert the time column to a POSIXct type with the UTC timezone and the specified date format
+           # # data[[time]] <- as.POSIXct(data[[time]], format = "%Y-%m-%d", tz = "UTC")
+           # # 
+           # # # Change the timezone of the time column to UTC
+           # # data[[time]] <- lubridate::force_tz(data[[time]], "UTC")
+           # # 
+           # 
+           # data[[time]] <- as.POSIXct(data[[time]], tz = "UTC")
+           # data[[time]] <- lubridate::force_tz(data[[time]], "UTC")
+           # 
+           # 
+           
+           
+           forecast <- predict(res, future)
+           self$results$text$setContent(forecast) # unrecognized "GMT" error !!! 
+           
+           
+              state <- list(res, forecast)
+              image4$setState(state)
+              
+             
+              
+            } 
+            
+            
+            
             # residual plot----------
             
              res <- mymodel$residuals
@@ -223,10 +288,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             .plot = function(image,...) {
                 
-                if (is.null(self$options$dep))
-                    return()
-                
-                
+              if (is.null(image$state))
+                return(FALSE)
+              
                 ddata <- image$state
                 
                 plot <- plot(ddata)
@@ -238,19 +302,13 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .box = function(image,ggtheme, theme,...) {
 
-            if (is.null(self$options$dep))
-                return()
-
-
+         
             dep  <- self$options$dep
-            time <- self$options$time
-            covs <- self$options$covs
             freq<- self$options$freq
             
             # get the data
             
             data <- self$data
-            
             data <- jmvcore::naOmit(data)
             
             
@@ -265,10 +323,10 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         },
         
         .plot1 = function(image1,...) {
-            
-            if (is.null(self$options$dep))
-                return()
-            
+          
+          if (is.null(image1$state))
+            return(FALSE)
+          
             tsdata <- image1$state
             
              plot<- tsdata %>%
@@ -283,8 +341,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot2 = function(image2,...) {
             
-            if (is.null(self$options$dep))
-                return()
+          if (is.null(image2$state))
+            return(FALSE)
             
             
            res <- image2$state
@@ -298,8 +356,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot3 = function(image3,...) {
             
-            if (is.null(self$options$dep))
-                return()
+          if (is.null(image3$state))
+            return(FALSE)
             
             
             predict <- image3$state
@@ -309,8 +367,21 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             print(plot)
             TRUE
-        }
+        },
         
+        .plot4 = function(image4,...) {
+          
+          if (is.null(image4$state))
+            return(FALSE)
+          
+          res<- image4$state[[1]]
+          forecast <- image4$state[[2]]
+          
+          plot4<- plot(res, forecast) 
+        
+          print(plot4)
+          TRUE
+        }
         
         
      )

@@ -1,6 +1,6 @@
 ---
 name:  arima
-title: ARIMA Model
+title:  Univariate time series
 menuGroup: snowCluster
 menuSubgroup: Univariate time series
 version: '1.0.0'
@@ -22,17 +22,6 @@ options:
       description:
           R: >
             the dependent variable from `data`, variable must be numeric
-    - name: covs
-      title: Covariates
-      type: Variables
-      suggested:
-        - continuous
-      permitted:
-        - numeric
-      default:
-      description:
-          R: the covariates from `data`
-
     - name: time
       title: Time
       type: Variables
@@ -95,5 +84,8 @@ options:
       type: Bool
       default: false
 
-
+    - name: plot4
+      title: 'Forcast' 
+      type: Bool
+      default: false
 ...

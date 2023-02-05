@@ -2,12 +2,11 @@
 % Please edit documentation in R/arima.h.R
 \name{arima}
 \alias{arima}
-\title{ARIMA Model}
+\title{Univariate time series}
 \usage{
 arima(
   data,
   dep,
-  covs = NULL,
   time = NULL,
   freq = 12,
   pred = 10,
@@ -18,7 +17,8 @@ arima(
   plot3 = FALSE,
   coef = TRUE,
   fit = FALSE,
-  point = FALSE
+  point = FALSE,
+  plot4 = FALSE
 )
 }
 \arguments{
@@ -26,8 +26,6 @@ arima(
 
 \item{dep}{the dependent variable from \code{data}, variable must be
 numeric}
-
-\item{covs}{the covariates from \code{data}}
 
 \item{time}{the fixed factors from \code{data}}
 
@@ -50,11 +48,14 @@ numeric}
 \item{fit}{.}
 
 \item{point}{.}
+
+\item{plot4}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+  \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
   \code{results$fit} \tab \tab \tab \tab \tab a table \cr
   \code{results$point} \tab \tab \tab \tab \tab a table \cr
@@ -63,6 +64,7 @@ A results object containing:
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -72,5 +74,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$coef)}
 }
 \description{
-ARIMA Model
+Univariate time series
 }
