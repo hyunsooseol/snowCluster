@@ -41,6 +41,7 @@ Imports:
     MLeval,
     kernlab,
     caTools,
+    rstan,
     prophet,
-    lubridate
+    lubridate  
     

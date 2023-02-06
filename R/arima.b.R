@@ -237,6 +237,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               # No errors in Ubuntu 22.04.1
               fore <- predict(res, future)
               #########################################
+              self$results$text$setContent(fore)
+              
               
               state <- list(res, fore)
               image4 <- self$results$plot4
@@ -327,9 +329,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot1 = function(image1,...) {
           
-          if (is.null(image1$state))
-            return(FALSE)
-          
+          if(!is.null(self$options$time))
+          return()
+            
             tsdata <- image1$state
             
              plot<- tsdata %>%
@@ -344,9 +346,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot2 = function(image2,...) {
             
-          if (is.null(image2$state))
-            return(FALSE)
-            
+          if(!is.null(self$options$time))
+            return()
             
            res <- image2$state
             
@@ -359,8 +360,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot3 = function(image3,...) {
             
-          if (is.null(image3$state))
-            return(FALSE)
+          if(!is.null(self$options$time))
+            return()
             
             
             predict <- image3$state
@@ -374,8 +375,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot4 = function(image4,...) {
           
-          if (is.null(image4$state))
-            return(FALSE)
+          if(is.null(self$options$time))
+            return()
           
           res<- image4$state[[1]]
           fore <- image4$state[[2]]
