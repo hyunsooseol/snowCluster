@@ -196,4 +196,8 @@ options:
       title: Calibration curve         
       type: Bool
       default: FALSE
+      
+    - name: pred
+      title: Prediction
+      type: Output
 ...

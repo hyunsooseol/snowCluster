@@ -168,6 +168,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot4",
                 plot4,
                 default=FALSE)
+            private$..pred <- jmvcore::OptionOutput$new(
+                "pred")
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -190,6 +192,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
             self$.addOption(private$..plot4)
+            self$.addOption(private$..pred)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -212,7 +215,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
-        plot4 = function() private$..plot4$value),
+        plot4 = function() private$..plot4$value,
+        pred = function() private$..pred$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -234,7 +238,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
-        ..plot4 = NA)
+        ..plot4 = NA,
+        ..pred = NA)
 )
 
 caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -253,7 +258,8 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
         plot3 = function() private$.items[["plot3"]],
-        plot4 = function() private$.items[["plot4"]]),
+        plot4 = function() private$.items[["plot4"]],
+        pred = function() private$.items[["pred"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -527,6 +533,22 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "repeats",
                     "method",
                     "tune",
+                    "cm1")))
+            self$add(jmvcore::Output$new(
+                options=options,
+                name="pred",
+                title="Prediction",
+                varTitle="Prediction",
+                measureType="nominal",
+                clearWith=list(
+                    "facs",
+                    "covs",
+                    "dep",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method",
+                    "tune",
                     "cm1")))}))
 
 caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -589,6 +611,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$pred} \tab \tab \tab \tab \tab an output \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

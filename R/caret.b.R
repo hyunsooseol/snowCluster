@@ -105,13 +105,19 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 
                 data[[dep]] <- as.factor(data[[dep]])
-               
+                data <- na.omit(data)
                 #data[facs] <- factor(data[facs])
                 
-                data <- na.omit(data)
+                
+                # # dataset to predict dep with train model------------
+                # 
+                # new_data <- jmvcore::select(self$data, c(covs, facs))
+                # new_data <- jmvcore::naOmit(new_data)
+                # ###################################################
+
                 
                 #a <- is.factor(data[[fac]])
-                #self$results$text$setContent(a)
+                #self$results$text$setContent(head(new_data))
                 
                 
                 # data[[dep]] <- jmvcore::toNumeric(self$data[[dep]])
@@ -147,7 +153,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 # Create Train/test dataset using caret package-----------------
                 
-                set.seed(1234)
+                  set.seed(1234)
                 
                   split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
                   train1 <-data[split1,]
@@ -255,7 +261,67 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 #########     TRAINING SET    #############################
                 
-                # Predict with train set-----------------
+                # Prediction with train model -----------
+                  
+                  if(self$options$pred==TRUE){
+                    
+                   # Example in R-------
+                    
+                    # # View the predictions
+                    # print(predictions)
+                    # ######################################################
+                    # # Load the necessary libraries
+                    # library(caret)
+                    # # Load the iris dataset
+                    # data(iris)
+                    # # Train the model using the caret package
+                    # fitControl <- trainControl(method = "cv", number = 5)
+                    # model <- train(Species ~ ., data = iris, method = "rpart", trControl = fitControl)
+                    # 
+                    # # Load the new data
+                    # new <- data.frame(Sepal.Length = c(6, 5.5, 5,2), 
+                    #                   Sepal.Width = c(3, 2.5, 2,1.2), 
+                    #                   Petal.Length = c(4, 3.5, 3,2.2), 
+                    #                   Petal.Width = c(1, 3.5, 0,1))
+                    # 
+                    # # Use the selected model to make predictions on the new data
+                    # pred <- predict(model, newdata = new)
+                    
+                    # trainControl function-----------
+                    
+                    fitControl <- caret::trainControl(method = mecon, 
+                                                      number =number , 
+                                                      repeats = repeats,
+                                                      classProbs=T,
+                                                      savePredictions = T)
+                    
+                    # Training dataset---------------
+                    
+                    fit <- caret::train(formula,
+                                        data=data,
+                                        method = method,
+                                        tuneLength = tune,
+                                        trControl = fitControl)
+                    
+                    # new data-----------
+                    #dataset to predict dep. with train model------------
+                    new_data <- jmvcore::select(self$data, c(covs, facs))
+                    new_data <- jmvcore::naOmit(new_data)
+                    #self$results$text$setContent(new_data)
+                    
+                    pred <- predict(fit, new_data)
+                    
+                    
+                    self$results$pred$setValues(pred)
+                    self$results$pred$setRowNums(rownames(new_data))
+                    
+                    
+                  }
+                  
+                  ###################################
+                  
+                  
+                  # Predict with train set-----------------
                 
                 pred.tr<-predict(fit, train)
                 
@@ -550,6 +616,32 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         TRUE
       }
       
+      # # iris example in R-----------
+      # library(caret) 
+      # data(iris)
+      # 
+      # #Split into train and test dataset
+      # trainIndex <- createDataPartition(iris$Species, p = .8,
+      #                                   list = FALSE,
+      #                                   times = 1)
+      # train <- iris[ trainIndex,]
+      # test  <- iris[-trainIndex,] 
+      # 
+      # fitControl <- trainControl(
+      #   method = "repeatedcv",
+      #   number = 10,
+      #   repeats = 5)  
+      # 
+      # dt.fit <- train(Species ~ ., data = train,
+      #                 method = "rpart",
+      #                 trControl = fitControl,
+      #                 preProcess=c("center", "scale"))  
+      # 
+      # predictions <- predict(dt.fit, test)
+      # predictions  
+      # 
+      # eval<- confusionMatrix(predictions, test$Species)  
+      # 
      
        )
 )

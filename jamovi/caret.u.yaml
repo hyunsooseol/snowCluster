@@ -12,7 +12,7 @@ children:
           - type: VariablesListBox
             name: dep
             isTarget: true
-            maxItemCount: 1 
+            maxItemCount: 1
       - type: TargetLayoutBox
         label: Covariates
         children:
@@ -41,7 +41,7 @@ children:
                 name: per
                 format: number
           - type: Label
-            label: Training Model 
+            label: Training Model
             children:
               - type: ComboBox
                 name: method
@@ -103,4 +103,8 @@ children:
                 name: cla
               - type: CheckBox
                 name: plot3
- 
+          - type: Label
+            label: Save
+            children: 
+              - type: Output
+                name: pred

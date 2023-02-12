@@ -263,4 +263,21 @@ items:
         - method
         - tune
         - cm1 
+
+    - name: pred
+      title: Prediction
+      type: Output
+      varTitle: Prediction
+      measureType: nominal
+      clearWith:
+        - facs
+        - covs 
+        - dep
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+        - cm1 
+
 ...
