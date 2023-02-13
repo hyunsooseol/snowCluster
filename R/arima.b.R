@@ -226,6 +226,11 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             } else{
            
+              # get the data
+              
+              data <- self$data
+              data <- jmvcore::naOmit(data)
+              
               
               # Prophet Analysis -----------
               res <- prophet::prophet(data)
