@@ -226,6 +226,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             } else{
            
+             
               # get the data
               data <- self$data
               data <- jmvcore::naOmit(data)
@@ -233,14 +234,17 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
               # Prophet Analysis -----------
               m <- prophet::prophet(data)
+              
               # Basic predictions ------------------------------------
               future <- prophet::make_future_dataframe(m, 
-                                                       periods = 365)
+                                                       periods = self$options$periods,
+                                                       freq = self$options$unit)
+                                                       
               
               #############   A L E R T  ##############
               forecast <- predict(m, future)
               #########################################
-              # self$results$text$setContent(fore)
+              # self$results$text$setContent(forecast)
               
               
               state <- list(m, forecast)

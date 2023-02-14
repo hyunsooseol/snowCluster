@@ -181,7 +181,7 @@ datasets:
     path: prophet.omv
     description: facebook prophet data
     tags:
-      - time series
+      - Facebook prophet
   - name: beer
     path: beer.omv
     description: monthly-beer-production-in-Australia

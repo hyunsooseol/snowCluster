@@ -19,7 +19,9 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             fit = FALSE,
             point = FALSE,
             plot4 = FALSE,
-            plot5 = FALSE, ...) {
+            plot5 = FALSE,
+            periods = 365,
+            unit = "day", ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -91,6 +93,21 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot5",
                 plot5,
                 default=FALSE)
+            private$..periods <- jmvcore::OptionInteger$new(
+                "periods",
+                periods,
+                min=1,
+                default=365)
+            private$..unit <- jmvcore::OptionList$new(
+                "unit",
+                unit,
+                options=list(
+                    "day",
+                    "week",
+                    "month",
+                    "quarter",
+                    "year"),
+                default="day")
 
             self$.addOption(private$..dep)
             self$.addOption(private$..time)
@@ -106,6 +123,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..point)
             self$.addOption(private$..plot4)
             self$.addOption(private$..plot5)
+            self$.addOption(private$..periods)
+            self$.addOption(private$..unit)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -121,7 +140,9 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         fit = function() private$..fit$value,
         point = function() private$..point$value,
         plot4 = function() private$..plot4$value,
-        plot5 = function() private$..plot5$value),
+        plot5 = function() private$..plot5$value,
+        periods = function() private$..periods$value,
+        unit = function() private$..unit$value),
     private = list(
         ..dep = NA,
         ..time = NA,
@@ -136,7 +157,9 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..fit = NA,
         ..point = NA,
         ..plot4 = NA,
-        ..plot5 = NA)
+        ..plot5 = NA,
+        ..periods = NA,
+        ..unit = NA)
 )
 
 arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -324,11 +347,13 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot4",
                 clearWith=list(
                     "dep",
-                    "time")))
+                    "time",
+                    "period",
+                    "unit")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
-                title="Components plot",
+                title="Model components plot",
                 visible="(plot5)",
                 refs="prophet",
                 width=500,
@@ -336,7 +361,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot5",
                 clearWith=list(
                     "dep",
-                    "time")))}))
+                    "time",
+                    "period",
+                    "unit")))}))
 
 arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "arimaBase",
@@ -377,6 +404,8 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param point .
 #' @param plot4 .
 #' @param plot5 .
+#' @param periods .
+#' @param unit .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -415,7 +444,9 @@ arima <- function(
     fit = FALSE,
     point = FALSE,
     plot4 = FALSE,
-    plot5 = FALSE) {
+    plot5 = FALSE,
+    periods = 365,
+    unit = "day") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("arima requires jmvcore to be installed (restart may be required)")
@@ -443,7 +474,9 @@ arima <- function(
         fit = fit,
         point = point,
         plot4 = plot4,
-        plot5 = plot5)
+        plot5 = plot5,
+        periods = periods,
+        unit = unit)
 
     analysis <- arimaClass$new(
         options = options,

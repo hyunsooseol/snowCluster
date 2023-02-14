@@ -90,7 +90,29 @@ options:
       default: false
 
     - name: plot5
-      title: 'Components' 
+      title: 'Model components' 
       type: Bool
       default: false
+
+    - name: periods
+      title: Number of periods
+      type: Integer
+      min: 1
+      default: 365
+
+    - name: unit
+      title: Unit
+      type: List
+      options:
+        - title: day
+          name:  'day'
+        - title: week
+          name:  'week'
+        - title: month
+          name:  'month'
+        - title: quarter
+          name:  'quarter'
+        - title: year
+          name:  'year'           
+      default: 'day'
 ...
