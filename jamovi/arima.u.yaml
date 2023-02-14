@@ -79,9 +79,18 @@ children:
                     name: time
                     isTarget: true
       - type: Label
+        label: Forecasting options
+        children:
+          - type: TextBox
+            name: periods
+            format: number
+          - type: ComboBox
+            name: unit
+      - type: Label
         label: Plots
         children:
           - type: CheckBox
             name: plot4
           - type: CheckBox
             name: plot5
+ 

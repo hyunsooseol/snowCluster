@@ -164,9 +164,11 @@ items:
       clearWith:
         - dep
         - time
+        - period
+        - unit
 
     - name:  plot5
-      title:  'Components plot' 
+      title:  'Model components plot' 
       type:  Image
       visible: (plot5)
       refs: prophet
@@ -176,4 +178,6 @@ items:
       clearWith:
         - dep
         - time
+        - period
+        - unit
 ...

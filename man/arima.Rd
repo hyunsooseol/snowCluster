@@ -19,7 +19,9 @@ arima(
   fit = FALSE,
   point = FALSE,
   plot4 = FALSE,
-  plot5 = FALSE
+  plot5 = FALSE,
+  periods = 365,
+  unit = "day"
 )
 }
 \arguments{
@@ -53,6 +55,10 @@ numeric}
 \item{plot4}{.}
 
 \item{plot5}{.}
+
+\item{periods}{.}
+
+\item{unit}{.}
 }
 \value{
 A results object containing:
