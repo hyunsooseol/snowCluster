@@ -47,7 +47,7 @@ options:
     - name: plot
       title: 'Decomposition' 
       type: Bool
-      default: TRUE
+      default: false
 
     - name: box
       title: 'Box plot'
@@ -72,7 +72,7 @@ options:
     - name: coef
       title: 'Model coefficients'
       type: Bool
-      default: True
+      default: false
 
     - name: fit
       title: 'Model fit '
@@ -86,6 +86,11 @@ options:
 
     - name: plot4
       title: 'Forcast' 
+      type: Bool
+      default: false
+
+    - name: plot5
+      title: 'Components' 
       type: Bool
       default: false
 ...

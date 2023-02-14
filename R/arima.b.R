@@ -14,7 +14,7 @@
 #' @importFrom forecast forecast
 #' @importFrom prophet prophet
 #' @importFrom prophet make_future_dataframe
-#' @importFrom lubridate force_tz
+#' @importFrom prophet prophet_plot_components
 #' @export
 
 
@@ -101,7 +101,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             image <- self$results$plot
             image$setState(ddata)
 
-            # forcasts from ARIMA-------
+            # forecasts from ARIMA-------
 
             image1 <- self$results$plot1
             image1$setState(tsdata)
@@ -227,27 +227,31 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             } else{
            
               # get the data
-              
               data <- self$data
               data <- jmvcore::naOmit(data)
               
               
               # Prophet Analysis -----------
-              res <- prophet::prophet(data)
+              m <- prophet::prophet(data)
               # Basic predictions ------------------------------------
-              future <- prophet::make_future_dataframe(res, 
+              future <- prophet::make_future_dataframe(m, 
                                                        periods = 365)
+              
               #############   A L E R T  ##############
-              # function returns error in Windows 10-11
-              # No errors in Ubuntu 22.04.1
-              fore <- predict(res, future)
+              forecast <- predict(m, future)
               #########################################
-              self$results$text$setContent(fore)
+              # self$results$text$setContent(fore)
               
               
-              state <- list(res, fore)
+              state <- list(m, forecast)
               image4 <- self$results$plot4
               image4$setState(state)
+              
+              # components plot-----------
+              
+              image5 <- self$results$plot5
+              image5$setState(state)
+              
               
           
            # prophet analysis example in R----------
@@ -262,35 +266,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
            #------------------------------------------------ 
            
           
-           # time <- self$options$time
-           # 
-           # data[[time]] <- as.POSIXct(data[[time]], tz = "UTC")
-           # 
-           # res <- prophet::prophet(data)
-           # 
-           # # Basic predictions---------
-           # 
-           # future <- prophet::make_future_dataframe(res, periods = 365)
-           # forecast <- predict(res, future)
-           # 
-           
-           # time <- self$options$time
-           # 
-           # # Convert the time column to a character type
-           # data[[time]] <- as.character(data[[time]])
-           # 
-           # # # Convert the time column to a POSIXct type with the UTC timezone and the specified date format
-           # # data[[time]] <- as.POSIXct(data[[time]], format = "%Y-%m-%d", tz = "UTC")
-           # # 
-           # # # Change the timezone of the time column to UTC
-           # # data[[time]] <- lubridate::force_tz(data[[time]], "UTC")
-           # # 
-           # 
-           # data[[time]] <- as.POSIXct(data[[time]], tz = "UTC")
-           # data[[time]] <- lubridate::force_tz(data[[time]], "UTC")
-           # 
-           # 
-         
+          
               
             } 
             
@@ -383,14 +359,30 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           if(is.null(self$options$time))
             return()
           
-          res<- image4$state[[1]]
-          fore <- image4$state[[2]]
-          plot4<- plot(res, fore)
+          m<- image4$state[[1]]
+          forecast <- image4$state[[2]]
+          plot4<- plot(m, forecast)
           print(plot4)
           TRUE
-        }
+        },
         
-        
+       .plot5 = function(image5, ...) {
+         
+         if(is.null(self$options$time))
+           return()
+         
+         m <- image5$state[[1]]
+         forecast <- image5$state[[2]]
+         
+         plot5 <- prophet::prophet_plot_components(m, forecast, 
+                                                   plot_cap = FALSE, 
+                                                   uncertainty = TRUE)
+         
+        # print(plot5) # Otherwise, Only first plot is appeared.
+         TRUE
+       }
+       
+       
      )
     )
 

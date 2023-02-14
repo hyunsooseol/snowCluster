@@ -83,3 +83,5 @@ children:
         children:
           - type: CheckBox
             name: plot4
+          - type: CheckBox
+            name: plot5

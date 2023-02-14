@@ -165,5 +165,15 @@ items:
         - dep
         - time
 
-
+    - name:  plot5
+      title:  'Components plot' 
+      type:  Image
+      visible: (plot5)
+      refs: prophet
+      width: 500
+      height: 500
+      renderFun: .plot5
+      clearWith:
+        - dep
+        - time
 ...

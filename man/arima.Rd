@@ -10,15 +10,16 @@ arima(
   time = NULL,
   freq = 12,
   pred = 10,
-  plot = TRUE,
+  plot = FALSE,
   box = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
   plot3 = FALSE,
-  coef = TRUE,
+  coef = FALSE,
   fit = FALSE,
   point = FALSE,
-  plot4 = FALSE
+  plot4 = FALSE,
+  plot5 = FALSE
 )
 }
 \arguments{
@@ -50,6 +51,8 @@ numeric}
 \item{point}{.}
 
 \item{plot4}{.}
+
+\item{plot5}{.}
 }
 \value{
 A results object containing:
@@ -65,6 +68,7 @@ A results object containing:
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

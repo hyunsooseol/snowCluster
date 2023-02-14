@@ -1,12 +1,12 @@
 ---
 title: Multivariate Analysis
 name: snowCluster
-version: 7.0.2
+version: 7.1.0
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2023-02-05'
+date: '2023-02-14'
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
@@ -179,9 +179,9 @@ datasets:
       - ARIMA
   - name: prophet
     path: prophet.omv
-    description: Prophet data
+    description: facebook prophet data
     tags:
-      - Prophet
+      - time series
   - name: beer
     path: beer.omv
     description: monthly-beer-production-in-Australia
