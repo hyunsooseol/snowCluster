@@ -43,11 +43,12 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             <p><b>Instructions</b></p>
             <p>_____________________________________________________________________________________________</p>
-            <p>1. Do NOT move the variables into <b>Time box.</b> Otherwise, the error messages will be appeared. 
+            <p>1. Do NOT move the variable into <b>Time box</b> to run ARIMA analysis. 
             <p>2. ARIMA options are classified by two factors; <b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting.</p>
             <p>3. The results of ARIMA were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
-            <p>4. The rationale of <b>forecast</b> R package is described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
-            <p>5. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>4. The variable name to be placed in the 'Time' box must have the name <b>'ds'</b> to run prophet analysis.
+            <p>5. The rationale of <b>forecast</b> R package is described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
+            <p>6. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>_____________________________________________________________________________________________</p>
             
             </div>
