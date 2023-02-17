@@ -43,5 +43,6 @@ Imports:
     caTools,
     rstan,
     prophet,
-    lubridate  
+    lubridate,
+    dplyr
     

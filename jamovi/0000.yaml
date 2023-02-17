@@ -99,6 +99,11 @@ analyses:
     menuGroup: snowCluster
     menuSubgroup: Factor
     menuTitle: Factor analysis of mixed data
+  - title: Prophet with Multiple Variables
+    name: prophet
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Prophet with Multiple Variables
 datasets:
   - name: iris
     path: iris.omv

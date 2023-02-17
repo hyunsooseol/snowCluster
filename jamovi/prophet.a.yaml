@@ -1,0 +1,37 @@
+---
+name:  prophet
+title: Prophet with Multiple Variables
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+
+    - name: dep
+      type: Variable
+      title: ds Variable
+      suggested:
+        - nominal
+      permitted:
+        - factor
+      
+    - name: covs
+      title: Covariates
+      type: Variables
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+        
+    - name: plot1
+      title: 'Forcast' 
+      type: Bool
+      default: false
+
+    - name: plot2
+      title: 'Smooth line' 
+      type: Bool
+      default: false        
+...

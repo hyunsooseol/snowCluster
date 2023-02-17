@@ -234,7 +234,11 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
               
               # Prophet Analysis -----------
-              m <- prophet::prophet(data)
+              m <- prophet::prophet(data,changepoint.prior.scale = 0.05,
+                                    daily.seasonality=TRUE,
+                                    yearly.seasonality = TRUE, 
+                                    weekly.seasonality = TRUE)
+    
               
               # Basic predictions ------------------------------------
               future <- prophet::make_future_dataframe(m, 

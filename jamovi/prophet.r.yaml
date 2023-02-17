@@ -1,0 +1,40 @@
+---
+name:  prophet
+title: Prophet with Multiple Variables
+jrs:   '1.1'
+
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+
+    - name:  text
+      title: ''
+      type:  Preformatted
+
+    - name:  plot1
+      title:  'Forcast plot' 
+      type:  Image
+      visible: (plot1)
+      refs: prophet
+      width: 500
+      height: 500
+      renderFun: .plot1
+      clearWith:
+        - dep
+        - covs
+    
+    - name:  plot2
+      title:  'Smooth line plot' 
+      type:  Image
+      visible: (plot2)
+      refs: prophet
+      width: 500
+      height: 500
+      renderFun: .plot5
+      clearWith:
+        - dep
+        - covs
+     
+...
