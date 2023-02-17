@@ -20,6 +20,7 @@ arima(
   point = FALSE,
   plot4 = FALSE,
   plot5 = FALSE,
+  plot6 = FALSE,
   periods = 365,
   unit = "day"
 )
@@ -56,6 +57,8 @@ numeric}
 
 \item{plot5}{.}
 
+\item{plot6}{.}
+
 \item{periods}{.}
 
 \item{unit}{.}
@@ -75,6 +78,7 @@ A results object containing:
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

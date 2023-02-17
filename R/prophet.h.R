@@ -84,7 +84,7 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
-                title="Forcast plot",
+                title="Forecast of multiple variables",
                 visible="(plot1)",
                 refs="prophet",
                 width=500,

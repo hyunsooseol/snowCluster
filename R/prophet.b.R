@@ -69,6 +69,10 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         data <- self$data
         data <- jmvcore::naOmit(data)
         
+        
+        # Create a list to store the forecast data frames
+        forecast_df_list <- list()
+        
         # Define the names of the variables
         #var_names <- c("mdeaths", "fdeaths")
         
@@ -77,31 +81,51 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         for (i in 1:length(covs)) {
 
          
-          new_data <- data %>% dplyr::select(ds, all_of(var_names[i])) %>% dplyr::rename(y = all_of(var_names[i]))
+          #new_data <- data %>% dplyr::select(ds, all_of(var_names[i])) %>% dplyr::rename(y = all_of(var_names[i]))
+          
+          new_data <- data %>% dplyr::select(ds, all_of(covs[i])) %>% dplyr::rename(y = all_of(covs[i]))
+          
           
           # Fit the model
-          model <- prophet(new_data, changepoint.prior.scale = 0.05, 
-                           daily.seasonality=TRUE,
-                           yearly.seasonality = TRUE, 
-                           weekly.seasonality = TRUE)
+          model <- prophet::prophet(new_data,
+                                    changepoint.prior.scale = 0.05,
+                                    daily.seasonality = TRUE,
+                                    yearly.seasonality = TRUE,
+                                    weekly.seasonality = TRUE)
           
+          
+          #model <- prophet(new_data, changepoint.prior.scale = 0.05, 
+          #                  daily.seasonality=TRUE,
+          #                  yearly.seasonality = TRUE, 
+          #                  weekly.seasonality = TRUE)
+          # 
           # Make predictions for the next 365 days
-          future <- make_future_dataframe(model, periods = 365)
+          future <- prophet::make_future_dataframe(model, periods = 365)
           forecast <- predict(model, future)
           
           # Add the forecast to the list
-          forecast_df_list[[i]] <- data.frame(ds = forecast$ds, yhat = forecast$yhat, variable = var_names[i])
+          forecast_df_list[[i]] <- data.frame(ds = forecast$ds, yhat = forecast$yhat, variable = covs[i])
         }
         
         # Combine the forecast data frames into one
         forecast_combined <- do.call(rbind, forecast_df_list)
         
-        # group plot----------
+        #self$results$text$setContent(head(forecast_combined ))
+        
+        # forecast plot----------
         
         image <- self$results$plot1
-        image$setState( forecast_combined  )
+        image$setState(forecast_combined)
         
-      },
+      # Smooth plot--------------
+        
+        image1 <- self$results$plot2
+        image1$setState(forecast_combined)
+        
+        
+        
+        
+        },
      
 
 .plot1 = function(image,ggtheme, theme,...) {
@@ -113,16 +137,32 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
   plot1 <- ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
     geom_line() +
     labs(x = "Date", y = "Forecast", color = "Variable") +
-    ggtitle("Forecast of Multiple Variables") +
+  #  ggtitle("Forecast of Multiple Variables") +
     theme_bw()
   
-  
+  plot1+ggtheme
   
   print(plot1)
   TRUE
-}
+},
         
-        
+.plot2 = function(image1,ggtheme, theme,...) {
+  
+  
+  forecast_combined <- image1$state
+  
+  
+  plot2<- ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
+    geom_smooth() +
+    labs(x = "Date", y = "Forecast", color = "Variable") +
+   # ggtitle("Forecast of Multiple Variables") +
+    theme_bw()
+  
+  plot2+ggtheme
+  
+  print(plot2)
+  TRUE
+}    
         
         
         

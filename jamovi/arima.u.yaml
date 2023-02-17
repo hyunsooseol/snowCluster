@@ -93,4 +93,5 @@ children:
             name: plot4
           - type: CheckBox
             name: plot5
- 
+          - type: CheckBox
+            name: plot6

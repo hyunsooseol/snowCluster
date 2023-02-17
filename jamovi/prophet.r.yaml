@@ -14,7 +14,7 @@ items:
       type:  Preformatted
 
     - name:  plot1
-      title:  'Forcast plot' 
+      title:  'Forecast of multiple variables' 
       type:  Image
       visible: (plot1)
       refs: prophet

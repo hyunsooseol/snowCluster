@@ -94,6 +94,11 @@ options:
       type: Bool
       default: false
 
+    - name: plot6
+      title: "Comparison"
+      type: Bool
+      default: false
+
     - name: periods
       title: Number of periods
       type: Integer

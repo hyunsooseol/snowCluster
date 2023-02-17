@@ -20,6 +20,7 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             point = FALSE,
             plot4 = FALSE,
             plot5 = FALSE,
+            plot6 = FALSE,
             periods = 365,
             unit = "day", ...) {
 
@@ -93,6 +94,10 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot5",
                 plot5,
                 default=FALSE)
+            private$..plot6 <- jmvcore::OptionBool$new(
+                "plot6",
+                plot6,
+                default=FALSE)
             private$..periods <- jmvcore::OptionInteger$new(
                 "periods",
                 periods,
@@ -123,6 +128,7 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..point)
             self$.addOption(private$..plot4)
             self$.addOption(private$..plot5)
+            self$.addOption(private$..plot6)
             self$.addOption(private$..periods)
             self$.addOption(private$..unit)
         }),
@@ -141,6 +147,7 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         point = function() private$..point$value,
         plot4 = function() private$..plot4$value,
         plot5 = function() private$..plot5$value,
+        plot6 = function() private$..plot6$value,
         periods = function() private$..periods$value,
         unit = function() private$..unit$value),
     private = list(
@@ -158,6 +165,7 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..point = NA,
         ..plot4 = NA,
         ..plot5 = NA,
+        ..plot6 = NA,
         ..periods = NA,
         ..unit = NA)
 )
@@ -177,7 +185,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]],
         plot4 = function() private$.items[["plot4"]],
-        plot5 = function() private$.items[["plot5"]]),
+        plot5 = function() private$.items[["plot5"]],
+        plot6 = function() private$.items[["plot6"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -363,6 +372,20 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep",
                     "time",
                     "period",
+                    "unit")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot6",
+                title="Comparison of Actual and Forecasted Values for Variable",
+                visible="(plot6)",
+                refs="prophet",
+                width=600,
+                height=400,
+                renderFun=".plot6",
+                clearWith=list(
+                    "dep",
+                    "time",
+                    "period",
                     "unit")))}))
 
 arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -404,6 +427,7 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param point .
 #' @param plot4 .
 #' @param plot5 .
+#' @param plot6 .
 #' @param periods .
 #' @param unit .
 #' @return A results object containing:
@@ -420,6 +444,7 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -445,6 +470,7 @@ arima <- function(
     point = FALSE,
     plot4 = FALSE,
     plot5 = FALSE,
+    plot6 = FALSE,
     periods = 365,
     unit = "day") {
 
@@ -475,6 +501,7 @@ arima <- function(
         point = point,
         plot4 = plot4,
         plot5 = plot5,
+        plot6 = plot6,
         periods = periods,
         unit = unit)
 

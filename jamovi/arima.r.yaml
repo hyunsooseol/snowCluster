@@ -180,4 +180,18 @@ items:
         - time
         - period
         - unit
+
+    - name:  plot6
+      title:  "Comparison of Actual and Forecasted Values for Variable"
+      type:  Image
+      visible: (plot6)
+      refs: prophet
+      width: 600
+      height: 400
+      renderFun: .plot6
+      clearWith:
+        - dep
+        - time
+        - period
+        - unit
 ...

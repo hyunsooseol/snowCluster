@@ -253,6 +253,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
               
               state <- list(m, forecast)
+              
               image4 <- self$results$plot4
               image4$setState(state)
               
@@ -260,6 +261,12 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
               image5 <- self$results$plot5
               image5$setState(state)
+              
+              # components plot-----------
+              
+              image6 <- self$results$plot6
+              image6$setState(state)
+              
               
               
           
@@ -389,7 +396,51 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
          
         # print(plot5) # Otherwise, Only first plot is appeared.
          TRUE
+       },
+       
+       # .plot6 = function(image6, ...) {
+       #   if(is.null(self$options$time))
+       #     return()
+       #   
+       #   m <- image6$state[[1]]
+       #   forecast <- image6$state[[2]]
+       #   
+       #   actual_df <- data.frame(ds = m$history$ds, y = m$history$y)
+       #   expected_df <- data.frame(ds = forecast$ds, y = forecast$yhat)
+       #   
+       #   plot6 <- ggplot() +
+       #     geom_line(data = actual_df, aes(x = ds, y = y, color = "Actual")) +
+       #     geom_line(data = expected_df, aes(x = ds, y = y, color = "Expected")) +
+       #     labs(title = "Actual vs Expected Values", x = "Date", y = "Value", color = " ") +
+       #     theme_bw()
+       #   
+       #   print(plot6)
+       #   TRUE
+       # }
+       
+       # smooth line------------------------
+       
+       .plot6 = function(image6, ...) {
+         if (is.null(self$options$time))
+           return()
+         
+         m <- image6$state[[1]]
+         forecast <- image6$state[[2]]
+         
+         actual_df <- data.frame(ds = m$history$ds, y = m$history$y)
+         expected_df <- data.frame(ds = forecast$ds, yhat = forecast$yhat)
+         
+         plot6 <- ggplot() +
+           geom_smooth(data = actual_df, aes(x = ds, y = y, color = "Actual"), se = FALSE) +
+           geom_smooth(data = expected_df, aes(x = ds, y = yhat, color = "Expected"), se = FALSE) +
+           labs(title = "Actual vs Expected Values", x = "Date", y = "Value", color = " ") +
+           theme_bw()
+         
+         print(plot6)
+         TRUE
        }
+       
+       
        
        
      )
