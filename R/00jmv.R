@@ -55,6 +55,6 @@
         `type`="software", 
         `author`="Taylor, S. & Letham, B.", 
         `year`=2021, 
-        `title`="MLeval: Machine Learning Model Evaluation", 
-        `publisher`="(Version 0.3)[R package]. https://CRAN.R-project.org/package=prophet", 
+        `title`="prophet: Automatic Forecasting Procedure", 
+        `publisher`="(Version 1.0)[R package]. https://CRAN.R-project.org/package=prophet", 
         `url`="https://CRAN.R-project.org/package=prophet"))

@@ -26,18 +26,22 @@ children:
     margin: normal
     collapsed: true
     children:
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
+      - type: Label
+        label: Options
         children:
-          - type: Label
-            label: Plots
-            children:
-              - type: CheckBox
-                name: plot1
-              - type: CheckBox
-                name: plot2
-                children: 
-                  - type: ComboBox
-                    name: method
-                    enable: (plot2)
+          - type: TextBox
+            name: periods
+            format: number
+          - type: ComboBox
+            name: unit
+      - type: Label
+        label: Plots
+        children:
+          - type: CheckBox
+            name: plot1
+          - type: CheckBox
+            name: plot2
+            children: 
+              - type: ComboBox
+                name: method
+                enable: (plot2)

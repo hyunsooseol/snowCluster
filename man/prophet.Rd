@@ -4,7 +4,16 @@
 \alias{prophet}
 \title{Prophet with Multiple Variables}
 \usage{
-prophet(data, dep, covs, method = "loess", plot1 = TRUE, plot2 = FALSE)
+prophet(
+  data,
+  dep,
+  covs,
+  method = "loess",
+  plot1 = TRUE,
+  plot2 = FALSE,
+  periods = 365,
+  unit = "day"
+)
 }
 \arguments{
 \item{data}{.}
@@ -18,6 +27,10 @@ prophet(data, dep, covs, method = "loess", plot1 = TRUE, plot2 = FALSE)
 \item{plot1}{.}
 
 \item{plot2}{.}
+
+\item{periods}{.}
+
+\item{unit}{.}
 }
 \value{
 A results object containing:

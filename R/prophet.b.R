@@ -55,8 +55,20 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       .run = function() {
         
         
-        if(is.null(self$options$dep))
+        if (is.null(self$options$dep) || length(self$options$covs) == 0)
           return()
+        
+        # # Load the data
+        # # Create date sequence from 2010-01-01 to 2019-12-31
+        # dates <- seq(as.Date("2010-01-01"), as.Date("2019-12-31"), by = "day")
+        # 
+        # # Create data frame with dates and random values ​​for variables 1 and 2
+        # data <- tibble(ds = dates,
+        #                male = rnorm(length(dates), mean = 100, sd = 10),
+        #                female = rnorm(length(dates), mean = 120, sd = 20),
+        #                group = rnorm(length(dates), mean = 150, sd = 20))
+        # 
+        # 
         
         dep  <- self$options$dep
         covs <- self$options$covs
@@ -96,7 +108,10 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           #                  weekly.seasonality = TRUE)
           # 
           # Make predictions for the next 365 days
-          future <- prophet::make_future_dataframe(model, periods = 365)
+          future <- prophet::make_future_dataframe(model, 
+                                                   periods = self$options$periods,
+                                                   freq = self$options$unit)
+    
           forecast <- predict(model, future)
           
           # Add the forecast to the list

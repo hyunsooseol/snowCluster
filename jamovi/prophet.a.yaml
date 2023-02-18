@@ -45,5 +45,27 @@ options:
     - name: plot2
       title: 'Smooth' 
       type: Bool
-      default: false        
+      default: false  
+      
+    - name: periods
+      title: Number of periods
+      type: Integer
+      min: 1
+      default: 365
+
+    - name: unit
+      title: Unit
+      type: List
+      options:
+        - title: day
+          name:  'day'
+        - title: week
+          name:  'week'
+        - title: month
+          name:  'month'
+        - title: quarter
+          name:  'quarter'
+        - title: year
+          name:  'year'           
+      default: 'day'      
 ...

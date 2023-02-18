@@ -10,7 +10,9 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             covs = NULL,
             method = "loess",
             plot1 = TRUE,
-            plot2 = FALSE, ...) {
+            plot2 = FALSE,
+            periods = 365,
+            unit = "day", ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -48,25 +50,46 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot2",
                 plot2,
                 default=FALSE)
+            private$..periods <- jmvcore::OptionInteger$new(
+                "periods",
+                periods,
+                min=1,
+                default=365)
+            private$..unit <- jmvcore::OptionList$new(
+                "unit",
+                unit,
+                options=list(
+                    "day",
+                    "week",
+                    "month",
+                    "quarter",
+                    "year"),
+                default="day")
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
             self$.addOption(private$..method)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
+            self$.addOption(private$..periods)
+            self$.addOption(private$..unit)
         }),
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
         method = function() private$..method$value,
         plot1 = function() private$..plot1$value,
-        plot2 = function() private$..plot2$value),
+        plot2 = function() private$..plot2$value,
+        periods = function() private$..periods$value,
+        unit = function() private$..unit$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
         ..method = NA,
         ..plot1 = NA,
-        ..plot2 = NA)
+        ..plot2 = NA,
+        ..periods = NA,
+        ..unit = NA)
 )
 
 prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -104,7 +127,9 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot1",
                 clearWith=list(
                     "dep",
-                    "covs")))
+                    "covs",
+                    "periods",
+                    "unit")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -117,7 +142,9 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "covs",
-                    "method")))}))
+                    "method",
+                    "periods",
+                    "unit")))}))
 
 prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "prophetBase",
@@ -148,6 +175,8 @@ prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param method .
 #' @param plot1 .
 #' @param plot2 .
+#' @param periods .
+#' @param unit .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -163,7 +192,9 @@ prophet <- function(
     covs,
     method = "loess",
     plot1 = TRUE,
-    plot2 = FALSE) {
+    plot2 = FALSE,
+    periods = 365,
+    unit = "day") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("prophet requires jmvcore to be installed (restart may be required)")
@@ -183,7 +214,9 @@ prophet <- function(
         covs = covs,
         method = method,
         plot1 = plot1,
-        plot2 = plot2)
+        plot2 = plot2,
+        periods = periods,
+        unit = unit)
 
     analysis <- prophetClass$new(
         options = options,

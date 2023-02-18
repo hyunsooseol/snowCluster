@@ -24,6 +24,8 @@ items:
       clearWith:
         - dep
         - covs
+        - periods
+        - unit
     
     - name:  plot2
       title:  'Smooth line plot' 
@@ -37,5 +39,7 @@ items:
         - dep
         - covs
         - method
+        - periods
+        - unit
      
 ...
