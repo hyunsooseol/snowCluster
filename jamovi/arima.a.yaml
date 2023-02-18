@@ -14,7 +14,7 @@ options:
 
     - name: dep
       type: Variable
-      title: Dependent Variable
+      title: Variable(y)
       suggested:
         - continuous
       permitted:
@@ -23,14 +23,14 @@ options:
           R: >
             the dependent variable from `data`, variable must be numeric
     - name: time
-      title: Time
+      title: Time variable(Only for ds)
       type: Variables
       rejectUnusedLevels: true
       suggested:
         - nominal
       default:
       description:
-          R: the fixed factors from `data`
+          R: ts type called 'ds'
 
     - name: freq
       title: Frequency

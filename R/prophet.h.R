@@ -8,7 +8,8 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
-            plot1 = FALSE,
+            method = "loess",
+            plot1 = TRUE,
             plot2 = FALSE, ...) {
 
             super$initialize(
@@ -31,10 +32,18 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..method <- jmvcore::OptionList$new(
+                "method",
+                method,
+                options=list(
+                    "lm",
+                    "glm",
+                    "loess"),
+                default="loess")
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
-                default=FALSE)
+                default=TRUE)
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
@@ -42,17 +51,20 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
+            self$.addOption(private$..method)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
         }),
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
+        method = function() private$..method$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
+        ..method = NA,
         ..plot1 = NA,
         ..plot2 = NA)
 )
@@ -101,10 +113,11 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="prophet",
                 width=500,
                 height=500,
-                renderFun=".plot5",
+                renderFun=".plot2",
                 clearWith=list(
                     "dep",
-                    "covs")))}))
+                    "covs",
+                    "method")))}))
 
 prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "prophetBase",
@@ -132,6 +145,7 @@ prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param covs .
+#' @param method .
 #' @param plot1 .
 #' @param plot2 .
 #' @return A results object containing:
@@ -147,7 +161,8 @@ prophet <- function(
     data,
     dep,
     covs,
-    plot1 = FALSE,
+    method = "loess",
+    plot1 = TRUE,
     plot2 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
@@ -166,6 +181,7 @@ prophet <- function(
     options <- prophetOptions$new(
         dep = dep,
         covs = covs,
+        method = method,
         plot1 = plot1,
         plot2 = plot2)
 

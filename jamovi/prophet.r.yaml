@@ -32,9 +32,10 @@ items:
       refs: prophet
       width: 500
       height: 500
-      renderFun: .plot5
+      renderFun: .plot2
       clearWith:
         - dep
         - covs
+        - method
      
 ...

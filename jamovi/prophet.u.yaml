@@ -9,7 +9,7 @@ children:
     stretchFactor: 1
     children:
       - type: TargetLayoutBox
-        label: ds Variable
+        label: Time(Only for ds)
         children:
           - type: VariablesListBox
             name: dep
@@ -31,9 +31,13 @@ children:
         margin: large
         children:
           - type: Label
-            label: 'Plots'
+            label: Plots
             children:
               - type: CheckBox
                 name: plot1
               - type: CheckBox
                 name: plot2
+                children: 
+                  - type: ComboBox
+                    name: method
+                    enable: (plot2)

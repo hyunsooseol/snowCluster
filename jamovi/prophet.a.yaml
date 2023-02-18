@@ -11,7 +11,7 @@ options:
 
     - name: dep
       type: Variable
-      title: ds Variable
+      title: Variable
       suggested:
         - nominal
       permitted:
@@ -25,13 +25,25 @@ options:
       permitted:
         - numeric
         
+    - name: method
+      title: Method
+      type: List
+      options:
+        - title: lm
+          name:  'lm'
+        - title: glm
+          name:  'glm'
+        - title: loess
+          name:  'loess'
+      default: 'loess'
+
     - name: plot1
       title: 'Forecast' 
       type: Bool
-      default: false
+      default: TRUE
 
     - name: plot2
-      title: 'Smooth line' 
+      title: 'Smooth' 
       type: Bool
       default: false        
 ...

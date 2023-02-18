@@ -4,7 +4,7 @@
 \alias{prophet}
 \title{Prophet with Multiple Variables}
 \usage{
-prophet(data, dep, covs, plot1 = FALSE, plot2 = FALSE)
+prophet(data, dep, covs, method = "loess", plot1 = TRUE, plot2 = FALSE)
 }
 \arguments{
 \item{data}{.}
@@ -12,6 +12,8 @@ prophet(data, dep, covs, plot1 = FALSE, plot2 = FALSE)
 \item{dep}{.}
 
 \item{covs}{.}
+
+\item{method}{.}
 
 \item{plot1}{.}
 

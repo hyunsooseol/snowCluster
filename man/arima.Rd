@@ -31,7 +31,7 @@ arima(
 \item{dep}{the dependent variable from \code{data}, variable must be
 numeric}
 
-\item{time}{the fixed factors from \code{data}}
+\item{time}{ts type called 'ds'}
 
 \item{freq}{.}
 

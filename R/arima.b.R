@@ -44,9 +44,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <p><b>Instructions</b></p>
             <p>_____________________________________________________________________________________________</p>
             <p>1. Do NOT move the variable into <b>Time box</b> to run ARIMA analysis. 
-            <p>2. ARIMA options are classified by two factors; <b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting.</p>
-            <p>3. The results of ARIMA were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
-            <p>4. The variable name to be placed in the 'Time' box must have the name <b>'ds'</b> to run prophet analysis.
+            <p>2. In order to perform a prophet analysis, the variables must be named <b>'ds' and 'y'</b> respectively.</p>
+            <p>3. ARIMA options are classified by two factors; <b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting.</p>
+            <p>4. The results of ARIMA were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
             <p>5. The rationale of <b>forecast</b> R package is described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
             <p>6. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>_____________________________________________________________________________________________</p>
@@ -75,15 +75,19 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             time <- self$options$time
             freq <- self$options$freq
             pred <- self$options$pred
+          
+            # xCol <- jmvcore::toNumeric(self$data[[dep]])
+            # yCol <- jmvcore::toNumeric(self$data[[time]])
+            # data <- data.frame(x=xCol, y=yCol)
+            # data <- jmvcore::naOmit(data)
+            # 
             
             if(is.null(self$options$time)){
             
-            
             # get the data
-            
             data <- self$data
             data <- jmvcore::naOmit(data)
-            
+
             #------------------
 
             tsdata <- stats::ts(data, frequency = freq)
@@ -227,11 +231,22 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             } else{
            
-             
+              # prophet analysis example in R----------
+              
+              # library(prophet)
+              # df <- read.csv('https://raw.githubusercontent.com/facebook/prophet/main/examples/example_wp_log_peyton_manning.csv')
+              # m <- prophet(df)
+              # future <- make_future_dataframe(m, periods = 365)
+              # forecast <- predict(m, future)
+              # plot(m, forecast)
+              # prophet_plot_components(m, forecast)
+              #------------------------------------------------ 
+              
+              
               # get the data
               data <- self$data
               data <- jmvcore::naOmit(data)
-              
+
               
               # Prophet Analysis -----------
               m <- prophet::prophet(data,changepoint.prior.scale = 0.05,
@@ -267,23 +282,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               image6 <- self$results$plot6
               image6$setState(state)
               
-              
-              
-          
-           # prophet analysis example in R----------
-           
-           # library(prophet)
-           # df <- read.csv('https://raw.githubusercontent.com/facebook/prophet/main/examples/example_wp_log_peyton_manning.csv')
-           # m <- prophet(df)
-           # future <- make_future_dataframe(m, periods = 365)
-           # forecast <- predict(m, future)
-           # plot(m, forecast)
-           # prophet_plot_components(m, forecast)
-           #------------------------------------------------ 
-           
-          
-          
-              
+         
             } 
             
             },
@@ -326,8 +325,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot1 = function(image1,...) {
           
-          if(!is.null(self$options$time))
-          return()
+          if (is.null(image1$state))
+            return(FALSE)
+          
             
             tsdata <- image1$state
             
@@ -343,8 +343,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot2 = function(image2,...) {
             
-          if(!is.null(self$options$time))
-            return()
+          if (is.null(image2$state))
+            return(FALSE)
+          
             
            res <- image2$state
             
@@ -357,8 +358,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot3 = function(image3,...) {
             
-          if(!is.null(self$options$time))
-            return()
+          if (is.null(image3$state))
+            return(FALSE)
+          
             
             
             predict <- image3$state
@@ -372,8 +374,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot4 = function(image4,...) {
           
-          if(is.null(self$options$time))
-            return()
+          if (is.null(image4$state))
+            return(FALSE)
+          
           
           m<- image4$state[[1]]
           forecast <- image4$state[[2]]
@@ -384,8 +387,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
        .plot5 = function(image5, ...) {
          
-         if(is.null(self$options$time))
-           return()
+         if (is.null(image5$state))
+           return(FALSE)
+         
          
          m <- image5$state[[1]]
          forecast <- image5$state[[2]]
@@ -421,8 +425,10 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
        # smooth line------------------------
        
        .plot6 = function(image6, ...) {
-         if (is.null(self$options$time))
-           return()
+        
+         if (is.null(image6$state))
+           return(FALSE)
+         
          
          m <- image6$state[[1]]
          forecast <- image6$state[[2]]

@@ -376,7 +376,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
-                title="Comparison of Actual and Forecasted Values for Variable",
+                title="Actual vs. Forecasted Values for Variable y",
                 visible="(plot6)",
                 refs="prophet",
                 width=600,
@@ -414,7 +414,7 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data timeseries data format
 #' @param dep the dependent variable from \code{data}, variable must be
 #'   numeric
-#' @param time the fixed factors from \code{data}
+#' @param time ts type called 'ds'
 #' @param freq .
 #' @param pred .
 #' @param plot .

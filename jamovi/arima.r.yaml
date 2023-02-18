@@ -182,7 +182,7 @@ items:
         - unit
 
     - name:  plot6
-      title:  "Comparison of Actual and Forecasted Values for Variable"
+      title:  "Actual vs. Forecasted Values for Variable y"
       type:  Image
       visible: (plot6)
       refs: prophet
