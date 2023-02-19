@@ -14,7 +14,7 @@ options:
 
     - name: dep
       type: Variable
-      title: Variable(y)
+      title: Variable named y
       suggested:
         - continuous
       permitted:
@@ -23,7 +23,7 @@ options:
           R: >
             the dependent variable from `data`, variable must be numeric
     - name: time
-      title: Time variable(Only for ds)
+      title: Time variable named ds
       type: Variables
       rejectUnusedLevels: true
       suggested:

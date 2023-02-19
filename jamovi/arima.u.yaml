@@ -75,22 +75,32 @@ children:
     margin: normal
     collapsed: true
     children:
-      - type: Label
-        label: Forecasting options
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
         children:
-          - type: TextBox
-            name: periods
-            format: number
-          - type: ComboBox
-            name: unit
-      - type: Label
-        label: Plots
+          - type: Label
+            label: Options
+            children:
+              - type: TextBox
+                name: periods
+                format: number
+              - type: ComboBox
+                name: unit
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
         children:
-          - type: CheckBox
-            name: plot4
-          - type: CheckBox
-            name: plot5
-          - type: CheckBox
-            name: plot6
-
- 
+          - type: Label
+            label: Plots
+            children:
+              - type: CheckBox
+                name: plot4
+              - type: CheckBox
+                name: plot5
+              - type: CheckBox
+                name: plot6

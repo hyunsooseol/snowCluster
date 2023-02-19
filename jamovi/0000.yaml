@@ -187,12 +187,12 @@ datasets:
     path: prophet.omv
     description: facebook prophet data
     tags:
-      - Facebook prophet
+      - Univarite time series
   - name: beer
     path: beer.omv
     description: monthly-beer-production-in-Australia
     tags:
-      - time series
+      - Time series
   - name: wine2
     path: wine2.omv
     description: FA of mixed data
