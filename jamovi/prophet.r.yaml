@@ -2,6 +2,7 @@
 name:  prophet
 title: Prophet with Multiple Variables
 jrs:   '1.1'
+refs: snowCluster
 
 items:
     - name: instructions

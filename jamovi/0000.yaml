@@ -157,6 +157,11 @@ datasets:
     description: Example with groups of categorical variables
     tags:
       - Multiple Factor Analysis
+  - name: wine2
+    path: wine2.omv
+    description: FA of mixed data
+    tags:
+      - FA of mixed data
   - name: credit
     path: credit.omv
     description: German credit
@@ -194,11 +199,6 @@ datasets:
     tags:
       - prophet
       - ARIMA
-  - name: wine2
-    path: wine2.omv
-    description: FA of mixed data
-    tags:
-      - FA of mixed data
   - name: stock
     path: stock.omv
     description: Prophet of multiple variables
