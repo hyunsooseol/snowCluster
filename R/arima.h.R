@@ -351,8 +351,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Forcast plot",
                 visible="(plot4)",
                 refs="prophet",
-                width=500,
-                height=500,
+                width=600,
+                height=400,
                 renderFun=".plot4",
                 clearWith=list(
                     "dep",
@@ -365,8 +365,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Model components plot",
                 visible="(plot5)",
                 refs="prophet",
-                width=500,
-                height=500,
+                width=600,
+                height=400,
                 renderFun=".plot5",
                 clearWith=list(
                     "dep",

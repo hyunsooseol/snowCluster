@@ -87,23 +87,24 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Multidimensional Scaling Plot
     menuSubgroup: MDS
-  - title: Univariate time series
-    name: arima
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuTitle: Univariate time series
-    menuSubgroup: Univariate time series
   - title: Factor analysis of mixed data
     name: famd
     ns: snowCluster
     menuGroup: snowCluster
     menuSubgroup: Factor
     menuTitle: Factor analysis of mixed data
+  - title: Univariate time series
+    name: arima
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Univariate time series
+    menuSubgroup: Time series
   - title: Prophet with Multiple Variables
     name: prophet
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Prophet with Multiple Variables
+    menuSubgroup: Time series
 datasets:
   - name: iris
     path: iris.omv
@@ -197,6 +198,16 @@ datasets:
     description: FA of mixed data
     tags:
       - FA of mixed data
+  - name: stock
+    path: stock.omv
+    description: Prophet of multiple variables
+    tags:
+      - prophet with multiple variables
+  - name: lungDeath
+    path: lungDeath.omv
+    description: Prophet of multiple variables
+    tags:
+      - prophet with multiple variables
 usesNative: true
 minApp: 1.8.0
 

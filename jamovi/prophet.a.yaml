@@ -2,6 +2,7 @@
 name:  prophet
 title: Prophet with Multiple Variables
 menuGroup: snowCluster
+menuSubgroup: Time series
 version: '1.0.0'
 jas: '1.2'
 

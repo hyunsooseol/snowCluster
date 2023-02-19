@@ -122,8 +122,8 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Forecast of multiple variables",
                 visible="(plot1)",
                 refs="prophet",
-                width=500,
-                height=500,
+                width=600,
+                height=400,
                 renderFun=".plot1",
                 clearWith=list(
                     "dep",
@@ -136,8 +136,8 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Smooth line plot",
                 visible="(plot2)",
                 refs="prophet",
-                width=500,
-                height=500,
+                width=600,
+                height=400,
                 renderFun=".plot2",
                 clearWith=list(
                     "dep",

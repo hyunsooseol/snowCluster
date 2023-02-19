@@ -158,8 +158,8 @@ items:
       type:  Image
       visible: (plot4)
       refs: prophet
-      width: 500
-      height: 500
+      width: 600
+      height: 400
       renderFun: .plot4
       clearWith:
         - dep
@@ -172,8 +172,8 @@ items:
       type:  Image
       visible: (plot5)
       refs: prophet
-      width: 500
-      height: 500
+      width: 600
+      height: 400
       renderFun: .plot5
       clearWith:
         - dep
@@ -194,4 +194,6 @@ items:
         - time
         - period
         - unit
+
+ 
 ...

@@ -39,8 +39,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             <p><b>Instructions</b></p>
             <p>_____________________________________________________________________________________________</p>
-            <p>1. The variable name to be placed in the 'Time' box must have the name <b>'ds'</b> to run prophet analysis.
-            <p>2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>1. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>_____________________________________________________________________________________________</p>
             
             </div>
@@ -69,6 +68,10 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         #                group = rnorm(length(dates), mean = 150, sd = 20))
         # 
         # 
+        ######################################
+        #for xts data
+        # https://r-graph-gallery.com/316-possible-inputs-for-the-dygraphs-library.html
+        #####################################
         
         dep  <- self$options$dep
         covs <- self$options$covs
@@ -101,12 +104,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                     yearly.seasonality = TRUE,
                                     weekly.seasonality = TRUE)
           
-          
-          #model <- prophet(new_data, changepoint.prior.scale = 0.05, 
-          #                  daily.seasonality=TRUE,
-          #                  yearly.seasonality = TRUE, 
-          #                  weekly.seasonality = TRUE)
-          # 
+        
           # Make predictions for the next 365 days
           future <- prophet::make_future_dataframe(model, 
                                                    periods = self$options$periods,
@@ -134,8 +132,6 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         image1$setState(forecast_combined)
         
         
-        
-        
         },
      
 
@@ -148,10 +144,10 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
   forecast_combined <- image$state
   
   
-  plot1 <- ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
+  plot1 <- ggplot2::ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
     geom_line() +
     labs(x = "Date", y = "Forecast", color = "Variable") +
-  #  ggtitle("Forecast of Multiple Variables") +
+  # ggtitle("Forecast of Multiple Variables") +
     theme_bw()
   
   plot1+ggtheme
@@ -170,7 +166,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
   forecast_combined <- image1$state
   
  
-  plot2<- ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
+  plot2<- ggplot2::ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
     
     geom_smooth(method= method) +
     labs(x = "Date", y = "Forecast", color = "Variable") +

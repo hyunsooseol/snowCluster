@@ -67,10 +67,10 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
        ################################################################## 
                 .run = function() {
 
-            
-            if(is.null(self$options$dep))
-              return()
-            
+                  
+                  if(is.null(self$options$dep))
+                    return()      
+           
             dep  <- self$options$dep
             time <- self$options$time
             freq <- self$options$freq
@@ -82,6 +82,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             # data <- jmvcore::naOmit(data)
             # 
             
+           
             if(is.null(self$options$time)){
             
             # get the data
@@ -284,6 +285,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
          
             } 
+            
             
             },
             

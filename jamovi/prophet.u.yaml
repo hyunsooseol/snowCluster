@@ -9,7 +9,7 @@ children:
     stretchFactor: 1
     children:
       - type: TargetLayoutBox
-        label: Time(Only for ds)
+        label: Time variable named ds
         children:
           - type: VariablesListBox
             name: dep
@@ -26,22 +26,34 @@ children:
     margin: normal
     collapsed: true
     children:
-      - type: Label
-        label: Options
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
         children:
-          - type: TextBox
-            name: periods
-            format: number
-          - type: ComboBox
-            name: unit
-      - type: Label
-        label: Plots
-        children:
-          - type: CheckBox
-            name: plot1
-          - type: CheckBox
-            name: plot2
-            children: 
+          - type: Label
+            label: Options
+            children:
+              - type: TextBox
+                name: periods
+                format: number
               - type: ComboBox
-                name: method
-                enable: (plot2)
+                name: unit
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Plots
+            children:
+              - type: CheckBox
+                name: plot1
+              - type: CheckBox
+                name: plot2
+                children: 
+                  - type: ComboBox
+                    name: method
+                    enable: (plot2)
