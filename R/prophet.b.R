@@ -90,7 +90,13 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
          #   data$ds <- as.Date(data$ds)
          # }
           
-          
+         # Example converting yy-mm into yy-mm-dd
+         # data<- read.csv("beer.csv")
+         # head(data)
+         # data$Month <- as.Date(paste0(data$Month, "-01"), format = "%Y-%m-%d")
+         # head(data)
+         # 
+         
           # Fit the model
           model <- prophet::prophet(new_data,
                                     changepoint.prior.scale = 0.05,
