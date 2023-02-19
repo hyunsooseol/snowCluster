@@ -12,8 +12,8 @@ description: >-
   This module allows users to analyze k-means and hierarchical
   clustering,Correspondence Analysis, Multiple Factor Analysis, Factor analysis
   of mixed data, Discriminant Analysis, Multidimensional Scaling, Univariate
-  time series, Decision Tree, Machine Learning,and various visualization
-  results.
+  time series, Prophet analysis, Decision Tree, Machine Learning,and various
+  visualization results.
 analyses:
   - title: K-means Clustering
     name: kmeans
