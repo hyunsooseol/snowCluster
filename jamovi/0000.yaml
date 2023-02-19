@@ -192,7 +192,7 @@ datasets:
     path: beer.omv
     description: monthly-beer-production-in-Australia
     tags:
-      - Time series
+      - ARIMA model
   - name: wine2
     path: wine2.omv
     description: FA of mixed data

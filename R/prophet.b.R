@@ -39,7 +39,8 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             <p><b>Instructions</b></p>
             <p>_____________________________________________________________________________________________</p>
-            <p>1. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>1. Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs</p>
+            <p>2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>_____________________________________________________________________________________________</p>
             
             </div>
@@ -53,29 +54,12 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       ################################################################## 
       .run = function() {
         
-        
         if (is.null(self$options$dep) || length(self$options$covs) == 0)
           return()
         
-        # # Load the data
-        # # Create date sequence from 2010-01-01 to 2019-12-31
-        # dates <- seq(as.Date("2010-01-01"), as.Date("2019-12-31"), by = "day")
-        # 
-        # # Create data frame with dates and random values ​​for variables 1 and 2
-        # data <- tibble(ds = dates,
-        #                male = rnorm(length(dates), mean = 100, sd = 10),
-        #                female = rnorm(length(dates), mean = 120, sd = 20),
-        #                group = rnorm(length(dates), mean = 150, sd = 20))
-        # 
-        # 
-        ######################################
-        #for xts data
-        # https://r-graph-gallery.com/316-possible-inputs-for-the-dygraphs-library.html
-        #####################################
-        
-        dep  <- self$options$dep
+        dep <- self$options$dep
         covs <- self$options$covs
-       
+        
         # get the data
         data <- self$data
         data <- jmvcore::naOmit(data)
@@ -84,17 +68,27 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         # Create a list to store the forecast data frames
         forecast_df_list <- list()
         
-        # Define the names of the variables
-        #var_names <- c("mdeaths", "fdeaths")
-        
-        
         # Loop through each variable and create a forecast data frame
         for (i in 1:length(covs)) {
-
-         
-          #new_data <- data %>% dplyr::select(ds, all_of(var_names[i])) %>% dplyr::rename(y = all_of(var_names[i]))
           
-          new_data <- data %>% dplyr::select(ds, all_of(covs[i])) %>% dplyr::rename(y = all_of(covs[i]))
+         new_data <- data %>% dplyr::select(ds, all_of(covs[i])) %>% dplyr::rename(y = all_of(covs[i]))
+          
+          # you can use the following code to convert a column in data 
+         # with a date format of yy-mm to yy-mm-dd format 
+         # and perform a Prophet analysis on it:
+          
+         # # Example in R-----------------------------------
+         # # Load the data from a CSV file
+         # data <- read.csv("your_data_file.csv")
+         # 
+         # # Check the format of the ds column and process the data accordingly
+         # if (nchar(as.character(data$ds[1])) == 7) {
+         #   # If the date is in yy-mm format
+         #   data$ds <- as.Date(paste0(data$ds, "-01"), format = "%y-%m-%d")
+         # } else if (nchar(as.character(data$ds[1])) == 10) {
+         #   # If the date is in yy-mm-dd format
+         #   data$ds <- as.Date(data$ds)
+         # }
           
           
           # Fit the model
@@ -104,12 +98,12 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                     yearly.seasonality = TRUE,
                                     weekly.seasonality = TRUE)
           
-        
+          
           # Make predictions for the next 365 days
           future <- prophet::make_future_dataframe(model, 
                                                    periods = self$options$periods,
                                                    freq = self$options$unit)
-    
+          
           forecast <- predict(model, future)
           
           # Add the forecast to the list
@@ -120,7 +114,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         forecast_combined <- do.call(rbind, forecast_df_list)
         
         #self$results$text$setContent(head(forecast_combined ))
-        
+       
         # forecast plot----------
         
         image <- self$results$plot1

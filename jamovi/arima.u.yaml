@@ -9,14 +9,14 @@ children:
     stretchFactor: 1
     children:
       - type: TargetLayoutBox
-        label: Variable(y)
+        label: Variable named y
         children:
           - type: VariablesListBox
             name: dep
             maxItemCount: 1
             isTarget: true
       - type: TargetLayoutBox
-        label: Time variable(Only for ds)
+        label: Time variable named ds
         children:
           - type: VariablesListBox
             name: time
