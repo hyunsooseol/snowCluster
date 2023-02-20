@@ -109,6 +109,8 @@ options:
       title: Unit
       type: List
       options:
+        - title: hour
+          name:  'hour'
         - title: day
           name:  'day'
         - title: week

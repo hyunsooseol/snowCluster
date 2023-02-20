@@ -97,6 +97,8 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
          # head(data)
          # 
          
+         ### yy-mm-dd-hh is no problem !!!
+         
           # Fit the model
           model <- prophet::prophet(new_data,
                                     changepoint.prior.scale = 0.05,

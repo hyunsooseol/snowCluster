@@ -59,6 +59,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "unit",
                 unit,
                 options=list(
+                    "hour",
                     "day",
                     "week",
                     "month",
