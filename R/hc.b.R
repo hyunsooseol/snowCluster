@@ -116,8 +116,8 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) < 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
             
             type <- self$options$type
             

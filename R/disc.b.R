@@ -316,10 +316,9 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             .plot = function(image,ggtheme, theme,...) {
                 
-                plot <- self$options$plot
-               
-                if (!plot)
-                    return()
+              if (is.null(image$state))
+                return(FALSE)
+              
                 
                 dep<- self$options$dep
                 
@@ -345,10 +344,9 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot1 = function(image1,...) {
             
-            plot1 <- self$options$plot1
-            
-            if (!plot1)
-                return()
+          if (is.null(image1$state))
+            return(FALSE)
+          
             
             lda.train <- image1$state
             
@@ -360,10 +358,14 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot2 = function(image2,...) {
           
-          plot2 <- self$options$plot2
+          # plot2 <- self$options$plot2
+          # 
+          # if (!plot2)
+          #   return()
           
-          if (!plot2)
-            return()
+          if (is.null(image2$state))
+            return(FALSE)
+          
           
           method <- self$options$method
         

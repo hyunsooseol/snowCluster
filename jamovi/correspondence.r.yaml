@@ -10,6 +10,7 @@ items:
       rows: 1
       clearWith:
         - vars
+        - labels
         - rowvar
         - colvar
  
@@ -31,6 +32,7 @@ items:
       type: Table
       clearWith:
         - vars
+        - labels
         - rowvar
         - colvar        
 
@@ -55,6 +57,7 @@ items:
       rows: (vars)
       clearWith:
         - vars
+        - labels
         - rowvar
         - colvar
 
@@ -74,6 +77,7 @@ items:
       type: Table
       clearWith:
         - vars
+        - labels
         - rowvar
         - colvar
  
@@ -98,6 +102,7 @@ items:
       renderFun: .plot4 
       clearWith:
             - vars
+            - labels
             - rowvar
             - colvar            
  
@@ -112,6 +117,7 @@ items:
       renderFun: .plot1
       clearWith:
             - vars
+            - labels
             - rowvar
             - colvar    
  
@@ -126,6 +132,7 @@ items:
       renderFun: .plot2
       clearWith:
             - vars
+            - labels
             - rowvar
             - colvar   
  
@@ -140,6 +147,7 @@ items:
       renderFun: .plot3
       clearWith:
             - vars
+            - labels
             - rowvar
             - colvar               
 ...

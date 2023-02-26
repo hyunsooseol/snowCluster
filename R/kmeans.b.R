@@ -260,10 +260,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             
             .plot = function(image, ggtheme, theme, ...) {
                 
-                #Errors ----
-                
-                if (is.null(self$options$vars))
-                    return()
+              if (is.null(image$state))
+                return(FALSE)
                 
                 
                 plotData <- image$state
@@ -302,9 +300,10 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             # Optimal number of clusters------
             
             .plot1 = function(image1, ggtheme, theme, ...) {
-                if (is.null(self$options$vars))
-                    return()
-                
+                # if (is.null(self$options$vars))
+                #     return()
+              if (is.null(image1$state))
+                return(FALSE)                
                 # read data ----
                 
                 vars <- self$options$vars
@@ -334,9 +333,12 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             # cluster plot------
             
             .plot2 = function(image2, ggtheme, theme, ...) {
-                if (length(self$options$vars) < 2)
-                    return()
+                # if (length(self$options$vars) < 2)
+                #     return()
                 
+              if (is.null(image2$state))
+                return(FALSE)
+              
                 # read data ----
                 
                 vars <- self$options$vars
@@ -374,9 +376,11 @@ kmeansClass <- if (requireNamespace('jmvcore'))
            
            .plot3 = function(image3, ggtheme, theme, ...) {
                
-               if (length(self$options$vars) < 2)
-                   return()
+               # if (length(self$options$vars) < 2)
+               #     return()
            
+             if (is.null(image3$state))
+               return(FALSE)
             
                res.pca <- image3$state[[1]]
                grp     <- image3$state[[2]]

@@ -64,9 +64,8 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot = function(image, ggtheme, theme, ...) {
             
-            if (is.null(self$options$facs))
-                return()
-            
+          if (is.null(image$state))
+            return(FALSE)
             
             pca <- image$state
             
@@ -85,8 +84,8 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot1 = function(image1, ggtheme, theme, ...) {
             
-            if (is.null(self$options$facs))
-                return()
+          if (is.null(image1$state))
+            return(FALSE)
             
             
             pca <- image1$state

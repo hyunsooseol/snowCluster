@@ -331,8 +331,9 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           
               .plot = function(image, ggtheme, theme, ...) {
                 
-                if (length(self$options$vars) <= 2)
-                    return()
+                if (is.null(image$state))
+                  return(FALSE)
+                
                 
                 res <- image$state
                 
@@ -349,8 +350,9 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot1 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
+          
             
             res <- image$state
             
@@ -365,8 +367,9 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot2 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
+          
             
             res <- image$state
             
@@ -385,8 +388,8 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot3 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
             
             res <- image$state
             
@@ -403,8 +406,8 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
            
         .plot4 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
             
             res <- image$state
             

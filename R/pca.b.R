@@ -97,8 +97,8 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot = function(image, ggtheme, theme, ...) {
           
-          if (length(self$options$vars) < 2)
-            return()
+          if (is.null(image$state))
+            return(FALSE)
           
           pca <- image$state
           
@@ -116,9 +116,8 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot1 = function(image1, ggtheme, theme, ...) {
           
-          if (length(self$options$vars) < 2)
-            return()
-          
+          if (is.null(image1$state))
+            return(FALSE)
           
           pca <- image1$state
           
@@ -135,8 +134,8 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot2 = function(image2, ggtheme, theme, ...) {
           
-          if (length(self$options$vars) < 2)
-            return()
+          if (is.null(image2$state))
+            return(FALSE)
           
           pca <- image2$state
           

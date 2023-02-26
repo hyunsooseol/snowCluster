@@ -387,8 +387,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
             
             mfa <- image$state
             
@@ -403,9 +403,9 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot1 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
-            
+          if (is.null(image$state))
+            return(FALSE)
+          
             mfa <- image$state
             
             plot1 <- factoextra::fviz_mfa_var(mfa, "quanti.var", 
@@ -424,8 +424,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot2 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
             
             mfa <- image$state
             
@@ -442,9 +442,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot3 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+            # if (length(self$options$vars) <= 2)
+            #     return()
             
+          if (is.null(image$state))
+            return(FALSE)
+          
             mfa <- image$state
             
             plot3 <- factoextra::fviz_contrib(mfa, choice = "quanti.var", 
@@ -460,8 +463,10 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot4 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+            # if (length(self$options$vars) <= 2)
+            #     return()
+          if (is.null(image$state))
+            return(FALSE)
             
             mfa <- image$state
             
@@ -476,8 +481,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
        
          .plot5 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+           if (is.null(image$state))
+             return(FALSE)
             
             mfa <- image$state
             
@@ -495,8 +500,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot6 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
             
             mfa <- image$state
             
@@ -512,8 +517,8 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot7 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
             
             mfa <- image$state
             
@@ -529,9 +534,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot8 = function(image, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
-            
+            # if (length(self$options$vars) <= 2)
+            #     return()
+            # 
+          if (is.null(image$state))
+            return(FALSE)
+          
             mfa <- image$state
             
             plot8 <- factoextra::fviz_screeplot(mfa, addlabels = TRUE)

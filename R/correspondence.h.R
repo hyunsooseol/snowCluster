@@ -158,6 +158,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 rows=1,
                 clearWith=list(
                     "vars",
+                    "labels",
                     "rowvar",
                     "colvar"),
                 columns=list(
@@ -182,6 +183,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 visible="(eigen)",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "rowvar",
                     "colvar"),
                 columns=list(
@@ -209,6 +211,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 rows="(vars)",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "rowvar",
                     "colvar"),
                 columns=list(
@@ -229,6 +232,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 visible="(loadingind)",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "rowvar",
                     "colvar"),
                 columns=list(
@@ -254,6 +258,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 renderFun=".plot4",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "rowvar",
                     "colvar")))
             self$add(jmvcore::Image$new(
@@ -268,6 +273,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 renderFun=".plot1",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "rowvar",
                     "colvar")))
             self$add(jmvcore::Image$new(
@@ -282,6 +288,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 renderFun=".plot2",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "rowvar",
                     "colvar")))
             self$add(jmvcore::Image$new(
@@ -296,6 +303,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 renderFun=".plot3",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "rowvar",
                     "colvar")))}))
 

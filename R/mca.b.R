@@ -221,8 +221,8 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot1 = function(image1, ggtheme, theme, ...) {
             
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image1$state))
+            return(FALSE)
             
             res.mca <- image1$state
             
@@ -238,8 +238,8 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot2 = function(image2, ggtheme, theme, ...) {
 
-            if (length(self$options$vars) <= 2)
-                return()
+          if (is.null(image2$state))
+            return(FALSE)
 
             res.mca <- image2$state
 
@@ -256,9 +256,9 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
         .plot3 = function(image3, ggtheme, theme, ...) {
 
-            if (length(self$options$vars) <= 2)
-                return()
-
+          if (is.null(image3$state))
+            return(FALSE)
+          
             res.mca <- image3$state
             
             plot3 <- factoextra::fviz_mca_ind(res.mca,  
@@ -276,8 +276,8 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot4 = function(image4, ggtheme, theme, ...) {
             
-            if (is.null(self$options$facs))
-                return()
+          if (is.null(image4$state))
+            return(FALSE)
             
             
             res.mca <- image4$state
@@ -295,8 +295,8 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
 .plot5 = function(image5, ggtheme, theme, ...) {
     
-    if (is.null(self$options$facs))
-        return()
+  if (is.null(image5$state))
+    return(FALSE)
     
     
     res.mca <- image5$state
@@ -311,9 +311,8 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
 .plot6 = function(image6, ggtheme, theme, ...) {
     
-    if (length(self$options$vars) <= 2)
-        return()
-    
+  if (is.null(image6$state))
+    return(FALSE)
     
     res.mca <- image6$state
     

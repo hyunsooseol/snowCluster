@@ -112,8 +112,8 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot = function(image,ggtheme, theme, ...) {
             
-            if (length(self$options$vars) < 2)
-                return()
+          if (is.null(image$state))
+            return(FALSE)
             
             mds <- image$state[[1]]
             name <- image$state[[2]]
@@ -130,8 +130,8 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .plot1 = function(image1,ggtheme, theme, ...) {
             
-            if (length(self$options$vars) < 2)
-                return()
+          if (is.null(image1$state))
+            return(FALSE)
             
             mds1 <- image1$state[[1]]
             name1 <- image1$state[[2]]

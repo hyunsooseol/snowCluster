@@ -263,6 +263,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       
         .plot = function(image,...) {
          
+          if (is.null(image$state))
+            return(FALSE)
+          
          model.train <- image$state
           
           plot <- plot(model.train)
