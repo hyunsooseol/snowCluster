@@ -1,12 +1,12 @@
 ---
 title: Multivariate Analysis
 name: snowCluster
-version: 7.1.1
+version: 7.1.2
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2023-02-20'
+date: '2023-02-26'
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
@@ -33,12 +33,48 @@ analyses:
     menuGroup: snowCluster
     menuSubgroup: Cluster
     menuTitle: Clustering Dendrogram
+  - title: Multidimensional Scaling Plot
+    name: mds
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Multidimensional Scaling Plot
+    menuSubgroup: Cluster
   - title: PCA Plot
     name: pca
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: PCA Plot
-    menuSubgroup: Principal component
+    menuSubgroup: Cluster
+  - title: Group plot
+    name: group
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Group plot
+    menuSubgroup: Cluster
+  - title: Correspondence Analysis
+    name: correspondence
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Correspondence Analysis
+    menuSubgroup: Correspondence & Factor
+  - title: Multiple Correspondence Analysis
+    name: mca
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Multiple Correspondence Analysis
+    menuSubgroup: Correspondence & Factor
+  - title: Multiple Factor Analysis
+    name: mfa
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuSubgroup: Correspondence & Factor
+    menuTitle: Multiple Factor Analysis
+  - title: Factor analysis of mixed data
+    name: famd
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuSubgroup: Correspondence & Factor
+    menuTitle: Factor analysis of mixed data
   - title: Linear Discriminant Analysis
     name: disc
     ns: snowCluster
@@ -57,42 +93,6 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Machine Learning
     menuSubgroup: Classification
-  - title: Correspondence Analysis
-    name: correspondence
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuTitle: Correspondence Analysis
-    menuSubgroup: Correspondence
-  - title: Group plot
-    name: group
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuTitle: Group plot
-    menuSubgroup: Principal component
-  - title: Multiple Correspondence Analysis
-    name: mca
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuTitle: Multiple Correspondence Analysis
-    menuSubgroup: Correspondence
-  - title: Multiple Factor Analysis
-    name: mfa
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuSubgroup: Factor
-    menuTitle: Multiple Factor Analysis
-  - title: Multidimensional Scaling Plot
-    name: mds
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuTitle: Multidimensional Scaling Plot
-    menuSubgroup: MDS
-  - title: Factor analysis of mixed data
-    name: famd
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuSubgroup: Factor
-    menuTitle: Factor analysis of mixed data
   - title: Univariate time series
     name: arima
     ns: snowCluster

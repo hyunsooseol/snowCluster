@@ -2,7 +2,7 @@
 name:  correspondence
 title: Correspondence Analysis
 menuGroup: snowCluster
-menuSubgroup: Correspondence
+menuSubgroup: Correspondence & Factor
 version: '1.0.0'
 jas: '1.2'
 
