@@ -204,8 +204,8 @@ datasets:
     description: Prophet of multiple variables
     tags:
       - prophet with multiple variables
-  - name: lungDeath
-    path: lungDeath.omv
+  - name: lungdeath
+    path: lungdeath.omv
     description: Prophet of multiple variables
     tags:
       - prophet with multiple variables
