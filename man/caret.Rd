@@ -78,6 +78,7 @@ caret(
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+  \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$over1} \tab \tab \tab \tab \tab a table \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr

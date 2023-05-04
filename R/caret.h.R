@@ -247,6 +247,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
+        text1 = function() private$.items[["text1"]],
         text = function() private$.items[["text"]],
         over1 = function() private$.items[["over1"]],
         over = function() private$.items[["over"]],
@@ -275,8 +276,12 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible=TRUE))
             self$add(jmvcore::Preformatted$new(
                 options=options,
+                name="text1",
+                title="Pre-processing"))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
                 name="text",
-                title="Model information"))
+                title="Model information for train data"))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="over1",
@@ -599,6 +604,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$over1} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$over} \tab \tab \tab \tab \tab a table \cr

@@ -9,8 +9,12 @@ items:
       type: Html
       visible: True
 
+    - name:  text1
+      title: Pre-processing
+      type:  Preformatted
+
     - name:  text
-      title: Model information
+      title: Model information for train data
       type:  Preformatted
 
     - name: over1
