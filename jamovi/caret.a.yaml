@@ -200,4 +200,9 @@ options:
     - name: pred
       title: Prediction
       type: Output
+
+    - name: plot5
+      title: Box plot         
+      type: Bool
+      default: FALSE
 ...

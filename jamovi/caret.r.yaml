@@ -14,7 +14,7 @@ items:
       type:  Preformatted
 
     - name:  text
-      title: Model information for train data
+      title: Model information 
       type:  Preformatted
 
     - name: over1
@@ -256,6 +256,26 @@ items:
       height: 500
       renderFun: .plot4
       refs: MLeval
+      clearWith:
+        - facs
+        - covs 
+        - dep
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+        - cm1 
+
+    - name:  plot5
+      title: Box plot              
+      type:  Image
+      visible: (plot5)
+      width: 500
+      height: 500
+      renderFun: .plot5
+      refs: caret
       clearWith:
         - facs
         - covs 

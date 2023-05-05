@@ -158,14 +158,13 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   test1 <- data[-split1,]
 
                 # Transformed dataset-----------------
-                # Create the knn imputation model on the training data 
+                # Create the bagImpute model on the training data 
                 # for missing values with continuous variables..
                   
-                  preProcValues <- caret::preProcess(train1, 
-                                                    method='knnImpute')
-                                      
-                 
-                 self$results$text1$setContent(preProcValues)
+                  preProcValues <- caret::preProcess(train1,
+                                                     method = "bagImpute")
+                  
+                  self$results$text1$setContent(preProcValues)
                   
                   train <- predict(preProcValues, train1)
                   test <- predict(preProcValues, test1)
@@ -256,7 +255,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 image1 <- self$results$plot1
                 image1$setState(vi)
                 }
-                
                 
                 #########     TRAINING SET    #############################
                 
@@ -522,10 +520,61 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 }
                 
                 
+                # Feature plot-----------  
+                
+                if(self$options$plot5==TRUE){  
+                  
+                  data <- self$data
+                  dep <- self$options$dep
+                  covs <- self$options$covs
+                  
+                  # data cleaning--------------- 
+                
+                  for(cov in covs)
+                    data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+                  
+                    data[[dep]] <- as.factor(data[[dep]])
+                  
+                  data <- na.omit(data)
+                  
+                  #self$results$text1$setContent(head(data))  
+                  
+                  image5 <- self$results$plot5 
+                  image5$setState(data)
+                  
+                 
+                }
+                
+                
                 },
           
       ##########################################################
-      .plot = function(image,...) {
+
+      .plot5 = function(image5,...) {
+        
+       
+        if (is.null(image5$state))
+          return(FALSE)
+        
+        data<- image5$state
+        covs <- self$options$covs
+        dep <- self$options$dep
+        
+        # caret::featurePlot(x = iris[,1:4],
+        #                    y = iris$Species,
+        #                    plot = "box")
+        
+         
+        plot5<- caret::featurePlot(x=data[,covs], 
+                                   y=data[[dep]], 
+                                   "box")
+        
+        print(plot5)
+        TRUE
+      }, 
+      
+      
+           .plot = function(image,...) {
         
         if (is.null(image$state))
           return(FALSE)

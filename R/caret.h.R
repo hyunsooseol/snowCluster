@@ -26,7 +26,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot1 = FALSE,
             plot2 = FALSE,
             plot3 = FALSE,
-            plot4 = FALSE, ...) {
+            plot4 = FALSE,
+            plot5 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -170,6 +171,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=FALSE)
             private$..pred <- jmvcore::OptionOutput$new(
                 "pred")
+            private$..plot5 <- jmvcore::OptionBool$new(
+                "plot5",
+                plot5,
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -193,6 +198,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot3)
             self$.addOption(private$..plot4)
             self$.addOption(private$..pred)
+            self$.addOption(private$..plot5)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -216,7 +222,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
         plot4 = function() private$..plot4$value,
-        pred = function() private$..pred$value),
+        pred = function() private$..pred$value,
+        plot5 = function() private$..plot5$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -239,7 +246,8 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot2 = NA,
         ..plot3 = NA,
         ..plot4 = NA,
-        ..pred = NA)
+        ..pred = NA,
+        ..plot5 = NA)
 )
 
 caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -260,6 +268,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$.items[["plot1"]],
         plot3 = function() private$.items[["plot3"]],
         plot4 = function() private$.items[["plot4"]],
+        plot5 = function() private$.items[["plot5"]],
         pred = function() private$.items[["pred"]]),
     private = list(),
     public=list(
@@ -281,7 +290,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
-                title="Model information for train data"))
+                title="Model information"))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="over1",
@@ -539,6 +548,26 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "cm1")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot5",
+                title="Box plot",
+                visible="(plot5)",
+                width=500,
+                height=500,
+                renderFun=".plot5",
+                refs="caret",
+                clearWith=list(
+                    "facs",
+                    "covs",
+                    "dep",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method",
+                    "tune",
+                    "cm1")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="pred",
@@ -601,6 +630,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot2 .
 #' @param plot3 .
 #' @param plot4 .
+#' @param plot5 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -617,6 +647,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$pred} \tab \tab \tab \tab \tab an output \cr
 #' }
 #'
@@ -649,7 +680,8 @@ caret <- function(
     plot1 = FALSE,
     plot2 = FALSE,
     plot3 = FALSE,
-    plot4 = FALSE) {
+    plot4 = FALSE,
+    plot5 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("caret requires jmvcore to be installed (restart may be required)")
@@ -688,7 +720,8 @@ caret <- function(
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3,
-        plot4 = plot4)
+        plot4 = plot4,
+        plot5 = plot5)
 
     analysis <- caretClass$new(
         options = options,
