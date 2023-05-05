@@ -205,4 +205,9 @@ options:
       title: Box plot         
       type: Bool
       default: FALSE
+      
+    - name: plot6
+      title: Density plot         
+      type: Bool
+      default: FALSE      
 ...

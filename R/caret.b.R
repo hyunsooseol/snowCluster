@@ -9,6 +9,7 @@
 #' @importFrom MLeval evalm
 #' @importFrom caret preProcess
 #' @importFrom caTools sample.split
+#' @importFrom lattice strip.custom
 #' @import caret
 #' @import xgboost
 #' @import rpart.plot
@@ -522,7 +523,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 # Feature plot-----------  
                 
-                if(self$options$plot5==TRUE){  
+                if(self$options$plot5==TRUE || self$options$plot6==TRUE ){  
                   
                   data <- self$data
                   dep <- self$options$dep
@@ -542,6 +543,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   image5 <- self$results$plot5 
                   image5$setState(data)
                   
+                  image6 <- self$results$plot6 
+                  image6$setState(data)
                  
                 }
                 
@@ -567,14 +570,41 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
          
         plot5<- caret::featurePlot(x=data[,covs], 
                                    y=data[[dep]], 
-                                   "box")
+                                   plot="box",
+                                   strip=lattice::strip.custom(par.strip.text=list(cex=.7)),
+                                   scales = list(x = list(relation="free"), 
+                                                 y = list(relation="free")))
+    
         
         print(plot5)
         TRUE
       }, 
       
+      .plot6 = function(image6,...) {
+        
+        
+        if (is.null(image6$state))
+          return(FALSE)
+        
+        data<- image6$state
+        covs <- self$options$covs
+        dep <- self$options$dep
+        
+       
+        plot6<- caret::featurePlot(x=data[,covs], 
+                                   y=data[[dep]], 
+                                   plot="density",
+                                   strip=lattice::strip.custom(par.strip.text=list(cex=.7)),
+                                   scales = list(x = list(relation="free"), 
+                                                 y = list(relation="free")))
+        
+        
+        print(plot6)
+        TRUE
+      }, 
       
-           .plot = function(image,...) {
+      
+      .plot = function(image,...) {
         
         if (is.null(image$state))
           return(FALSE)

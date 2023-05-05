@@ -288,6 +288,26 @@ items:
         - tune
         - cm1 
 
+    - name:  plot6
+      title: Density plot              
+      type:  Image
+      visible: (plot6)
+      width: 500
+      height: 500
+      renderFun: .plot6
+      refs: caret
+      clearWith:
+        - facs
+        - covs 
+        - dep
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+        - cm1 
+
     - name: pred
       title: Prediction
       type: Output

@@ -45,4 +45,5 @@ Imports:
     prophet,
     lubridate,
     dplyr,
-    RANN
+    RANN,
+    lattice

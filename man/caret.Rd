@@ -27,7 +27,8 @@ caret(
   plot2 = FALSE,
   plot3 = FALSE,
   plot4 = FALSE,
-  plot5 = FALSE
+  plot5 = FALSE,
+  plot6 = FALSE
 )
 }
 \arguments{
@@ -76,6 +77,8 @@ caret(
 \item{plot4}{.}
 
 \item{plot5}{.}
+
+\item{plot6}{.}
 }
 \value{
 A results object containing:
@@ -95,6 +98,7 @@ A results object containing:
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
   \code{results$pred} \tab \tab \tab \tab \tab an output \cr
 }
 
