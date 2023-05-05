@@ -28,7 +28,10 @@ caret(
   plot3 = FALSE,
   plot4 = FALSE,
   plot5 = FALSE,
-  plot6 = FALSE
+  plot6 = FALSE,
+  ensemble = FALSE,
+  plot7 = FALSE,
+  ml = "pls,ctree,knn"
 )
 }
 \arguments{
@@ -79,6 +82,12 @@ caret(
 \item{plot5}{.}
 
 \item{plot6}{.}
+
+\item{ensemble}{.}
+
+\item{plot7}{.}
+
+\item{ml}{.}
 }
 \value{
 A results object containing:
@@ -86,6 +95,7 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$text2} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$over1} \tab \tab \tab \tab \tab a table \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
@@ -99,6 +109,7 @@ A results object containing:
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot7} \tab \tab \tab \tab \tab an image \cr
   \code{results$pred} \tab \tab \tab \tab \tab an output \cr
 }
 

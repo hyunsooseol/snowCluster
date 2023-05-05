@@ -17,6 +17,10 @@ items:
       title: Model information 
       type:  Preformatted
 
+    - name:  text2
+      title: Compare Models 
+      type:  Preformatted
+
     - name: over1
       title: 'Overall statistics with training set'
       type: Table
@@ -32,6 +36,7 @@ items:
         - repeats
         - method
         - tune
+        - ml
       refs: caret    
 
       columns:
@@ -65,6 +70,7 @@ items:
         - method
         - tune
         - facs
+        - ml
       refs: caret    
 
       columns:
@@ -97,6 +103,7 @@ items:
         - method
         - tune
         - facs
+        - ml
       refs: caret    
 
       columns:
@@ -119,6 +126,7 @@ items:
         - method
         - tune
         - facs
+        - ml
       refs: caret    
 
       columns:
@@ -142,6 +150,7 @@ items:
         - method
         - tune
         - facs
+        - ml
 
       columns:
         - name: name
@@ -164,6 +173,7 @@ items:
         - method
         - tune
         - facs
+        - ml
 
       columns:
         - name: name
@@ -189,6 +199,7 @@ items:
         - method
         - tune
         - facs
+        - ml
 
     - name:  plot
       title: ROC plot with training set               
@@ -209,6 +220,7 @@ items:
         - method
         - tune
         - cm1
+        - ml
 
     - name:  plot1
       title: Variable importance plot
@@ -228,6 +240,7 @@ items:
         - method
         - tune
         - facs
+        - ml
 
     - name:  plot3
       title: ROC plot with test set               
@@ -247,6 +260,7 @@ items:
         - method
         - tune
         - facs
+        - ml
 
     - name:  plot4
       title: Calibration curve with training set               
@@ -266,7 +280,8 @@ items:
         - repeats
         - method
         - tune
-        - cm1 
+        - cm1
+        - ml
 
     - name:  plot5
       title: Box plot              
@@ -286,7 +301,8 @@ items:
         - repeats
         - method
         - tune
-        - cm1 
+        - cm1
+        - ml
 
     - name:  plot6
       title: Density plot              
@@ -307,6 +323,28 @@ items:
         - method
         - tune
         - cm1 
+        - ml
+
+    - name:  plot7
+      title: Box plots to compare models              
+      type:  Image
+      visible: (plot7)
+      width: 500
+      height: 500
+      renderFun: .plot7
+      refs: caret
+      clearWith:
+        - facs
+        - covs 
+        - dep
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+        - cm1 
+        - ml
 
     - name: pred
       title: Prediction
@@ -322,6 +360,7 @@ items:
         - repeats
         - method
         - tune
-        - cm1 
+        - cm1
+        - ml
 
 ...

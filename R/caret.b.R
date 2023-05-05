@@ -10,6 +10,9 @@
 #' @importFrom caret preProcess
 #' @importFrom caTools sample.split
 #' @importFrom lattice strip.custom
+#' @importFrom caret dummyVars
+#' @importFrom caretEnsemble caretList
+#' @importFrom lattice bwplot
 #' @import caret
 #' @import xgboost
 #' @import rpart.plot
@@ -79,6 +82,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 per <- self$options$per
                 method <- self$options$method
                 cm1 <- self$options$cm1
+                ml <- self$options$ml
+                
                 
                 data <- self$data
                 dep <- self$options$dep
@@ -108,42 +113,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 data <- na.omit(data)
                 
-                # # dataset to predict dep with train model------------
-                # 
-                # new_data <- jmvcore::select(self$data, c(covs, facs))
-                # new_data <- jmvcore::naOmit(new_data)
-                # ###################################################
-
-                
-                #a <- is.factor(data[[fac]])
-                #self$results$text$setContent(head(new_data))
-                
-                
-                # data[[dep]] <- jmvcore::toNumeric(self$data[[dep]])
-                # 
-                # for (fac in facs)
-                #   data[[fac]] <- jmvcore::toNumeric(self$data[[fac]])
-                # 
-                # for (cov in covs)
-                # data[[cov]] <- jmvcore::toNumeric(self$data[[cov]])
-
-               
-               # data <- caret::preProcess(data,
-               #                   method = "scale")
-
-               #  self$results$text$setContent(pre)
-
-
-               # 
-               # formula-----------------
-               # formula <- jmvcore::constructFormula(dep = self$options$dep,
-               #                                        terms = c(self$options$covs,
-               #                                                   self$options$facs))
-               
-                # formula <- as.formula(paste(self$options$dep, 
-                #                             paste0(c(self$options$covs,self$options$facs), 
-                #                             collapse ="+"), sep="~")) 
-                # 
                 
                 # To speed up the function------
                 
@@ -171,29 +140,27 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   test <- predict(preProcValues, test1)
                     
                 
-                # Example------------------
+                #### Dummy coding for factors vars.-------------------
+                
+                  if ( !is.null(self$options$facs) && self$options$facs==TRUE) {
+                    
+                   
+                    # To speed up the function------
+                    
+                    formula <- as.formula(paste0(self$options$dep, " ~ ."))
+                    
+                  # One-Hot Encoding
+                  # Creating dummy variables is converting a categorical variable to as many binary variables as here are categories.
+                  dummies_model <- caret::dummyVars(formula, 
+                                                    data=train1)
                   
-                  # mat1=caret::preProcess(mat, method=c("pca", "zv"))
-                  # transformed = predict(mat1, mat)
-                  # model_gbm <- train(data=transformed, method='gbm',  trControl=myControl)
-                  # 
-                 ####################################################
+                  # Create the dummy variables using predict. The Y variable (Purchase) will not be present in trainData_mat.
+                  trainData_mat <- predict(dummies_model, newdata = test1)
                   
-                  
-                # # OR Using caTools package-----------
-                # 
-                #   sample = caTools::sample.split(data, SplitRatio = 0.8)
-                #   
-                #   train = subset(data, sample == TRUE)
-                #   test  = subset(data, sample == FALSE)
-                # 
-
-                   # train <- caret::preProcess(train,
-                   #                   method = "scale")
-                  
-                  #  self$results$text$setContent(pre)
-                  
-                  
+                  # # Convert to dataframe
+                  train <- data.frame(trainData_mat)
+                 
+                  }
                   
                   # trainControl function-----------
                 
@@ -216,7 +183,43 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                  self$results$text$setContent(fit)
                 
-                 # Compare ROC curves------------------ 
+                 ####################################################################
+                # Compare models--------------
+                  
+                  if(self$options$ensemble==TRUE){
+                    
+                    # https://www.machinelearningplus.com/machine-learning/caret-package/
+                    # Stacking Algorithms - Run multiple algos in one call.
+                    
+                    # fitControl <- caret::trainControl(method = mecon, 
+                    #                                   number =number , 
+                    #                                   repeats = repeats,
+                    #                                   p=per,
+                    #                                   classProbs=T,
+                    #                                   savePredictions = T)
+                    
+                    ml <- self$options$ml 
+                    ml <- strsplit(self$options$ml, ',')[[1]]
+                    algorithmList <- ml
+                    
+                    set.seed(1234)
+                    
+                    models <- caretEnsemble::caretList(formula,
+                                                       data=train,
+                                                       trControl=fitControl, 
+                                                       methodList=algorithmList) 
+                    results <- resamples(models)
+                    res<- summary(results)
+                    
+                    self$results$text2$setContent(res)
+                    
+                    image7 <- self$results$plot7
+                    image7$setState(results)
+                    
+                  }
+                  ###############################################################################
+                  
+                  # Compare ROC curves------------------ 
                  comp <- caret::train(formula,
                                       data=train,
                                       method = cm1,
@@ -316,9 +319,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     
                   }
                   
-                  ###################################
-                  
-                  
+                 
                   # Predict with train set-----------------
                 
                 pred.tr<-predict(fit, train)
@@ -692,7 +693,27 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         print(plot4)
         TRUE
+      },
+      
+      .plot7 = function(image7,...) {
+        
+        # ROC with test set-----
+        
+        if (is.null(image7$state))
+          return(FALSE)
+        
+        res<- image7$state
+        
+        # Box plots to compare models
+        scales <- list(x=list(relation="free"), y=list(relation="free"))
+        
+        plot7<- lattice::bwplot(res, scales=scales)
+       
+        print(plot7)
+        TRUE
       }
+      
+      
       
       # # iris example in R-----------
       # library(caret) 

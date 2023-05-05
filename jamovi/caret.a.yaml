@@ -210,4 +210,19 @@ options:
       title: Density plot         
       type: Bool
       default: FALSE      
+
+    - name: ensemble
+      title: Compare models
+      type: Bool 
+      default: FALSE   
+      
+    - name: plot7
+      title: Model comparison plot         
+      type: Bool
+      default: FALSE         
+
+    - name: ml
+      title: Model list
+      type: String
+      default: 'pls,ctree,knn'
 ...

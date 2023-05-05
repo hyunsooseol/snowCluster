@@ -46,4 +46,5 @@ Imports:
     lubridate,
     dplyr,
     RANN,
-    lattice
+    lattice,
+    caretEnsemble

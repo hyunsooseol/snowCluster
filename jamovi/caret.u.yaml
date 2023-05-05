@@ -109,6 +109,20 @@ children:
                 name: plot3
           - type: Label
             label: Save
-            children: 
+            children:
               - type: Output
                 name: pred
+  - type: CollapseBox
+    label: Compare models
+    margin: normal
+    collapsed: true
+    children:
+      - name: ml
+        type: TextBox
+        format: string
+        stretchFactor: 2
+      - type: CheckBox
+        name: ensemble
+      - type: CheckBox
+        name: plot7
+
