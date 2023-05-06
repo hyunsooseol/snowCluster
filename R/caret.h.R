@@ -9,9 +9,9 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             dep = NULL,
             covs = NULL,
             facs = NULL,
-            mecon = NULL,
             method = "pls",
             cm1 = "ctree",
+            mecon = NULL,
             number = 10,
             repeats = 5,
             tune = 10,
@@ -31,7 +31,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot6 = FALSE,
             ensemble = FALSE,
             plot7 = FALSE,
-            ml = "pls,ctree,knn", ...) {
+            ml = "pls,ctree,knn",
+            me = NULL,
+            num = 10,
+            rep = 5, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -61,13 +64,6 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ordinal"),
                 permitted=list(
                     "factor"))
-            private$..mecon <- jmvcore::OptionList$new(
-                "mecon",
-                mecon,
-                options=list(
-                    "cv",
-                    "repeatedcv",
-                    "boot"))
             private$..method <- jmvcore::OptionList$new(
                 "method",
                 method,
@@ -75,18 +71,23 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "pls",
                     "ctree",
                     "knn",
+                    "rf",
                     "rpart",
                     "ranger",
                     "nnet",
                     "neuralnet",
                     "avNNet",
-                    "xgbTree",
                     "gbm",
-                    "fda",
+                    "glm",
+                    "glmboost",
+                    "glmnet",
+                    "blackboost",
                     "mda",
-                    "bag",
+                    "treebag",
+                    "C5.0",
                     "svmLinear",
-                    "svmRadial"),
+                    "svmRadial",
+                    "nb"),
                 default="pls")
             private$..cm1 <- jmvcore::OptionList$new(
                 "cm1",
@@ -95,19 +96,30 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "pls",
                     "ctree",
                     "knn",
+                    "rf",
                     "rpart",
                     "ranger",
                     "nnet",
                     "neuralnet",
                     "avNNet",
-                    "xgbTree",
                     "gbm",
-                    "fda",
+                    "glm",
+                    "glmboost",
+                    "glmnet",
+                    "blackboost",
                     "mda",
-                    "bag",
+                    "treebag",
                     "svmLinear",
-                    "svmRadial"),
+                    "svmRadial",
+                    "nb"),
                 default="ctree")
+            private$..mecon <- jmvcore::OptionList$new(
+                "mecon",
+                mecon,
+                options=list(
+                    "cv",
+                    "repeatedcv",
+                    "boot"))
             private$..number <- jmvcore::OptionNumber$new(
                 "number",
                 number,
@@ -195,13 +207,30 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "ml",
                 ml,
                 default="pls,ctree,knn")
+            private$..me <- jmvcore::OptionList$new(
+                "me",
+                me,
+                options=list(
+                    "cv",
+                    "repeatedcv",
+                    "boot"))
+            private$..num <- jmvcore::OptionNumber$new(
+                "num",
+                num,
+                min=10,
+                default=10)
+            private$..rep <- jmvcore::OptionNumber$new(
+                "rep",
+                rep,
+                min=5,
+                default=5)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
             self$.addOption(private$..facs)
-            self$.addOption(private$..mecon)
             self$.addOption(private$..method)
             self$.addOption(private$..cm1)
+            self$.addOption(private$..mecon)
             self$.addOption(private$..number)
             self$.addOption(private$..repeats)
             self$.addOption(private$..tune)
@@ -223,14 +252,17 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..ensemble)
             self$.addOption(private$..plot7)
             self$.addOption(private$..ml)
+            self$.addOption(private$..me)
+            self$.addOption(private$..num)
+            self$.addOption(private$..rep)
         }),
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
         facs = function() private$..facs$value,
-        mecon = function() private$..mecon$value,
         method = function() private$..method$value,
         cm1 = function() private$..cm1$value,
+        mecon = function() private$..mecon$value,
         number = function() private$..number$value,
         repeats = function() private$..repeats$value,
         tune = function() private$..tune$value,
@@ -251,14 +283,17 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot6 = function() private$..plot6$value,
         ensemble = function() private$..ensemble$value,
         plot7 = function() private$..plot7$value,
-        ml = function() private$..ml$value),
+        ml = function() private$..ml$value,
+        me = function() private$..me$value,
+        num = function() private$..num$value,
+        rep = function() private$..rep$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
         ..facs = NA,
-        ..mecon = NA,
         ..method = NA,
         ..cm1 = NA,
+        ..mecon = NA,
         ..number = NA,
         ..repeats = NA,
         ..tune = NA,
@@ -279,7 +314,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot6 = NA,
         ..ensemble = NA,
         ..plot7 = NA,
-        ..ml = NA)
+        ..ml = NA,
+        ..me = NA,
+        ..num = NA,
+        ..rep = NA)
 )
 
 caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -336,18 +374,21 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Overall statistics with training set",
                 rows=1,
                 visible="(over1)",
+                refs="caret",
                 clearWith=list(
                     "facs",
                     "covs",
                     "dep",
                     "per",
+                    "method",
                     "mecon",
                     "number",
                     "repeats",
-                    "method",
                     "tune",
-                    "ml"),
-                refs="caret",
+                    "ml",
+                    "me",
+                    "num",
+                    "rep"),
                 columns=list(
                     list(
                         `name`="accu", 
@@ -373,6 +414,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Overall statistics with test set",
                 rows=1,
                 visible="(over)",
+                refs="caret",
                 clearWith=list(
                     "covs",
                     "dep",
@@ -383,8 +425,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "facs",
-                    "ml"),
-                refs="caret",
+                    "ml",
+                    "me",
+                    "num",
+                    "rep"),
                 columns=list(
                     list(
                         `name`="accu", 
@@ -409,6 +453,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="tra",
                 title="Confusion matrix with training set",
                 visible="(tra)",
+                refs="caret",
                 clearWith=list(
                     "covs",
                     "dep",
@@ -419,8 +464,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "facs",
-                    "ml"),
-                refs="caret",
+                    "ml",
+                    "me",
+                    "num",
+                    "rep"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -442,7 +489,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "facs",
-                    "ml"),
+                    "ml",
+                    "me",
+                    "num",
+                    "rep"),
                 refs="caret",
                 columns=list(
                     list(
@@ -466,7 +516,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "facs",
-                    "ml"),
+                    "ml",
+                    "me",
+                    "num",
+                    "rep"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -489,7 +542,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "facs",
-                    "ml"),
+                    "ml",
+                    "me",
+                    "num",
+                    "rep"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -515,7 +571,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "facs",
-                    "ml")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -536,7 +595,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "cm1",
-                    "ml")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -556,7 +618,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "facs",
-                    "ml")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -576,7 +641,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "facs",
-                    "ml")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -597,7 +665,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "cm1",
-                    "ml")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
@@ -618,7 +689,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "cm1",
-                    "ml")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
@@ -639,7 +713,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "cm1",
-                    "ml")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot7",
@@ -660,7 +737,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "cm1",
-                    "ml")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="pred",
@@ -677,7 +757,10 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "tune",
                     "cm1",
-                    "ml")))}))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep")))}))
 
 caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "caretBase",
@@ -706,9 +789,9 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param dep .
 #' @param covs .
 #' @param facs .
-#' @param mecon .
 #' @param method .
 #' @param cm1 .
+#' @param mecon .
 #' @param number .
 #' @param repeats .
 #' @param tune .
@@ -729,6 +812,9 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param ensemble .
 #' @param plot7 .
 #' @param ml .
+#' @param me .
+#' @param num .
+#' @param rep .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -764,9 +850,9 @@ caret <- function(
     dep,
     covs,
     facs,
-    mecon,
     method = "pls",
     cm1 = "ctree",
+    mecon,
     number = 10,
     repeats = 5,
     tune = 10,
@@ -786,7 +872,10 @@ caret <- function(
     plot6 = FALSE,
     ensemble = FALSE,
     plot7 = FALSE,
-    ml = "pls,ctree,knn") {
+    ml = "pls,ctree,knn",
+    me,
+    num = 10,
+    rep = 5) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("caret requires jmvcore to be installed (restart may be required)")
@@ -808,9 +897,9 @@ caret <- function(
         dep = dep,
         covs = covs,
         facs = facs,
-        mecon = mecon,
         method = method,
         cm1 = cm1,
+        mecon = mecon,
         number = number,
         repeats = repeats,
         tune = tune,
@@ -830,7 +919,10 @@ caret <- function(
         plot6 = plot6,
         ensemble = ensemble,
         plot7 = plot7,
-        ml = ml)
+        ml = ml,
+        me = me,
+        num = num,
+        rep = rep)
 
     analysis <- caretClass$new(
         options = options,

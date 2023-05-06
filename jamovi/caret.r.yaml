@@ -26,18 +26,21 @@ items:
       type: Table
       rows: 1
       visible: (over1)
+      refs: caret 
       clearWith:
         - facs
         - covs 
         - dep
         - per
+        - method
         - mecon
         - number
         - repeats
-        - method
         - tune
         - ml
-      refs: caret    
+        - me
+        - num
+        - rep
 
       columns:
         - name: accu
@@ -60,6 +63,7 @@ items:
       type: Table
       rows: 1
       visible: (over)
+      refs: caret  
       clearWith:
         - covs 
         - dep
@@ -71,8 +75,10 @@ items:
         - tune
         - facs
         - ml
-      refs: caret    
-
+        - me
+        - num
+        - rep
+        
       columns:
         - name: accu
           title: 'Accuracy'
@@ -93,6 +99,7 @@ items:
       title: 'Confusion matrix with training set'
       type: Table
       visible: (tra)
+      refs: caret  
       clearWith:
         - covs 
         - dep
@@ -104,8 +111,10 @@ items:
         - tune
         - facs
         - ml
-      refs: caret    
-
+        - me
+        - num
+        - rep
+        
       columns:
         - name: name
           title: ''
@@ -127,6 +136,9 @@ items:
         - tune
         - facs
         - ml
+        - me
+        - num
+        - rep
       refs: caret    
 
       columns:
@@ -151,7 +163,10 @@ items:
         - tune
         - facs
         - ml
-
+        - me
+        - num
+        - rep
+        
       columns:
         - name: name
           title: ''
@@ -174,7 +189,10 @@ items:
         - tune
         - facs
         - ml
-
+        - me
+        - num
+        - rep
+        
       columns:
         - name: name
           title: ''
@@ -200,7 +218,10 @@ items:
         - tune
         - facs
         - ml
-
+        - me
+        - num
+        - rep
+        
     - name:  plot
       title: ROC plot with training set               
       type:  Image
@@ -221,7 +242,10 @@ items:
         - tune
         - cm1
         - ml
-
+        - me
+        - num
+        - rep
+        
     - name:  plot1
       title: Variable importance plot
       type:  Image
@@ -241,7 +265,10 @@ items:
         - tune
         - facs
         - ml
-
+        - me
+        - num
+        - rep
+        
     - name:  plot3
       title: ROC plot with test set               
       type:  Image
@@ -261,7 +288,10 @@ items:
         - tune
         - facs
         - ml
-
+        - me
+        - num
+        - rep
+        
     - name:  plot4
       title: Calibration curve with training set               
       type:  Image
@@ -282,7 +312,10 @@ items:
         - tune
         - cm1
         - ml
-
+        - me
+        - num
+        - rep
+        
     - name:  plot5
       title: Box plot              
       type:  Image
@@ -303,7 +336,10 @@ items:
         - tune
         - cm1
         - ml
-
+        - me
+        - num
+        - rep
+        
     - name:  plot6
       title: Density plot              
       type:  Image
@@ -324,7 +360,10 @@ items:
         - tune
         - cm1 
         - ml
-
+        - me
+        - num
+        - rep
+        
     - name:  plot7
       title: Box plots to compare models              
       type:  Image
@@ -345,7 +384,10 @@ items:
         - tune
         - cm1 
         - ml
-
+        - me
+        - num
+        - rep
+        
     - name: pred
       title: Prediction
       type: Output
@@ -362,5 +404,8 @@ items:
         - tune
         - cm1
         - ml
-
+        - me
+        - num
+        - rep
+        
 ...

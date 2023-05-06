@@ -33,18 +33,7 @@ options:
         - ordinal
       permitted:
         - factor
- 
-    - name: mecon
-      title: Methods
-      type: List
-      options:
-        - title: cv
-          name:  cv
-        - title: repeatedcv
-          name:  repeatedcv
-        - title: boot
-          name:  boot
- 
+
     - name: method
       title: Model
       type: List
@@ -55,6 +44,8 @@ options:
           name:  ctree
         - title: knn
           name:  knn
+        - title: rf
+          name:  rf
         - title: rpart
           name:  rpart
         - title: ranger
@@ -65,20 +56,28 @@ options:
           name:  neuralnet
         - title: avNNet
           name:  avNNet
-        - title: xgbTree
-          name:  xgbTree
         - title: gbm
           name:  gbm
-        - title: fda
-          name:  fda
+        - title: glm
+          name:  glm
+        - title: glmboost
+          name:  glmboost
+        - title: glmnet
+          name:  glmnet          
+        - title: blackboost
+          name:  blackboost
         - title: mda
           name:  mda  
-        - title: bag
-          name:  bag  
+        - title: treebag
+          name:  treebag
+        - title: C5.0
+          name:  C5.0
         - title: svmLinear
           name:  svmLinear  
         - title: svmRadial
           name: svmRadial
+        - title: nb
+          name: nb
       default: pls
 
     - name: cm1
@@ -91,6 +90,8 @@ options:
           name:  ctree
         - title: knn
           name:  knn
+        - title: rf
+          name:  rf
         - title: rpart
           name:  rpart
         - title: ranger
@@ -101,21 +102,38 @@ options:
           name:  neuralnet
         - title: avNNet
           name:  avNNet
-        - title: xgbTree
-          name:  xgbTree
         - title: gbm
           name:  gbm
-        - title: fda
-          name:  fda
+        - title: glm
+          name:  glm
+        - title: glmboost
+          name:  glmboost
+        - title: glmnet
+          name:  glmnet   
+        - title: blackboost
+          name:  blackboost
         - title: mda
           name:  mda  
-        - title: bag
-          name:  bag  
+        - title: treebag
+          name:  treebag
         - title: svmLinear
           name:  svmLinear  
         - title: svmRadial
           name: svmRadial  
+        - title: nb
+          name: nb
       default: ctree
+
+    - name: mecon
+      title: Methods
+      type: List
+      options:
+        - title: cv
+          name:  cv
+        - title: repeatedcv
+          name:  repeatedcv
+        - title: boot
+          name:  boot
 
     - name: number
       title: Number
@@ -225,4 +243,28 @@ options:
       title: Model list
       type: String
       default: 'pls,ctree,knn'
+
+    - name: me
+      title: Methods
+      type: List
+      options:
+        - title: cv
+          name:  cv
+        - title: repeatedcv
+          name:  repeatedcv
+        - title: boot
+          name:  boot
+
+    - name: num
+      title: Number
+      type: Number
+      min: 10
+      default: 10    
+
+    - name: rep
+      title: Repeats
+      type: Number
+      min: 5
+      default: 5    
+
 ...

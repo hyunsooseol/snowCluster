@@ -29,6 +29,13 @@
 #' @import ggplot2
 #' @import jmvcore
 #' @import RANN
+#' @import klaR
+#' @import randomForest
+#' @import ada
+#' @import plyr
+#' @import mboost
+#' @import glmnet
+#' @import h2o
 #' @export
 
 
@@ -83,7 +90,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 method <- self$options$method
                 cm1 <- self$options$cm1
                 ml <- self$options$ml
-                
+                me <- self$options$me
+                rep <- self$options$rep
+                num <- self$options$num
                 
                 data <- self$data
                 dep <- self$options$dep
@@ -190,14 +199,14 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     
                     # https://www.machinelearningplus.com/machine-learning/caret-package/
                     # Stacking Algorithms - Run multiple algos in one call.
-                    
-                    # fitControl <- caret::trainControl(method = mecon, 
-                    #                                   number =number , 
-                    #                                   repeats = repeats,
-                    #                                   p=per,
-                    #                                   classProbs=T,
-                    #                                   savePredictions = T)
-                    
+
+                    trControl <- caret::trainControl(method = me,
+                                                      number =num,
+                                                      repeats = rep,
+                                                      p=per,
+                                                      classProbs=T,
+                                                      savePredictions = T)
+
                     ml <- self$options$ml 
                     ml <- strsplit(self$options$ml, ',')[[1]]
                     algorithmList <- ml
@@ -206,7 +215,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     
                     models <- caretEnsemble::caretList(formula,
                                                        data=train,
-                                                       trControl=fitControl, 
+                                                       trControl=trControl, 
                                                        methodList=algorithmList) 
                     results <- resamples(models)
                     res<- summary(results)

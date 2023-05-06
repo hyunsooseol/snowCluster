@@ -9,9 +9,9 @@ caret(
   dep,
   covs,
   facs,
-  mecon,
   method = "pls",
   cm1 = "ctree",
+  mecon,
   number = 10,
   repeats = 5,
   tune = 10,
@@ -31,7 +31,10 @@ caret(
   plot6 = FALSE,
   ensemble = FALSE,
   plot7 = FALSE,
-  ml = "pls,ctree,knn"
+  ml = "pls,ctree,knn",
+  me,
+  num = 10,
+  rep = 5
 )
 }
 \arguments{
@@ -43,11 +46,11 @@ caret(
 
 \item{facs}{.}
 
-\item{mecon}{.}
-
 \item{method}{.}
 
 \item{cm1}{.}
+
+\item{mecon}{.}
 
 \item{number}{.}
 
@@ -88,6 +91,12 @@ caret(
 \item{plot7}{.}
 
 \item{ml}{.}
+
+\item{me}{.}
+
+\item{num}{.}
+
+\item{rep}{.}
 }
 \value{
 A results object containing:
