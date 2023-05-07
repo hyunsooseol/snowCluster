@@ -12,6 +12,7 @@
 #' @importFrom lattice strip.custom
 #' @importFrom caret dummyVars
 #' @importFrom caretEnsemble caretList
+#' @importFrom caret resamples
 #' @importFrom lattice bwplot
 #' @import caret
 #' @import xgboost
@@ -77,6 +78,34 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       
               .run = function() {
 
+                
+                # # iris example in R-----------
+                # library(caret) 
+                # data(iris)
+                # 
+                # #Split into train and test dataset
+                # trainIndex <- createDataPartition(iris$Species, p = .8,
+                #                                   list = FALSE,
+                #                                   times = 1)
+                # train <- iris[ trainIndex,]
+                # test  <- iris[-trainIndex,] 
+                # 
+                # fitControl <- trainControl(
+                #   method = "repeatedcv",
+                #   number = 10,
+                #   repeats = 5)  
+                # 
+                # dt.fit <- train(Species ~ ., data = train,
+                #                 method = "rpart",
+                #                 trControl = fitControl,
+                #                 preProcess=c("center", "scale"))  
+                # 
+                # predictions <- predict(dt.fit, test)
+                # predictions  
+                # 
+                # eval<- confusionMatrix(predictions, test$Species)  
+                # 
+                
           
                 if (is.null(self$options$dep) || length(self$options$covs) == 0)
                   return()
@@ -149,12 +178,12 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   test <- predict(preProcValues, test1)
                     
                 
-                #### Dummy coding for factors vars.-------------------
+                # Dummy coding for factors vars.-------------------
                 
                   if ( !is.null(self$options$facs) && self$options$facs==TRUE) {
                     
                    
-                    # To speed up the function------
+                 # To speed up the function------
                     
                     formula <- as.formula(paste0(self$options$dep, " ~ ."))
                     
@@ -166,46 +195,46 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   # Create the dummy variables using predict. The Y variable (Purchase) will not be present in trainData_mat.
                   trainData_mat <- predict(dummies_model, newdata = test1)
                   
-                  # # Convert to dataframe
+                  # Convert to dataframe
                   train <- data.frame(trainData_mat)
                  
                   }
                   
                   # trainControl function-----------
                 
-                fitControl <- caret::trainControl(method = mecon, 
-                                                  number =number , 
-                                                  repeats = repeats,
-                                                  p=per,
-                                                  classProbs=T,
-                                                  savePredictions = T)
-               
+                   ctrl <- caret::trainControl(method = mecon, 
+                                                       number =number , 
+                                                       repeats = repeats,
+                                                       p=per,
+                                                       classProbs=T,
+                                                       savePredictions = T)
+                                         
+                  
                 # Training dataset---------------
                
                   fit <- caret::train(formula,
                                       data=train,
                                       method = method,
                                       tuneLength = tune,
-                                      trControl = fitControl)
+                                      trControl =  ctrl)
+                  
+                              
                   
                 # Model information-----------
                 
                  self$results$text$setContent(fit)
                 
-                 ####################################################################
+                 
                 # Compare models--------------
-                  
-                  if(self$options$ensemble==TRUE){
-                    
-                    # https://www.machinelearningplus.com/machine-learning/caret-package/
-                    # Stacking Algorithms - Run multiple algos in one call.
+               # https://www.machinelearningplus.com/machine-learning/caret-package/
+               # Stacking Algorithms - Run multiple algos in one call.
 
-                    trControl <- caret::trainControl(method = me,
-                                                      number =num,
-                                                      repeats = rep,
-                                                      p=per,
-                                                      classProbs=T,
-                                                      savePredictions = T)
+                    ctrl.comp <- caret::trainControl (method = me,
+                                                   number =num,
+                                                   repeats = rep,
+                                                   p=per,
+                                                   classProbs=T,
+                                                   savePredictions = T)
 
                     ml <- self$options$ml 
                     ml <- strsplit(self$options$ml, ',')[[1]]
@@ -215,25 +244,83 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     
                     models <- caretEnsemble::caretList(formula,
                                                        data=train,
-                                                       trControl=trControl, 
+                                                       trControl= ctrl.comp, 
                                                        methodList=algorithmList) 
-                    results <- resamples(models)
+                    results <- caret::resamples(models)
                     res<- summary(results)
                     
-                    self$results$text2$setContent(res)
+                    #self$results$text2$setContent(res)
+                    
+                    # Accuracy Table---------
+                    
+                    if(self$options$accu==TRUE){
+                    
+                      table <- self$results$accu
+                      
+                      accu<- data.frame(res$statistics$Accuracy)
+                      
+                      names <- dimnames(accu)[[1]]
+                      
+                      for (name in names) {
+                        
+                        row <- list()
+                        
+                        row[["min"]] <- accu[name, 1]
+                        row[["q1"]] <- accu[name, 2]
+                        row[["med"]] <- accu[name, 3]
+                        row[["me"]] <- accu[name, 4]
+                        row[["q3"]] <- accu[name, 5]
+                        row[["max"]] <- accu[name, 6]
+                        row[["na"]] <- accu[name, 7]
+                        
+                        table$addRow(rowKey=name, values=row)
+                        
+                      }
+                      
+                    }
+                    
+                    
+                    # kappa Table---------
+                    
+                    if(self$options$kapp==TRUE){
+                      
+                      table <- self$results$kapp
+                      
+                      kapp<- data.frame(res$statistics$Kappa)
+                      
+                      names <- dimnames(kapp)[[1]]
+                      
+                      for (name in names) {
+                        
+                        row <- list()
+                        
+                        row[["min"]] <- kapp[name, 1]
+                        row[["q1"]] <- kapp[name, 2]
+                        row[["med"]] <- kapp[name, 3]
+                        row[["me"]] <- kapp[name, 4]
+                        row[["q3"]] <- kapp[name, 5]
+                        row[["max"]] <- kapp[name, 6]
+                        row[["na"]] <- kapp[name, 7]
+                        
+                        table$addRow(rowKey=name, values=row)
+                        
+                      }
+                    }
+                      
+                    if(self$options$plot7==TRUE){
+                    # box plots for model comparison---- 
                     
                     image7 <- self$results$plot7
                     image7$setState(results)
                     
-                  }
-                  ###############################################################################
-                  
+                    }
+                
                   # Compare ROC curves------------------ 
                  comp <- caret::train(formula,
                                       data=train,
                                       method = cm1,
                                       tuneLength = tune,
-                                      trControl = fitControl)
+                                      trControl =  ctrl)
                  
                 
                 # Comparing ROC curves with training set-----------------
@@ -299,7 +386,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     
                     # trainControl function-----------
                     
-                    fitControl <- caret::trainControl(method = mecon, 
+                    ctrl <- caret::trainControl(method = mecon, 
                                                       number =number , 
                                                       repeats = repeats,
                                                       classProbs=T,
@@ -311,7 +398,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                         data=data,
                                         method = method,
                                         tuneLength = tune,
-                                        trControl = fitControl)
+                                        trControl =  ctrl)
                     
                     # new data-----------
                     #dataset to predict dep. with train model------------
@@ -722,34 +809,5 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         TRUE
       }
       
-      
-      
-      # # iris example in R-----------
-      # library(caret) 
-      # data(iris)
-      # 
-      # #Split into train and test dataset
-      # trainIndex <- createDataPartition(iris$Species, p = .8,
-      #                                   list = FALSE,
-      #                                   times = 1)
-      # train <- iris[ trainIndex,]
-      # test  <- iris[-trainIndex,] 
-      # 
-      # fitControl <- trainControl(
-      #   method = "repeatedcv",
-      #   number = 10,
-      #   repeats = 5)  
-      # 
-      # dt.fit <- train(Species ~ ., data = train,
-      #                 method = "rpart",
-      #                 trControl = fitControl,
-      #                 preProcess=c("center", "scale"))  
-      # 
-      # predictions <- predict(dt.fit, test)
-      # predictions  
-      # 
-      # eval<- confusionMatrix(predictions, test$Species)  
-      # 
-     
        )
 )

@@ -141,11 +141,15 @@ children:
                 format: number
               - type: TextBox
                 name: rep
-                format: number 
+                format: number
           - type: Label
-            label: Statistics
+            label: Model comparison
             children:
               - type: CheckBox
-                name: ensemble
+                name: accu
+              - type: CheckBox
+                name: kapp
               - type: CheckBox
                 name: plot7
+
+  

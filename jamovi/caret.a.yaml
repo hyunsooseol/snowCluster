@@ -134,6 +134,9 @@ options:
           name:  repeatedcv
         - title: boot
           name:  boot
+        - title: boot_all
+          name:  boot_all
+      default: cv
 
     - name: number
       title: Number
@@ -229,20 +232,15 @@ options:
       type: Bool
       default: FALSE      
 
-    - name: ensemble
-      title: Compare models
-      type: Bool 
-      default: FALSE   
-      
     - name: plot7
-      title: Model comparison plot         
+      title: Box plot         
       type: Bool
       default: FALSE         
 
     - name: ml
       title: Model list
       type: String
-      default: 'pls,ctree,knn'
+      default: 'pls,ctree,knn,rf'
 
     - name: me
       title: Methods
@@ -254,6 +252,9 @@ options:
           name:  repeatedcv
         - title: boot
           name:  boot
+        - title: boot_all
+          name:  boot_all
+      default: cv
 
     - name: num
       title: Number
@@ -266,5 +267,15 @@ options:
       type: Number
       min: 5
       default: 5    
+
+    - name: accu
+      title: 'Accuracy'
+      type: Bool
+      default: false
+
+    - name: kapp
+      title: 'Kappa'
+      type: Bool
+      default: false
 
 ...
