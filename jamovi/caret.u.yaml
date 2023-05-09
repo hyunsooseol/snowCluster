@@ -116,12 +116,10 @@ children:
     label: Compare models
     margin: normal
     collapsed: true
+    stretchFactor: 1
     children:
       - type: LayoutBox
         margin: large
-        cell:
-          column: 0
-          row: 0
         stretchFactor: 1
         children:
           - type: Label
@@ -130,7 +128,7 @@ children:
               - name: ml
                 type: TextBox
                 format: string
-                stretchFactor: 3
+                stretchFactor: 2
           - type: Label
             label: Tuning parameters
             children:

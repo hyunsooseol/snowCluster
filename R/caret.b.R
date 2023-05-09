@@ -32,7 +32,6 @@
 #' @import RANN
 #' @import klaR
 #' @import randomForest
-#' @import ada
 #' @import plyr
 #' @import mboost
 #' @import glmnet
