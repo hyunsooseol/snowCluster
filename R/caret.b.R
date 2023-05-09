@@ -35,7 +35,7 @@
 #' @import plyr
 #' @import mboost
 #' @import glmnet
-#' @import h2o
+#' @import C50
 #' @export
 
 

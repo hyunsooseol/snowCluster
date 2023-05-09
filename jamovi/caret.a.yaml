@@ -116,6 +116,8 @@ options:
           name:  mda  
         - title: treebag
           name:  treebag
+        - title: C5.0
+          name:  C5.0
         - title: svmLinear
           name:  svmLinear  
         - title: svmRadial

@@ -110,6 +110,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "blackboost",
                     "mda",
                     "treebag",
+                    "C5.0",
                     "svmLinear",
                     "svmRadial",
                     "nb"),
