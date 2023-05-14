@@ -179,7 +179,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 # Dummy coding for factors vars.-------------------
                 
-                  if ( !is.null(self$options$facs) && self$options$facs==TRUE) {
+                  if(isTRUE(self$options$facs==TRUE)){
+                  #if(isTRUE(condition)==TRUE) {do something}
+                    
+                  #if ( !is.null(self$options$facs) && self$options$facs==TRUE) {
                     
                    
                  # To speed up the function------
