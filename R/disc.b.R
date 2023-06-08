@@ -48,7 +48,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .run = function() {
             
-            if (is.null(self$options$dep) || length(self$options$covs) == 0)
+            if (is.null(self$options$dep) || length(self$options$covs) < 2)
                 return()
             
             
@@ -298,10 +298,11 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             image$setState(df)
             
             # Histogram---------------------
-           
+            if(length(self$options$covs) >2){
+              
             image1 <- self$results$plot1
             image1$setState(lda.train)
-            
+            }
            
             # partion plots---------------------
             
@@ -344,8 +345,9 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         .plot1 = function(image1,...) {
             
-          if (is.null(image1$state))
-            return(FALSE)
+        
+           if (is.null(image1$state))
+             return(FALSE)
           
             
             lda.train <- image1$state

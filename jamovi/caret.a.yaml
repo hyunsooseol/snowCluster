@@ -48,8 +48,6 @@ options:
           name:  rf
         - title: rpart
           name:  rpart
-        - title: ranger
-          name:  ranger
         - title: nnet
           name:  nnet
         - title: neuralnet
@@ -94,8 +92,6 @@ options:
           name:  rf
         - title: rpart
           name:  rpart
-        - title: ranger
-          name:  ranger
         - title: nnet
           name:  nnet
         - title: neuralnet

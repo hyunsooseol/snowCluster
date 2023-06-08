@@ -74,7 +74,6 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "knn",
                     "rf",
                     "rpart",
-                    "ranger",
                     "nnet",
                     "neuralnet",
                     "avNNet",
@@ -99,7 +98,6 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "knn",
                     "rf",
                     "rpart",
-                    "ranger",
                     "nnet",
                     "neuralnet",
                     "avNNet",
@@ -897,7 +895,8 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 revision = revision,
                 pause = NULL,
                 completeWhenFilled = FALSE,
-                requiresMissings = FALSE)
+                requiresMissings = FALSE,
+                weightsSupport = 'none')
         }))
 
 #' Machine Learning

@@ -17,7 +17,6 @@
 #' @import caret
 #' @import xgboost
 #' @import rpart.plot
-#' @import ranger
 #' @import neuralnet
 #' @import pls
 #' @import party
