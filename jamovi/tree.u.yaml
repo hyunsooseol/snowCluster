@@ -41,7 +41,16 @@ children:
                 name: per
                 format: number
           - type: Label
-            label: Tables
+            label: Training set
+            children:
+              - type: CheckBox
+                name: over1
+              - type: CheckBox
+                name: tab1
+              - type: CheckBox
+                name: cla1
+          - type: Label
+            label: Test set
             children:
               - type: CheckBox
                 name: over

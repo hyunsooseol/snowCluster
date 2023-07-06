@@ -11,9 +11,12 @@ tree(
   facs,
   per = 0.7,
   plot = FALSE,
-  over = TRUE,
+  over = FALSE,
   tab = FALSE,
-  cla = FALSE
+  cla = FALSE,
+  over1 = TRUE,
+  tab1 = FALSE,
+  cla1 = FALSE
 )
 }
 \arguments{
@@ -34,12 +37,21 @@ tree(
 \item{tab}{.}
 
 \item{cla}{.}
+
+\item{over1}{.}
+
+\item{tab1}{.}
+
+\item{cla1}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$over1} \tab \tab \tab \tab \tab a table \cr
+  \code{results$tab1} \tab \tab \tab \tab \tab a table \cr
+  \code{results$cla1} \tab \tab \tab \tab \tab a table \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
@@ -48,9 +60,9 @@ A results object containing:
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 
-\code{results$over$asDF}
+\code{results$over1$asDF}
 
-\code{as.data.frame(results$over)}
+\code{as.data.frame(results$over1)}
 }
 \description{
 Decision Tree

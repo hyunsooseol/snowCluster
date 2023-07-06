@@ -121,7 +121,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         # Create Train/test dataset using caret package-----------------
         
-        set.seed(1234)
+        #set.seed(1234)
         
         split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
         train1 <-data[split1,]
@@ -133,39 +133,109 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                            method = c("center", "scale"))
         
         train <- predict(preProcValues, train1)
-        
-        # check<- head(trainTransformed)
-        # self$results$text$setContent(check)
-        
         test <- predict(preProcValues, test1)
         
-        
-        
+       
         ### Analysis using party package-----------
         
         model.train <- party::ctree(formula, data=train)
                             
-       # Model information--------
+     
+        # prediction on train Data itself
         
-      #  self$results$text$setContent(model.train)
+        train.pred <- predict(model.train,train)
+        
+       
+        #----------------------------
+        eval1<- caret::confusionMatrix(train.pred, train[[dep]]) 
+        
+        #---------------------------
+        
+        tab1<- eval1$table
+        
+        res2<- as.matrix(tab1)
+        
+        names<- dimnames(res2)[[1]]
+        
+        table <- self$results$tab1
+        
+        for (name in names) {
+          
+          table$addColumn(name = paste0(name),
+                          type = 'Integer',
+                          superTitle = 'Predicted')
+        }
+        
+        for (name in names) {
+          
+          row <- list()
+          
+          for(j in seq_along(names)){
+            
+            row[[names[j]]] <- res2[name,j]
+            
+          }
+          
+          table$addRow(rowKey=name, values=row)
+          
+        }
+        
+        # Overall statistics-----------
+        
+        table <- self$results$over1
+        
+        acc<- eval1[["overall"]][1]
+        acclow <- eval1[["overall"]][3]
+        acchigh <- eval1[["overall"]][4]
+        kappa <- eval1[["overall"]][2]
+        
+        row <- list()
+        
+        row[['accu']] <- acc
+        row[['lower']] <- acclow
+        row[['upper']] <- acchigh
+        row[['kappa']] <- kappa
+        
+        table$setRow(rowNo = 1, values = row)
+        
+        # Statistics by class-----------
+        
+        table <- self$results$cla1
+        
+        cla1<- eval1[["byClass"]]
+        cla1<- t(cla1)
+        cla1 <- as.data.frame(cla1)
+        
+        names<- dimnames(cla1)[[1]]
+        dims <- dimnames(cla1)[[2]]
+        covs <- self$options$covs 
+        
+        for (dim in dims) {
+          
+          table$addColumn(name = paste0(dim),
+                          type = 'number')
+        }
         
         
-        # Tree plot----------
+        for (name in names) {
+          
+          row <- list()
+          
+          
+          for(j in seq_along(dims)){
+            
+            row[[dims[j]]] <- cla1[name,j]
+            
+          }
+          
+          table$addRow(rowKey=name, values=row)
+          
+          
+        }
         
-        image <- self$results$plot
-        image$setState(model.train)
         
+        ############## Test set##############################################        
         # Prediction and Confusion Matrix-----
-        
-        # pred<- stats::predict(model.train,test,type='class')
-        # 
-        # # self$results$text$setContent(pred)
-        # 
-        # actual <- test[[dep]]
-        # 
-        # #######################
-        # eval<- caret::confusionMatrix(actual, pred, mod='everything')
-        # ######################
         
         pred<-predict(model.train, test)
         
@@ -257,6 +327,12 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           
           
         }
+        
+        # Tree plot----------
+        
+        image <- self$results$plot
+        image$setState(model.train)
+        
         
       },
       

@@ -13,6 +13,68 @@ items:
       title: ''
       type:  Preformatted
 
+    - name: over1
+      title: 'Overall statistics with train data'
+      type: Table
+      rows: 1
+      visible: (over1)
+      clearWith:
+        - covs
+        - dep
+        - per
+        - facs
+      refs: caret    
+
+      columns:
+        - name: accu
+          title: 'Accuracy'
+          type: number
+        - name: lower
+          title: 'Lower'
+          type: number
+          superTitle: 'Accuracy 95% CI'
+        - name: upper
+          title: 'Upper'
+          type: number
+          superTitle: 'Accuracy 95% CI'
+        - name: kappa
+          title: 'Kappa'
+          type: number
+
+    - name: tab1
+      title: 'Confusion Matrix with train data'
+      type: Table
+      visible: (tab1)
+      refs: caret 
+      clearWith:
+        - covs 
+        - dep
+        - per
+        - facs
+        
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
+    - name: cla1
+      title: 'Statistics by class with train data'
+      type: Table
+      visible: (cla1)
+      refs: caret 
+      clearWith:
+        - covs
+        - dep
+        - per
+        - facs
+ 
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
     - name: over
       title: 'Overall statistics with test set'
       type: Table
