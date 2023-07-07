@@ -71,7 +71,4 @@ options:
       type: Bool 
       default: FALSE          
 
-    - name: cla1
-      title: Statistics by class
-      type: Bool 
-      default: FALSE     
+ 

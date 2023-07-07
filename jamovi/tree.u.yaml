@@ -47,17 +47,6 @@ children:
                 name: over1
               - type: CheckBox
                 name: tab1
-              - type: CheckBox
-                name: cla1
-          - type: Label
-            label: Test set
-            children:
-              - type: CheckBox
-                name: over
-              - type: CheckBox
-                name: tab
-              - type: CheckBox
-                name: cla
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -67,7 +56,16 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: Plot
+            label: Test set
+            children:
+              - type: CheckBox
+                name: over
+              - type: CheckBox
+                name: tab
+              - type: CheckBox
+                name: cla
+          - type: Label
+            label: Model 
             children:
               - type: CheckBox
                 name: plot

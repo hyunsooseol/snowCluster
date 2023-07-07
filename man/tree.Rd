@@ -15,8 +15,7 @@ tree(
   tab = FALSE,
   cla = FALSE,
   over1 = TRUE,
-  tab1 = FALSE,
-  cla1 = FALSE
+  tab1 = FALSE
 )
 }
 \arguments{
@@ -41,8 +40,6 @@ tree(
 \item{over1}{.}
 
 \item{tab1}{.}
-
-\item{cla1}{.}
 }
 \value{
 A results object containing:
@@ -51,7 +48,6 @@ A results object containing:
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$over1} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab1} \tab \tab \tab \tab \tab a table \cr
-  \code{results$cla1} \tab \tab \tab \tab \tab a table \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
   \code{results$cla} \tab \tab \tab \tab \tab a table \cr

@@ -101,25 +101,16 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         
         ###########################################################
-        set.seed(1234)
         
-        # split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
-        # 
-        # ##########################################################
-        # train <-data[split1,]
-        # test <- data[-split1,] 
-        #   
-        # formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
-        # formula <- as.formula(formula)
-        # 
-        # 
+        #set.seed(1234)
+        
         
         # To speed up the function------
         
         formula <- as.formula(paste0(self$options$dep, " ~ ."))
         
         
-        # Create Train/test dataset using caret package-----------------
+        # Create Train/test data set using caret package-----------------
         
         #set.seed(1234)
         
@@ -132,15 +123,16 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         preProcValues <- caret::preProcess(train1, 
                                            method = c("center", "scale"))
         
+        
+        #--------------------------------------------
         train <- predict(preProcValues, train1)
         test <- predict(preProcValues, test1)
-        
+        #-------------------------------------------
        
         ### Analysis using party package-----------
         
         model.train <- party::ctree(formula, data=train)
-                            
-     
+        
         # prediction on train Data itself
         
         train.pred <- predict(model.train,train)
@@ -198,50 +190,12 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         table$setRow(rowNo = 1, values = row)
         
-        # Statistics by class-----------
-        
-        table <- self$results$cla1
-        
-        cla1<- eval1[["byClass"]]
-        cla1<- t(cla1)
-        cla1 <- as.data.frame(cla1)
-        
-        names<- dimnames(cla1)[[1]]
-        dims <- dimnames(cla1)[[2]]
-        covs <- self$options$covs 
-        
-        for (dim in dims) {
-          
-          table$addColumn(name = paste0(dim),
-                          type = 'number')
-        }
-        
-        
-        for (name in names) {
-          
-          row <- list()
-          
-          
-          for(j in seq_along(dims)){
-            
-            row[[dims[j]]] <- cla1[name,j]
-            
-          }
-          
-          table$addRow(rowKey=name, values=row)
-          
-          
-        }
-        
         
         ############## Test set##############################################        
-        # Prediction and Confusion Matrix-----
-        
+       
         pred<-predict(model.train, test)
         
-        #self$results$text$setContent(pred)
-        
-        #----------------------------
+       #----------------------------
         eval<- caret::confusionMatrix(pred, test[[dep]]) 
         
         #---------------------------
