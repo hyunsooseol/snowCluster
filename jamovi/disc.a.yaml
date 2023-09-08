@@ -12,7 +12,7 @@ options:
 
     - name: dep
       type: Variable
-      title: Dependent Variable
+      title: Dependent Variable(Required)
       suggested:
         - nominal
       permitted:
