@@ -37,12 +37,7 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             private$..vars <- jmvcore::OptionVariables$new(
                 "vars",
-                vars,
-                suggested=list(
-                    "continuous"),
-                permitted=list(
-                    "numeric",
-                    "factor"))
+                vars)
             private$..facs <- jmvcore::OptionVariable$new(
                 "facs",
                 facs,

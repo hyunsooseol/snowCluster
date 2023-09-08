@@ -15,12 +15,7 @@ options:
     - name: vars
       title: Variables
       type: Variables
-      suggested:
-         - continuous
-      permitted:
-        - numeric
-        - factor
-       
+ 
     - name: facs
       title: Factor(Optional)
       type: Variable
