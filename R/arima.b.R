@@ -41,7 +41,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <body>
             <div class='instructions'>
             
-            <p><b>Instructions</b></p>
+            <h2><b>Instructions</b></h2>
             <p>_____________________________________________________________________________________________</p>
             <p>1. Do NOT move the variable into <b>Time box</b> to run ARIMA analysis. 
             <p>2. In order to perform a prophet analysis, the variables must be named <b>'ds' and 'y'</b> respectively.</p>

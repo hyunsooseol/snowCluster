@@ -28,7 +28,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
-            <p><b>Instructions</b></p>
+            <h2><b>Instructions</b></h2>
             <p>____________________________________________________________________________________</p>
             <p> 1. Classification analysis based on <b>party</b> R package.</p>
             <p> 2. The values for the target variable cannot be a number. </p> 

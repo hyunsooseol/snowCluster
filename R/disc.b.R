@@ -31,7 +31,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
-            <p><b>Instructions</b></p>
+            <h2><b>Instructions</b></h2>
             <p>____________________________________________________________________________________</p>
             <p> 1. The rationale of Discriminant Analysis is described in the <a href='https://rpubs.com/Nolan/298913' target = '_blank'>page.</a></p>
             <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>

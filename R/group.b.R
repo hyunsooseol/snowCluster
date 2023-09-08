@@ -14,8 +14,11 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     private = list(
         .run = function() {
 
-            if (!is.null(self$options$vars)) {
-                
+          
+          if (is.null(self$options$facs) || length(self$options$vars) < 2)
+            return()
+          
+         
                 
                 # read the option values into shorter variable names
                 
@@ -58,7 +61,7 @@ groupClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 image1 <- self$results$plot1
                 image1$setState(pca)
-            }
+            
             
         },
         

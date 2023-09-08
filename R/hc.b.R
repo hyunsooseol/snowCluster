@@ -25,7 +25,7 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
-            <p><b>Instructions</b></p>
+            <h2><b>Instructions</b></h2>
             <p>____________________________________________________________________________________</p>
             <p>1. Do not move any variable into <b> Labels </b> box to get cluster number.</p>
             <p>2. Cluster numbers will be displayed in the datasheet. </p>
