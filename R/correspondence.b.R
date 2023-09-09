@@ -14,11 +14,42 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     "correspondenceClass",
     inherit = correspondenceBase,
     private = list(
-        .run = function() {
+
+      #------------------------------------
+      
+      .init = function() {
+        if (is.null(self$data) | is.null(self$options$vars)) {
+          self$results$instructions$setVisible(visible = TRUE)
+          
+        }
+        
+        self$results$instructions$setContent(
+          "<html>
+            <head>
+            </head>
+            <body>
+            <div class='instructions'>
+            <p>____________________________________________________________________________________</p>
+            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>____________________________________________________________________________________</p>
+            
+            </div>
+            </body>
+            </html>"
+        )
+        
+      },      
+      
+      
+              .run = function() {
 
             
             if(length(self$options$vars>2)){
                 
+              if(length(self$options$vars) < 3)
+                return()
+              
+              
                 vars <- self$options$vars
                 
                 data <- self$data

@@ -50,6 +50,7 @@ correspondence(
 \value{
 A results object containing:
 \tabular{llllll}{
+  \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$chi} \tab \tab \tab \tab \tab a table \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr

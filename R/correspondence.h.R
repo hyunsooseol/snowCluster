@@ -135,6 +135,7 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
     "correspondenceResults",
     inherit = jmvcore::Group,
     active = list(
+        instructions = function() private$.items[["instructions"]],
         chi = function() private$.items[["chi"]],
         eigen = function() private$.items[["eigen"]],
         loadingvar = function() private$.items[["loadingvar"]],
@@ -151,6 +152,11 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 name="",
                 title="Correspondence Analysis",
                 refs="snowCluster")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="instructions",
+                title="Instructions",
+                visible=TRUE))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="chi",
@@ -346,6 +352,7 @@ correspondenceBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class
 #' @param plot4 .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$chi} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
