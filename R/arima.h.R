@@ -15,7 +15,7 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot1 = FALSE,
             plot2 = FALSE,
             plot3 = FALSE,
-            coef = FALSE,
+            coef = TRUE,
             fit = FALSE,
             point = FALSE,
             plot4 = FALSE,
@@ -77,7 +77,7 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..coef <- jmvcore::OptionBool$new(
                 "coef",
                 coef,
-                default=FALSE)
+                default=TRUE)
             private$..fit <- jmvcore::OptionBool$new(
                 "fit",
                 fit,
@@ -467,7 +467,7 @@ arima <- function(
     plot1 = FALSE,
     plot2 = FALSE,
     plot3 = FALSE,
-    coef = FALSE,
+    coef = TRUE,
     fit = FALSE,
     point = FALSE,
     plot4 = FALSE,

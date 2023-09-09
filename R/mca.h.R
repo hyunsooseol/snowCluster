@@ -142,6 +142,7 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mcaResults",
     inherit = jmvcore::Group,
     active = list(
+        instructions = function() private$.items[["instructions"]],
         eigen = function() private$.items[["eigen"]],
         loadingvar = function() private$.items[["loadingvar"]],
         loadingind = function() private$.items[["loadingind"]],
@@ -159,6 +160,11 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="",
                 title="Multiple Correspondence Analysis",
                 refs="snowCluster")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="instructions",
+                title="Instructions",
+                visible=TRUE))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="eigen",
@@ -325,6 +331,7 @@ mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot6 .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr

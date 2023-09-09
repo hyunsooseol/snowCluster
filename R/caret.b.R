@@ -105,7 +105,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 # 
                 
           
-                if (is.null(self$options$dep) || length(self$options$covs) == 0)
+                if (is.null(self$options$dep) || length(self$options$covs) <2)
                   return()
                 
                

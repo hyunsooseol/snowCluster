@@ -53,6 +53,7 @@ mca(
 \value{
 A results object containing:
 \tabular{llllll}{
+  \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
   \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr

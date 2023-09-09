@@ -72,7 +72,7 @@ options:
     - name: coef
       title: 'Model coefficients'
       type: Bool
-      default: false
+      default: TRUE
 
     - name: fit
       title: 'Model fit '
