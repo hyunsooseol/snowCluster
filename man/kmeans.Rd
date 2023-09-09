@@ -7,7 +7,7 @@
 kmeans(
   data,
   vars,
-  k = 2,
+  k = 1,
   algo = "Hartigan-Wong",
   nstart = 10,
   stand = FALSE,
@@ -45,6 +45,7 @@ where 0 degrees represents completely horizontal labels.}
 \value{
 A results object containing:
 \tabular{llllll}{
+  \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$ss} \tab \tab \tab \tab \tab a table \cr
   \code{results$clustering} \tab \tab \tab \tab \tab a table \cr

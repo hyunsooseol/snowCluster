@@ -17,7 +17,27 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         private = list(
             .init = function() {
                 
-                ##initialize the centroids of cluster table-------------
+              if (is.null(self$data) | is.null(self$options$vars)) {
+                self$results$instructions$setVisible(visible = TRUE)
+                
+              }
+              
+              self$results$instructions$setContent(
+                "<html>
+            <head>
+            </head>
+            <body>
+            <div class='instructions'>
+            <p>____________________________________________________________________________________</p>
+            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p>____________________________________________________________________________________</p>
+            
+            </div>
+            </body>
+            </html>"
+              )
+              
+              ##initialize the centroids of cluster table-------------
                 
                 tab2 <- self$results$centroids
                 vars <- self$options$vars
@@ -79,8 +99,12 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             ########################################################
             
             .run = function() {
-                if (!is.null(self$options$vars)) {
+                
+              if (!is.null(self$options$vars)) {
                     
+                if (length(self$options$vars)<2) return() 
+                
+                
                     vars <- self$options$vars
                     
                     data <- self$data

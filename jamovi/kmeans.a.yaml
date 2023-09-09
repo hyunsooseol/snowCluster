@@ -23,7 +23,7 @@ options:
 
     - name: k
       title: Number of clusters
-      default: 2
+      default: 1
       type: Integer
       min: 1
 

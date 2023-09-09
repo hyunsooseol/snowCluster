@@ -7,7 +7,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             vars = NULL,
-            k = 2,
+            k = 1,
             algo = "Hartigan-Wong",
             nstart = 10,
             stand = FALSE,
@@ -33,7 +33,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..k <- jmvcore::OptionInteger$new(
                 "k",
                 k,
-                default=2,
+                default=1,
                 min=1)
             private$..algo <- jmvcore::OptionList$new(
                 "algo",
@@ -119,6 +119,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "kmeansResults",
     inherit = jmvcore::Group,
     active = list(
+        instructions = function() private$.items[["instructions"]],
         text = function() private$.items[["text"]],
         ss = function() private$.items[["ss"]],
         clustering = function() private$.items[["clustering"]],
@@ -136,6 +137,11 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="",
                 title="K-means Clustering",
                 refs="snowCluster")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="instructions",
+                title="Instructions",
+                visible=TRUE))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
@@ -311,6 +317,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot3 .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$ss} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$clustering} \tab \tab \tab \tab \tab a table \cr
@@ -332,7 +339,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 kmeans <- function(
     data,
     vars,
-    k = 2,
+    k = 1,
     algo = "Hartigan-Wong",
     nstart = 10,
     stand = FALSE,
