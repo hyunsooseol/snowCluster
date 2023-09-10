@@ -40,6 +40,8 @@ children:
               - type: TextBox
                 name: per
                 format: number
+              - type: ComboBox
+                name: trans
           - type: Label
             label: Training Model
             children:

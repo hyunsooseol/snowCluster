@@ -109,6 +109,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                   return()
                 
                
+                trans <- self$options$trans
                 mecon <- self$options$mecon
                 repeats <- self$options$repeats
                 number <- self$options$number
@@ -168,7 +169,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 # for missing values with continuous variables..
                   
                   preProcValues <- caret::preProcess(train1,
-                                                     method = "bagImpute")
+                                                     method = trans)
                   
                   self$results$text1$setContent(preProcValues)
                   

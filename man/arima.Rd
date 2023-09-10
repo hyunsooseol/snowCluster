@@ -15,7 +15,7 @@ arima(
   plot1 = FALSE,
   plot2 = FALSE,
   plot3 = FALSE,
-  coef = FALSE,
+  coef = TRUE,
   fit = FALSE,
   point = FALSE,
   plot4 = FALSE,

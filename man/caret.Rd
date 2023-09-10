@@ -9,6 +9,7 @@ caret(
   dep,
   covs,
   facs,
+  trans = "bagImpute",
   method = "pls",
   cm1 = "ctree",
   mecon = "cv",
@@ -46,6 +47,8 @@ caret(
 \item{covs}{.}
 
 \item{facs}{.}
+
+\item{trans}{.}
 
 \item{method}{.}
 

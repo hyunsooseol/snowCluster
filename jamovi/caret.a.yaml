@@ -34,6 +34,22 @@ options:
       permitted:
         - factor
 
+    - name: trans
+      title: Transformation
+      type: List
+      options:
+        - title: range
+          name:  range
+        - title: center
+          name:  center
+        - title: scale
+          name:  scale
+        - title: knnImpute
+          name:  knnImpute      
+        - title: bagImpute
+          name:  bagImpute
+      default: bagImpute
+
     - name: method
       title: Model
       type: List

@@ -37,6 +37,7 @@ items:
         - me
         - num
         - rep
+        - trans
 
       columns:
         - name: accu
@@ -74,6 +75,8 @@ items:
         - me
         - num
         - rep
+        - trans
+
         
       columns:
         - name: accu
@@ -110,6 +113,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
       columns:
         - name: name
@@ -135,6 +139,7 @@ items:
         - me
         - num
         - rep
+        - trans
       refs: caret    
 
       columns:
@@ -162,6 +167,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
       columns:
         - name: name
@@ -188,6 +194,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
       columns:
         - name: name
@@ -217,6 +224,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
     - name:  plot
       title: ROC plot with training set               
@@ -241,6 +249,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
     - name:  plot1
       title: Variable importance plot
@@ -264,7 +273,8 @@ items:
         - me
         - num
         - rep
-        
+        - trans
+
     - name:  plot3
       title: ROC plot with test set               
       type:  Image
@@ -287,6 +297,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
     - name:  plot4
       title: Calibration curve with training set               
@@ -311,6 +322,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
     - name:  plot5
       title: Box plot              
@@ -335,6 +347,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
     - name:  plot6
       title: Density plot              
@@ -359,6 +372,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
     - name: accu
       title: 'Accuracy for model comparison'
@@ -379,6 +393,7 @@ items:
         - me
         - num
         - rep
+        - trans
 
       columns:
         - name: name
@@ -426,6 +441,7 @@ items:
         - me
         - num
         - rep
+        - trans
 
       columns:
         - name: name
@@ -477,6 +493,7 @@ items:
         - me
         - num
         - rep
+        - trans
         
     - name: pred
       title: Prediction
@@ -497,5 +514,6 @@ items:
         - me
         - num
         - rep
+        - trans
         
 ...
