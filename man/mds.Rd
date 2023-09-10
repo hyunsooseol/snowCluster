@@ -4,7 +4,7 @@
 \alias{mds}
 \title{Multidimensional Scaling Plot}
 \usage{
-mds(data, labels, vars, k = 2, plot = FALSE, plot1 = FALSE)
+mds(data, labels, vars, k = 2, plot = TRUE, plot1 = FALSE)
 }
 \arguments{
 \item{data}{The data as a data frame.}

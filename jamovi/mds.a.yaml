@@ -39,7 +39,7 @@ options:
     - name: plot
       title: MDS Plot 
       type: Bool
-      default: FALSE
+      default: TRUE
       
     - name: plot1
       title: K-means Plot
