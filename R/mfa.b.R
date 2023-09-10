@@ -33,7 +33,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </head>
             <body>
             <div class='instructions'>
-           <h2><b>Instructions</b></h2>
+            <h2><b>Instructions</b></h2>
             <p>____________________________________________________________________________________</p>
             <p> 1. Specify 'Model Component'.</p>
             <p> 2. Type of value indicates 's' for the variables are scaled to unit variance,'n' for categorical variables, or 'f' for frequencies.</p>
