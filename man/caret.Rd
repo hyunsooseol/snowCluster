@@ -123,8 +123,8 @@ A results object containing:
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
-  \code{results$accu} \tab \tab \tab \tab \tab a table \cr
-  \code{results$kapp} \tab \tab \tab \tab \tab a table \cr
+  \code{results$mf$accu} \tab \tab \tab \tab \tab a table \cr
+  \code{results$mf$kapp} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot7} \tab \tab \tab \tab \tab an image \cr
   \code{results$pred} \tab \tab \tab \tab \tab an output \cr
 }

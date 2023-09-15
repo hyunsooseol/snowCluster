@@ -257,7 +257,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     
                     if(self$options$accu==TRUE){
                     
-                      table <- self$results$accu
+                      table <- self$results$mf$accu
                       
                       accu<- data.frame(res$statistics$Accuracy)
                       
@@ -286,7 +286,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     
                     if(self$options$kapp==TRUE){
                       
-                      table <- self$results$kapp
+                      table <- self$results$mf$kapp
                       
                       kapp<- data.frame(res$statistics$Kappa)
                       

@@ -373,102 +373,106 @@ items:
         - num
         - rep
         - trans
-        
-    - name: accu
-      title: 'Accuracy for model comparison'
-      visible: (accu)
-      type: Table
-      clearWith:
-        - facs
-        - covs 
-        - dep
-        - per
-        - mecon
-        - number
-        - repeats
-        - method
-        - tune
-        - cm1 
-        - ml
-        - me
-        - num
-        - rep
-        - trans
 
-      columns:
-        - name: name
-          title: 'Model'
-          type: 'text'
-          content: ($key)
-        - name: min
-          title: 'Minimum'
-          type: number
-        - name: q1
-          title: 'Q1'
-          type: number
-        - name: med
-          title: 'Median'
-          type: number
-        - name: me
-          title: 'Mean'
-          type: number
-        - name: q3
-          title: 'Q3'
-          type: number
-        - name: max
-          title: 'Maximum'
-          type: number
-        - name: na
-          title: 'NA'
-          type: number
+    - name: mf
+      title: 'Model Comparison'
+      type: Group
+      items:        
+        - name: accu
+          title: 'Accuracy for model comparison'
+          visible: (accu)
+          type: Table
+          clearWith:
+            - facs
+            - covs 
+            - dep
+            - per
+            - mecon
+            - number
+            - repeats
+            - method
+            - tune
+            - cm1 
+            - ml
+            - me
+            - num
+            - rep
+            - trans
 
-    - name: kapp
-      title: 'Kappa for model comparison'
-      visible: (kapp)
-      type: Table
-      clearWith:
-        - facs
-        - covs 
-        - dep
-        - per
-        - mecon
-        - number
-        - repeats
-        - method
-        - tune
-        - cm1 
-        - ml
-        - me
-        - num
-        - rep
-        - trans
+          columns:
+            - name: name
+              title: 'Model'
+              type: 'text'
+              content: ($key)
+            - name: min
+              title: 'Minimum'
+              type: number
+            - name: q1
+              title: 'Q1'
+              type: number
+            - name: med
+              title: 'Median'
+              type: number
+            - name: me
+              title: 'Mean'
+              type: number
+            - name: q3
+              title: 'Q3'
+              type: number
+            - name: max
+              title: 'Maximum'
+              type: number
+            - name: na
+              title: 'NA'
+              type: number
 
-      columns:
-        - name: name
-          title: 'Model'
-          type: 'text'
-          content: ($key)
-        - name: min
-          title: 'Minimum'
-          type: number
-        - name: q1
-          title: 'Q1'
-          type: number
-        - name: med
-          title: 'Median'
-          type: number
-        - name: me
-          title: 'Mean'
-          type: number
-        - name: q3
-          title: 'Q3'
-          type: number
-        - name: max
-          title: 'Maximum'
-          type: number
-        - name: na
-          title: 'NA'
-          type: number
+        - name: kapp
+          title: 'Kappa for model comparison'
+          visible: (kapp)
+          type: Table
+          clearWith:
+            - facs
+            - covs 
+            - dep
+            - per
+            - mecon
+            - number
+            - repeats
+            - method
+            - tune
+            - cm1 
+            - ml
+            - me
+            - num
+            - rep
+            - trans
+
+          columns:
+            - name: name
+              title: 'Model'
+              type: 'text'
+              content: ($key)
+            - name: min
+              title: 'Minimum'
+              type: number
+            - name: q1
+              title: 'Q1'
+              type: number
+            - name: med
+              title: 'Median'
+              type: number
+            - name: me
+              title: 'Mean'
+              type: number
+            - name: q3
+              title: 'Q3'
+              type: number
+            - name: max
+              title: 'Maximum'
+              type: number
+            - name: na
+              title: 'NA'
+              type: number
 
     - name:  plot7
       title: Box plots to compare models              

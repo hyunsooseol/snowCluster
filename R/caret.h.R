@@ -98,6 +98,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "C5.0",
                     "svmLinear",
                     "svmRadial",
+                    "bagFDA",
                     "nb"),
                 default="pls")
             private$..cm1 <- jmvcore::OptionList$new(
@@ -122,6 +123,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "C5.0",
                     "svmLinear",
                     "svmRadial",
+                    "bagFDA",
                     "nb"),
                 default="ctree")
             private$..mecon <- jmvcore::OptionList$new(
@@ -365,8 +367,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot4 = function() private$.items[["plot4"]],
         plot5 = function() private$.items[["plot5"]],
         plot6 = function() private$.items[["plot6"]],
-        accu = function() private$.items[["accu"]],
-        kapp = function() private$.items[["kapp"]],
+        mf = function() private$.items[["mf"]],
         plot7 = function() private$.items[["plot7"]],
         pred = function() private$.items[["pred"]]),
     private = list(),
@@ -752,116 +753,128 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "num",
                     "rep",
                     "trans")))
-            self$add(jmvcore::Table$new(
-                options=options,
-                name="accu",
-                title="Accuracy for model comparison",
-                visible="(accu)",
-                clearWith=list(
-                    "facs",
-                    "covs",
-                    "dep",
-                    "per",
-                    "mecon",
-                    "number",
-                    "repeats",
-                    "method",
-                    "tune",
-                    "cm1",
-                    "ml",
-                    "me",
-                    "num",
-                    "rep",
-                    "trans"),
-                columns=list(
-                    list(
-                        `name`="name", 
-                        `title`="Model", 
-                        `type`="text", 
-                        `content`="($key)"),
-                    list(
-                        `name`="min", 
-                        `title`="Minimum", 
-                        `type`="number"),
-                    list(
-                        `name`="q1", 
-                        `title`="Q1", 
-                        `type`="number"),
-                    list(
-                        `name`="med", 
-                        `title`="Median", 
-                        `type`="number"),
-                    list(
-                        `name`="me", 
-                        `title`="Mean", 
-                        `type`="number"),
-                    list(
-                        `name`="q3", 
-                        `title`="Q3", 
-                        `type`="number"),
-                    list(
-                        `name`="max", 
-                        `title`="Maximum", 
-                        `type`="number"),
-                    list(
-                        `name`="na", 
-                        `title`="NA", 
-                        `type`="number"))))
-            self$add(jmvcore::Table$new(
-                options=options,
-                name="kapp",
-                title="Kappa for model comparison",
-                visible="(kapp)",
-                clearWith=list(
-                    "facs",
-                    "covs",
-                    "dep",
-                    "per",
-                    "mecon",
-                    "number",
-                    "repeats",
-                    "method",
-                    "tune",
-                    "cm1",
-                    "ml",
-                    "me",
-                    "num",
-                    "rep",
-                    "trans"),
-                columns=list(
-                    list(
-                        `name`="name", 
-                        `title`="Model", 
-                        `type`="text", 
-                        `content`="($key)"),
-                    list(
-                        `name`="min", 
-                        `title`="Minimum", 
-                        `type`="number"),
-                    list(
-                        `name`="q1", 
-                        `title`="Q1", 
-                        `type`="number"),
-                    list(
-                        `name`="med", 
-                        `title`="Median", 
-                        `type`="number"),
-                    list(
-                        `name`="me", 
-                        `title`="Mean", 
-                        `type`="number"),
-                    list(
-                        `name`="q3", 
-                        `title`="Q3", 
-                        `type`="number"),
-                    list(
-                        `name`="max", 
-                        `title`="Maximum", 
-                        `type`="number"),
-                    list(
-                        `name`="na", 
-                        `title`="NA", 
-                        `type`="number"))))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(
+                    accu = function() private$.items[["accu"]],
+                    kapp = function() private$.items[["kapp"]]),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="mf",
+                            title="Model Comparison")
+                        self$add(jmvcore::Table$new(
+                            options=options,
+                            name="accu",
+                            title="Accuracy for model comparison",
+                            visible="(accu)",
+                            clearWith=list(
+                                "facs",
+                                "covs",
+                                "dep",
+                                "per",
+                                "mecon",
+                                "number",
+                                "repeats",
+                                "method",
+                                "tune",
+                                "cm1",
+                                "ml",
+                                "me",
+                                "num",
+                                "rep",
+                                "trans"),
+                            columns=list(
+                                list(
+                                    `name`="name", 
+                                    `title`="Model", 
+                                    `type`="text", 
+                                    `content`="($key)"),
+                                list(
+                                    `name`="min", 
+                                    `title`="Minimum", 
+                                    `type`="number"),
+                                list(
+                                    `name`="q1", 
+                                    `title`="Q1", 
+                                    `type`="number"),
+                                list(
+                                    `name`="med", 
+                                    `title`="Median", 
+                                    `type`="number"),
+                                list(
+                                    `name`="me", 
+                                    `title`="Mean", 
+                                    `type`="number"),
+                                list(
+                                    `name`="q3", 
+                                    `title`="Q3", 
+                                    `type`="number"),
+                                list(
+                                    `name`="max", 
+                                    `title`="Maximum", 
+                                    `type`="number"),
+                                list(
+                                    `name`="na", 
+                                    `title`="NA", 
+                                    `type`="number"))))
+                        self$add(jmvcore::Table$new(
+                            options=options,
+                            name="kapp",
+                            title="Kappa for model comparison",
+                            visible="(kapp)",
+                            clearWith=list(
+                                "facs",
+                                "covs",
+                                "dep",
+                                "per",
+                                "mecon",
+                                "number",
+                                "repeats",
+                                "method",
+                                "tune",
+                                "cm1",
+                                "ml",
+                                "me",
+                                "num",
+                                "rep",
+                                "trans"),
+                            columns=list(
+                                list(
+                                    `name`="name", 
+                                    `title`="Model", 
+                                    `type`="text", 
+                                    `content`="($key)"),
+                                list(
+                                    `name`="min", 
+                                    `title`="Minimum", 
+                                    `type`="number"),
+                                list(
+                                    `name`="q1", 
+                                    `title`="Q1", 
+                                    `type`="number"),
+                                list(
+                                    `name`="med", 
+                                    `title`="Median", 
+                                    `type`="number"),
+                                list(
+                                    `name`="me", 
+                                    `title`="Mean", 
+                                    `type`="number"),
+                                list(
+                                    `name`="q3", 
+                                    `title`="Q3", 
+                                    `type`="number"),
+                                list(
+                                    `name`="max", 
+                                    `title`="Maximum", 
+                                    `type`="number"),
+                                list(
+                                    `name`="na", 
+                                    `title`="NA", 
+                                    `type`="number"))))}))$new(options=options))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot7",
@@ -983,8 +996,8 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$accu} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$kapp} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$mf$accu} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$mf$kapp} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot7} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$pred} \tab \tab \tab \tab \tab an output \cr
 #' }

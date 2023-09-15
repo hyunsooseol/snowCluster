@@ -90,6 +90,8 @@ options:
           name:  svmLinear  
         - title: svmRadial
           name: svmRadial
+        - title: bagFDA
+          name: bagFDA
         - title: nb
           name: nb
       default: pls
@@ -134,6 +136,8 @@ options:
           name:  svmLinear  
         - title: svmRadial
           name: svmRadial  
+        - title: bagFDA
+          name: bagFDA
         - title: nb
           name: nb
       default: ctree
@@ -208,7 +212,7 @@ options:
       default: FALSE      
 
     - name: plot
-      title: ROC curve         
+      title: ROC plot         
       type: Bool
       default: FALSE
 
@@ -223,7 +227,7 @@ options:
       default: FALSE
 
     - name: plot3
-      title: ROC curve         
+      title: ROC plot         
       type: Bool
       default: FALSE
 
