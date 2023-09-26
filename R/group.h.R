@@ -61,6 +61,7 @@ groupResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "groupResults",
     inherit = jmvcore::Group,
     active = list(
+        instructions = function() private$.items[["instructions"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]]),
     private = list(),
@@ -71,6 +72,11 @@ groupResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="",
                 title="Group plot",
                 refs="snowCluster")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="instructions",
+                title="Instructions",
+                visible=TRUE))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -123,6 +129,7 @@ groupBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #' }
