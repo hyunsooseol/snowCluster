@@ -2,7 +2,7 @@
 name:  kmeans
 title: K-means Clustering 
 menuGroup: snowCluster
-menuSubgroup: Cluster
+menuSubgroup: Cluster Analysis
 version: '1.0.0'
 jas: '1.2'
 

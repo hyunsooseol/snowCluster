@@ -20,12 +20,12 @@ analyses:
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: K-means Clustering
-    menuSubgroup: Cluster
+    menuSubgroup: Cluster Analysis
   - title: Hierarchical Clustering
     name: hcm
     ns: snowCluster
     menuGroup: snowCluster
-    menuSubgroup: Cluster
+    menuSubgroup: Cluster Analysis
     menuTitle: Hierarchical Clustering
   - title: Clustering Dendrogram
     name: hc
