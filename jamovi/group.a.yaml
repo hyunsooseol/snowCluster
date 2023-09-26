@@ -2,7 +2,7 @@
 name:  group
 title: Group plot
 menuGroup: snowCluster
-menuSubgroup: Cluster
+menuSubgroup: Cluster Plot
 version: '1.0.0'
 jas: '1.2'
 

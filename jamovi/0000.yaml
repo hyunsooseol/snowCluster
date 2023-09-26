@@ -31,26 +31,26 @@ analyses:
     name: hc
     ns: snowCluster
     menuGroup: snowCluster
-    menuSubgroup: Cluster
+    menuSubgroup: Cluster Plot
     menuTitle: Clustering Dendrogram
   - title: Multidimensional Scaling Plot
     name: mds
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Multidimensional Scaling Plot
-    menuSubgroup: Cluster
+    menuSubgroup: Cluster Plot
   - title: PCA Plot
     name: pca
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: PCA Plot
-    menuSubgroup: Cluster
+    menuSubgroup: Cluster Plot
   - title: Group plot
     name: group
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Group plot
-    menuSubgroup: Cluster
+    menuSubgroup: Cluster Plot
   - title: Correspondence Analysis
     name: correspondence
     ns: snowCluster

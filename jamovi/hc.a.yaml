@@ -2,7 +2,7 @@
 name:  hc
 title: Clustering Dendrogram
 menuGroup: snowCluster
-menuSubgroup: Cluster
+menuSubgroup: Cluster Plot
 version: '1.0.0'
 jas: '1.2'
 
