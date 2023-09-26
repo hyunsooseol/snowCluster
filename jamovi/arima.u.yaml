@@ -62,7 +62,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: Table
+            label: Tables
             children:
               - type: CheckBox
                 name: coef
