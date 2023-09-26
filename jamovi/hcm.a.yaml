@@ -94,7 +94,7 @@ options:
       default: false  
       
     - name: dend
-      title: Plot dendrogram
+      title: Dendrogram
       type: Bool
       default: false
       
@@ -104,12 +104,12 @@ options:
       default: false
 
     - name: heat
-      title: Plot heatmap
+      title: Heatmap
       type: Bool
       default: false
       
     - name: pair
-      title: Plot pairs of variables
+      title: Pairs of variables
       type: Bool
       default: false
 

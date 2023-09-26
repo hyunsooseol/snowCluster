@@ -21,7 +21,7 @@ children:
             isTarget: true
             maxItemCount: 1      
   - type: CollapseBox
-    label: Analysis 
+    label: Plots 
     margin: normal
     collapsed: true
     children:

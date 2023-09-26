@@ -30,38 +30,52 @@ children:
     margin: normal
     collapsed: true
     children:
-      - type: CheckBox
-        name: stand
-      - type: CheckBox
-        name: case
       - type: LayoutBox
-        margin: small
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
         children:
-          - type: ComboBox
-            name: dis
-          - type: ComboBox
-            name: method
-      - type: Label
-        label: Decide on clusters
-        margin: small
-        children:
-          - type: RadioButton
-            name: grp_height
-            optionName: grp
-            optionPart: height
-          - type: TextBox
-            name: hght
-            format: number
-            enable: (grp_height)
-          - type: RadioButton
-            name: grp_number
-            optionName: grp
-            optionPart: number
+          - type: CheckBox
+            name: stand
+          - type: CheckBox
+            name: case
+          - type: LayoutBox
+            margin: small
             children:
+              - type: ComboBox
+                name: dis
+              - type: ComboBox
+                name: method
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Decide on clusters
+            margin: small
+            children:
+              - type: RadioButton
+                name: grp_height
+                optionName: grp
+                optionPart: height
               - type: TextBox
-                name: group
+                name: hght
                 format: number
-                enable: (grp_number)
+                enable: (grp_height)
+              - type: RadioButton
+                name: grp_number
+                optionName: grp
+                optionPart: number
+                children:
+                  - type: TextBox
+                    name: group
+                    format: number
+                    enable: (grp_number)
   - type: CollapseBox
     label: Plots
     margin: normal
