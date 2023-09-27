@@ -15,7 +15,6 @@ mds(
   xlab,
   ylab,
   zlab,
-  group,
   plot2 = FALSE
 )
 }
@@ -39,8 +38,6 @@ mds(
 \item{ylab}{.}
 
 \item{zlab}{.}
-
-\item{group}{.}
 
 \item{plot2}{.}
 }
