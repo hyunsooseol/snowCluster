@@ -19,6 +19,8 @@ items:
       renderFun: .plot
       clearWith:
         - vars
+        - labels
+        - k
  
     - name:  plot1
       title: K-means Plot
@@ -30,6 +32,20 @@ items:
       renderFun: .plot1
       clearWith:
         - vars
+        - labels
         - k
-      
+
+    - name:  plot2
+      title: '3D Scatter Plot'
+      type:  Image
+      requiresData: true
+      visible: (plot2)
+      width: 500
+      height: 500
+      renderFun: .plot2
+      clearWith:
+        - xlab
+        - ylab
+        - zlab
+        - group
 ...

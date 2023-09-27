@@ -4,50 +4,84 @@ jus: '3.0'
 stage: 0
 compilerMode: tame
 children:
-  - type: VariableSupplier
-    persistentItems: false
+  - type: ModeSelector
+    name: mode
     stretchFactor: 1
-    permitted:
-      - numeric
-      - factor
-      - id
     children:
-      - type: TargetLayoutBox
-        label: Variables
-        children:
-          - type: VariablesListBox
-            name: vars
-            isTarget: true
-      - type: TargetLayoutBox
-        children:
-          - type: VariablesListBox
-            name: labels
-            isTarget: true
-            maxItemCount: 1      
-  - type: CollapseBox
-    label: Analysis 
-    margin: normal
-    collapsed: true
-    children:
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
+      - type: Content
+        name: simple
         children:
           - type: LayoutBox
             margin: large
-            cell:
-              column: 0
-              row: 0
             stretchFactor: 1
+            children:
+              - type: VariableSupplier
+                persistentItems: false
+                stretchFactor: 1
+                children:
+                  - type: TargetLayoutBox
+                    label: Variables
+                    children:
+                      - type: VariablesListBox
+                        name: vars
+                        isTarget: true
+                  - type: TargetLayoutBox
+                    children:
+                      - type: VariablesListBox
+                        name: labels
+                        isTarget: true
+                        maxItemCount: 1
+          - type: LayoutBox
+            margin: large
             children:
               - name: k
                 type: TextBox
                 format: number
               - type: Label
-                label: "Plots"
+                label: Plots
                 children:
                   - type: CheckBox
                     name: plot
                   - type: CheckBox
                     name: plot1
-     
+      - type: Content
+        name: complex
+        children:
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
+            children:
+              - type: TargetLayoutBox
+                label: 'x axis'
+                children:
+                  - type: VariablesListBox
+                    name: xlab
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                label: 'y axis'
+                children:
+                  - type: VariablesListBox
+                    name: ylab
+                    maxItemCount: 1
+                    isTarget: true 
+              - type: TargetLayoutBox
+                label: 'z axis'
+                children:
+                  - type: VariablesListBox
+                    name: zlab
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                label: 'Group(Optional)'
+                children:
+                  - type: VariablesListBox
+                    name: group
+                    maxItemCount: 1
+                    isTarget: true
+          - type: LayoutBox
+            margin: large
+            children:
+              - type: CheckBox
+                name: plot2
+

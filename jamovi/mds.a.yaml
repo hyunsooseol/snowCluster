@@ -7,6 +7,16 @@ version: '1.0.0'
 jas: '1.2'
 
 options:
+    - name: mode
+      title: ""
+      type: List
+      options:
+            - name: simple
+              title: 'MDS Analysis'
+            - name: complex
+              title: '3D Plot'
+      default: simple
+
     - name: data
       type: Data
       description:
@@ -17,7 +27,7 @@ options:
       title: Labels (Optional)
       type: Variable
       suggested:
-         - id
+        - id
       permitted:
         - id
         - factor
@@ -26,7 +36,7 @@ options:
       title: Variables
       type: Variables
       suggested:
-         - continuous
+        - continuous
       permitted:
         - numeric  
   
@@ -46,5 +56,41 @@ options:
       type: Bool
       default: FALSE
   
+    - name: xlab
+      title: 'x axis'
+      type: Variable
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
+
+    - name: ylab
+      title: 'y axis'
+      type: Variable
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
+
+    - name: zlab
+      title: 'z axis'
+      type: Variable
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
+
+    - name: group
+      title: Group(Optional)
+      type: Variable
+      suggested:
+        - nominal
+      permitted:
+        - factor
+
+    - name: plot2
+      title: Three dimensional Plot
+      type: Bool
+      default: FALSE
 
 ...

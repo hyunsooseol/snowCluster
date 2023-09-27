@@ -4,9 +4,24 @@
 \alias{mds}
 \title{Multidimensional Scaling Plot}
 \usage{
-mds(data, labels, vars, k = 2, plot = TRUE, plot1 = FALSE)
+mds(
+  mode = "simple",
+  data,
+  labels,
+  vars,
+  k = 2,
+  plot = TRUE,
+  plot1 = FALSE,
+  xlab,
+  ylab,
+  zlab,
+  group,
+  plot2 = FALSE
+)
 }
 \arguments{
+\item{mode}{.}
+
 \item{data}{The data as a data frame.}
 
 \item{labels}{.}
@@ -18,6 +33,16 @@ mds(data, labels, vars, k = 2, plot = TRUE, plot1 = FALSE)
 \item{plot}{.}
 
 \item{plot1}{.}
+
+\item{xlab}{.}
+
+\item{ylab}{.}
+
+\item{zlab}{.}
+
+\item{group}{.}
+
+\item{plot2}{.}
 }
 \value{
 A results object containing:
@@ -25,6 +50,7 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 }
 }
 \description{

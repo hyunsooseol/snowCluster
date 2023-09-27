@@ -6,6 +6,7 @@
 #' @import magrittr
 #' @import ggpubr 
 #' @import ggplot2 
+#' @import scatterplot3d scatterplot3d
 #' @export
 
 
@@ -51,6 +52,10 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 k <- self$options$k
                 
+                x <- self$options$xlab
+                y <- self$options$ylab
+                z <- self$options$zlab
+                
                 data <- self$data
                 
                 data <- jmvcore::naOmit(data)
@@ -69,9 +74,10 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 # MDS analysis---------
                 
-                
                 d <- stats:: dist(data)
                 mds<- stats::cmdscale(d)
+                #---------------------------
+                
                 colnames(mds) <- c("Dim.1", "Dim.2")
                 mds<- as.data.frame(mds)
                 name <- rownames(mds)
@@ -104,8 +110,33 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 image1 <- self$results$plot1
                 image1$setState(state)
+               
+                if(self$options$plot2==TRUE){
+                  
+                  # # Perform MDS analysis
+                  # mds_iris <- stats::cmdscale(dist(iris[,1:4]),
+                  #                           k = 3)
+                  # 
+                  # # Plot the results
+                  # library(scatterplot3d)
+                  # 
+                  # colors <- c("red", "blue", "pink")
+                  # colors <- colors[as.numeric(iris$Species)]
+                  # scatterplot3d(mds_iris[,1:3], pch = 16,
+                  #               xlab = "Sepal Length",
+                  #               ylab = "Sepal Width",
+                  #               zlab = "Petal Length",
+                  #               color=colors)
+                  
+                  d <- stats:: dist(data)
+                  three<- stats::cmdscale(dist(d), k=3)
+                    
+                  image <- self$results$plot2
+                  image$setState(three)               
+                  
+                }
                 
-                
+                 
             }
         },
         
@@ -148,7 +179,49 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             plot1 <- plot1+ggtheme
             print(plot1)
             TRUE
-        }                         
-                                      
+        },
+        
+        .plot2 = function(image,...) {
+          
+          if (is.null(image$state))
+            return(FALSE)
+         
+          three <- image$state
+        
+          x<-self$options$xlab
+          y <- self$options$ylab
+          z <- self$options$zlab
+          group <- self$options$group
+          
+          if(self$options$group==TRUE){
+          
+          colors <- c("red", "blue", "pink")
+          colors <- colors[as.numeric(group)]
+        
+          plot2<- scatterplot3d::scatterplot3d(three,
+                                               xlab =x,
+                                               ylab=y,
+                                               zlab=z,
+                                               colors=colors,
+                                             #  highlight.3d=TRUE,
+                                               pch = 16)
+                                              
+          } else{
+           
+            plot2<- scatterplot3d::scatterplot3d(three,
+                                                 xlab =x,
+                                                 ylab=y,
+                                                 zlab=z,
+                                                 highlight.3d=TRUE,
+                                                 pch = 16) 
+            
+          }
+          
+          
+          print(plot2)
+          TRUE
+          
+        }
+                                     
         )
 )

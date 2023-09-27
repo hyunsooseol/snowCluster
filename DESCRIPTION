@@ -52,5 +52,6 @@ Imports:
     mboost,
     randomForest,
     glmnet,
-    C50
+    C50,
+    scatterplot3d
     

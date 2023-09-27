@@ -6,11 +6,17 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
+            mode = "simple",
             labels = NULL,
             vars = NULL,
             k = 2,
             plot = TRUE,
-            plot1 = FALSE, ...) {
+            plot1 = FALSE,
+            xlab = NULL,
+            ylab = NULL,
+            zlab = NULL,
+            group = NULL,
+            plot2 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -18,6 +24,13 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 ...)
 
+            private$..mode <- jmvcore::OptionList$new(
+                "mode",
+                mode,
+                options=list(
+                    "simple",
+                    "complex"),
+                default="simple")
             private$..labels <- jmvcore::OptionVariable$new(
                 "labels",
                 labels,
@@ -46,25 +59,75 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot1",
                 plot1,
                 default=FALSE)
+            private$..xlab <- jmvcore::OptionVariable$new(
+                "xlab",
+                xlab,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..ylab <- jmvcore::OptionVariable$new(
+                "ylab",
+                ylab,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..zlab <- jmvcore::OptionVariable$new(
+                "zlab",
+                zlab,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..group <- jmvcore::OptionVariable$new(
+                "group",
+                group,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
+            private$..plot2 <- jmvcore::OptionBool$new(
+                "plot2",
+                plot2,
+                default=FALSE)
 
+            self$.addOption(private$..mode)
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
             self$.addOption(private$..k)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
+            self$.addOption(private$..xlab)
+            self$.addOption(private$..ylab)
+            self$.addOption(private$..zlab)
+            self$.addOption(private$..group)
+            self$.addOption(private$..plot2)
         }),
     active = list(
+        mode = function() private$..mode$value,
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
         k = function() private$..k$value,
         plot = function() private$..plot$value,
-        plot1 = function() private$..plot1$value),
+        plot1 = function() private$..plot1$value,
+        xlab = function() private$..xlab$value,
+        ylab = function() private$..ylab$value,
+        zlab = function() private$..zlab$value,
+        group = function() private$..group$value,
+        plot2 = function() private$..plot2$value),
     private = list(
+        ..mode = NA,
         ..labels = NA,
         ..vars = NA,
         ..k = NA,
         ..plot = NA,
-        ..plot1 = NA)
+        ..plot1 = NA,
+        ..xlab = NA,
+        ..ylab = NA,
+        ..zlab = NA,
+        ..group = NA,
+        ..plot2 = NA)
 )
 
 mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -73,7 +136,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         instructions = function() private$.items[["instructions"]],
         plot = function() private$.items[["plot"]],
-        plot1 = function() private$.items[["plot1"]]),
+        plot1 = function() private$.items[["plot1"]],
+        plot2 = function() private$.items[["plot2"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -97,7 +161,9 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 height=500,
                 renderFun=".plot",
                 clearWith=list(
-                    "vars")))
+                    "vars",
+                    "labels",
+                    "k")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -109,7 +175,22 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot1",
                 clearWith=list(
                     "vars",
-                    "k")))}))
+                    "labels",
+                    "k")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot2",
+                title="3D Scatter Plot",
+                requiresData=TRUE,
+                visible="(plot2)",
+                width=500,
+                height=500,
+                renderFun=".plot2",
+                clearWith=list(
+                    "xlab",
+                    "ylab",
+                    "zlab",
+                    "group")))}))
 
 mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mdsBase",
@@ -135,46 +216,74 @@ mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' Multidimensional Scaling Plot
 #'
 #' 
+#' @param mode .
 #' @param data The data as a data frame.
 #' @param labels .
 #' @param vars .
 #' @param k .
 #' @param plot .
 #' @param plot1 .
+#' @param xlab .
+#' @param ylab .
+#' @param zlab .
+#' @param group .
+#' @param plot2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
 mds <- function(
+    mode = "simple",
     data,
     labels,
     vars,
     k = 2,
     plot = TRUE,
-    plot1 = FALSE) {
+    plot1 = FALSE,
+    xlab,
+    ylab,
+    zlab,
+    group,
+    plot2 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("mds requires jmvcore to be installed (restart may be required)")
 
     if ( ! missing(labels)) labels <- jmvcore::resolveQuo(jmvcore::enquo(labels))
     if ( ! missing(vars)) vars <- jmvcore::resolveQuo(jmvcore::enquo(vars))
+    if ( ! missing(xlab)) xlab <- jmvcore::resolveQuo(jmvcore::enquo(xlab))
+    if ( ! missing(ylab)) ylab <- jmvcore::resolveQuo(jmvcore::enquo(ylab))
+    if ( ! missing(zlab)) zlab <- jmvcore::resolveQuo(jmvcore::enquo(zlab))
+    if ( ! missing(group)) group <- jmvcore::resolveQuo(jmvcore::enquo(group))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(labels), labels, NULL),
-            `if`( ! missing(vars), vars, NULL))
+            `if`( ! missing(vars), vars, NULL),
+            `if`( ! missing(xlab), xlab, NULL),
+            `if`( ! missing(ylab), ylab, NULL),
+            `if`( ! missing(zlab), zlab, NULL),
+            `if`( ! missing(group), group, NULL))
 
+    for (v in group) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- mdsOptions$new(
+        mode = mode,
         labels = labels,
         vars = vars,
         k = k,
         plot = plot,
-        plot1 = plot1)
+        plot1 = plot1,
+        xlab = xlab,
+        ylab = ylab,
+        zlab = zlab,
+        group = group,
+        plot2 = plot2)
 
     analysis <- mdsClass$new(
         options = options,
