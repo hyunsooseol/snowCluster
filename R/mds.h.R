@@ -15,7 +15,6 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             xlab = NULL,
             ylab = NULL,
             zlab = NULL,
-            group = NULL,
             plot2 = FALSE, ...) {
 
             super$initialize(
@@ -83,13 +82,6 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
-            private$..group <- jmvcore::OptionVariable$new(
-                "group",
-                group,
-                suggested=list(
-                    "nominal"),
-                permitted=list(
-                    "factor"))
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
@@ -104,7 +96,6 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..xlab)
             self$.addOption(private$..ylab)
             self$.addOption(private$..zlab)
-            self$.addOption(private$..group)
             self$.addOption(private$..plot2)
         }),
     active = list(
@@ -117,7 +108,6 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         xlab = function() private$..xlab$value,
         ylab = function() private$..ylab$value,
         zlab = function() private$..zlab$value,
-        group = function() private$..group$value,
         plot2 = function() private$..plot2$value),
     private = list(
         ..mode = NA,
@@ -129,7 +119,6 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..xlab = NA,
         ..ylab = NA,
         ..zlab = NA,
-        ..group = NA,
         ..plot2 = NA)
 )
 
@@ -191,8 +180,7 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "xlab",
                     "ylab",
-                    "zlab",
-                    "group")))}))
+                    "zlab")))}))
 
 mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mdsBase",
@@ -228,7 +216,6 @@ mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param xlab .
 #' @param ylab .
 #' @param zlab .
-#' @param group .
 #' @param plot2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
@@ -250,7 +237,6 @@ mds <- function(
     xlab,
     ylab,
     zlab,
-    group,
     plot2 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
@@ -261,7 +247,6 @@ mds <- function(
     if ( ! missing(xlab)) xlab <- jmvcore::resolveQuo(jmvcore::enquo(xlab))
     if ( ! missing(ylab)) ylab <- jmvcore::resolveQuo(jmvcore::enquo(ylab))
     if ( ! missing(zlab)) zlab <- jmvcore::resolveQuo(jmvcore::enquo(zlab))
-    if ( ! missing(group)) group <- jmvcore::resolveQuo(jmvcore::enquo(group))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
@@ -269,10 +254,8 @@ mds <- function(
             `if`( ! missing(vars), vars, NULL),
             `if`( ! missing(xlab), xlab, NULL),
             `if`( ! missing(ylab), ylab, NULL),
-            `if`( ! missing(zlab), zlab, NULL),
-            `if`( ! missing(group), group, NULL))
+            `if`( ! missing(zlab), zlab, NULL))
 
-    for (v in group) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- mdsOptions$new(
         mode = mode,
@@ -284,7 +267,6 @@ mds <- function(
         xlab = xlab,
         ylab = ylab,
         zlab = zlab,
-        group = group,
         plot2 = plot2)
 
     analysis <- mdsClass$new(

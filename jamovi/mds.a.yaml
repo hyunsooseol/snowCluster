@@ -83,16 +83,8 @@ options:
       permitted:
         - numeric  
 
-    - name: group
-      title: Group(Optional)
-      type: Variable
-      suggested:
-        - nominal
-      permitted:
-        - factor
-
     - name: plot2
-      title: Three dimensional Plot
+      title: Three dimensional plot
       type: Bool
       default: FALSE
 

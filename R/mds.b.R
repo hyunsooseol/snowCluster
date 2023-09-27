@@ -193,29 +193,16 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           x<-self$options$xlab
           y <- self$options$ylab
           z <- self$options$zlab
-          group <- self$options$group
-          
          
           plot2<- scatterplot3d::scatterplot3d(three,
                                                xlab =x,
                                                ylab=y,
                                                zlab=z,
-                                               #highlight.3d=TRUE,
+                                              highlight.3d=TRUE,
                                                grid=TRUE,
-                                               color = c("green", "red","blue"),
                                                pch = 19
                                               )
-                                               
-                                              
-          
            
-          # plot2<- scatterplot3d::scatterplot3d(three,
-          #                                        xlab =x,
-          #                                        ylab=y,
-          #                                        zlab=z,
-          #                                        highlight.3d=TRUE,
-          #                                        pch = 16) 
-          #   
           
           print(plot2)
           TRUE
