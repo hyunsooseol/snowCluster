@@ -43,9 +43,12 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "vars",
                 vars,
                 suggested=list(
+                    "id",
                     "continuous"),
                 permitted=list(
-                    "numeric"))
+                    "numeric",
+                    "factor",
+                    "id"))
             private$..k <- jmvcore::OptionInteger$new(
                 "k",
                 k,

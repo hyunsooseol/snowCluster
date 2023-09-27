@@ -36,10 +36,13 @@ options:
       title: Variables
       type: Variables
       suggested:
+        - id
         - continuous
       permitted:
-        - numeric  
-  
+        - numeric
+        - factor
+        - id
+
     - name: k
       title: Num. of groups
       default: 2

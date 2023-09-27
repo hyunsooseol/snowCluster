@@ -200,8 +200,11 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                                xlab =x,
                                                ylab=y,
                                                zlab=z,
-                                               highlight.3d=TRUE,
-                                               grid=TRUE, box=FALSE)
+                                               #highlight.3d=TRUE,
+                                               grid=TRUE,
+                                               color = c("green", "red","blue"),
+                                               pch = 19
+                                              )
                                                
                                               
           
