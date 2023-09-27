@@ -162,8 +162,7 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
-                    "labels",
-                    "k")))
+                    "labels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",

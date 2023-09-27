@@ -72,6 +72,9 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
                 
+    if(self$options$mode == "simple"){
+                
+                
                 # MDS analysis---------
                 
                 d <- stats:: dist(data)
@@ -106,13 +109,12 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 state <- list(mds1, name1)
                 
-                #  MDS plot----------
+                #  kmeans plot----------
                 
                 image1 <- self$results$plot1
                 image1$setState(state)
                
-                if(self$options$plot2==TRUE){
-                  
+    } else{
                   # # Perform MDS analysis
                   # mds_iris <- stats::cmdscale(dist(iris[,1:4]),
                   #                           k = 3)
@@ -193,30 +195,24 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           z <- self$options$zlab
           group <- self$options$group
           
-          if(self$options$group==TRUE){
-          
-          colors <- c("red", "blue", "pink")
-          colors <- colors[as.numeric(group)]
-        
+         
           plot2<- scatterplot3d::scatterplot3d(three,
                                                xlab =x,
                                                ylab=y,
                                                zlab=z,
-                                               colors=colors,
-                                             #  highlight.3d=TRUE,
-                                               pch = 16)
+                                               highlight.3d=TRUE,
+                                               grid=TRUE, box=FALSE)
+                                               
                                               
-          } else{
-           
-            plot2<- scatterplot3d::scatterplot3d(three,
-                                                 xlab =x,
-                                                 ylab=y,
-                                                 zlab=z,
-                                                 highlight.3d=TRUE,
-                                                 pch = 16) 
-            
-          }
           
+           
+          # plot2<- scatterplot3d::scatterplot3d(three,
+          #                                        xlab =x,
+          #                                        ylab=y,
+          #                                        zlab=z,
+          #                                        highlight.3d=TRUE,
+          #                                        pch = 16) 
+          #   
           
           print(plot2)
           TRUE

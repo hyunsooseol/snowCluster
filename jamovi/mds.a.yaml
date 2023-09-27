@@ -41,7 +41,7 @@ options:
         - numeric  
   
     - name: k
-      title: Number of groups
+      title: Num. of groups
       default: 2
       type: Integer
       min: 1

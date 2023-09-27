@@ -34,9 +34,6 @@ children:
           - type: LayoutBox
             margin: large
             children:
-              - name: k
-                type: TextBox
-                format: number
               - type: Label
                 label: Plots
                 children:
@@ -44,6 +41,11 @@ children:
                     name: plot
                   - type: CheckBox
                     name: plot1
+                    children:
+                      - type: TextBox
+                        name: k
+                        enable: (plot1)
+                        format: number
       - type: Content
         name: complex
         children:
@@ -52,28 +54,28 @@ children:
             stretchFactor: 1
             children:
               - type: TargetLayoutBox
-                label: 'x axis'
+                label: x axis
                 children:
                   - type: VariablesListBox
                     name: xlab
                     maxItemCount: 1
                     isTarget: true
               - type: TargetLayoutBox
-                label: 'y axis'
+                label: y axis
                 children:
                   - type: VariablesListBox
                     name: ylab
                     maxItemCount: 1
-                    isTarget: true 
+                    isTarget: true
               - type: TargetLayoutBox
-                label: 'z axis'
+                label: z axis
                 children:
                   - type: VariablesListBox
                     name: zlab
                     maxItemCount: 1
                     isTarget: true
               - type: TargetLayoutBox
-                label: 'Group(Optional)'
+                label: Group(Optional)
                 children:
                   - type: VariablesListBox
                     name: group
