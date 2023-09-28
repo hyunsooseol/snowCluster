@@ -39,8 +39,8 @@ items:
       type:  Image
       requiresData: true
       visible: (plot2)
-      width: 600
-      height: 400
+      width: 500
+      height: 500
       renderFun: .plot2
       clearWith:
         - xlab

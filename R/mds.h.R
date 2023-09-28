@@ -174,8 +174,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="3D Scatter Plot",
                 requiresData=TRUE,
                 visible="(plot2)",
-                width=600,
-                height=400,
+                width=500,
+                height=500,
                 renderFun=".plot2",
                 clearWith=list(
                     "xlab",
