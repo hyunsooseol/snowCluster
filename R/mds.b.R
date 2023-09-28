@@ -46,8 +46,12 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         .run = function() {
 
            
-            if (!is.null(self$options$vars)) {
+            # if (!is.null(self$options$vars)) {
                 
+          # if (is.null(self$options$vars))
+          # return()
+          
+          
                 vars <- self$options$vars
                 
                 k <- self$options$k
@@ -72,8 +76,10 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
                 
                 
-    if(self$options$mode == "simple"){
+     if(self$options$mode == "simple"){
                 
+        if (is.null(self$options$vars))
+        return()
                 
                 # MDS analysis---------
                 
@@ -114,32 +120,26 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 image1 <- self$results$plot1
                 image1$setState(state)
                
-    } else{
-                  # # Perform MDS analysis
-                  # mds_iris <- stats::cmdscale(dist(iris[,1:4]),
-                  #                           k = 3)
-                  # 
-                  # # Plot the results
-                  # library(scatterplot3d)
-                  # 
-                  # colors <- c("red", "blue", "pink")
-                  # colors <- colors[as.numeric(iris$Species)]
-                  # scatterplot3d(mds_iris[,1:3], pch = 16,
-                  #               xlab = "Sepal Length",
-                  #               ylab = "Sepal Width",
-                  #               zlab = "Petal Length",
-                  #               color=colors)
-                  
-                  d <- stats:: dist(data)
-                  three<- stats::cmdscale(dist(d), k=3)
-                    
-                  image <- self$results$plot2
-                  image$setState(three)               
-                  
+     } 
+    
+                
+    if(self$options$mode == "complex"){            
+       
+      
+      if (is.null(self$options$xlab))
+        return()         
+                
+        d <- stats:: dist(data)
+        three<- stats::cmdscale(dist(d), k=3)
+                
+        image2 <- self$results$plot2
+        image2$setState(three)               
+              
+             
                 }
                 
                  
-            }
+            # }
         },
         
         .plot = function(image,ggtheme, theme, ...) {
@@ -183,17 +183,17 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             TRUE
         },
         
-        .plot2 = function(image,...) {
-          
-          if (is.null(image$state))
+        .plot2 = function(image2,...) {
+
+          if (is.null(image2$state))
             return(FALSE)
-         
-          three <- image$state
-        
+
+          three <- image2$state
+
           x<-self$options$xlab
           y <- self$options$ylab
           z <- self$options$zlab
-         
+
           plot2<- scatterplot3d::scatterplot3d(three,
                                                xlab =x,
                                                ylab=y,
@@ -202,12 +202,12 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                                grid=TRUE,
                                                pch = 19
                                               )
-           
-          
+
+
           print(plot2)
           TRUE
-          
+
         }
-                                     
+
         )
 )

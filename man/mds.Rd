@@ -10,7 +10,7 @@ mds(
   labels,
   vars,
   k = 2,
-  plot = TRUE,
+  plot = FALSE,
   plot1 = FALSE,
   xlab,
   ylab,

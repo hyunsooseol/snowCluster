@@ -10,7 +10,7 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             labels = NULL,
             vars = NULL,
             k = 2,
-            plot = TRUE,
+            plot = FALSE,
             plot1 = FALSE,
             xlab = NULL,
             ylab = NULL,
@@ -56,7 +56,7 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
-                default=TRUE)
+                default=FALSE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -174,8 +174,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="3D Scatter Plot",
                 requiresData=TRUE,
                 visible="(plot2)",
-                width=500,
-                height=500,
+                width=600,
+                height=400,
                 renderFun=".plot2",
                 clearWith=list(
                     "xlab",
@@ -232,7 +232,7 @@ mds <- function(
     labels,
     vars,
     k = 2,
-    plot = TRUE,
+    plot = FALSE,
     plot1 = FALSE,
     xlab,
     ylab,
