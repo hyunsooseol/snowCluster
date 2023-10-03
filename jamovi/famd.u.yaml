@@ -20,17 +20,19 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1
-  - type: CollapseBox
-    label: Analysis 
-    margin: normal
-    collapsed: true
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
     children:
       - type: LayoutBox
-        stretchFactor: 1
         margin: large
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
         children:
           - type: Label
-            label: Tables
+            label: 'Tables'
             children:
               - type: CheckBox
                 name: eigen
@@ -67,7 +69,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: Plots
+            label: 'Plots'
             children:
               - type: CheckBox
                 name: plot

@@ -24,39 +24,53 @@ children:
             name: facs
             isTarget: true
             maxItemCount: 1      
-  - type: CollapseBox
-    label: Multiple Correspondence Analysis
-    margin: normal
-    collapsed: true
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
     children:
-      - name: eigen
-        type: CheckBox 
-      - name: loadingvar
-        type: CheckBox
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
         children:
-          - type: ComboBox
-            name: colvar
-            enable: (loadingvar) 
-      - name: loadingind
-        type: CheckBox   
+          - type: Label
+            label: "Tests"
+            children:
+              - name: eigen
+                type: CheckBox 
+              - name: loadingvar
+                type: CheckBox
+                children:
+                  - type: ComboBox
+                    name: colvar
+                    enable: (loadingvar) 
+                  - name: loadingind
+                    type: CheckBox   
+                    children:
+                      - type: ComboBox
+                        name: rowvar
+                        enable: (loadingind) 
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
         children:
-          - type: ComboBox
-            name: rowvar
-            enable: (loadingind) 
-  - type: CollapseBox
-    label: Plots
-    margin: normal
-    collapsed: true
-    children:
-      - type: CheckBox
-        name: plot5
-      - type: CheckBox
-        name: plot6
-      - type: CheckBox
-        name: plot1
-      - type: CheckBox
-        name: plot2
-      - type: CheckBox
-        name: plot3
-      - type: CheckBox
-        name: plot4
+          - type: Label
+            label: "Plots"
+            children:
+              - type: CheckBox
+                name: plot5
+              - type: CheckBox
+                name: plot6
+              - type: CheckBox
+                name: plot1
+              - type: CheckBox
+                name: plot2
+              - type: CheckBox
+                name: plot3
+              - type: CheckBox
+                name: plot4
