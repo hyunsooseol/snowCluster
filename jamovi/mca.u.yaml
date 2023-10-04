@@ -46,12 +46,12 @@ children:
                   - type: ComboBox
                     name: colvar
                     enable: (loadingvar) 
-                  - name: loadingind
-                    type: CheckBox   
-                    children:
-                      - type: ComboBox
-                        name: rowvar
-                        enable: (loadingind) 
+              - name: loadingind
+                type: CheckBox   
+                children:
+                  - type: ComboBox
+                    name: rowvar
+                    enable: (loadingind) 
       - type: LayoutBox
         margin: large
         cell:
