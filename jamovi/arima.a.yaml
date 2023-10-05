@@ -12,6 +12,16 @@ options:
       description:
           R: timeseries data format 
 
+    - name: mode
+      title: ""
+      type: List
+      options:
+            - name: simple
+              title: 'ARIMA'
+            - name: complex
+              title: 'Prophet'
+      default: simple
+
     - name: dep
       type: Variable
       title: Variable named y
@@ -22,7 +32,19 @@ options:
       description:
           R: >
             the dependent variable from `data`, variable must be numeric
-    - name: time
+
+    - name: dep1
+      type: Variable
+      title: Variable named y
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+      description:
+          R: >
+            the dependent variable from `data`, variable must be numeric
+
+    - name: time1
       title: Time variable named ds
       type: Variables
       rejectUnusedLevels: true
@@ -72,7 +94,7 @@ options:
     - name: coef
       title: 'Model coefficients'
       type: Bool
-      default: TRUE
+      default: false
 
     - name: fit
       title: 'Model fit '

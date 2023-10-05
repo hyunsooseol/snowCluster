@@ -6,8 +6,10 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
+            mode = "simple",
             dep = NULL,
-            time = NULL,
+            dep1 = NULL,
+            time1 = NULL,
             freq = 12,
             pred = 10,
             plot = FALSE,
@@ -15,7 +17,7 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot1 = FALSE,
             plot2 = FALSE,
             plot3 = FALSE,
-            coef = TRUE,
+            coef = FALSE,
             fit = FALSE,
             point = FALSE,
             plot4 = FALSE,
@@ -30,6 +32,13 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 ...)
 
+            private$..mode <- jmvcore::OptionList$new(
+                "mode",
+                mode,
+                options=list(
+                    "simple",
+                    "complex"),
+                default="simple")
             private$..dep <- jmvcore::OptionVariable$new(
                 "dep",
                 dep,
@@ -37,9 +46,16 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
-            private$..time <- jmvcore::OptionVariables$new(
-                "time",
-                time,
+            private$..dep1 <- jmvcore::OptionVariable$new(
+                "dep1",
+                dep1,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..time1 <- jmvcore::OptionVariables$new(
+                "time1",
+                time1,
                 rejectUnusedLevels=TRUE,
                 suggested=list(
                     "nominal"),
@@ -77,7 +93,7 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..coef <- jmvcore::OptionBool$new(
                 "coef",
                 coef,
-                default=TRUE)
+                default=FALSE)
             private$..fit <- jmvcore::OptionBool$new(
                 "fit",
                 fit,
@@ -115,8 +131,10 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "year"),
                 default="day")
 
+            self$.addOption(private$..mode)
             self$.addOption(private$..dep)
-            self$.addOption(private$..time)
+            self$.addOption(private$..dep1)
+            self$.addOption(private$..time1)
             self$.addOption(private$..freq)
             self$.addOption(private$..pred)
             self$.addOption(private$..plot)
@@ -134,8 +152,10 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..unit)
         }),
     active = list(
+        mode = function() private$..mode$value,
         dep = function() private$..dep$value,
-        time = function() private$..time$value,
+        dep1 = function() private$..dep1$value,
+        time1 = function() private$..time1$value,
         freq = function() private$..freq$value,
         pred = function() private$..pred$value,
         plot = function() private$..plot$value,
@@ -152,8 +172,10 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         periods = function() private$..periods$value,
         unit = function() private$..unit$value),
     private = list(
+        ..mode = NA,
         ..dep = NA,
-        ..time = NA,
+        ..dep1 = NA,
+        ..time1 = NA,
         ..freq = NA,
         ..pred = NA,
         ..plot = NA,
@@ -212,7 +234,6 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(coef)",
                 clearWith=list(
                     "dep",
-                    "time",
                     "freq",
                     "pred"),
                 columns=list(
@@ -236,7 +257,6 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(fit)",
                 clearWith=list(
                     "dep",
-                    "time",
                     "freq",
                     "pred"),
                 columns=list(
@@ -256,7 +276,6 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="forecast",
                 clearWith=list(
                     "dep",
-                    "time",
                     "freq",
                     "pred"),
                 columns=list(
@@ -289,7 +308,6 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot",
                 clearWith=list(
                     "dep",
-                    "time",
                     "freq",
                     "pred")))
             self$add(jmvcore::Image$new(
@@ -303,7 +321,6 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".box",
                 clearWith=list(
                     "dep",
-                    "time",
                     "freq",
                     "pred")))
             self$add(jmvcore::Image$new(
@@ -316,7 +333,6 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot1",
                 clearWith=list(
                     "dep",
-                    "time",
                     "freq",
                     "pred")))
             self$add(jmvcore::Image$new(
@@ -329,7 +345,6 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot2",
                 clearWith=list(
                     "dep",
-                    "time",
                     "freq",
                     "pred")))
             self$add(jmvcore::Image$new(
@@ -343,49 +358,48 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot3",
                 clearWith=list(
                     "dep",
-                    "time",
                     "freq",
                     "pred")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
-                title="Forcast plot",
+                title="Forcast for Prophet",
                 visible="(plot4)",
                 refs="prophet",
                 width=600,
                 height=400,
                 renderFun=".plot4",
                 clearWith=list(
-                    "dep",
-                    "time",
+                    "dep1",
+                    "time1",
                     "period",
                     "unit")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
-                title="Model components plot",
+                title="Model components for Prophet",
                 visible="(plot5)",
                 refs="prophet",
                 width=600,
                 height=400,
                 renderFun=".plot5",
                 clearWith=list(
-                    "dep",
-                    "time",
+                    "dep1",
+                    "time1",
                     "period",
                     "unit")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
-                title="Actual vs. Forecasted Values for Variable y",
+                title="Actual vs. Forecasted Values for Variable y for Prophet",
                 visible="(plot6)",
                 refs="prophet",
                 width=600,
                 height=400,
                 renderFun=".plot6",
                 clearWith=list(
-                    "dep",
-                    "time",
+                    "dep1",
+                    "time1",
                     "period",
                     "unit")))}))
 
@@ -414,9 +428,12 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' 
 #' @param data timeseries data format
+#' @param mode .
 #' @param dep the dependent variable from \code{data}, variable must be
 #'   numeric
-#' @param time ts type called 'ds'
+#' @param dep1 the dependent variable from \code{data}, variable must be
+#'   numeric
+#' @param time1 ts type called 'ds'
 #' @param freq .
 #' @param pred .
 #' @param plot .
@@ -458,8 +475,10 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @export
 arima <- function(
     data,
+    mode = "simple",
     dep,
-    time = NULL,
+    dep1,
+    time1 = NULL,
     freq = 12,
     pred = 10,
     plot = FALSE,
@@ -467,7 +486,7 @@ arima <- function(
     plot1 = FALSE,
     plot2 = FALSE,
     plot3 = FALSE,
-    coef = TRUE,
+    coef = FALSE,
     fit = FALSE,
     point = FALSE,
     plot4 = FALSE,
@@ -480,17 +499,21 @@ arima <- function(
         stop("arima requires jmvcore to be installed (restart may be required)")
 
     if ( ! missing(dep)) dep <- jmvcore::resolveQuo(jmvcore::enquo(dep))
-    if ( ! missing(time)) time <- jmvcore::resolveQuo(jmvcore::enquo(time))
+    if ( ! missing(dep1)) dep1 <- jmvcore::resolveQuo(jmvcore::enquo(dep1))
+    if ( ! missing(time1)) time1 <- jmvcore::resolveQuo(jmvcore::enquo(time1))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(dep), dep, NULL),
-            `if`( ! missing(time), time, NULL))
+            `if`( ! missing(dep1), dep1, NULL),
+            `if`( ! missing(time1), time1, NULL))
 
 
     options <- arimaOptions$new(
+        mode = mode,
         dep = dep,
-        time = time,
+        dep1 = dep1,
+        time1 = time1,
         freq = freq,
         pred = pred,
         plot = plot,

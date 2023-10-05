@@ -19,7 +19,6 @@ items:
       type: Table
       clearWith:
         - dep
-        - time
         - freq
         - pred
 
@@ -41,7 +40,6 @@ items:
       visible: (fit)
       clearWith:
         - dep
-        - time
         - freq
         - pred
 
@@ -62,7 +60,6 @@ items:
       refs: forecast
       clearWith:
         - dep
-        - time
         - freq
         - pred
 
@@ -92,7 +89,6 @@ items:
       renderFun: .plot
       clearWith:
         - dep
-        - time
         - freq
         - pred
 
@@ -107,7 +103,6 @@ items:
       renderFun: .box
       clearWith:
         - dep
-        - time
         - freq
         - pred
 
@@ -121,7 +116,6 @@ items:
       renderFun: .plot1
       clearWith:
         - dep
-        - time
         - freq
         - pred
 
@@ -134,7 +128,6 @@ items:
       renderFun: .plot2
       clearWith:
         - dep
-        - time
         - freq
         - pred
 
@@ -149,12 +142,11 @@ items:
       renderFun: .plot3
       clearWith:
         - dep
-        - time
         - freq
         - pred
 
     - name:  plot4
-      title:  'Forcast plot' 
+      title:  'Forcast for Prophet' 
       type:  Image
       visible: (plot4)
       refs: prophet
@@ -162,13 +154,13 @@ items:
       height: 400
       renderFun: .plot4
       clearWith:
-        - dep
-        - time
+        - dep1
+        - time1
         - period
         - unit
 
     - name:  plot5
-      title:  'Model components plot' 
+      title:  'Model components for Prophet' 
       type:  Image
       visible: (plot5)
       refs: prophet
@@ -176,13 +168,13 @@ items:
       height: 400
       renderFun: .plot5
       clearWith:
-        - dep
-        - time
+        - dep1
+        - time1
         - period
         - unit
 
     - name:  plot6
-      title:  "Actual vs. Forecasted Values for Variable y"
+      title:  "Actual vs. Forecasted Values for Variable y for Prophet"
       type:  Image
       visible: (plot6)
       refs: prophet
@@ -190,8 +182,8 @@ items:
       height: 400
       renderFun: .plot6
       clearWith:
-        - dep
-        - time
+        - dep1
+        - time1
         - period
         - unit
 

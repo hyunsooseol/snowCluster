@@ -26,8 +26,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
         .init = function() {
             
-            
-                if (is.null(self$options$dep)){
+         if (is.null(self$options$dep) | is.null(self$options$dep1)){
                 
                     
                 self$results$instructions$setVisible(visible = TRUE)
@@ -43,7 +42,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
             <h2><b>Instructions</b></h2>
             <p>_____________________________________________________________________________________________</p>
-            <p>1. Do NOT move the variable into <b>Time box</b> to run ARIMA analysis. 
+            <p>1. <b>To run ARIMA,</b> remove the variables from the prophet analysis box.
             <p>2. In order to perform a prophet analysis, the variables must be named <b>'ds' and 'y'</b> respectively.</p>
             <p>3. Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs</p>
             <p>4. ARIMA options are classified by two factors; <b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting.</p>
@@ -68,14 +67,13 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
        ################################################################## 
                 .run = function() {
 
-                  
-                  if(is.null(self$options$dep))
-                    return()      
-           
+         
             dep  <- self$options$dep
-            time <- self$options$time
             freq <- self$options$freq
             pred <- self$options$pred
+          
+            dep1  <- self$options$dep1
+            time1 <- self$options$time1
           
             # xCol <- jmvcore::toNumeric(self$data[[dep]])
             # yCol <- jmvcore::toNumeric(self$data[[time]])
@@ -84,8 +82,13 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             # 
             
            
-            if(is.null(self$options$time)){
+            if(self$options$mode=='simple'){
             
+            
+               if (is.null(self$options$dep)) 
+                 return()      
+            
+                
             # get the data
             data <- self$data
             data <- jmvcore::naOmit(data)
@@ -231,8 +234,18 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
             }
             
-            } else{
-           
+            } 
+            
+####################################################################              
+            
+             if(self$options$mode=='complex'){
+              
+              dep1  <- self$options$dep1
+              time1 <- self$options$time1
+              
+               if (is.null(self$options$dep1) | is.null(self$options$time1)) 
+                 return()     
+              
               # prophet analysis example in R----------
               
               # library(prophet)
@@ -283,9 +296,10 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               
               image6 <- self$results$plot6
               image6$setState(state)
-              
-         
+             
             } 
+         
+           
             
             
             },
@@ -306,7 +320,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .box = function(image,ggtheme, theme,...) {
 
-         
+          # if (is.null(image$state))
+          #   return(FALSE)
+          
             dep  <- self$options$dep
             freq<- self$options$freq
             

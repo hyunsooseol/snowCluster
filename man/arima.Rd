@@ -6,8 +6,10 @@
 \usage{
 arima(
   data,
+  mode = "simple",
   dep,
-  time = NULL,
+  dep1,
+  time1 = NULL,
   freq = 12,
   pred = 10,
   plot = FALSE,
@@ -15,7 +17,7 @@ arima(
   plot1 = FALSE,
   plot2 = FALSE,
   plot3 = FALSE,
-  coef = TRUE,
+  coef = FALSE,
   fit = FALSE,
   point = FALSE,
   plot4 = FALSE,
@@ -28,10 +30,15 @@ arima(
 \arguments{
 \item{data}{timeseries data format}
 
+\item{mode}{.}
+
 \item{dep}{the dependent variable from \code{data}, variable must be
 numeric}
 
-\item{time}{ts type called 'ds'}
+\item{dep1}{the dependent variable from \code{data}, variable must be
+numeric}
+
+\item{time1}{ts type called 'ds'}
 
 \item{freq}{.}
 

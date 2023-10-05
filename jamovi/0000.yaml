@@ -193,7 +193,7 @@ datasets:
     path: prophet.omv
     description: facebook prophet data
     tags:
-      - Univarite time series
+      - Prophet
   - name: beer
     path: beer.omv
     description: monthly-beer-production-in-Australia

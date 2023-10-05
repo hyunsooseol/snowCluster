@@ -4,103 +4,129 @@ jus: '3.0'
 stage: 0
 compilerMode: tame
 children:
-  - type: VariableSupplier
-    persistentItems: false
+  - type: ModeSelector
+    name: mode
     stretchFactor: 1
     children:
-      - type: TargetLayoutBox
-        label: Variable named y
+      - type: Content
+        name: simple
         children:
-          - type: VariablesListBox
-            name: dep
-            maxItemCount: 1
-            isTarget: true
-      - type: TargetLayoutBox
-        label: Time variable named ds
-        children:
-          - type: VariablesListBox
-            name: time
-            isTarget: true
-  - type: CollapseBox
-    label: ARIMA Analysis
-    margin: normal
-    collapsed: true
-    children:
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        children:
-          - type: Label
-            label: ARIMA options
+          - type: LayoutBox
             margin: large
+            stretchFactor: 1
             children:
-              - type: TextBox
-                name: freq
-                format: number
-              - type: TextBox
-                name: pred
-                format: number
-          - type: Label
-            label: Plots
-            children:
-              - type: CheckBox
-                name: plot
-              - type: CheckBox
-                name: box
-              - type: CheckBox
-                name: plot1
-              - type: CheckBox
-                name: plot2
-              - type: CheckBox
-                name: plot3
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        fitToGrid: true
+              - type: VariableSupplier
+                persistentItems: false
+                stretchFactor: 1
+                children:
+                  - type: TargetLayoutBox
+                    label: Variable named y
+                    children:
+                      - type: VariablesListBox
+                        name: dep
+                        maxItemCount: 1
+                        isTarget: true
+              - type: CollapseBox
+                label: ARIMA Analysis
+                margin: normal
+                collapsed: true
+                children:
+                  - type: LayoutBox
+                    stretchFactor: 1
+                    margin: large
+                    children:
+                      - type: Label
+                        label: ARIMA options
+                        margin: large
+                        children:
+                          - type: TextBox
+                            name: freq
+                            format: number
+                          - type: TextBox
+                            name: pred
+                            format: number
+                      - type: Label
+                        label: Tables
+                        children:
+                          - type: CheckBox
+                            name: coef
+                          - type: CheckBox
+                            name: fit
+                          - type: CheckBox
+                            name: point
+                  - type: LayoutBox
+                    stretchFactor: 1
+                    margin: large
+                    cell:
+                      column: 1
+                      row: 0
+                    fitToGrid: true
+                    children:
+                      - type: Label
+                        label: Plots
+                        children:
+                          - type: CheckBox
+                            name: plot
+                          - type: CheckBox
+                            name: box
+                          - type: CheckBox
+                            name: plot1
+                          - type: CheckBox
+                            name: plot2
+                          - type: CheckBox
+                            name: plot3
+      - type: Content
+        name: complex
         children:
-          - type: Label
-            label: Tables
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
             children:
-              - type: CheckBox
-                name: coef
-              - type: CheckBox
-                name: fit
-              - type: CheckBox
-                name: point
-  - type: CollapseBox
-    label: Prophet Analysis
-    margin: normal
-    collapsed: true
-    children:
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        children:
-          - type: Label
-            label: Options
+              - type: TargetLayoutBox
+                label: Variable named y
+                children:
+                  - type: VariablesListBox
+                    name: dep1
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                label: Time variable named ds
+                children:
+                  - type: VariablesListBox
+                    name: time1
+                    isTarget: true
+          - type: CollapseBox
+            label: Prophet Analysis
+            margin: normal
+            collapsed: true
             children:
-              - type: TextBox
-                name: periods
-                format: number
-              - type: ComboBox
-                name: unit
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        fitToGrid: true
-        children:
-          - type: Label
-            label: Plots
-            children:
-              - type: CheckBox
-                name: plot4
-              - type: CheckBox
-                name: plot5
-              - type: CheckBox
-                name: plot6
+              - type: LayoutBox
+                stretchFactor: 1
+                margin: large
+                children:
+                  - type: Label
+                    label: Options
+                    children:
+                      - type: TextBox
+                        name: periods
+                        format: number
+                      - type: ComboBox
+                        name: unit
+              - type: LayoutBox
+                stretchFactor: 1
+                margin: large
+                cell:
+                  column: 1
+                  row: 0
+                fitToGrid: true
+                children:
+                  - type: Label
+                    label: Plots
+                    children:
+                      - type: CheckBox
+                        name: plot4
+                      - type: CheckBox
+                        name: plot5
+                      - type: CheckBox
+                        name: plot6
+ 
