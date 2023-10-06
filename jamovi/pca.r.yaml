@@ -1,6 +1,6 @@
 ---
 name:  pca
-title: PCA Plot
+title: PCA & Group plot
 jrs:   '1.1'
 refs: snowCluster
 items:
@@ -14,7 +14,9 @@ items:
       visible: (eigen)
       type: Table
       clearWith:
+        - mode
         - vars
+        - labels
 
       columns:
         - name: comp
@@ -39,6 +41,11 @@ items:
       width: 500
       height: 500
       renderFun: .plot
+      clearWith:
+        - mode
+        - vars
+        - labels
+
 
     - name:  plot1
       title: Individual Plot
@@ -49,6 +56,10 @@ items:
       width: 500
       height: 500
       renderFun: .plot1
+      clearWith:
+        - mode
+        - vars
+        - labels
  
     - name:  plot2
       title: Biplot
@@ -59,6 +70,36 @@ items:
       width: 500
       height: 500
       renderFun: .plot2
+      clearWith:
+        - mode
+        - vars
+        - labels
  
-
+    - name:  plot3
+      title: Individuals by groups
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot3)
+      width: 500
+      height: 500
+      renderFun: .plot3
+      clearWith:
+        - mode
+        - vars1
+        - labels
+        
+    - name:  plot4
+      title: PCA-Biplot
+      type:  Image
+      requiresData: true
+      refs: factoextra
+      visible: (plot4)
+      width: 500
+      height: 500
+      renderFun: .plot4
+      clearWith:
+        - mode
+        - vars1
+        - labels
 ...

@@ -2,20 +2,27 @@
 % Please edit documentation in R/pca.h.R
 \name{pca}
 \alias{pca}
-\title{PCA Plot}
+\title{PCA & Group plot}
 \usage{
 pca(
   data,
+  mode = "simple",
   labels,
   vars,
-  eigen = TRUE,
+  eigen = FALSE,
   plot = FALSE,
   plot1 = FALSE,
-  plot2 = FALSE
+  plot2 = FALSE,
+  vars1,
+  facs,
+  plot3 = FALSE,
+  plot4 = FALSE
 )
 }
 \arguments{
 \item{data}{The data as a data frame.}
+
+\item{mode}{.}
 
 \item{labels}{.}
 
@@ -28,6 +35,14 @@ pca(
 \item{plot1}{.}
 
 \item{plot2}{.}
+
+\item{vars1}{.}
+
+\item{facs}{.}
+
+\item{plot3}{.}
+
+\item{plot4}{.}
 }
 \value{
 A results object containing:
@@ -37,6 +52,8 @@ A results object containing:
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -46,5 +63,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$eigen)}
 }
 \description{
-PCA Plot
+PCA & Group plot
 }

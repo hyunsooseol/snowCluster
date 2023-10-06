@@ -6,12 +6,17 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
+            mode = "simple",
             labels = NULL,
             vars = NULL,
-            eigen = TRUE,
+            eigen = FALSE,
             plot = FALSE,
             plot1 = FALSE,
-            plot2 = FALSE, ...) {
+            plot2 = FALSE,
+            vars1 = NULL,
+            facs = NULL,
+            plot3 = FALSE,
+            plot4 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -19,6 +24,13 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 ...)
 
+            private$..mode <- jmvcore::OptionList$new(
+                "mode",
+                mode,
+                options=list(
+                    "simple",
+                    "complex"),
+                default="simple")
             private$..labels <- jmvcore::OptionVariable$new(
                 "labels",
                 labels,
@@ -37,7 +49,7 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
                 eigen,
-                default=TRUE)
+                default=FALSE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -50,28 +62,65 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot2",
                 plot2,
                 default=FALSE)
+            private$..vars1 <- jmvcore::OptionVariables$new(
+                "vars1",
+                vars1,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..facs <- jmvcore::OptionVariable$new(
+                "facs",
+                facs,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
+            private$..plot3 <- jmvcore::OptionBool$new(
+                "plot3",
+                plot3,
+                default=FALSE)
+            private$..plot4 <- jmvcore::OptionBool$new(
+                "plot4",
+                plot4,
+                default=FALSE)
 
+            self$.addOption(private$..mode)
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
             self$.addOption(private$..eigen)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
+            self$.addOption(private$..vars1)
+            self$.addOption(private$..facs)
+            self$.addOption(private$..plot3)
+            self$.addOption(private$..plot4)
         }),
     active = list(
+        mode = function() private$..mode$value,
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
         eigen = function() private$..eigen$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
-        plot2 = function() private$..plot2$value),
+        plot2 = function() private$..plot2$value,
+        vars1 = function() private$..vars1$value,
+        facs = function() private$..facs$value,
+        plot3 = function() private$..plot3$value,
+        plot4 = function() private$..plot4$value),
     private = list(
+        ..mode = NA,
         ..labels = NA,
         ..vars = NA,
         ..eigen = NA,
         ..plot = NA,
         ..plot1 = NA,
-        ..plot2 = NA)
+        ..plot2 = NA,
+        ..vars1 = NA,
+        ..facs = NA,
+        ..plot3 = NA,
+        ..plot4 = NA)
 )
 
 pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -82,14 +131,16 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         eigen = function() private$.items[["eigen"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
-        plot2 = function() private$.items[["plot2"]]),
+        plot2 = function() private$.items[["plot2"]],
+        plot3 = function() private$.items[["plot3"]],
+        plot4 = function() private$.items[["plot4"]]),
     private = list(),
     public=list(
         initialize=function(options) {
             super$initialize(
                 options=options,
                 name="",
-                title="PCA Plot",
+                title="PCA & Group plot",
                 refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
@@ -102,7 +153,9 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Eigenvalues",
                 visible="(eigen)",
                 clearWith=list(
-                    "vars"),
+                    "mode",
+                    "vars",
+                    "labels"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -129,7 +182,11 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot)",
                 width=500,
                 height=500,
-                renderFun=".plot"))
+                renderFun=".plot",
+                clearWith=list(
+                    "mode",
+                    "vars",
+                    "labels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -139,7 +196,11 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot1)",
                 width=500,
                 height=500,
-                renderFun=".plot1"))
+                renderFun=".plot1",
+                clearWith=list(
+                    "mode",
+                    "vars",
+                    "labels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -149,7 +210,39 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot2)",
                 width=500,
                 height=500,
-                renderFun=".plot2"))}))
+                renderFun=".plot2",
+                clearWith=list(
+                    "mode",
+                    "vars",
+                    "labels")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot3",
+                title="Individuals by groups",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot3)",
+                width=500,
+                height=500,
+                renderFun=".plot3",
+                clearWith=list(
+                    "mode",
+                    "vars1",
+                    "labels")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot4",
+                title="PCA-Biplot",
+                requiresData=TRUE,
+                refs="factoextra",
+                visible="(plot4)",
+                width=500,
+                height=500,
+                renderFun=".plot4",
+                clearWith=list(
+                    "mode",
+                    "vars1",
+                    "labels")))}))
 
 pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "pcaBase",
@@ -172,16 +265,21 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'auto')
         }))
 
-#' PCA Plot
+#' PCA & Group plot
 #'
 #' 
 #' @param data The data as a data frame.
+#' @param mode .
 #' @param labels .
 #' @param vars .
 #' @param eigen .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
+#' @param vars1 .
+#' @param facs .
+#' @param plot3 .
+#' @param plot4 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -189,6 +287,8 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -200,32 +300,47 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @export
 pca <- function(
     data,
+    mode = "simple",
     labels,
     vars,
-    eigen = TRUE,
+    eigen = FALSE,
     plot = FALSE,
     plot1 = FALSE,
-    plot2 = FALSE) {
+    plot2 = FALSE,
+    vars1,
+    facs,
+    plot3 = FALSE,
+    plot4 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("pca requires jmvcore to be installed (restart may be required)")
 
     if ( ! missing(labels)) labels <- jmvcore::resolveQuo(jmvcore::enquo(labels))
     if ( ! missing(vars)) vars <- jmvcore::resolveQuo(jmvcore::enquo(vars))
+    if ( ! missing(vars1)) vars1 <- jmvcore::resolveQuo(jmvcore::enquo(vars1))
+    if ( ! missing(facs)) facs <- jmvcore::resolveQuo(jmvcore::enquo(facs))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(labels), labels, NULL),
-            `if`( ! missing(vars), vars, NULL))
+            `if`( ! missing(vars), vars, NULL),
+            `if`( ! missing(vars1), vars1, NULL),
+            `if`( ! missing(facs), facs, NULL))
 
+    for (v in facs) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- pcaOptions$new(
+        mode = mode,
         labels = labels,
         vars = vars,
         eigen = eigen,
         plot = plot,
         plot1 = plot1,
-        plot2 = plot2)
+        plot2 = plot2,
+        vars1 = vars1,
+        facs = facs,
+        plot3 = plot3,
+        plot4 = plot4)
 
     analysis <- pcaClass$new(
         options = options,

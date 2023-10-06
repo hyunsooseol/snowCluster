@@ -17,6 +17,7 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
       .init = function() {
         
         if (is.null(self$data) | is.null(self$options$vars)) {
+          
           self$results$instructions$setVisible(visible = TRUE)
           
         }
@@ -42,6 +43,7 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
       
               .run = function() {
 
+                if(self$options$mode=='simple'){
             
           if (!is.null(self$options$vars)) {
             
@@ -119,6 +121,61 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
           }
           
+                }
+            
+           
+                if(self$options$mode=='complex'){     
+                    
+                  if (is.null(self$options$facs) || length(self$options$vars1) < 2)
+                    return()
+                  
+                  
+                  
+                  # read the option values into shorter variable names
+                  
+                  vars1  <- self$options$vars1
+                  facs <- self$options$facs
+                  
+                  # get the data
+                  
+                  data <- self$data
+                  
+                  
+                  # convert to appropriate data types
+                  
+                  for (i in seq_along(vars1))
+                    data[[i]] <- jmvcore::toNumeric(data[[i]])
+                  
+                  
+                  #  data[[vars]] <- jmvcore::toNumeric(data[[vars]])
+                  
+                  for (fac in facs)
+                    data[[fac]] <- as.factor(data[[fac]])
+                  
+                  # data is now all of the appropriate type we can begin!
+                  
+                  data <- na.omit(data)
+                  
+                  data <- jmvcore::select(data, self$options$vars1)
+                  
+                  # principal component analysis---------
+                  
+                  pca <- FactoMineR::PCA(data,  graph = FALSE)
+                  
+                  
+                  # group plot----------
+                  
+                  image3 <- self$results$plot3
+                  image3$setState(pca)
+                  
+                  # biplot------------------------
+                  
+                  image4 <- self$results$plot4
+                  image4$setState(pca)
+                  
+                  
+                }     
+                  
         },
         
         # Control variable colors using their contributions----------
@@ -172,7 +229,46 @@ pcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
           plot2 <- plot2+ggtheme
           print(plot2)
           TRUE
-        }
+        },
+      
+      .plot3 = function(image3, ggtheme, theme, ...) {
+        
+        if (is.null(image3$state))
+          return(FALSE)
+        
+        pca <- image3$state
+        
+        plot3 <- factoextra::fviz_pca_ind(pca,
+                                         
+                                         label = "none", # hide individual labels
+                                         habillage = self$data[[self$options$facs]],  # color by groups for example, iris$Species,
+                                         palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                         addEllipses = TRUE # Concentration ellipses
+        )
+        
+        plot3 <- plot3+ggtheme
+        print(plot3)
+        TRUE
+      },
+      
+      .plot4 = function(image4, ggtheme, theme, ...) {
+        
+        if (is.null(image4$state))
+          return(FALSE)
+        
+        
+        pca <- image4$state
+        
+        plot4 <- factoextra::fviz_pca_biplot(pca, 
+                                             col.ind =  self$data[[self$options$facs]], palette = "jco", 
+                                             addEllipses = TRUE, label = "var",
+                                             col.var = "black", repel = TRUE,
+                                             legend.title = self$options$facs) 
+        
+        plot4 <- plot4+ggtheme
+        print(plot4)
+        TRUE
+      }
        
         
     )

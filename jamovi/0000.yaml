@@ -39,17 +39,11 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Multidimensional Scaling Plot
     menuSubgroup: Cluster Plot
-  - title: PCA Plot
+  - title: PCA & Group plot
     name: pca
     ns: snowCluster
     menuGroup: snowCluster
-    menuTitle: PCA Plot
-    menuSubgroup: Cluster Plot
-  - title: Group plot
-    name: group
-    ns: snowCluster
-    menuGroup: snowCluster
-    menuTitle: Group plot
+    menuTitle: PCA & Group plot
     menuSubgroup: Cluster Plot
   - title: Correspondence Analysis
     name: correspondence

@@ -1,6 +1,6 @@
 ---
 name:  pca
-title: PCA Plot
+title: PCA & Group plot
 menuGroup: snowCluster
 menuSubgroup: Cluster Plot
 version: '1.0.0'
@@ -12,6 +12,16 @@ options:
       description:
           R: >
             The data as a data frame.
+
+    - name: mode
+      title: ""
+      type: List
+      options:
+            - name: simple
+              title: 'PCA Plot'
+            - name: complex
+              title: 'Group Plot'
+      default: simple
 
     - name: labels
       title: Labels (Optional)
@@ -29,11 +39,11 @@ options:
          - continuous
       permitted:
         - numeric  
-  
+
     - name: eigen
       title: Eigenvalues
       type: Bool
-      default: TRUE  
+      default: FALSE
 
     - name: plot
       title: Variable contributions 
@@ -50,5 +60,29 @@ options:
       type: Bool
       default: FALSE
   
+    - name: vars1
+      title: Variables
+      type: Variables
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
 
+    - name: facs
+      title: Factor(Required)
+      type: Variable
+      suggested:
+         - nominal
+      permitted:
+        - factor
+        
+    - name: plot3
+      title: Individuals by groups
+      type: Bool
+      default: FALSE
+      
+    - name: plot4
+      title: PCA-Biplot
+      type: Bool
+      default: FALSE        
 ...
