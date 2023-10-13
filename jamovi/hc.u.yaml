@@ -24,10 +24,9 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1
-  - type: CollapseBox
-    label: Hierarchical Clustering
-    margin: normal
-    collapsed: true
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
     children:
       - type: LayoutBox
         margin: large
@@ -37,7 +36,7 @@ children:
         stretchFactor: 1
         children:
           - type: Label
-            label: Options
+            label: 'Options'
             children:
               - type: CheckBox
                 name: stand
@@ -58,19 +57,12 @@ children:
         stretchFactor: 1
         children:
           - type: Label
-            label: Plot
+            label: 'Plot'
             children:
               - type: CheckBox
                 name: plot
-                children: []
-  - type: CollapseBox
-    label: Save
-    collapsed: true
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
-        children:
-          - type: Output
-            name: clust
+          - type: Label
+            label: 'Save'
+            children:
+              - type: Output
+                name: clust      

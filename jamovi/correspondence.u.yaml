@@ -36,7 +36,7 @@ children:
         stretchFactor: 1
         children:
           - type: Label
-            label: "Tests"
+            label: "Tables"
             children:
               - name: chi
                 type: CheckBox
