@@ -1,4 +1,4 @@
-title: K-means Clustering 
+title: K-means Clustering
 name: kmeans
 jus: '3.0'
 stage: 0
@@ -14,21 +14,54 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  - type: CollapseBox
-    label: K-means Analysis
-    margin: normal
-    collapsed: true
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
     children:
-      - name: k
-        type: TextBox
-        format: number
-      - name: algo
-        type: ComboBox
-      - name: nstart
-        type: TextBox
-        format: number
-      - name: stand
-        type: CheckBox
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Algorithm
+            children: 
+              - type: RadioButton
+                name: algo_Hartigan-Wong
+                optionName: algo
+                optionPart: Hartigan-Wong
+              - name: algo_Lloyd
+                type: RadioButton
+                optionName: algo
+                optionPart: Lloyd
+              - name: algo_Forgy
+                type: RadioButton
+                optionName: algo
+                optionPart: Forgy
+              - name: algo_MacQueen
+                type: RadioButton
+                optionName: algo
+                optionPart: MacQueen        
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Options
+            children:
+              - name: stand
+                type: CheckBox
+              - name: k
+                type: TextBox
+                format: number
+              - name: nstart
+                type: TextBox
+                format: number
   - type: CollapseBox
     label: Plots
     margin: normal
@@ -60,5 +93,3 @@ children:
         children:
           - type: Output
             name: clust
-
- 

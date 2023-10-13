@@ -7,7 +7,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             vars = NULL,
-            k = 1,
+            k = 2,
             algo = "Hartigan-Wong",
             nstart = 10,
             stand = FALSE,
@@ -33,7 +33,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..k <- jmvcore::OptionInteger$new(
                 "k",
                 k,
-                default=1,
+                default=2,
                 min=1)
             private$..algo <- jmvcore::OptionList$new(
                 "algo",
@@ -339,7 +339,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 kmeans <- function(
     data,
     vars,
-    k = 1,
+    k = 2,
     algo = "Hartigan-Wong",
     nstart = 10,
     stand = FALSE,

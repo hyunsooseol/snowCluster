@@ -7,7 +7,7 @@
 kmeans(
   data,
   vars,
-  k = 1,
+  k = 2,
   algo = "Hartigan-Wong",
   nstart = 10,
   stand = FALSE,

@@ -23,7 +23,7 @@ options:
 
     - name: k
       title: Number of clusters
-      default: 1
+      default: 2
       type: Integer
       min: 1
 
@@ -31,10 +31,14 @@ options:
       title: Algorithm
       type: List
       options:
-        - Hartigan-Wong
-        - Lloyd
-        - Forgy
-        - MacQueen
+        - title:  Hartigan-Wong
+          name:   Hartigan-Wong
+        - title: Lloyd
+          name:  Lloyd
+        - title: Forgy
+          name:  Forgy   
+        - title: MacQueen
+          name:  MacQueen
       default: Hartigan-Wong
 
     - name: nstart
