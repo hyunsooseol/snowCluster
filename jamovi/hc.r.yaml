@@ -28,8 +28,6 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot)
-      width: 500
-      height: 500
       renderFun: .plot
       clearWith:
         - vars
@@ -38,4 +36,6 @@ items:
         - metric
         - type
         - method
+        - width
+        - height
 ...

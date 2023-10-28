@@ -13,7 +13,9 @@ hc(
   metric = "euclidean",
   method = "ward.D2",
   type = "rectangle",
-  plot = TRUE
+  plot = TRUE,
+  width = 500,
+  height = 500
 )
 }
 \arguments{
@@ -34,6 +36,10 @@ hc(
 \item{type}{.}
 
 \item{plot}{.}
+
+\item{width}{.}
+
+\item{height}{.}
 }
 \value{
 A results object containing:

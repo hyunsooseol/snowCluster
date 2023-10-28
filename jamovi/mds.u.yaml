@@ -39,10 +39,20 @@ children:
             margin: large
             children:
               - type: Label
-                label: Plots
+                label: 'Plots'
                 children:
                   - type: CheckBox
                     name: plot
+                    style: list-inline
+                    children:
+                      - type: TextBox
+                        name: width
+                        format: number
+                        enable: (plot)
+                      - type: TextBox
+                        name: height
+                        format: number
+                        enable: (plot)
                   - type: CheckBox
                     name: plot1
                     children:
@@ -50,6 +60,14 @@ children:
                         name: k
                         enable: (plot1)
                         format: number
+                      - type: TextBox
+                        name: width1
+                        format: number
+                        enable: (plot1)
+                      - type: TextBox
+                        name: height1
+                        format: number
+                        enable: (plot1)     
       - type: Content
         name: complex
         children:
@@ -83,4 +101,13 @@ children:
             children:
               - type: CheckBox
                 name: plot2
-
+                style: list-inline
+                children:
+                  - type: TextBox
+                    name: width2
+                    format: number
+                    enable: (plot2)
+                  - type: TextBox
+                    name: height2
+                    format: number
+                    enable: (plot2)

@@ -13,7 +13,9 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             metric = "euclidean",
             method = "ward.D2",
             type = "rectangle",
-            plot = TRUE, ...) {
+            plot = TRUE,
+            width = 500,
+            height = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -80,6 +82,14 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=TRUE)
             private$..clust <- jmvcore::OptionOutput$new(
                 "clust")
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
@@ -90,6 +100,8 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..type)
             self$.addOption(private$..plot)
             self$.addOption(private$..clust)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
         }),
     active = list(
         labels = function() private$..labels$value,
@@ -100,7 +112,9 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         method = function() private$..method$value,
         type = function() private$..type$value,
         plot = function() private$..plot$value,
-        clust = function() private$..clust$value),
+        clust = function() private$..clust$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
@@ -110,7 +124,9 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..method = NA,
         ..type = NA,
         ..plot = NA,
-        ..clust = NA)
+        ..clust = NA,
+        ..width = NA,
+        ..height = NA)
 )
 
 hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -153,8 +169,6 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot)",
-                width=500,
-                height=500,
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
@@ -162,7 +176,9 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "stand",
                     "metric",
                     "type",
-                    "method")))}))
+                    "method",
+                    "width",
+                    "height")))}))
 
 hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcBase",
@@ -197,6 +213,8 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param method .
 #' @param type .
 #' @param plot .
+#' @param width .
+#' @param height .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -214,7 +232,9 @@ hc <- function(
     metric = "euclidean",
     method = "ward.D2",
     type = "rectangle",
-    plot = TRUE) {
+    plot = TRUE,
+    width = 500,
+    height = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("hc requires jmvcore to be installed (restart may be required)")
@@ -236,7 +256,9 @@ hc <- function(
         metric = metric,
         method = method,
         type = type,
-        plot = plot)
+        plot = plot,
+        width = width,
+        height = height)
 
     analysis <- hcClass$new(
         options = options,

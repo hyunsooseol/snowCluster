@@ -15,7 +15,11 @@ mds(
   xlab,
   ylab,
   zlab,
-  plot2 = FALSE
+  plot2 = FALSE,
+  width = 500,
+  height = 500,
+  width1 = 500,
+  height1 = 500
 )
 }
 \arguments{
@@ -40,6 +44,14 @@ mds(
 \item{zlab}{.}
 
 \item{plot2}{.}
+
+\item{width}{.}
+
+\item{height}{.}
+
+\item{width1}{.}
+
+\item{height1}{.}
 }
 \value{
 A results object containing:

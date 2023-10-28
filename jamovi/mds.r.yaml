@@ -14,37 +14,37 @@ items:
       type:  Image
       requiresData: true
       visible: (plot)
-      width: 500
-      height: 500
       renderFun: .plot
       clearWith:
         - vars
         - labels
+        - width
+        - height
 
     - name:  plot1
       title: K-means Plot
       type:  Image
       requiresData: true
       visible: (plot1)
-      width: 500
-      height: 500
       renderFun: .plot1
       clearWith:
         - vars
         - labels
         - k
+        - width1
+        - height1
 
     - name:  plot2
       title: '3D Scatter Plot'
       type:  Image
       requiresData: true
       visible: (plot2)
-      width: 500
-      height: 500
       renderFun: .plot2
       clearWith:
         - xlab
         - ylab
         - zlab
+        - width2
+        - height2
        
 ...

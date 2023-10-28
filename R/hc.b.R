@@ -35,7 +35,14 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </body>
             </html>"
             )
+           
+            if(isTRUE(self$options$plot)){
+              width <- self$options$width
+              height <- self$options$height
+              self$results$plot$setSize(width, height)
+            }
             
+             
         },
         
         #---------------------------------------------
@@ -97,12 +104,11 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
            image <- self$results$plot
             
-            vars <- length(self$options$vars)
-            case <- nrow(data)
-
-            height <- 300 + case * 10
-
-            image$setSize(500, height)
+            # vars <- length(self$options$vars)
+            # case <- nrow(data)
+            # 
+            # height <- 300 + case * 10
+            # image$setSize(500, height)
             
             
             image$setState(hc)

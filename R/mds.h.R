@@ -15,7 +15,13 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             xlab = NULL,
             ylab = NULL,
             zlab = NULL,
-            plot2 = FALSE, ...) {
+            plot2 = FALSE,
+            width = 500,
+            height = 500,
+            width1 = 500,
+            height1 = 500,
+            width2 = 500,
+            height2 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -86,6 +92,30 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot2",
                 plot2,
                 default=FALSE)
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
+            private$..width2 <- jmvcore::OptionInteger$new(
+                "width2",
+                width2,
+                default=500)
+            private$..height2 <- jmvcore::OptionInteger$new(
+                "height2",
+                height2,
+                default=500)
 
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
@@ -97,6 +127,12 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..ylab)
             self$.addOption(private$..zlab)
             self$.addOption(private$..plot2)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
+            self$.addOption(private$..width2)
+            self$.addOption(private$..height2)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -108,7 +144,13 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         xlab = function() private$..xlab$value,
         ylab = function() private$..ylab$value,
         zlab = function() private$..zlab$value,
-        plot2 = function() private$..plot2$value),
+        plot2 = function() private$..plot2$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value,
+        width2 = function() private$..width2$value,
+        height2 = function() private$..height2$value),
     private = list(
         ..mode = NA,
         ..labels = NA,
@@ -119,7 +161,13 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..xlab = NA,
         ..ylab = NA,
         ..zlab = NA,
-        ..plot2 = NA)
+        ..plot2 = NA,
+        ..width = NA,
+        ..height = NA,
+        ..width1 = NA,
+        ..height1 = NA,
+        ..width2 = NA,
+        ..height2 = NA)
 )
 
 mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -149,38 +197,38 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="MDS Plot",
                 requiresData=TRUE,
                 visible="(plot)",
-                width=500,
-                height=500,
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
-                    "labels")))
+                    "labels",
+                    "width",
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
                 title="K-means Plot",
                 requiresData=TRUE,
                 visible="(plot1)",
-                width=500,
-                height=500,
                 renderFun=".plot1",
                 clearWith=list(
                     "vars",
                     "labels",
-                    "k")))
+                    "k",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
                 title="3D Scatter Plot",
                 requiresData=TRUE,
                 visible="(plot2)",
-                width=500,
-                height=500,
                 renderFun=".plot2",
                 clearWith=list(
                     "xlab",
                     "ylab",
-                    "zlab")))}))
+                    "zlab",
+                    "width2",
+                    "height2")))}))
 
 mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mdsBase",
@@ -217,6 +265,12 @@ mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param ylab .
 #' @param zlab .
 #' @param plot2 .
+#' @param width .
+#' @param height .
+#' @param width1 .
+#' @param height1 .
+#' @param width2 .
+#' @param height2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -237,7 +291,13 @@ mds <- function(
     xlab,
     ylab,
     zlab,
-    plot2 = FALSE) {
+    plot2 = FALSE,
+    width = 500,
+    height = 500,
+    width1 = 500,
+    height1 = 500,
+    width2 = 500,
+    height2 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("mds requires jmvcore to be installed (restart may be required)")
@@ -267,7 +327,13 @@ mds <- function(
         xlab = xlab,
         ylab = ylab,
         zlab = zlab,
-        plot2 = plot2)
+        plot2 = plot2,
+        width = width,
+        height = height,
+        width1 = width1,
+        height1 = height1,
+        width2 = width2,
+        height2 = height2)
 
     analysis <- mdsClass$new(
         options = options,
