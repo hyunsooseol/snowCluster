@@ -18,7 +18,11 @@ pca(
   plot3 = FALSE,
   plot4 = FALSE,
   width = 500,
-  height = 500
+  height = 500,
+  width1 = 500,
+  height1 = 500,
+  width2 = 500,
+  height2 = 500
 )
 }
 \arguments{
@@ -49,6 +53,14 @@ pca(
 \item{width}{.}
 
 \item{height}{.}
+
+\item{width1}{.}
+
+\item{height1}{.}
+
+\item{width2}{.}
+
+\item{height2}{.}
 }
 \value{
 A results object containing:

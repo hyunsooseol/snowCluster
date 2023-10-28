@@ -22,7 +22,11 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             width1 = 500,
             height1 = 500,
             width2 = 500,
-            height2 = 500, ...) {
+            height2 = 500,
+            width3 = 500,
+            height3 = 500,
+            width4 = 500,
+            height4 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -114,6 +118,22 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "height2",
                 height2,
                 default=500)
+            private$..width3 <- jmvcore::OptionInteger$new(
+                "width3",
+                width3,
+                default=500)
+            private$..height3 <- jmvcore::OptionInteger$new(
+                "height3",
+                height3,
+                default=500)
+            private$..width4 <- jmvcore::OptionInteger$new(
+                "width4",
+                width4,
+                default=500)
+            private$..height4 <- jmvcore::OptionInteger$new(
+                "height4",
+                height4,
+                default=500)
 
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
@@ -132,6 +152,10 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..height1)
             self$.addOption(private$..width2)
             self$.addOption(private$..height2)
+            self$.addOption(private$..width3)
+            self$.addOption(private$..height3)
+            self$.addOption(private$..width4)
+            self$.addOption(private$..height4)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -150,7 +174,11 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         width1 = function() private$..width1$value,
         height1 = function() private$..height1$value,
         width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value),
+        height2 = function() private$..height2$value,
+        width3 = function() private$..width3$value,
+        height3 = function() private$..height3$value,
+        width4 = function() private$..width4$value,
+        height4 = function() private$..height4$value),
     private = list(
         ..mode = NA,
         ..labels = NA,
@@ -168,7 +196,11 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..width1 = NA,
         ..height1 = NA,
         ..width2 = NA,
-        ..height2 = NA)
+        ..height2 = NA,
+        ..width3 = NA,
+        ..height3 = NA,
+        ..width4 = NA,
+        ..height4 = NA)
 )
 
 pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -270,13 +302,13 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot3)",
-                width=500,
-                height=500,
                 renderFun=".plot3",
                 clearWith=list(
                     "mode",
                     "vars1",
-                    "labels")))
+                    "labels",
+                    "width3",
+                    "height3")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -284,13 +316,13 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot4)",
-                width=500,
-                height=500,
                 renderFun=".plot4",
                 clearWith=list(
                     "mode",
                     "vars1",
-                    "labels")))}))
+                    "labels",
+                    "width4",
+                    "height4")))}))
 
 pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "pcaBase",
@@ -334,6 +366,10 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param height1 .
 #' @param width2 .
 #' @param height2 .
+#' @param width3 .
+#' @param height3 .
+#' @param width4 .
+#' @param height4 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -370,7 +406,11 @@ pca <- function(
     width1 = 500,
     height1 = 500,
     width2 = 500,
-    height2 = 500) {
+    height2 = 500,
+    width3 = 500,
+    height3 = 500,
+    width4 = 500,
+    height4 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("pca requires jmvcore to be installed (restart may be required)")
@@ -406,7 +446,11 @@ pca <- function(
         width1 = width1,
         height1 = height1,
         width2 = width2,
-        height2 = height2)
+        height2 = height2,
+        width3 = width3,
+        height3 = height3,
+        width4 = width4,
+        height4 = height4)
 
     analysis <- pcaClass$new(
         options = options,

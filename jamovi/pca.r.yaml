@@ -81,13 +81,13 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot3)
-      width: 500
-      height: 500
       renderFun: .plot3
       clearWith:
         - mode
         - vars1
         - labels
+        - width3
+        - height3
         
     - name:  plot4
       title: PCA-Biplot
@@ -95,11 +95,11 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot4)
-      width: 500
-      height: 500
       renderFun: .plot4
       clearWith:
         - mode
         - vars1
         - labels
+        - width4
+        - height4
 ...
