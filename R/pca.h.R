@@ -16,7 +16,13 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars1 = NULL,
             facs = NULL,
             plot3 = FALSE,
-            plot4 = FALSE, ...) {
+            plot4 = FALSE,
+            width = 500,
+            height = 500,
+            width1 = 500,
+            height1 = 500,
+            width2 = 500,
+            height2 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -84,6 +90,30 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot4",
                 plot4,
                 default=FALSE)
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
+            private$..width2 <- jmvcore::OptionInteger$new(
+                "width2",
+                width2,
+                default=500)
+            private$..height2 <- jmvcore::OptionInteger$new(
+                "height2",
+                height2,
+                default=500)
 
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
@@ -96,6 +126,12 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..facs)
             self$.addOption(private$..plot3)
             self$.addOption(private$..plot4)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
+            self$.addOption(private$..width2)
+            self$.addOption(private$..height2)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -108,7 +144,13 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars1 = function() private$..vars1$value,
         facs = function() private$..facs$value,
         plot3 = function() private$..plot3$value,
-        plot4 = function() private$..plot4$value),
+        plot4 = function() private$..plot4$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value,
+        width2 = function() private$..width2$value,
+        height2 = function() private$..height2$value),
     private = list(
         ..mode = NA,
         ..labels = NA,
@@ -120,7 +162,13 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars1 = NA,
         ..facs = NA,
         ..plot3 = NA,
-        ..plot4 = NA)
+        ..plot4 = NA,
+        ..width = NA,
+        ..height = NA,
+        ..width1 = NA,
+        ..height1 = NA,
+        ..width2 = NA,
+        ..height2 = NA)
 )
 
 pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -180,13 +228,13 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot)",
-                width=500,
-                height=500,
                 renderFun=".plot",
                 clearWith=list(
                     "mode",
                     "vars",
-                    "labels")))
+                    "labels",
+                    "width",
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -194,13 +242,13 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot1)",
-                width=500,
-                height=500,
                 renderFun=".plot1",
                 clearWith=list(
                     "mode",
                     "vars",
-                    "labels")))
+                    "labels",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -208,13 +256,13 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot2)",
-                width=500,
-                height=500,
                 renderFun=".plot2",
                 clearWith=list(
                     "mode",
                     "vars",
-                    "labels")))
+                    "labels",
+                    "width2",
+                    "height2")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -280,6 +328,12 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param facs .
 #' @param plot3 .
 #' @param plot4 .
+#' @param width .
+#' @param height .
+#' @param width1 .
+#' @param height1 .
+#' @param width2 .
+#' @param height2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -310,7 +364,13 @@ pca <- function(
     vars1,
     facs,
     plot3 = FALSE,
-    plot4 = FALSE) {
+    plot4 = FALSE,
+    width = 500,
+    height = 500,
+    width1 = 500,
+    height1 = 500,
+    width2 = 500,
+    height2 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("pca requires jmvcore to be installed (restart may be required)")
@@ -340,7 +400,13 @@ pca <- function(
         vars1 = vars1,
         facs = facs,
         plot3 = plot3,
-        plot4 = plot4)
+        plot4 = plot4,
+        width = width,
+        height = height,
+        width1 = width1,
+        height1 = height1,
+        width2 = width2,
+        height2 = height2)
 
     analysis <- pcaClass$new(
         options = options,

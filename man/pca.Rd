@@ -16,7 +16,9 @@ pca(
   vars1,
   facs,
   plot3 = FALSE,
-  plot4 = FALSE
+  plot4 = FALSE,
+  width = 500,
+  height = 500
 )
 }
 \arguments{
@@ -43,6 +45,10 @@ pca(
 \item{plot3}{.}
 
 \item{plot4}{.}
+
+\item{width}{.}
+
+\item{height}{.}
 }
 \value{
 A results object containing:

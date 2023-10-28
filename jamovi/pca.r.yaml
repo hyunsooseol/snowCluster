@@ -38,13 +38,13 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot)
-      width: 500
-      height: 500
       renderFun: .plot
       clearWith:
         - mode
         - vars
         - labels
+        - width
+        - height
 
 
     - name:  plot1
@@ -53,27 +53,27 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot1)
-      width: 500
-      height: 500
       renderFun: .plot1
       clearWith:
         - mode
         - vars
         - labels
- 
+        - width1
+        - height1
+        
     - name:  plot2
       title: Biplot
       type:  Image
       requiresData: true
       refs: factoextra 
       visible: (plot2)
-      width: 500
-      height: 500
       renderFun: .plot2
       clearWith:
         - mode
         - vars
         - labels
+        - width2
+        - height2
  
     - name:  plot3
       title: Individuals by groups
