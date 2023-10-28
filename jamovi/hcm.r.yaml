@@ -56,26 +56,35 @@ items:
       title: Dendrogram
       visible: FALSE
       type: Image
-      width: 600
-      height: 1000
       renderFun: .plot
+      clearWith:
+        - dis
+        - method
+        - group
+        - grp
+        - hght
+        - case
+        - width
+        - height
       
     - name: heat
       title: Heatmap
       visible: FALSE
       type: Image
-      width: 600
-      height: 600
       renderFun: .heat
+      clearWith:
+        - width1
+        - height1
      
     - name: pairs
       title: Pairs plot
       visible: FALSE
       type: Image
-      width: 600
-      height: 600
       renderFun: .pairs       
-
+      clearWith:
+        - width2
+        - height2
+    
     - name: clust
       title: Clustering
       type: Output

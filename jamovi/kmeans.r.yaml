@@ -75,8 +75,6 @@ items:
       title: Plot of means across clusters
       type:  Image
       visible: (plot)
-      width: 700
-      height: 500
       renderFun: .plot
       clearWith:
         - vars
@@ -85,14 +83,14 @@ items:
         - nstart
         - stand
         - angle
+        - width
+        - height
 
     - name:  plot1
       title: Optimal number of clusters
       type:  Image
       refs: factoextra
       visible: (plot1)
-      width: 500
-      height: 500
       renderFun: .plot1
       clearWith:
         - vars
@@ -100,6 +98,8 @@ items:
         - algo
         - nstart
         - stand
+        - width1
+        - height1
 
     - name:  plot2
       title: Cluster plot
@@ -107,8 +107,6 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot2)
-      width: 500
-      height: 500
       renderFun: .plot2
       clearWith:
         - vars
@@ -116,6 +114,8 @@ items:
         - algo
         - nstart
         - stand
+        - width2
+        - height2  
       
     - name:  plot3
       title: Variables-PCA
@@ -123,8 +123,6 @@ items:
       requiresData: true
       refs: factoextra
       visible: (plot3)
-      width: 500
-      height: 500
       renderFun: .plot3
       clearWith:
         - vars
@@ -132,6 +130,8 @@ items:
         - algo
         - nstart
         - stand
+        - width3
+        - height3
    
     - name: clust
       title: Clustering

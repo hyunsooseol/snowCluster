@@ -35,7 +35,24 @@ hcmClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             if(self$options$heat == TRUE)  self$results$heat$setVisible(visible = TRUE)
             if((self$options$pair == TRUE)&(self$options$case == FALSE)) self$results$pairs$setVisible(visible = TRUE) 
 
+            if(isTRUE(self$options$dend)){
+              width <- self$options$width
+              height <- self$options$height
+              self$results$plot$setSize(width, height)
+            }
             
+            if(isTRUE(self$options$heat)){
+              width <- self$options$width1
+              height <- self$options$height1
+              self$results$heat$setSize(width, height)
+            }
+            
+            if(isTRUE(self$options$pair)){
+              width <- self$options$width2
+              height <- self$options$height2
+              self$results$pairs$setSize(width, height)
+            }
+             
                     },
         
 .run = function() {

@@ -18,7 +18,13 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             dend = FALSE,
             horiz = FALSE,
             heat = FALSE,
-            pair = FALSE, ...) {
+            pair = FALSE,
+            width = 500,
+            height = 500,
+            width1 = 500,
+            height1 = 500,
+            width2 = 500,
+            height2 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -104,6 +110,30 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=FALSE)
             private$..clust <- jmvcore::OptionOutput$new(
                 "clust")
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
+            private$..width2 <- jmvcore::OptionInteger$new(
+                "width2",
+                width2,
+                default=500)
+            private$..height2 <- jmvcore::OptionInteger$new(
+                "height2",
+                height2,
+                default=500)
 
             self$.addOption(private$..podatki)
             self$.addOption(private$..imena)
@@ -119,6 +149,12 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..heat)
             self$.addOption(private$..pair)
             self$.addOption(private$..clust)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
+            self$.addOption(private$..width2)
+            self$.addOption(private$..height2)
         }),
     active = list(
         podatki = function() private$..podatki$value,
@@ -134,7 +170,13 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         horiz = function() private$..horiz$value,
         heat = function() private$..heat$value,
         pair = function() private$..pair$value,
-        clust = function() private$..clust$value),
+        clust = function() private$..clust$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value,
+        width2 = function() private$..width2$value,
+        height2 = function() private$..height2$value),
     private = list(
         ..podatki = NA,
         ..imena = NA,
@@ -149,7 +191,13 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..horiz = NA,
         ..heat = NA,
         ..pair = NA,
-        ..clust = NA)
+        ..clust = NA,
+        ..width = NA,
+        ..height = NA,
+        ..width1 = NA,
+        ..height1 = NA,
+        ..width2 = NA,
+        ..height2 = NA)
 )
 
 hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -227,25 +275,34 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="plot",
                 title="Dendrogram",
                 visible=FALSE,
-                width=600,
-                height=1000,
-                renderFun=".plot"))
+                renderFun=".plot",
+                clearWith=list(
+                    "dis",
+                    "method",
+                    "group",
+                    "grp",
+                    "hght",
+                    "case",
+                    "width",
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="heat",
                 title="Heatmap",
                 visible=FALSE,
-                width=600,
-                height=600,
-                renderFun=".heat"))
+                renderFun=".heat",
+                clearWith=list(
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="pairs",
                 title="Pairs plot",
                 visible=FALSE,
-                width=600,
-                height=600,
-                renderFun=".pairs"))
+                renderFun=".pairs",
+                clearWith=list(
+                    "width2",
+                    "height2")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="clust",
@@ -298,6 +355,12 @@ hcmBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param horiz .
 #' @param heat .
 #' @param pair .
+#' @param width .
+#' @param height .
+#' @param width1 .
+#' @param height1 .
+#' @param width2 .
+#' @param height2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -330,7 +393,13 @@ hcm <- function(
     dend = FALSE,
     horiz = FALSE,
     heat = FALSE,
-    pair = FALSE) {
+    pair = FALSE,
+    width = 500,
+    height = 500,
+    width1 = 500,
+    height1 = 500,
+    width2 = 500,
+    height2 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("hcm requires jmvcore to be installed (restart may be required)")
@@ -357,7 +426,13 @@ hcm <- function(
         dend = dend,
         horiz = horiz,
         heat = heat,
-        pair = pair)
+        pair = pair,
+        width = width,
+        height = height,
+        width1 = width1,
+        height1 = height1,
+        width2 = width2,
+        height2 = height2)
 
     analysis <- hcmClass$new(
         options = options,

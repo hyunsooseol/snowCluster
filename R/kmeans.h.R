@@ -15,7 +15,15 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             angle = 0,
             plot1 = FALSE,
             plot2 = FALSE,
-            plot3 = FALSE, ...) {
+            plot3 = FALSE,
+            width = 500,
+            height = 500,
+            width1 = 500,
+            height1 = 500,
+            width2 = 500,
+            height2 = 500,
+            width3 = 500,
+            height3 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -76,6 +84,38 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=FALSE)
             private$..clust <- jmvcore::OptionOutput$new(
                 "clust")
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
+            private$..width2 <- jmvcore::OptionInteger$new(
+                "width2",
+                width2,
+                default=500)
+            private$..height2 <- jmvcore::OptionInteger$new(
+                "height2",
+                height2,
+                default=500)
+            private$..width3 <- jmvcore::OptionInteger$new(
+                "width3",
+                width3,
+                default=500)
+            private$..height3 <- jmvcore::OptionInteger$new(
+                "height3",
+                height3,
+                default=500)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..k)
@@ -88,6 +128,14 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
             self$.addOption(private$..clust)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
+            self$.addOption(private$..width2)
+            self$.addOption(private$..height2)
+            self$.addOption(private$..width3)
+            self$.addOption(private$..height3)
         }),
     active = list(
         vars = function() private$..vars$value,
@@ -100,7 +148,15 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
-        clust = function() private$..clust$value),
+        clust = function() private$..clust$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value,
+        width2 = function() private$..width2$value,
+        height2 = function() private$..height2$value,
+        width3 = function() private$..width3$value,
+        height3 = function() private$..height3$value),
     private = list(
         ..vars = NA,
         ..k = NA,
@@ -112,7 +168,15 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
-        ..clust = NA)
+        ..clust = NA,
+        ..width = NA,
+        ..height = NA,
+        ..width1 = NA,
+        ..height1 = NA,
+        ..width2 = NA,
+        ..height2 = NA,
+        ..width3 = NA,
+        ..height3 = NA)
 )
 
 kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -209,8 +273,6 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="plot",
                 title="Plot of means across clusters",
                 visible="(plot)",
-                width=700,
-                height=500,
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
@@ -218,22 +280,24 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "algo",
                     "nstart",
                     "stand",
-                    "angle")))
+                    "angle",
+                    "width",
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
                 title="Optimal number of clusters",
                 refs="factoextra",
                 visible="(plot1)",
-                width=500,
-                height=500,
                 renderFun=".plot1",
                 clearWith=list(
                     "vars",
                     "k",
                     "algo",
                     "nstart",
-                    "stand")))
+                    "stand",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -241,15 +305,15 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot2)",
-                width=500,
-                height=500,
                 renderFun=".plot2",
                 clearWith=list(
                     "vars",
                     "k",
                     "algo",
                     "nstart",
-                    "stand")))
+                    "stand",
+                    "width2",
+                    "height2")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -257,15 +321,15 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot3)",
-                width=500,
-                height=500,
                 renderFun=".plot3",
                 clearWith=list(
                     "vars",
                     "k",
                     "algo",
                     "nstart",
-                    "stand")))
+                    "stand",
+                    "width3",
+                    "height3")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="clust",
@@ -315,6 +379,14 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
+#' @param width .
+#' @param height .
+#' @param width1 .
+#' @param height1 .
+#' @param width2 .
+#' @param height2 .
+#' @param width3 .
+#' @param height3 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -347,7 +419,15 @@ kmeans <- function(
     angle = 0,
     plot1 = FALSE,
     plot2 = FALSE,
-    plot3 = FALSE) {
+    plot3 = FALSE,
+    width = 500,
+    height = 500,
+    width1 = 500,
+    height1 = 500,
+    width2 = 500,
+    height2 = 500,
+    width3 = 500,
+    height3 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("kmeans requires jmvcore to be installed (restart may be required)")
@@ -369,7 +449,15 @@ kmeans <- function(
         angle = angle,
         plot1 = plot1,
         plot2 = plot2,
-        plot3 = plot3)
+        plot3 = plot3,
+        width = width,
+        height = height,
+        width1 = width1,
+        height1 = height1,
+        width2 = width2,
+        height2 = height2,
+        width3 = width3,
+        height3 = height3)
 
     analysis <- kmeansClass$new(
         options = options,
