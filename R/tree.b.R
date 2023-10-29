@@ -7,6 +7,8 @@
 #' @importFrom caret confusionMatrix
 #' @import ggplot2
 #' @import jmvcore
+#' @import rpart
+#' @import rpart.plot
 #' @export
 
 treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
@@ -29,10 +31,11 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <body>
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
-            <p> 1. Classification analysis based on <b>party</b> R package.</p>
+            <p> 1. Classification analysis based on <b>party</b>  R package.</p>
             <p> 2. The values for the target variable cannot be a number. </p> 
             <p> 3. Continuous variables were standardized using <b> caret::prePrecess()</b>. </p>
-            <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 4. rpart plot based on <b> rpart.plot</b> R package.
+            <p> 5. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
@@ -47,6 +50,11 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           self$results$plot$setSize(width, height)
         }  
         
+        if(isTRUE(self$options$plot1)){
+          width <- self$options$width1
+          height <- self$options$height1
+          self$results$plot1$setSize(width, height)
+        }  
         
       },
       
@@ -136,6 +144,20 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         test <- predict(preProcValues, test1)
         #-------------------------------------------
        
+        # rpart plot------------------
+        
+        # library(rpart)
+        # library(rpart.plot)
+        # fit <- rpart(survived~., data = data_train, method = 'class')
+        # rpart.plot(fit)
+        
+        rp <-  rpart::rpart(formula, data=train,
+                            method='class')
+        
+        image1 <- self$results$plot1
+        image1$setState(rp)
+        
+        
         ### Analysis using party package-----------
         
         model.train <- party::ctree(formula, data=train)
@@ -294,7 +316,11 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         image <- self$results$plot
         image$setState(model.train)
         
+       
         
+        
+        
+         
       },
       
       
@@ -309,7 +335,21 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           
           print(plot)
           TRUE
-        }
+        },
+      
+      .plot1 = function(image1,...) {
+        
+        if (is.null(image1$state))
+          return(FALSE)
+        
+      
+        rpar <- image1$state
+        
+        plot1 <- rpart.plot::rpart.plot(rpar)
+        
+        print(plot)
+        TRUE
+      }
         
         
         )

@@ -133,5 +133,18 @@ items:
         - facs
         - width
         - height
-       
+
+    - name:  plot1
+      title: Rpart plot
+      type:  Image
+      visible: (plot1)
+      renderFun: .plot1
+      refs: rpart
+      clearWith:
+        - covs 
+        - dep
+        - per
+        - facs
+        - width1
+        - height1       
 ...

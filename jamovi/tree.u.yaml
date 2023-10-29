@@ -43,12 +43,21 @@ children:
                 name: per
                 format: number
           - type: Label
-            label: Training set
+            label: 'Training set'
             children:
               - type: CheckBox
                 name: over1
               - type: CheckBox
                 name: tab1
+          - type: Label
+            label: 'Test set'
+            children:
+              - type: CheckBox
+                name: over
+              - type: CheckBox
+                name: tab
+              - type: CheckBox
+                name: cla
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -58,16 +67,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: Test set
-            children:
-              - type: CheckBox
-                name: over
-              - type: CheckBox
-                name: tab
-              - type: CheckBox
-                name: cla
-          - type: Label
-            label: Model 
+            label: 'Plots' 
             children:
               - type: CheckBox
                 name: plot
@@ -81,4 +81,15 @@ children:
                     name: height
                     format: number
                     enable: (plot)
-
+              - type: CheckBox
+                name: plot1
+                style: list-inline
+                children:
+                  - type: TextBox
+                    name: width1
+                    format: number
+                    enable: (plot1)
+                  - type: TextBox
+                    name: height1
+                    format: number
+                    enable: (plot1)

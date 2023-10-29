@@ -53,5 +53,6 @@ Imports:
     randomForest,
     glmnet,
     C50,
-    scatterplot3d
+    scatterplot3d,
+    rpart
     

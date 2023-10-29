@@ -15,7 +15,12 @@ tree(
   tab = FALSE,
   cla = FALSE,
   over1 = TRUE,
-  tab1 = FALSE
+  tab1 = FALSE,
+  plot1 = FALSE,
+  width = 500,
+  height = 500,
+  width1 = 500,
+  height1 = 500
 )
 }
 \arguments{
@@ -40,6 +45,16 @@ tree(
 \item{over1}{.}
 
 \item{tab1}{.}
+
+\item{plot1}{.}
+
+\item{width}{.}
+
+\item{height}{.}
+
+\item{width1}{.}
+
+\item{height1}{.}
 }
 \value{
 A results object containing:
@@ -52,6 +67,7 @@ A results object containing:
   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
