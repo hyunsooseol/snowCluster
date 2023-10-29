@@ -40,7 +40,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <body>
             <div class='instructions'>
             
-            <h2><b>Instructions</b></h2>
             <p>_____________________________________________________________________________________________</p>
             <p>1. <b>To run ARIMA,</b> remove the variables from the prophet analysis box.
             <p>2. In order to perform a prophet analysis, the variables must be named <b>'ds' and 'y'</b> respectively.</p>
@@ -61,7 +60,56 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     "Note",
                     "LL=Log Likelihood."
                 )
+           
+            if(isTRUE(self$options$plot)){
+              width <- self$options$width7
+              height <- self$options$height7
+              self$results$plot$setSize(width, height)
+            }  
             
+            if(isTRUE(self$options$box)){
+              width <- self$options$width8
+              height <- self$options$height8
+              self$results$box$setSize(width, height)
+            }  
+            
+            
+            if(isTRUE(self$options$plot1)){
+              width <- self$options$width1
+              height <- self$options$height1
+              self$results$plot1$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot2)){
+              width <- self$options$width2
+              height <- self$options$height2
+              self$results$plot2$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot3)){
+              width <- self$options$width3
+              height <- self$options$height3
+              self$results$plot3$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot4)){
+              width <- self$options$width4
+              height <- self$options$height4
+              self$results$plot4$setSize(width, height)
+            }  
+            if(isTRUE(self$options$plot5)){
+              width <- self$options$width5
+              height <- self$options$height5
+              self$results$plot5$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot6)){
+              width <- self$options$width6
+              height <- self$options$height6
+              self$results$plot6$setSize(width, height)
+            }  
+            
+         
         },
         
        ################################################################## 

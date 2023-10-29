@@ -24,7 +24,23 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot5 = FALSE,
             plot6 = FALSE,
             periods = 365,
-            unit = "day", ...) {
+            unit = "day",
+            width1 = 500,
+            height1 = 500,
+            width2 = 500,
+            height2 = 500,
+            width3 = 500,
+            height3 = 500,
+            width4 = 500,
+            height4 = 500,
+            width5 = 500,
+            height5 = 500,
+            width6 = 500,
+            height6 = 500,
+            width7 = 500,
+            height7 = 500,
+            width8 = 500,
+            height8 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -130,6 +146,70 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "quarter",
                     "year"),
                 default="day")
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
+            private$..width2 <- jmvcore::OptionInteger$new(
+                "width2",
+                width2,
+                default=500)
+            private$..height2 <- jmvcore::OptionInteger$new(
+                "height2",
+                height2,
+                default=500)
+            private$..width3 <- jmvcore::OptionInteger$new(
+                "width3",
+                width3,
+                default=500)
+            private$..height3 <- jmvcore::OptionInteger$new(
+                "height3",
+                height3,
+                default=500)
+            private$..width4 <- jmvcore::OptionInteger$new(
+                "width4",
+                width4,
+                default=500)
+            private$..height4 <- jmvcore::OptionInteger$new(
+                "height4",
+                height4,
+                default=500)
+            private$..width5 <- jmvcore::OptionInteger$new(
+                "width5",
+                width5,
+                default=500)
+            private$..height5 <- jmvcore::OptionInteger$new(
+                "height5",
+                height5,
+                default=500)
+            private$..width6 <- jmvcore::OptionInteger$new(
+                "width6",
+                width6,
+                default=500)
+            private$..height6 <- jmvcore::OptionInteger$new(
+                "height6",
+                height6,
+                default=500)
+            private$..width7 <- jmvcore::OptionInteger$new(
+                "width7",
+                width7,
+                default=500)
+            private$..height7 <- jmvcore::OptionInteger$new(
+                "height7",
+                height7,
+                default=500)
+            private$..width8 <- jmvcore::OptionInteger$new(
+                "width8",
+                width8,
+                default=500)
+            private$..height8 <- jmvcore::OptionInteger$new(
+                "height8",
+                height8,
+                default=500)
 
             self$.addOption(private$..mode)
             self$.addOption(private$..dep)
@@ -150,6 +230,22 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot6)
             self$.addOption(private$..periods)
             self$.addOption(private$..unit)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
+            self$.addOption(private$..width2)
+            self$.addOption(private$..height2)
+            self$.addOption(private$..width3)
+            self$.addOption(private$..height3)
+            self$.addOption(private$..width4)
+            self$.addOption(private$..height4)
+            self$.addOption(private$..width5)
+            self$.addOption(private$..height5)
+            self$.addOption(private$..width6)
+            self$.addOption(private$..height6)
+            self$.addOption(private$..width7)
+            self$.addOption(private$..height7)
+            self$.addOption(private$..width8)
+            self$.addOption(private$..height8)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -170,7 +266,23 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot5 = function() private$..plot5$value,
         plot6 = function() private$..plot6$value,
         periods = function() private$..periods$value,
-        unit = function() private$..unit$value),
+        unit = function() private$..unit$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value,
+        width2 = function() private$..width2$value,
+        height2 = function() private$..height2$value,
+        width3 = function() private$..width3$value,
+        height3 = function() private$..height3$value,
+        width4 = function() private$..width4$value,
+        height4 = function() private$..height4$value,
+        width5 = function() private$..width5$value,
+        height5 = function() private$..height5$value,
+        width6 = function() private$..width6$value,
+        height6 = function() private$..height6$value,
+        width7 = function() private$..width7$value,
+        height7 = function() private$..height7$value,
+        width8 = function() private$..width8$value,
+        height8 = function() private$..height8$value),
     private = list(
         ..mode = NA,
         ..dep = NA,
@@ -190,7 +302,23 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot5 = NA,
         ..plot6 = NA,
         ..periods = NA,
-        ..unit = NA)
+        ..unit = NA,
+        ..width1 = NA,
+        ..height1 = NA,
+        ..width2 = NA,
+        ..height2 = NA,
+        ..width3 = NA,
+        ..height3 = NA,
+        ..width4 = NA,
+        ..height4 = NA,
+        ..width5 = NA,
+        ..height5 = NA,
+        ..width6 = NA,
+        ..height6 = NA,
+        ..width7 = NA,
+        ..height7 = NA,
+        ..width8 = NA,
+        ..height8 = NA)
 )
 
 arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -303,26 +431,26 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="plot",
                 title="Decomposition",
                 visible="(plot)",
-                width=500,
-                height=500,
                 renderFun=".plot",
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred")))
+                    "pred",
+                    "width7",
+                    "height7")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="box",
                 title="Box plot",
                 requiresData=TRUE,
                 visible="(box)",
-                width=500,
-                height=300,
                 renderFun=".box",
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred")))
+                    "pred",
+                    "width8",
+                    "height8")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -334,74 +462,76 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred")))
+                    "pred",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
                 title="Residual plot",
                 visible="(plot2)",
-                width=500,
-                height=500,
                 renderFun=".plot2",
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred")))
+                    "pred",
+                    "width2",
+                    "height2")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
                 title="Prediction",
                 visible="(plot3)",
                 refs="forecast",
-                width=500,
-                height=500,
                 renderFun=".plot3",
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred")))
+                    "pred",
+                    "width3",
+                    "height3")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
                 title="Forcast for Prophet",
                 visible="(plot4)",
                 refs="prophet",
-                width=600,
-                height=400,
                 renderFun=".plot4",
                 clearWith=list(
                     "dep1",
                     "time1",
                     "period",
-                    "unit")))
+                    "unit",
+                    "width4",
+                    "height4")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
                 title="Model components for Prophet",
                 visible="(plot5)",
                 refs="prophet",
-                width=600,
-                height=400,
                 renderFun=".plot5",
                 clearWith=list(
                     "dep1",
                     "time1",
                     "period",
-                    "unit")))
+                    "unit",
+                    "width5",
+                    "height5")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
                 title="Actual vs. Forecasted Values for Variable y for Prophet",
                 visible="(plot6)",
                 refs="prophet",
-                width=600,
-                height=400,
                 renderFun=".plot6",
                 clearWith=list(
                     "dep1",
                     "time1",
                     "period",
-                    "unit")))}))
+                    "unit",
+                    "width6",
+                    "height6")))}))
 
 arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "arimaBase",
@@ -449,6 +579,22 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot6 .
 #' @param periods .
 #' @param unit .
+#' @param width1 .
+#' @param height1 .
+#' @param width2 .
+#' @param height2 .
+#' @param width3 .
+#' @param height3 .
+#' @param width4 .
+#' @param height4 .
+#' @param width5 .
+#' @param height5 .
+#' @param width6 .
+#' @param height6 .
+#' @param width7 .
+#' @param height7 .
+#' @param width8 .
+#' @param height8 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -493,7 +639,23 @@ arima <- function(
     plot5 = FALSE,
     plot6 = FALSE,
     periods = 365,
-    unit = "day") {
+    unit = "day",
+    width1 = 500,
+    height1 = 500,
+    width2 = 500,
+    height2 = 500,
+    width3 = 500,
+    height3 = 500,
+    width4 = 500,
+    height4 = 500,
+    width5 = 500,
+    height5 = 500,
+    width6 = 500,
+    height6 = 500,
+    width7 = 500,
+    height7 = 500,
+    width8 = 500,
+    height8 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("arima requires jmvcore to be installed (restart may be required)")
@@ -528,7 +690,23 @@ arima <- function(
         plot5 = plot5,
         plot6 = plot6,
         periods = periods,
-        unit = unit)
+        unit = unit,
+        width1 = width1,
+        height1 = height1,
+        width2 = width2,
+        height2 = height2,
+        width3 = width3,
+        height3 = height3,
+        width4 = width4,
+        height4 = height4,
+        width5 = width5,
+        height5 = height5,
+        width6 = width6,
+        height6 = height6,
+        width7 = width7,
+        height7 = height7,
+        width8 = width8,
+        height8 = height8)
 
     analysis <- arimaClass$new(
         options = options,
