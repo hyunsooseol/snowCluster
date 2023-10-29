@@ -39,7 +39,39 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             </body>
             </html>"
             )
+         
+            if(isTRUE(self$options$plot)){
+              width <- self$options$width
+              height <- self$options$height
+              self$results$plot$setSize(width, height)
+            }  
             
+            if(isTRUE(self$options$plot1)){
+              width <- self$options$width1
+              height <- self$options$height1
+              self$results$plot1$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot2)){
+              width <- self$options$width1
+              height <- self$options$height1
+              self$results$plot2$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot3)){
+              width <- self$options$width1
+              height <- self$options$height1
+              self$results$plot3$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot4)){
+              width <- self$options$width1
+              height <- self$options$height1
+              self$results$plot4$setSize(width, height)
+            }  
+            
+            
+               
         },
         
         
@@ -310,17 +342,17 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             image <- self$results$plot
             image$setState(res) 
             
-            image <- self$results$plot1
-            image$setState(res)
+            image1 <- self$results$plot1
+            image1$setState(res)
             
-            image <- self$results$plot2
-            image$setState(res)
+            image2 <- self$results$plot2
+            image2$setState(res)
             
-            image <- self$results$plot3
-            image$setState(res)
+            image3 <- self$results$plot3
+            image3$setState(res)
             
-            image <- self$results$plot4
-            image$setState(res)
+            image4 <- self$results$plot4
+            image4$setState(res)
             
            
             
@@ -347,13 +379,13 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
             },
         
-        .plot1 = function(image, ggtheme, theme, ...) {
+        .plot1 = function(image1, ggtheme, theme, ...) {
             
-          if (is.null(image$state))
+          if (is.null(image1$state))
             return(FALSE)
           
             
-            res <- image$state
+            res <- image1$state
             
             plot1<- factoextra::fviz_famd_var(res)
             
@@ -364,13 +396,13 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
         },
         
-        .plot2 = function(image, ggtheme, theme, ...) {
+        .plot2 = function(image2, ggtheme, theme, ...) {
             
-          if (is.null(image$state))
+          if (is.null(image2$state))
             return(FALSE)
           
             
-            res <- image$state
+            res <- image2$state
             
             # Quantitative variables
              
@@ -385,12 +417,12 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
         },
         
-        .plot3 = function(image, ggtheme, theme, ...) {
+        .plot3 = function(image3, ggtheme, theme, ...) {
             
-          if (is.null(image$state))
+          if (is.null(image3$state))
             return(FALSE)
             
-            res <- image$state
+            res <- image3$state
             
             # # Qualitative variables
             
@@ -403,12 +435,12 @@ famdClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
         },
            
-        .plot4 = function(image, ggtheme, theme, ...) {
+        .plot4 = function(image4, ggtheme, theme, ...) {
             
-          if (is.null(image$state))
+          if (is.null(image4$state))
             return(FALSE)
             
-            res <- image$state
+            res <- image4$state
             
             #  Graph of individuals---------
             

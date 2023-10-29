@@ -21,7 +21,11 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot1 = FALSE,
             plot2 = FALSE,
             plot3 = FALSE,
-            plot4 = FALSE, ...) {
+            plot4 = FALSE,
+            width = 500,
+            height = 500,
+            width1 = 500,
+            height1 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -112,6 +116,22 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot4",
                 plot4,
                 default=FALSE)
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..labels)
@@ -129,6 +149,10 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
             self$.addOption(private$..plot4)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
         }),
     active = list(
         vars = function() private$..vars$value,
@@ -146,7 +170,11 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
-        plot4 = function() private$..plot4$value),
+        plot4 = function() private$..plot4$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value),
     private = list(
         ..vars = NA,
         ..labels = NA,
@@ -163,7 +191,11 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
-        ..plot4 = NA)
+        ..plot4 = NA,
+        ..width = NA,
+        ..height = NA,
+        ..width1 = NA,
+        ..height1 = NA)
 )
 
 famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -331,8 +363,6 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Scree plot",
                 refs="factoextra",
                 visible="(plot)",
-                width=500,
-                height=500,
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
@@ -342,15 +372,15 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "colvar",
                     "rowvar",
                     "quanvar",
-                    "qualvar")))
+                    "qualvar",
+                    "width",
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
                 title="Graph of variables",
                 refs="factoextra",
                 visible="(plot1)",
-                width=500,
-                height=500,
                 renderFun=".plot1",
                 clearWith=list(
                     "vars",
@@ -360,15 +390,15 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "colvar",
                     "rowvar",
                     "quanvar",
-                    "qualvar")))
+                    "qualvar",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
                 title="Quantitative variables",
                 refs="factoextra",
                 visible="(plot2)",
-                width=500,
-                height=500,
                 renderFun=".plot2",
                 clearWith=list(
                     "vars",
@@ -378,15 +408,15 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "colvar",
                     "rowvar",
                     "quanvar",
-                    "qualvar")))
+                    "qualvar",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
                 title="Qualitative variables",
                 refs="factoextra",
                 visible="(plot3)",
-                width=500,
-                height=500,
                 renderFun=".plot3",
                 clearWith=list(
                     "vars",
@@ -396,15 +426,15 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "colvar",
                     "rowvar",
                     "quanvar",
-                    "qualvar")))
+                    "qualvar",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
                 title="Graph of individuals",
                 refs="factoextra",
                 visible="(plot4)",
-                width=500,
-                height=500,
                 renderFun=".plot4",
                 clearWith=list(
                     "vars",
@@ -414,7 +444,9 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "colvar",
                     "rowvar",
                     "quanvar",
-                    "qualvar")))}))
+                    "qualvar",
+                    "width1",
+                    "height1")))}))
 
 famdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "famdBase",
@@ -457,6 +489,10 @@ famdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot2 .
 #' @param plot3 .
 #' @param plot4 .
+#' @param width .
+#' @param height .
+#' @param width1 .
+#' @param height1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -496,7 +532,11 @@ famd <- function(
     plot1 = FALSE,
     plot2 = FALSE,
     plot3 = FALSE,
-    plot4 = FALSE) {
+    plot4 = FALSE,
+    width = 500,
+    height = 500,
+    width1 = 500,
+    height1 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("famd requires jmvcore to be installed (restart may be required)")
@@ -526,7 +566,11 @@ famd <- function(
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3,
-        plot4 = plot4)
+        plot4 = plot4,
+        width = width,
+        height = height,
+        width1 = width1,
+        height1 = height1)
 
     analysis <- famdClass$new(
         options = options,
