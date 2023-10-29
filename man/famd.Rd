@@ -21,7 +21,11 @@ famd(
   plot1 = FALSE,
   plot2 = FALSE,
   plot3 = FALSE,
-  plot4 = FALSE
+  plot4 = FALSE,
+  width = 500,
+  height = 500,
+  width1 = 500,
+  height1 = 500
 )
 }
 \arguments{
@@ -58,6 +62,14 @@ famd(
 \item{plot3}{.}
 
 \item{plot4}{.}
+
+\item{width}{.}
+
+\item{height}{.}
+
+\item{width1}{.}
+
+\item{height1}{.}
 }
 \value{
 A results object containing:

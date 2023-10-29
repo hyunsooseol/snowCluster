@@ -113,38 +113,38 @@ items:
       type:  Image
       requiresData: true
       visible: (plot)
-      width: 500
-      height: 500
       renderFun: .plot
       clearWith:
         - covs 
         - dep
         - per
+        - width
+        - height
 
     - name:  plot1
       title: Histogram
       type:  Image
       requiresData: true
       visible: (plot1)
-      width: 500
-      height: 500
       renderFun: .plot1
       clearWith:
         - covs 
         - dep
         - per
+        - width1
+        - height1
 
     - name:  plot2
       title: Partition plots
       type:  Image
       requiresData: true
       visible: (plot2)
-      width: 500
-      height: 500
       renderFun: .plot2 
       clearWith:
         - covs 
         - dep
         - method
         - per
+        - width2
+        - height2
 ...
