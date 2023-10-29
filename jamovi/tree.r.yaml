@@ -135,11 +135,11 @@ items:
         - height
 
     - name:  plot1
-      title: Rpart plot
+      title: rpart plot
       type:  Image
       visible: (plot1)
       renderFun: .plot1
-      refs: rpart
+      refs: rpart.plot
       clearWith:
         - covs 
         - dep

@@ -57,4 +57,11 @@
         `year`=2021, 
         `title`="prophet: Automatic Forecasting Procedure", 
         `publisher`="(Version 1.0)[R package]. https://CRAN.R-project.org/package=prophet", 
-        `url`="https://CRAN.R-project.org/package=prophet"))
+        `url`="https://CRAN.R-project.org/package=prophet"), 
+    `rpart.plot`=list(
+        `type`="software", 
+        `author`="Milborrow, S.", 
+        `year`=2022, 
+        `title`="Plot 'rpart' Models: An Enhanced Version of 'plot.rpart'", 
+        `publisher`="[R package]. https://CRAN.R-project.org/package=rpart.plot", 
+        `url`="https://CRAN.R-project.org/package=rpart.plot"))

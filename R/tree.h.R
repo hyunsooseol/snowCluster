@@ -311,10 +311,10 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
-                title="Rpart plot",
+                title="rpart plot",
                 visible="(plot1)",
                 renderFun=".plot1",
-                refs="rpart",
+                refs="rpart.plot",
                 clearWith=list(
                     "covs",
                     "dep",

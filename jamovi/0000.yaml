@@ -157,6 +157,11 @@ datasets:
     description: FA of mixed data
     tags:
       - FA of mixed data
+  - name: tree
+    path: tree.omv
+    description: Decision Tree
+    tags:
+      - Decision Tree
   - name: credit
     path: credit.omv
     description: German credit
