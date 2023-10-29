@@ -19,22 +19,20 @@ items:
       type:  Image
       visible: (plot1)
       refs: prophet
-      width: 600
-      height: 400
       renderFun: .plot1
       clearWith:
         - dep
         - covs
         - periods
         - unit
+        - width
+        - height
     
     - name:  plot2
       title:  'Smooth line plot' 
       type:  Image
       visible: (plot2)
       refs: prophet
-      width: 600
-      height: 400
       renderFun: .plot2
       clearWith:
         - dep
@@ -42,5 +40,7 @@ items:
         - method
         - periods
         - unit
+        - width1
+        - height1
      
 ...

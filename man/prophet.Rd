@@ -12,7 +12,11 @@ prophet(
   plot1 = TRUE,
   plot2 = FALSE,
   periods = 365,
-  unit = "day"
+  unit = "day",
+  width = 500,
+  height = 500,
+  width1 = 500,
+  height1 = 500
 )
 }
 \arguments{
@@ -31,6 +35,14 @@ prophet(
 \item{periods}{.}
 
 \item{unit}{.}
+
+\item{width}{.}
+
+\item{height}{.}
+
+\item{width1}{.}
+
+\item{height1}{.}
 }
 \value{
 A results object containing:

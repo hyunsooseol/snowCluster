@@ -12,7 +12,11 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot1 = TRUE,
             plot2 = FALSE,
             periods = 365,
-            unit = "day", ...) {
+            unit = "day",
+            width = 500,
+            height = 500,
+            width1 = 500,
+            height1 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -66,6 +70,22 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "quarter",
                     "year"),
                 default="day")
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -74,6 +94,10 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot2)
             self$.addOption(private$..periods)
             self$.addOption(private$..unit)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -82,7 +106,11 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         periods = function() private$..periods$value,
-        unit = function() private$..unit$value),
+        unit = function() private$..unit$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -90,7 +118,11 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot1 = NA,
         ..plot2 = NA,
         ..periods = NA,
-        ..unit = NA)
+        ..unit = NA,
+        ..width = NA,
+        ..height = NA,
+        ..width1 = NA,
+        ..height1 = NA)
 )
 
 prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -124,29 +156,29 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Forecast of multiple variables",
                 visible="(plot1)",
                 refs="prophet",
-                width=600,
-                height=400,
                 renderFun=".plot1",
                 clearWith=list(
                     "dep",
                     "covs",
                     "periods",
-                    "unit")))
+                    "unit",
+                    "width",
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
                 title="Smooth line plot",
                 visible="(plot2)",
                 refs="prophet",
-                width=600,
-                height=400,
                 renderFun=".plot2",
                 clearWith=list(
                     "dep",
                     "covs",
                     "method",
                     "periods",
-                    "unit")))}))
+                    "unit",
+                    "width1",
+                    "height1")))}))
 
 prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "prophetBase",
@@ -180,6 +212,10 @@ prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot2 .
 #' @param periods .
 #' @param unit .
+#' @param width .
+#' @param height .
+#' @param width1 .
+#' @param height1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -197,7 +233,11 @@ prophet <- function(
     plot1 = TRUE,
     plot2 = FALSE,
     periods = 365,
-    unit = "day") {
+    unit = "day",
+    width = 500,
+    height = 500,
+    width1 = 500,
+    height1 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("prophet requires jmvcore to be installed (restart may be required)")
@@ -219,7 +259,11 @@ prophet <- function(
         plot1 = plot1,
         plot2 = plot2,
         periods = periods,
-        unit = unit)
+        unit = unit,
+        width = width,
+        height = height,
+        width1 = width1,
+        height1 = height1)
 
     analysis <- prophetClass$new(
         options = options,
