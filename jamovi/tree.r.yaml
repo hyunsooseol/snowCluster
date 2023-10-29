@@ -124,8 +124,6 @@ items:
       title: Decision tree plot
       type:  Image
       visible: (plot)
-      width: 600
-      height: 600
       renderFun: .plot
       refs: party
       clearWith:
@@ -133,5 +131,7 @@ items:
         - dep
         - per
         - facs
+        - width
+        - height
        
 ...
