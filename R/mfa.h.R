@@ -27,7 +27,26 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot5 = FALSE,
             plot6 = FALSE,
             plot7 = FALSE,
-            plot8 = FALSE, ...) {
+            plot8 = FALSE,
+            angle = 0,
+            width = 500,
+            height = 500,
+            width1 = 500,
+            height1 = 500,
+            width2 = 500,
+            height2 = 500,
+            width3 = 500,
+            height3 = 500,
+            width4 = 500,
+            height4 = 500,
+            width5 = 500,
+            height5 = 500,
+            width6 = 500,
+            height6 = 500,
+            width7 = 500,
+            height7 = 500,
+            width8 = 500,
+            height8 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -141,6 +160,84 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot8",
                 plot8,
                 default=FALSE)
+            private$..angle <- jmvcore::OptionNumber$new(
+                "angle",
+                angle,
+                min=0,
+                max=90,
+                default=0)
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
+            private$..width2 <- jmvcore::OptionInteger$new(
+                "width2",
+                width2,
+                default=500)
+            private$..height2 <- jmvcore::OptionInteger$new(
+                "height2",
+                height2,
+                default=500)
+            private$..width3 <- jmvcore::OptionInteger$new(
+                "width3",
+                width3,
+                default=500)
+            private$..height3 <- jmvcore::OptionInteger$new(
+                "height3",
+                height3,
+                default=500)
+            private$..width4 <- jmvcore::OptionInteger$new(
+                "width4",
+                width4,
+                default=500)
+            private$..height4 <- jmvcore::OptionInteger$new(
+                "height4",
+                height4,
+                default=500)
+            private$..width5 <- jmvcore::OptionInteger$new(
+                "width5",
+                width5,
+                default=500)
+            private$..height5 <- jmvcore::OptionInteger$new(
+                "height5",
+                height5,
+                default=500)
+            private$..width6 <- jmvcore::OptionInteger$new(
+                "width6",
+                width6,
+                default=500)
+            private$..height6 <- jmvcore::OptionInteger$new(
+                "height6",
+                height6,
+                default=500)
+            private$..width7 <- jmvcore::OptionInteger$new(
+                "width7",
+                width7,
+                default=500)
+            private$..height7 <- jmvcore::OptionInteger$new(
+                "height7",
+                height7,
+                default=500)
+            private$..width8 <- jmvcore::OptionInteger$new(
+                "width8",
+                width8,
+                default=500)
+            private$..height8 <- jmvcore::OptionInteger$new(
+                "height8",
+                height8,
+                default=500)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..facs)
@@ -164,6 +261,25 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot6)
             self$.addOption(private$..plot7)
             self$.addOption(private$..plot8)
+            self$.addOption(private$..angle)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
+            self$.addOption(private$..width2)
+            self$.addOption(private$..height2)
+            self$.addOption(private$..width3)
+            self$.addOption(private$..height3)
+            self$.addOption(private$..width4)
+            self$.addOption(private$..height4)
+            self$.addOption(private$..width5)
+            self$.addOption(private$..height5)
+            self$.addOption(private$..width6)
+            self$.addOption(private$..height6)
+            self$.addOption(private$..width7)
+            self$.addOption(private$..height7)
+            self$.addOption(private$..width8)
+            self$.addOption(private$..height8)
         }),
     active = list(
         vars = function() private$..vars$value,
@@ -187,7 +303,26 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot5 = function() private$..plot5$value,
         plot6 = function() private$..plot6$value,
         plot7 = function() private$..plot7$value,
-        plot8 = function() private$..plot8$value),
+        plot8 = function() private$..plot8$value,
+        angle = function() private$..angle$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value,
+        width2 = function() private$..width2$value,
+        height2 = function() private$..height2$value,
+        width3 = function() private$..width3$value,
+        height3 = function() private$..height3$value,
+        width4 = function() private$..width4$value,
+        height4 = function() private$..height4$value,
+        width5 = function() private$..width5$value,
+        height5 = function() private$..height5$value,
+        width6 = function() private$..width6$value,
+        height6 = function() private$..height6$value,
+        width7 = function() private$..width7$value,
+        height7 = function() private$..height7$value,
+        width8 = function() private$..width8$value,
+        height8 = function() private$..height8$value),
     private = list(
         ..vars = NA,
         ..facs = NA,
@@ -210,7 +345,26 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot5 = NA,
         ..plot6 = NA,
         ..plot7 = NA,
-        ..plot8 = NA)
+        ..plot8 = NA,
+        ..angle = NA,
+        ..width = NA,
+        ..height = NA,
+        ..width1 = NA,
+        ..height1 = NA,
+        ..width2 = NA,
+        ..height2 = NA,
+        ..width3 = NA,
+        ..height3 = NA,
+        ..width4 = NA,
+        ..height4 = NA,
+        ..width5 = NA,
+        ..height5 = NA,
+        ..width6 = NA,
+        ..height6 = NA,
+        ..width7 = NA,
+        ..height7 = NA,
+        ..width8 = NA,
+        ..height8 = NA)
 )
 
 mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -353,8 +507,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot8)",
-                width=500,
-                height=500,
                 renderFun=".plot8",
                 clearWith=list(
                     "vars",
@@ -363,7 +515,9 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))
+                    "quanvar",
+                    "width8",
+                    "height8")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -371,8 +525,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot)",
-                width=500,
-                height=500,
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
@@ -381,7 +533,9 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))
+                    "quanvar",
+                    "width",
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
@@ -389,8 +543,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot6)",
-                width=500,
-                height=500,
                 renderFun=".plot6",
                 clearWith=list(
                     "vars",
@@ -399,7 +551,10 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))
+                    "quanvar",
+                    "width6",
+                    "height6",
+                    "angle")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot7",
@@ -407,8 +562,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot7)",
-                width=500,
-                height=500,
                 renderFun=".plot7",
                 clearWith=list(
                     "vars",
@@ -417,7 +570,10 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))
+                    "quanvar",
+                    "width7",
+                    "height7",
+                    "angle")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -425,8 +581,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot1)",
-                width=700,
-                height=700,
                 renderFun=".plot1",
                 clearWith=list(
                     "vars",
@@ -435,7 +589,9 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))
+                    "quanvar",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -443,8 +599,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot2)",
-                width=500,
-                height=500,
                 renderFun=".plot2",
                 clearWith=list(
                     "vars",
@@ -453,7 +607,10 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))
+                    "quanvar",
+                    "width2",
+                    "height2",
+                    "angle")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -461,8 +618,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot3)",
-                width=500,
-                height=500,
                 renderFun=".plot3",
                 clearWith=list(
                     "vars",
@@ -471,7 +626,10 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))
+                    "quanvar",
+                    "width3",
+                    "height3",
+                    "angle")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -479,8 +637,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot4)",
-                width=500,
-                height=500,
                 renderFun=".plot4",
                 clearWith=list(
                     "vars",
@@ -489,7 +645,9 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))
+                    "quanvar",
+                    "width4",
+                    "height4")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
@@ -497,8 +655,6 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot5)",
-                width=600,
-                height=600,
                 renderFun=".plot5",
                 clearWith=list(
                     "vars",
@@ -507,7 +663,9 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "gn",
                     "colvar",
                     "rowvar",
-                    "quanvar")))}))
+                    "quanvar",
+                    "width5",
+                    "height5")))}))
 
 mfaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mfaBase",
@@ -556,6 +714,25 @@ mfaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot6 .
 #' @param plot7 .
 #' @param plot8 .
+#' @param angle .
+#' @param width .
+#' @param height .
+#' @param width1 .
+#' @param height1 .
+#' @param width2 .
+#' @param height2 .
+#' @param width3 .
+#' @param height3 .
+#' @param width4 .
+#' @param height4 .
+#' @param width5 .
+#' @param height5 .
+#' @param width6 .
+#' @param height6 .
+#' @param width7 .
+#' @param height7 .
+#' @param width8 .
+#' @param height8 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -604,7 +781,26 @@ mfa <- function(
     plot5 = FALSE,
     plot6 = FALSE,
     plot7 = FALSE,
-    plot8 = FALSE) {
+    plot8 = FALSE,
+    angle = 0,
+    width = 500,
+    height = 500,
+    width1 = 500,
+    height1 = 500,
+    width2 = 500,
+    height2 = 500,
+    width3 = 500,
+    height3 = 500,
+    width4 = 500,
+    height4 = 500,
+    width5 = 500,
+    height5 = 500,
+    width6 = 500,
+    height6 = 500,
+    width7 = 500,
+    height7 = 500,
+    width8 = 500,
+    height8 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("mfa requires jmvcore to be installed (restart may be required)")
@@ -643,7 +839,26 @@ mfa <- function(
         plot5 = plot5,
         plot6 = plot6,
         plot7 = plot7,
-        plot8 = plot8)
+        plot8 = plot8,
+        angle = angle,
+        width = width,
+        height = height,
+        width1 = width1,
+        height1 = height1,
+        width2 = width2,
+        height2 = height2,
+        width3 = width3,
+        height3 = height3,
+        width4 = width4,
+        height4 = height4,
+        width5 = width5,
+        height5 = height5,
+        width6 = width6,
+        height6 = height6,
+        width7 = width7,
+        height7 = height7,
+        width8 = width8,
+        height8 = height8)
 
     analysis <- mfaClass$new(
         options = options,

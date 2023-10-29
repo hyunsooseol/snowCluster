@@ -37,7 +37,56 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </html>"
         )
         
+        if(isTRUE(self$options$plot5)){
+          
+          width <- self$options$width
+          height <- self$options$height
+          
+          self$results$plot5$setSize(width, height)
+        }  
         
+        if(isTRUE(self$options$plot1)){
+          
+          width <- self$options$width1
+          height <- self$options$height1
+          
+          self$results$plot1$setSize(width, height)
+        }  
+        
+        if(isTRUE(self$options$plot2)){
+          
+          width <- self$options$width1
+          height <- self$options$height1
+          
+          self$results$plot2$setSize(width, height)
+        }  
+        
+        if(isTRUE(self$options$plot3)){
+          
+          width <- self$options$width1
+          height <- self$options$height1
+          
+          self$results$plot3$setSize(width, height)
+        }  
+        
+        if(isTRUE(self$options$plot4)){
+          
+          width <- self$options$width1
+          height <- self$options$height1
+          
+          self$results$plot4$setSize(width, height)
+        }  
+        
+        if(isTRUE(self$options$plot6)){
+          
+          width <- self$options$width1
+          height <- self$options$height1
+          
+          self$results$plot6$setSize(width, height)
+        }  
+        
+        
+         
       },
       
       .run = function() {

@@ -18,7 +18,11 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot3 = FALSE,
             plot4 = FALSE,
             plot5 = TRUE,
-            plot6 = FALSE, ...) {
+            plot6 = FALSE,
+            width = 500,
+            height = 500,
+            width1 = 500,
+            height1 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -93,6 +97,22 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot6",
                 plot6,
                 default=FALSE)
+            private$..width <- jmvcore::OptionInteger$new(
+                "width",
+                width,
+                default=500)
+            private$..height <- jmvcore::OptionInteger$new(
+                "height",
+                height,
+                default=500)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
 
             self$.addOption(private$..facs)
             self$.addOption(private$..vars)
@@ -107,6 +127,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot4)
             self$.addOption(private$..plot5)
             self$.addOption(private$..plot6)
+            self$.addOption(private$..width)
+            self$.addOption(private$..height)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
         }),
     active = list(
         facs = function() private$..facs$value,
@@ -121,7 +145,11 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot3 = function() private$..plot3$value,
         plot4 = function() private$..plot4$value,
         plot5 = function() private$..plot5$value,
-        plot6 = function() private$..plot6$value),
+        plot6 = function() private$..plot6$value,
+        width = function() private$..width$value,
+        height = function() private$..height$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value),
     private = list(
         ..facs = NA,
         ..vars = NA,
@@ -135,7 +163,11 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot3 = NA,
         ..plot4 = NA,
         ..plot5 = NA,
-        ..plot6 = NA)
+        ..plot6 = NA,
+        ..width = NA,
+        ..height = NA,
+        ..width1 = NA,
+        ..height1 = NA)
 )
 
 mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -172,6 +204,7 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(eigen)",
                 clearWith=list(
                     "vars",
+                    "facs",
                     "rowvar",
                     "colvar"),
                 columns=list(
@@ -198,6 +231,7 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(loadingvar)",
                 clearWith=list(
                     "vars",
+                    "facs",
                     "rowvar",
                     "colvar"),
                 columns=list(
@@ -218,6 +252,7 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(loadingind)",
                 clearWith=list(
                     "vars",
+                    "facs",
                     "rowvar",
                     "colvar"),
                 columns=list(
@@ -238,18 +273,28 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot5)",
-                width=500,
-                height=500,
-                renderFun=".plot5"))
+                renderFun=".plot5",
+                clearWith=list(
+                    "vars",
+                    "facs",
+                    "rowvar",
+                    "colvar",
+                    "width",
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
                 title="Biplot",
                 refs="factoextra",
                 visible="(plot6)",
-                width=500,
-                height=500,
-                renderFun=".plot6"))
+                renderFun=".plot6",
+                clearWith=list(
+                    "vars",
+                    "facs",
+                    "rowvar",
+                    "colvar",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -257,9 +302,14 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot1)",
-                width=500,
-                height=500,
-                renderFun=".plot1"))
+                renderFun=".plot1",
+                clearWith=list(
+                    "vars",
+                    "facs",
+                    "rowvar",
+                    "colvar",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -267,9 +317,14 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot2)",
-                width=500,
-                height=500,
-                renderFun=".plot2"))
+                renderFun=".plot2",
+                clearWith=list(
+                    "vars",
+                    "facs",
+                    "rowvar",
+                    "colvar",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -277,9 +332,14 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot3)",
-                width=500,
-                height=500,
-                renderFun=".plot3"))
+                renderFun=".plot3",
+                clearWith=list(
+                    "vars",
+                    "facs",
+                    "rowvar",
+                    "colvar",
+                    "width1",
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -287,9 +347,14 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot4)",
-                width=500,
-                height=500,
-                renderFun=".plot4"))}))
+                renderFun=".plot4",
+                clearWith=list(
+                    "vars",
+                    "facs",
+                    "rowvar",
+                    "colvar",
+                    "width1",
+                    "height1")))}))
 
 mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mcaBase",
@@ -329,6 +394,10 @@ mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot4 .
 #' @param plot5 .
 #' @param plot6 .
+#' @param width .
+#' @param height .
+#' @param width1 .
+#' @param height1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -364,7 +433,11 @@ mca <- function(
     plot3 = FALSE,
     plot4 = FALSE,
     plot5 = TRUE,
-    plot6 = FALSE) {
+    plot6 = FALSE,
+    width = 500,
+    height = 500,
+    width1 = 500,
+    height1 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("mca requires jmvcore to be installed (restart may be required)")
@@ -393,7 +466,11 @@ mca <- function(
         plot3 = plot3,
         plot4 = plot4,
         plot5 = plot5,
-        plot6 = plot6)
+        plot6 = plot6,
+        width = width,
+        height = height,
+        width1 = width1,
+        height1 = height1)
 
     analysis <- mcaClass$new(
         options = options,

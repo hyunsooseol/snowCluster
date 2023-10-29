@@ -46,7 +46,62 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </body>
             </html>"
             )
+        
+            if(isTRUE(self$options$plot)){
+              width <- self$options$width
+              height <- self$options$height
+              self$results$plot$setSize(width, height)
+            }  
             
+            if(isTRUE(self$options$plot1)){
+              width <- self$options$width1
+              height <- self$options$height1
+              self$results$plot1$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot2)){
+              width <- self$options$width2
+              height <- self$options$height2
+              self$results$plot2$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot3)){
+              width <- self$options$width3
+              height <- self$options$height3
+              self$results$plot3$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot4)){
+              width <- self$options$width4
+              height <- self$options$height4
+              self$results$plot4$setSize(width, height)
+            }  
+            if(isTRUE(self$options$plot5)){
+              width <- self$options$width5
+              height <- self$options$height5
+              self$results$plot5$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot6)){
+              width <- self$options$width6
+              height <- self$options$height6
+              self$results$plot6$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot7)){
+              width <- self$options$width7
+              height <- self$options$height7
+              self$results$plot7$setSize(width, height)
+            }  
+            
+            if(isTRUE(self$options$plot8)){
+              width <- self$options$width8
+              height <- self$options$height8
+              self$results$plot8$setSize(width, height)
+            }  
+            
+            
+                
         },
         
         #---------------------------------------------
@@ -302,8 +357,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     
                 }
                 
-                
-                
+               
                 
                 # Plot==================================================
                 
@@ -315,7 +369,7 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 # Quantitative variables colored by groups-------
                 
-                image <- self$results$plot1
+                image1 <- self$results$plot1
                 
                 # vars <- length(self$options$vars)
                 # 
@@ -323,63 +377,57 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 # 
                 # image$setSize(width, 500)
                 
-                image$setState(mfa)
+                image1$setState(mfa)
                 
                 # Contributions to dimension 1------------
                 
-                image <- self$results$plot2
+                image2 <- self$results$plot2
                 
-                 vars <- length(self$options$vars)
-
-                 width <- 300 + vars * 30
-
-                image$setSize(width, 500)
+                #  vars <- length(self$options$vars)
+                #  width <- 300 + vars * 30
+                # image$setSize(width, 500)
                 
-                
-                image$setState(mfa)
+                image2$setState(mfa)
                 
                 # Contributions to dimension 2------------
                 
-                image <- self$results$plot3
+                image3 <- self$results$plot3
                 
-                vars <- length(self$options$vars)
+                # vars <- length(self$options$vars)
+                # width <- 300 + vars * 30
+                # image$setSize(width, 500)
 
-                width <- 300 + vars * 30
-
-                image$setSize(width, 500)
-
-                
-                image$setState(mfa)
+                image3$setState(mfa)
                 
               
                 # Graph of individuals---------
                 
-                image <- self$results$plot4
+                image4 <- self$results$plot4
                 
-                image$setState(mfa)
+                image4$setState(mfa)
                 
                 # Individuals by group---------
                 
-                image <- self$results$plot5
+                image5 <- self$results$plot5
                 
-                image$setState(mfa)
+                image5$setState(mfa)
                   
                 # contribution of groups to dimension 1--------
                 
-                image <- self$results$plot6
+                image6 <- self$results$plot6
                 
-                image$setState(mfa)
+                image6$setState(mfa)
                 
                 # contribution of groups to dimension 2--------
                 
-                image <- self$results$plot7
+                image7 <- self$results$plot7
                 
-                image$setState(mfa)
+                image7$setState(mfa)
                 
                 # scree plot(plot 8)--------
                 
-                image <- self$results$plot8
-                image$setState(mfa)
+                image8 <- self$results$plot8
+                image8$setState(mfa)
             }
         },
         
@@ -400,12 +448,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         },
         
-        .plot1 = function(image, ggtheme, theme, ...) {
+        .plot1 = function(image1, ggtheme, theme, ...) {
             
-          if (is.null(image$state))
+          if (is.null(image1$state))
             return(FALSE)
           
-            mfa <- image$state
+            mfa <- image1$state
             
             plot1 <- factoextra::fviz_mfa_var(mfa, "quanti.var", 
                                               palette = "jco", 
@@ -421,53 +469,67 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
         },
         
-        .plot2 = function(image, ggtheme, theme, ...) {
+        .plot2 = function(image2, ggtheme, theme, ...) {
             
-          if (is.null(image$state))
+          if (is.null(image2$state))
             return(FALSE)
             
-            mfa <- image$state
+            mfa <- image2$state
             
             plot2 <- factoextra::fviz_contrib(mfa, choice = "quanti.var"
                                               , axes = 1, top = 20,
                                               palette = "jco")
             
-            plot2 <- plot2+ggtheme+ 
-                theme(axis.text.x = element_text(angle=45))
+            if (self$options$angle > 0) {
+              plot2 <- plot2 + ggplot2::theme(
+                axis.text.x = ggplot2::element_text(
+                  angle = self$options$angle, hjust = 1
+                )
+              )
+            }
+            
+            
             print(plot2)
             TRUE
             
         },
         
-        .plot3 = function(image, ggtheme, theme, ...) {
+        .plot3 = function(image3, ggtheme, theme, ...) {
             
             # if (length(self$options$vars) <= 2)
             #     return()
             
-          if (is.null(image$state))
+          if (is.null(image3$state))
             return(FALSE)
           
-            mfa <- image$state
+            mfa <- image3$state
             
             plot3 <- factoextra::fviz_contrib(mfa, choice = "quanti.var", 
                                               axes = 2, top = 20,
                                               palette = "jco")
                                                                                             
-            plot3 <- plot3+ggtheme+
-                theme(axis.text.x = element_text(angle=45))
+            if (self$options$angle > 0) {
+              plot3 <- plot3 + ggplot2::theme(
+                axis.text.x = ggplot2::element_text(
+                  angle = self$options$angle, hjust = 1
+                )
+              )
+            }
+            
+            
             print(plot3)
             TRUE
             
         }, 
         
-        .plot4 = function(image, ggtheme, theme, ...) {
+        .plot4 = function(image4, ggtheme, theme, ...) {
             
             # if (length(self$options$vars) <= 2)
             #     return()
-          if (is.null(image$state))
+          if (is.null(image4$state))
             return(FALSE)
             
-            mfa <- image$state
+            mfa <- image4$state
             
             plot4 <- factoextra::fviz_mfa_ind(mfa, 
                                              repel=TRUE)
@@ -478,12 +540,12 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             TRUE
         },
        
-         .plot5 = function(image, ggtheme, theme, ...) {
+         .plot5 = function(image5, ggtheme, theme, ...) {
             
-           if (is.null(image$state))
+           if (is.null(image5$state))
              return(FALSE)
             
-            mfa <- image$state
+            mfa <- image5$state
             
             plot5 <- factoextra::fviz_mfa_ind(mfa, 
                                               habillage = self$options$facs, # color by groups 
@@ -497,49 +559,65 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             TRUE
          },
         
-        .plot6 = function(image, ggtheme, theme, ...) {
+        .plot6 = function(image6, ggtheme, theme, ...) {
             
-          if (is.null(image$state))
+          if (is.null(image6$state))
             return(FALSE)
             
-            mfa <- image$state
+            mfa <- image6$state
             
             plot6 <- factoextra::fviz_contrib(mfa,
                                               "group", 
                                               axes = 1)
-            plot6 <- plot6+ggtheme+ 
-                theme(axis.text.x = element_text(angle=45))
+           
+            if (self$options$angle > 0) {
+              plot6 <- plot6 + ggplot2::theme(
+                axis.text.x = ggplot2::element_text(
+                  angle = self$options$angle, hjust = 1
+                )
+              )
+            }
+            
+            
             print(plot6)
             TRUE
             
         },
         
-        .plot7 = function(image, ggtheme, theme, ...) {
+        .plot7 = function(image7, ggtheme, theme, ...) {
             
-          if (is.null(image$state))
+          if (is.null(image7$state))
             return(FALSE)
             
-            mfa <- image$state
+            mfa <- image7$state
             
             plot7 <- factoextra::fviz_contrib(mfa,
                                               "group", 
                                               axes = 2)
-            plot7 <- plot7+ggtheme+ 
-                theme(axis.text.x = element_text(angle=45))
+            
+            if (self$options$angle > 0) {
+              plot7 <- plot7 + ggplot2::theme(
+                axis.text.x = ggplot2::element_text(
+                  angle = self$options$angle, hjust = 1
+                )
+              )
+            }
+            
+            
             print(plot7)
             TRUE
             
         },
         
-        .plot8 = function(image, ggtheme, theme, ...) {
+        .plot8 = function(image8, ggtheme, theme, ...) {
             
             # if (length(self$options$vars) <= 2)
             #     return()
             # 
-          if (is.null(image$state))
+          if (is.null(image8$state))
             return(FALSE)
           
-            mfa <- image$state
+            mfa <- image8$state
             
             plot8 <- factoextra::fviz_screeplot(mfa, addlabels = TRUE)
             

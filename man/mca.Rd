@@ -18,7 +18,11 @@ mca(
   plot3 = FALSE,
   plot4 = FALSE,
   plot5 = TRUE,
-  plot6 = FALSE
+  plot6 = FALSE,
+  width = 500,
+  height = 500,
+  width1 = 500,
+  height1 = 500
 )
 }
 \arguments{
@@ -49,6 +53,14 @@ mca(
 \item{plot5}{.}
 
 \item{plot6}{.}
+
+\item{width}{.}
+
+\item{height}{.}
+
+\item{width1}{.}
+
+\item{height1}{.}
 }
 \value{
 A results object containing:
