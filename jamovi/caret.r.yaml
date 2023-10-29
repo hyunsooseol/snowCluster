@@ -206,8 +206,6 @@ items:
       title: Model selection plot
       type:  Image
       visible: (plot2)
-      width: 500
-      height: 300
       renderFun: .plot2
       refs: caret
       clearWith:
@@ -225,13 +223,13 @@ items:
         - num
         - rep
         - trans
+        - width2
+        - height2
         
     - name:  plot
       title: ROC plot with training set               
       type:  Image
       visible: (plot)
-      width: 500
-      height: 500
       renderFun: .plot
       refs: MLeval
       clearWith:
@@ -250,13 +248,13 @@ items:
         - num
         - rep
         - trans
+        - width
+        - height
         
     - name:  plot1
       title: Variable importance plot
       type:  Image
       visible: (plot1)
-      width: 600
-      height: 600
       renderFun: .plot1
       refs: caret
       clearWith:
@@ -274,13 +272,13 @@ items:
         - num
         - rep
         - trans
+        - width1
+        - height1
 
     - name:  plot3
       title: ROC plot with test set               
       type:  Image
       visible: (plot3)
-      width: 500
-      height: 500
       renderFun: .plot3
       refs: MLeval
       clearWith:
@@ -298,13 +296,13 @@ items:
         - num
         - rep
         - trans
+        - width3
+        - plot3
         
     - name:  plot4
       title: Calibration curve with training set               
       type:  Image
       visible: (plot4)
-      width: 500
-      height: 500
       renderFun: .plot4
       refs: MLeval
       clearWith:
@@ -323,13 +321,13 @@ items:
         - num
         - rep
         - trans
+        - width4
+        - plot4
         
     - name:  plot5
       title: Box plot              
       type:  Image
       visible: (plot5)
-      width: 500
-      height: 500
       renderFun: .plot5
       refs: caret
       clearWith:
@@ -348,13 +346,13 @@ items:
         - num
         - rep
         - trans
+        - width5
+        - height5
         
     - name:  plot6
       title: Density plot              
       type:  Image
       visible: (plot6)
-      width: 500
-      height: 500
       renderFun: .plot6
       refs: caret
       clearWith:
@@ -373,6 +371,8 @@ items:
         - num
         - rep
         - trans
+        - width6
+        - height6
 
     - name: mf
       title: 'Model Comparison'
@@ -478,8 +478,6 @@ items:
       title: Box plots to compare models              
       type:  Image
       visible: (plot7)
-      width: 500
-      height: 500
       renderFun: .plot7
       refs: caret
       clearWith:
@@ -498,6 +496,8 @@ items:
         - num
         - rep
         - trans
+        - width7
+        - height7
         
     - name: pred
       title: Prediction
