@@ -52,9 +52,7 @@ caret(
   width6 = 500,
   height6 = 500,
   width7 = 500,
-  height7 = 500,
-  width8 = 500,
-  height8 = 500
+  height7 = 500
 )
 }
 \arguments{
@@ -153,10 +151,6 @@ caret(
 \item{width7}{.}
 
 \item{height7}{.}
-
-\item{width8}{.}
-
-\item{height8}{.}
 }
 \value{
 A results object containing:

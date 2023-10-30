@@ -31,11 +31,10 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <body>
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
-            <p> 1. Classification analysis based on <b>party</b>  R package.</p>
-            <p> 2. The values for the target variable cannot be a number. </p> 
-            <p> 3. Continuous variables were standardized using <b> caret::prePrecess()</b>. </p>
-            <p> 4. rpart plot based on <b> rpart.plot</b> R package.
-            <p> 5. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 1. The values for the target variable cannot be a number. </p> 
+            <p> 2. Continuous variables were standardized using <b> caret::prePrecess()</b>. </p>
+            <p> 3. Plots are drawn with training data. </p>
+            <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
