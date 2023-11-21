@@ -6,6 +6,7 @@
 #' @importFrom MASS lda
 #' @importFrom klaR partimat
 #' @importFrom caret createDataPartition
+#' @importFrom stringr str_interp
 #' @import MASS
 #' @import ggplot2
 #' @import jmvcore
@@ -197,7 +198,22 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
             }
             
-            # proportion of trace----------
+           
+            if(isTRUE(self$options$prop)){
+             
+             
+              if(length(levels(data[[dep]]))<=2){
+                
+                  err_string <- stringr::str_interp(
+                    "Dependent levels should be at least 3."
+                  )
+                  stop(err_string)
+                  
+                } 
+                
+              if(length(levels(data[[dep]]))>2){
+               
+             # proportion of trace----------
            
             prop.lda = lda.train$svd^2/sum(lda.train$svd^2)
             
@@ -215,6 +231,8 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             table$setRow(rowNo = 1, values = row)
             
+            
+            }
             
             # Accuracy with training data-----------
             
@@ -255,6 +273,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
                 table$addRow(rowKey=name, values=row)
 
+            }
             }
 
           # # Accuracy with test data-----------
@@ -307,12 +326,28 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             # 
             # image$setState(state)  
             
-            df <- cbind(train, predict(lda.train)$x)
+            if(isTRUE(self$options$plot)){
             
+              if(length(levels(data[[dep]]))<=2){
+                
+                err_string <- stringr::str_interp(
+                  "Dependent levels should be at least 3."
+                )
+                stop(err_string)
+                
+              } 
+              
+              if(length(levels(data[[dep]]))>2){
+              
+            df <- cbind(train, predict(lda.train)$x)
             
             image <- self$results$plot
             
             image$setState(df)
+            
+              }
+            
+            }
             
             # Histogram---------------------
             if(length(self$options$covs) >2){
@@ -323,17 +358,19 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            
             # partion plots---------------------
             
-            image2 <- self$results$plot2
+             image2 <- self$results$plot2
+            # state <- list(formula, train)
+            # image2$setState(state)
+            df <- cbind(train, predict(lda.train)$x)
+            image2$setState(df)
             
-            state <- list(formula, train)
-            
-            image2$setState(state)
             
             
             },
             
             .plot = function(image,ggtheme, theme,...) {
                 
+             
               if (is.null(image$state))
                 return(FALSE)
               
@@ -376,20 +413,23 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         },
         
         .plot2 = function(image2,...) {
-          
-          # plot2 <- self$options$plot2
-          # 
-          # if (!plot2)
-          #   return()
-          
+         
           if (is.null(image2$state))
             return(FALSE)
           
           
           method <- self$options$method
         
-          formula <- image2$state[[1]]
-          train <- image2$state[[2]]
+          # formula <- image2$state[[1]]
+          # train <- image2$state[[2]]
+          
+          data <- self$data
+          data <- jmvcore::naOmit(data)
+          per <- self$options$per
+          formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
+          formula <- as.formula(formula)
+          split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
+          train <-data[split1,]
           
           
           ########## Partition plots###########

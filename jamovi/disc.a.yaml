@@ -12,7 +12,7 @@ options:
 
     - name: dep
       type: Variable
-      title: Dependent Variable(Required)
+      title: Dependent
       suggested:
         - nominal
       permitted:
@@ -49,7 +49,7 @@ options:
       default: FALSE    
 
     - name: prop
-      title: Proportion of trace
+      title: 'Proportion of trace'
       type: Bool 
       default: FALSE    
       
@@ -64,7 +64,7 @@ options:
       default: FALSE      
 
     - name: plot
-      title: LD plot 
+      title: 'LD plot' 
       type: Bool
       default: FALSE
 
