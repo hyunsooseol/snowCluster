@@ -9,7 +9,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             dep = NULL,
             covs = NULL,
             facs = NULL,
-            per = 0.7,
+            per = 1,
             plot = FALSE,
             over = FALSE,
             tab = FALSE,
@@ -55,7 +55,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 per,
                 min=0.1,
                 max=1,
-                default=0.7)
+                default=1)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -388,7 +388,7 @@ tree <- function(
     dep,
     covs,
     facs,
-    per = 0.7,
+    per = 1,
     plot = FALSE,
     over = FALSE,
     tab = FALSE,

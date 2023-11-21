@@ -202,6 +202,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         # Overall statistics-----------
         
+      
         table <- self$results$over1
         
         acc<- eval1[["overall"]][1]
@@ -221,12 +222,17 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         ############## Test set##############################################        
        
-        pred<-predict(model.train, test)
+        if(self$options$per<1){
+         
+          if(self$options$per==1) return()
+          
+          pred<-predict(model.train, test)
         
        #----------------------------
         eval<- caret::confusionMatrix(pred, test[[dep]]) 
         
-        #---------------------------
+        #confusion matrix---------------------------
+        if(isTRUE(self$options$tab1)){
         
         tab<- eval$table
         
@@ -257,7 +263,10 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           
         }
         
+        }
         # Overall statistics-----------
+        
+        if(isTRUE(self$options$over)){
         
         table <- self$results$over
         
@@ -275,8 +284,12 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         table$setRow(rowNo = 1, values = row)
         
-      # Statistics by class-----------
-        
+        }
+      
+       
+        # Statistics by class----------- 
+        if(isTRUE(self$options$cla)){
+       
         table <- self$results$cla
         
         cla<- eval[["byClass"]]
@@ -306,8 +319,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           }
           
           table$addRow(rowKey=name, values=row)
-          
-          
+        
+        }
+        
         }
         
         # Tree plot----------
@@ -315,10 +329,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         image <- self$results$plot
         image$setState(model.train)
         
-       
-        
-        
-        
+        }
          
       },
       

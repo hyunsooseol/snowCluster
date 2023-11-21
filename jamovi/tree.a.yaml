@@ -38,8 +38,8 @@ options:
       title: Split set(%)
       type: Number
       min: 0.1
-      max: 1.0
-      default: 0.7
+      max: 1
+      default: 1
 
     - name: plot
       title: Tree plot 
@@ -47,7 +47,7 @@ options:
       default: FALSE
       
     - name: over
-      title: Overall statistics 
+      title: 'Overall statistics' 
       type: Bool 
       default: FALSE  
       
@@ -62,12 +62,12 @@ options:
       default: FALSE     
       
     - name: over1
-      title: Overall statistics 
+      title: 'Overall statistics' 
       type: Bool 
       default: TRUE   
       
     - name: tab1
-      title: Confusion matrix 
+      title: 'Confusion matrix' 
       type: Bool 
       default: FALSE          
 
