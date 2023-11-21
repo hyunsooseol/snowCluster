@@ -8,7 +8,7 @@ disc(
   data,
   dep,
   covs,
-  per = 0.7,
+  per = 1,
   prior = TRUE,
   gm = FALSE,
   coef = FALSE,
@@ -72,6 +72,7 @@ disc(
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+  \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
   \code{results$coef} \tab \tab \tab \tab \tab a table \cr

@@ -8,7 +8,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
-            per = 0.7,
+            per = 1,
             prior = TRUE,
             gm = FALSE,
             coef = FALSE,
@@ -51,7 +51,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 per,
                 min=0.1,
                 max=1,
-                default=0.7)
+                default=1)
             private$..prior <- jmvcore::OptionBool$new(
                 "prior",
                 prior,
@@ -187,6 +187,7 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
+        text = function() private$.items[["text"]],
         prior = function() private$.items[["prior"]],
         gm = function() private$.items[["gm"]],
         coef = function() private$.items[["coef"]],
@@ -209,6 +210,10 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text",
+                title=" "))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="prior",
@@ -398,6 +403,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
@@ -420,7 +426,7 @@ disc <- function(
     data,
     dep,
     covs,
-    per = 0.7,
+    per = 1,
     prior = TRUE,
     gm = FALSE,
     coef = FALSE,

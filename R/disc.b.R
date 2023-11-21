@@ -108,9 +108,8 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             # creating table-----
             
             value<- lda.train$prior
-            
             prior<- as.data.frame(value)
-            
+          
             names<- dimnames(prior)[[1]]
            
             # Prior probabilities of groups table----
@@ -130,7 +129,6 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             # Group means---------------
             
             gm <- lda.train$means
-            
             covs <- self$options$covs 
            
             names<- dimnames(gm)[[1]]
@@ -168,7 +166,6 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            # Coefficients of linear discriminants-------
             
             coef<- lda.train$scaling
-            
             coef <- as.data.frame(coef)
             
             names <-  dimnames(coef)[[1]]
@@ -198,60 +195,25 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
             }
             
-           
-            if(isTRUE(self$options$prop)){
-             
-             
-              if(length(levels(data[[dep]]))<=2){
-                
-                  err_string <- stringr::str_interp(
-                    "Dependent levels should be at least 3."
-                  )
-                  stop(err_string)
-                  
-                } 
-                
-              if(length(levels(data[[dep]]))>2){
-               
-             # proportion of trace----------
-           
-            prop.lda = lda.train$svd^2/sum(lda.train$svd^2)
-            
-            ###################
-            
-            table <- self$results$prop
-            
-            ld1 <- prop.lda[[1]]
-            ld2 <- prop.lda[[2]]
-            
-            row <- list()
-            
-            row[['LD1']] <- ld1
-            row[['LD2']] <- ld2
-            
-            table$setRow(rowNo = 1, values = row)
-            
-            
-            }
-            
             # Accuracy with training data-----------
             
             # lda.train <- predict(lda.iris)
             # 
             # train$lda <- lda.train$class
             # table(train$lda,train$Species)
+           
+            if(isTRUE(self$options$tra)){
             
-            
-             dep <- self$options$dep
             
             pred = predict(lda.train)
             
             res<- table(train[[dep]],pred$class)
-            
             res<- as.matrix(res)
-           
-            names<- dimnames(res)[[1]]
             
+            #self$results$text$setContent(res)
+            
+            
+            names<- dimnames(res)[[1]]
             table <- self$results$tra
             
             for (name in names) {
@@ -282,19 +244,17 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             # test$lda <- lda.test$class
             # table(test$lda,test$Species)
             # 
-            
-            dep <- self$options$dep
-            
+   
+        if(isTRUE(self$options$tes)){
+
+        
             lda.test = predict(lda.train,test)
-            
             test$lda <- lda.test$class
             
             res1<- table(test$lda,test[[dep]])
-            
             res1<- as.matrix(res1)
             
             names<- dimnames(res1)[[1]]
-            
             table <- self$results$tes
             
             for (name in names) {
@@ -317,7 +277,47 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 table$addRow(rowKey=name, values=row)
                 
             }
-        
+}
+
+
+## Proportion of trace------------------
+            
+            if(isTRUE(self$options$prop)){
+              
+              
+              if(length(levels(data[[dep]]))<=2){
+                
+                err_string <- stringr::str_interp(
+                  "Dependent levels should be at least 3."
+                )
+                stop(err_string)
+                
+              } 
+              
+              if(length(levels(data[[dep]]))>2){
+                
+                # proportion of trace----------
+                
+                prop.lda = lda.train$svd^2/sum(lda.train$svd^2)
+                
+                ###################
+                
+                table <- self$results$prop
+                
+                ld1 <- prop.lda[[1]]
+                ld2 <- prop.lda[[2]]
+                
+                row <- list()
+                
+                row[['LD1']] <- ld1
+                row[['LD2']] <- ld2
+                
+                table$setRow(rowNo = 1, values = row)
+                
+                
+              }}
+              
+              
             #  LD plot----------
             
             # state <- list(lda.train, train)
@@ -363,7 +363,6 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             # image2$setState(state)
             df <- cbind(train, predict(lda.train)$x)
             image2$setState(df)
-            
             
             
             },
