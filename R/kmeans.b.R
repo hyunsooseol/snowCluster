@@ -82,9 +82,9 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 nVars <- length(vars)
                 k <- self$options$k
                 
-                tab2$addColumn(name = "cluster",
-                               title = "Cluster No",
-                               type = 'Integer')
+                # tab2$addColumn(name = "cluster",
+                #                title = "Cluster No",
+                #                type = 'integer')
                 
                 for (i in seq_along(vars)) {
                     var <- vars[[i]]
@@ -137,9 +137,9 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             
             .run = function() {
                 
-              if (!is.null(self$options$vars)) {
-                    
-                if (length(self$options$vars)<2) return() 
+                     k <- self$options$k
+              
+                if (length(self$options$vars)<= k ) return() 
                 
                 
                     vars <- self$options$vars
@@ -312,7 +312,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     }
                 
                    
-                    }
+                    
                 
             },
             

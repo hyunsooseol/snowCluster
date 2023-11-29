@@ -9,7 +9,7 @@ tree(
   dep,
   covs,
   facs,
-  per = 0.7,
+  per = 1,
   plot = FALSE,
   over = FALSE,
   tab = FALSE,
