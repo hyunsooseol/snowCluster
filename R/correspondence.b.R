@@ -40,8 +40,8 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
       
         if(isTRUE(self$options$plot4)){
           
-          width <- self$options$width
-          height <- self$options$height
+          width <- self$options$width4
+          height <- self$options$height4
           
           self$results$plot4$setSize(width, height)
         }  

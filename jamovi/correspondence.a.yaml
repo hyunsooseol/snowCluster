@@ -89,12 +89,12 @@ options:
       type: Bool
       default: FALSE     
 
-    - name: width
+    - name: width4
       type: Integer
       title: "Size: "
       default: 500
       
-    - name: height
+    - name: height4
       type: Integer
       title: "X"
       default: 500

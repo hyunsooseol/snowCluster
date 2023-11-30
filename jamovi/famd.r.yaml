@@ -185,8 +185,8 @@ items:
         - rowvar
         - quanvar
         - qualvar
-        - width1
-        - height1
+        - width2
+        - height2
 
     - name: plot3
       title:  Qualitative variables
@@ -203,8 +203,8 @@ items:
         - rowvar
         - quanvar
         - qualvar
-        - width1
-        - height1
+        - width3
+        - height3
 
     - name: plot4
       title: Graph of individuals 
@@ -221,8 +221,8 @@ items:
         - rowvar
         - quanvar
         - qualvar 
-        - width1
-        - height1
+        - width4
+        - height4
 
 
 

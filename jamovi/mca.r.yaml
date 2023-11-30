@@ -85,8 +85,8 @@ items:
         - facs
         - rowvar
         - colvar
-        - width
-        - height      
+        - width5
+        - height5      
  
     - name:  plot6
       title: Biplot
@@ -99,8 +99,8 @@ items:
         - facs
         - rowvar
         - colvar
-        - width1
-        - height1      
+        - width6
+        - height6      
         
     - name:  plot1
       title: Correlation between variables and dimensions
@@ -129,8 +129,8 @@ items:
         - facs
         - rowvar
         - colvar
-        - width1
-        - height1            
+        - width2
+        - height2            
  
     - name:  plot3
       title: Plot of individuals
@@ -144,8 +144,8 @@ items:
         - facs
         - rowvar
         - colvar
-        - width1
-        - height1            
+        - width3
+        - height3            
   
     - name:  plot4
       title: Individuals by groups
@@ -159,8 +159,8 @@ items:
         - facs
         - rowvar
         - colvar
-        - width1
-        - height1            
+        - width4
+        - height4            
   
 ...
 

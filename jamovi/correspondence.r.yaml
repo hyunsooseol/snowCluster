@@ -108,8 +108,8 @@ items:
             - labels
             - rowvar
             - colvar
-            - width
-            - height
+            - width4
+            - height4
  
     - name:  plot1
       title: Row points
@@ -138,8 +138,8 @@ items:
             - labels
             - rowvar
             - colvar   
-            - width1
-            - height1
+            - width2
+            - height2
  
     - name:  plot3
       title: Biplot
@@ -153,6 +153,6 @@ items:
             - labels
             - rowvar
             - colvar
-            - width1
-            - height1
+            - width3
+            - height3
 ...

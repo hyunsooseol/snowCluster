@@ -39,8 +39,8 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         if(isTRUE(self$options$plot5)){
           
-          width <- self$options$width
-          height <- self$options$height
+          width <- self$options$width5
+          height <- self$options$height5
           
           self$results$plot5$setSize(width, height)
         }  
@@ -55,32 +55,32 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
         
         if(isTRUE(self$options$plot2)){
           
-          width <- self$options$width1
-          height <- self$options$height1
+          width <- self$options$width2
+          height <- self$options$height2
           
           self$results$plot2$setSize(width, height)
         }  
         
         if(isTRUE(self$options$plot3)){
           
-          width <- self$options$width1
-          height <- self$options$height1
+          width <- self$options$width3
+          height <- self$options$height3
           
           self$results$plot3$setSize(width, height)
         }  
         
         if(isTRUE(self$options$plot4)){
           
-          width <- self$options$width1
-          height <- self$options$height1
+          width <- self$options$width4
+          height <- self$options$height4
           
           self$results$plot4$setSize(width, height)
         }  
         
         if(isTRUE(self$options$plot6)){
           
-          width <- self$options$width1
-          height <- self$options$height1
+          width <- self$options$width6
+          height <- self$options$height6
           
           self$results$plot6$setSize(width, height)
         }  

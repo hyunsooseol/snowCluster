@@ -69,11 +69,11 @@ children:
                 style: list-inline
                 children:
                   - type: TextBox
-                    name: width
+                    name: width4
                     format: number
                     enable: (plot4)
                   - type: TextBox
-                    name: height
+                    name: height4
                     format: number
                     enable: (plot4)
               - type: CheckBox

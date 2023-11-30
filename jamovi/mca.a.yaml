@@ -93,23 +93,63 @@ options:
       type: Bool
       default: FALSE            
 
-    - name: width
+    - name: width1
       type: Integer
       title: "Size: "
       default: 500
       
-    - name: height
+    - name: height1
       type: Integer
       title: "X"
       default: 500
       
-    - name: width1
+    - name: width2
       type: Integer
-      title: "Width "
+      title: "Size: "
       default: 500
       
-    - name: height1
+    - name: height2
       type: Integer
-      title: "Height"
-      default: 500 
+      title: "X"
+      default: 500
+      
+    - name: width3
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height3
+      type: Integer
+      title: "X"
+      default: 500
+      
+    - name: width4
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height4
+      type: Integer
+      title: "X"
+      default: 500
+      
+    - name: width5
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height5
+      type: Integer
+      title: "X"
+      default: 500
+      
+    - name: width6
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height6
+      type: Integer
+      title: "X"
+      default: 500      
 ...
