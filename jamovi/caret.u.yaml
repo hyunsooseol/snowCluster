@@ -183,7 +183,7 @@ children:
               - type: Output
                 name: pred
   - type: CollapseBox
-    label: Compare models
+    label: 'Model comparison'
     margin: normal
     collapsed: true
     stretchFactor: 1

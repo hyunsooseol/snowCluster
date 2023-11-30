@@ -20,6 +20,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             plot4 = FALSE,
             width = 500,
             height = 500,
+            width3 = 500,
+            height3 = 500,
+            width2 = 500,
+            height2 = 500,
             width1 = 500,
             height1 = 500, ...) {
 
@@ -101,6 +105,22 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 "height",
                 height,
                 default=500)
+            private$..width3 <- jmvcore::OptionInteger$new(
+                "width3",
+                width3,
+                default=500)
+            private$..height3 <- jmvcore::OptionInteger$new(
+                "height3",
+                height3,
+                default=500)
+            private$..width2 <- jmvcore::OptionInteger$new(
+                "width2",
+                width2,
+                default=500)
+            private$..height2 <- jmvcore::OptionInteger$new(
+                "height2",
+                height2,
+                default=500)
             private$..width1 <- jmvcore::OptionInteger$new(
                 "width1",
                 width1,
@@ -124,6 +144,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             self$.addOption(private$..plot4)
             self$.addOption(private$..width)
             self$.addOption(private$..height)
+            self$.addOption(private$..width3)
+            self$.addOption(private$..height3)
+            self$.addOption(private$..width2)
+            self$.addOption(private$..height2)
             self$.addOption(private$..width1)
             self$.addOption(private$..height1)
         }),
@@ -142,6 +166,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
         plot4 = function() private$..plot4$value,
         width = function() private$..width$value,
         height = function() private$..height$value,
+        width3 = function() private$..width3$value,
+        height3 = function() private$..height3$value,
+        width2 = function() private$..width2$value,
+        height2 = function() private$..height2$value,
         width1 = function() private$..width1$value,
         height1 = function() private$..height1$value),
     private = list(
@@ -159,6 +187,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
         ..plot4 = NA,
         ..width = NA,
         ..height = NA,
+        ..width3 = NA,
+        ..height3 = NA,
+        ..width2 = NA,
+        ..height2 = NA,
         ..width1 = NA,
         ..height1 = NA)
 )
@@ -384,6 +416,10 @@ correspondenceBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class
 #' @param plot4 .
 #' @param width .
 #' @param height .
+#' @param width3 .
+#' @param height3 .
+#' @param width2 .
+#' @param height2 .
 #' @param width1 .
 #' @param height1 .
 #' @return A results object containing:
@@ -422,6 +458,10 @@ correspondence <- function(
     plot4 = FALSE,
     width = 500,
     height = 500,
+    width3 = 500,
+    height3 = 500,
+    width2 = 500,
+    height2 = 500,
     width1 = 500,
     height1 = 500) {
 
@@ -453,6 +493,10 @@ correspondence <- function(
         plot4 = plot4,
         width = width,
         height = height,
+        width3 = width3,
+        height3 = height3,
+        width2 = width2,
+        height2 = height2,
         width1 = width1,
         height1 = height1)
 

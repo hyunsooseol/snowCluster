@@ -83,45 +83,59 @@ children:
     margin: normal
     collapsed: true
     children:
-      - type: CheckBox
-        name: dend
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
         children:
-            - type: CheckBox
-              name: horiz
-              enable: (dend)
-            - type: TextBox
-              name: width
-              format: number
-              enable: (dend)
-            - type: TextBox
-              name: height
-              format: number
-              enable: (dend)
-      - type: CheckBox
-        name: heat
-        style: list-inline
+          - type: CheckBox
+            name: dend
+            children:
+              - type: CheckBox
+                name: horiz
+                enable: (dend)
+              - type: TextBox
+                name: width
+                format: number
+                enable: (dend)
+              - type: TextBox
+                name: height
+                format: number
+                enable: (dend)
+          - type: CheckBox
+            name: heat
+            style: list-inline
+            children:
+              - type: TextBox
+                name: width1
+                format: number
+                enable: (heat)
+              - type: TextBox
+                name: height1
+                format: number
+                enable: (heat)
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
         children:
-          - type: TextBox
-            name: width1
-            format: number
-            enable: (heat)
-          - type: TextBox
-            name: height1
-            format: number
-            enable: (heat)
-      - type: CheckBox
-        name: pair
-        enable: (!case)
-        style: list-inline
-        children:
-          - type: TextBox
-            name: width2
-            format: number
+          - type: CheckBox
+            name: pair
             enable: (!case)
-          - type: TextBox
-            name: height2
-            format: number
-            enable: (!case)
+            style: list-inline
+            children:
+              - type: TextBox
+                name: width2
+                format: number
+                enable: (!case)
+              - type: TextBox
+                name: height2
+                format: number
+                enable: (!case)
   - type: CollapseBox
     label: Save
     collapsed: true
