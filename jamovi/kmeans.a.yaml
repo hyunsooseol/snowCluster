@@ -88,14 +88,13 @@ options:
 
     - name: width
       type: Integer
-      title: "Size: "
+      title: "Width "
       default: 500
       
     - name: height
       type: Integer
-      title: "X"
-      default: 500
-
+      title: "Height"
+      default: 500       
     - name: width1
       type: Integer
       title: "Size: "
