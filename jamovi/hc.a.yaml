@@ -14,10 +14,10 @@ options:
             The data as a data frame.
 
     - name: labels
-      title: Labels (Optional)
+      title: 'Label(Optional)'
       type: Variable
       suggested:
-         - id
+         - nominal
       permitted:
         - id
         - factor
@@ -33,7 +33,7 @@ options:
     - name: stand
       title: Standardize data
       type: Bool
-      default: TRUE 
+      default: TRUE
 
     - name: k
       title: Number of clusters
@@ -76,10 +76,10 @@ options:
     - name: plot
       title: Cluster Dendrogram
       type: Bool
-      default: TRUE
+      default: FALSE
   
     - name: clust
-      title: Cluster number
+      title: 'Cluster number'
       type: Output    
       
     - name: width

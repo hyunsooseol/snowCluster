@@ -16,6 +16,7 @@ items:
       measureType: nominal
       clearWith:
         - vars
+        - labels
         - k
         - stand
         - metric
@@ -31,6 +32,7 @@ items:
       renderFun: .plot
       clearWith:
         - vars
+        - labels
         - k
         - stand
         - metric

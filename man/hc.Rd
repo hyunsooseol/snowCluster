@@ -13,7 +13,7 @@ hc(
   metric = "euclidean",
   method = "ward.D2",
   type = "rectangle",
-  plot = TRUE,
+  plot = FALSE,
   width = 500,
   height = 500
 )

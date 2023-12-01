@@ -13,7 +13,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             metric = "euclidean",
             method = "ward.D2",
             type = "rectangle",
-            plot = TRUE,
+            plot = FALSE,
             width = 500,
             height = 500, ...) {
 
@@ -27,7 +27,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "labels",
                 labels,
                 suggested=list(
-                    "id"),
+                    "nominal"),
                 permitted=list(
                     "id",
                     "factor"))
@@ -79,7 +79,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
-                default=TRUE)
+                default=FALSE)
             private$..clust <- jmvcore::OptionOutput$new(
                 "clust")
             private$..width <- jmvcore::OptionInteger$new(
@@ -157,6 +157,7 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 measureType="nominal",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "k",
                     "stand",
                     "metric",
@@ -172,6 +173,7 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
+                    "labels",
                     "k",
                     "stand",
                     "metric",
@@ -232,7 +234,7 @@ hc <- function(
     metric = "euclidean",
     method = "ward.D2",
     type = "rectangle",
-    plot = TRUE,
+    plot = FALSE,
     width = 500,
     height = 500) {
 

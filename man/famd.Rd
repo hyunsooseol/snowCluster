@@ -25,7 +25,13 @@ famd(
   width = 500,
   height = 500,
   width1 = 500,
-  height1 = 500
+  height1 = 500,
+  width2 = 500,
+  height2 = 500,
+  width3 = 500,
+  height3 = 500,
+  width4 = 500,
+  height4 = 500
 )
 }
 \arguments{
@@ -70,6 +76,18 @@ famd(
 \item{width1}{.}
 
 \item{height1}{.}
+
+\item{width2}{.}
+
+\item{height2}{.}
+
+\item{width3}{.}
+
+\item{height3}{.}
+
+\item{width4}{.}
+
+\item{height4}{.}
 }
 \value{
 A results object containing:
