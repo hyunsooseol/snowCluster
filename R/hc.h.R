@@ -33,11 +33,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "factor"))
             private$..vars <- jmvcore::OptionVariables$new(
                 "vars",
-                vars,
-                suggested=list(
-                    "continuous"),
-                permitted=list(
-                    "numeric"))
+                vars)
             private$..stand <- jmvcore::OptionBool$new(
                 "stand",
                 stand,

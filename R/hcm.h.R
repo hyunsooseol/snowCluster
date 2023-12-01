@@ -39,10 +39,11 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..imena <- jmvcore::OptionVariable$new(
                 "imena",
                 imena,
+                suggested=list(
+                    "nominal"),
                 permitted=list(
                     "id",
-                    "factor"),
-                rejectInf=TRUE)
+                    "factor"))
             private$..stand <- jmvcore::OptionBool$new(
                 "stand",
                 stand,

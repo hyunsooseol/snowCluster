@@ -14,7 +14,7 @@ options:
             The data as a data frame.
 
     - name: labels
-      title: 'Label(Optional)'
+      title: 'Labels (optional)'
       type: Variable
       suggested:
          - nominal
@@ -25,11 +25,7 @@ options:
     - name: vars
       title: Variables
       type: Variables
-      suggested:
-         - continuous
-      permitted:
-        - numeric  
-
+ 
     - name: stand
       title: Standardize data
       type: Bool

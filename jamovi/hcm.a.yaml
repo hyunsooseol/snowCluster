@@ -18,8 +18,11 @@ options:
     - name: imena
       type: Variable 
       title: Labels (optional)
-      permitted: [id, factor]
-      rejectInf: TRUE  
+      suggested:
+         - nominal
+      permitted:
+        - id
+        - factor      
       
     - name: stand
       title: Standardize data

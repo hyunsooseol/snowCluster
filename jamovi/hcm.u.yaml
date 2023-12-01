@@ -19,7 +19,7 @@ children:
             name: podatki
             isTarget: true
       - type: TargetLayoutBox
-        label: Labels (Optional)
+        label: Labels (optional)
         children:
           - type: VariablesListBox
             name: imena
