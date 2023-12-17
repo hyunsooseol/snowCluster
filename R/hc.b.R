@@ -97,7 +97,7 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 if ( ! is.null(self$options$labels)) {
                 
-                      cluster <- data.frame(hc$cluster)
+                      cluster <- as.data.frame(hc$cluster)
                      #self$results$text$setContent(cluster)
                     
                       for (i in 1:length(self$options$labels)) {
