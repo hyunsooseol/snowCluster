@@ -14,6 +14,7 @@ hc(
   method = "ward.D2",
   type = "rectangle",
   plot = FALSE,
+  horiz = FALSE,
   width = 500,
   height = 500
 )
@@ -36,6 +37,8 @@ hc(
 \item{type}{.}
 
 \item{plot}{.}
+
+\item{horiz}{.}
 
 \item{width}{.}
 

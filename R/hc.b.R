@@ -27,7 +27,8 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <body>
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
-            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 1. Please remove the variable from the Label box to show cluster numbers in datasheet.</p>
+            <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
@@ -64,54 +65,65 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
               
                 for (i in seq_along(vars))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
-              
-                
+
+
             ### Hierarchical Clustering--------- 
-            hc <- factoextra::hcut(data, 
+            hc <- try(factoextra::hcut(data, 
                                    k = self$options$k, 
                                    stand= self$options$stand,
                                    hc_metric = self$options$metric,
                                    hc_method = self$options$method
-                                  )
+                                  ))
             
             
                 #### Cluster number for the output variable--------------------
               
-                if(isTRUE(self$options$clust)){
-                  
-                  if(! is.null(self$options$labels)){
-                    
+                 if(jmvcore::isError(hc)){
                     err_string <- stringr::str_interp(
-                     "Please remove the variable from the Label box, otherwise the cluster number option will not work."
+                      "Please remove the variable from the Label box to get cluster numbers in datasheet."
                     )
                     stop(err_string)
                     
-                  } else{
+                  } 
                   
-                  cluster <- hc$cluster
-               
-                  self$results$clust$setValues(cluster)
-                  self$results$clust$setRowNums(rownames(data))
-                
+                  if (! jmvcore::isError(hc) ){
+                  
+                      cluster <- hc$cluster
+                    
+                    self$results$clust$setValues(cluster)
+                    self$results$clust$setRowNums(rownames(data))
+                    
                   }
+                   
+               
+                #   if(! is.null(self$options$labels)){
+                #     
+                #     err_string <- stringr::str_interp(
+                #      "Please remove the variable from the Label box, otherwise the cluster number option will not work."
+                #     )
+                #     stop(err_string)
+                #     
+                #   } else{
+                #   
+                #   cluster <- hc$cluster
+                # 
+                #   self$results$clust$setValues(cluster)
+                #   self$results$clust$setRowNums(rownames(data))
+                # 
+                #   }
+                # 
+                # }
                 
-                }
-                
-                ##### plot-------------------
+            ##### plot-------------------
                 
            image <- self$results$plot
            image$setState(hc) 
-            # vars <- length(self$options$vars)
-            # case <- nrow(data)
-            # 
-            # height <- 300 + case * 10
-            # image$setSize(500, height)
-            
+           
             }
             
         },
         
-        # Hierarchical clustering---------------
+        # Hierarchical clustering plot---------------
         
         .plot = function(image, ggtheme, theme, ...) {
             
@@ -119,12 +131,11 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             return(FALSE)
             
             type <- self$options$type
-            
             hc <- image$state
             
-            
+            if(self$options$horiz == TRUE){
             plot <- factoextra:: fviz_dend(hc, 
-                                           # rect = TRUE,
+                                           rect = TRUE,
                                            repel = TRUE,
                                            lwd = 1,
                                            type = type,
@@ -132,13 +143,24 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                                            cex=0.9,
                                            color_labels_by_k = TRUE)
             
+            } else{
+              
+              plot <- factoextra:: fviz_dend(hc, 
+                                             rect = TRUE,
+                                             repel = TRUE,
+                                             lwd = 1,
+                                             type = type,
+                                             cex=0.9,
+                                             color_labels_by_k = TRUE)
+              
+            }
+            
             plot <- plot+ggtheme
             
             print(plot)
             TRUE
             
         }
-        
         
         )
 )

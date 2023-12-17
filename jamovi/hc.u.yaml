@@ -61,8 +61,10 @@ children:
             children:
               - type: CheckBox
                 name: plot
-                style: list-inline
                 children:
+                  - type: CheckBox
+                    name: horiz
+                    enable: (plot)
                   - type: TextBox
                     name: width
                     format: number
@@ -70,7 +72,7 @@ children:
                   - type: TextBox
                     name: height
                     format: number
-                    enable: (plot)
+                    enable: (plot)                   
           - type: Label
             label: 'Save'
             children:

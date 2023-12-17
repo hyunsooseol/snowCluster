@@ -78,13 +78,18 @@ options:
       title: 'Cluster number'
       type: Output    
       
+    - name: horiz
+      title: horizontal
+      type: Bool
+      default: false
+
     - name: width
       type: Integer
-      title: "Size: "
+      title: "Width "
       default: 500
       
     - name: height
       type: Integer
-      title: "X"
-      default: 500
+      title: "Height"
+      default: 500    
 ...

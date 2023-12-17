@@ -285,7 +285,8 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "hght",
                     "case",
                     "width",
-                    "height")))
+                    "height",
+                    "horiz")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="heat",

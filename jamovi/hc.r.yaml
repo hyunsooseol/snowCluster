@@ -40,4 +40,5 @@ items:
         - method
         - width
         - height
+        - horiz
 ...

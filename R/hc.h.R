@@ -14,6 +14,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             method = "ward.D2",
             type = "rectangle",
             plot = FALSE,
+            horiz = FALSE,
             width = 500,
             height = 500, ...) {
 
@@ -78,6 +79,10 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=FALSE)
             private$..clust <- jmvcore::OptionOutput$new(
                 "clust")
+            private$..horiz <- jmvcore::OptionBool$new(
+                "horiz",
+                horiz,
+                default=FALSE)
             private$..width <- jmvcore::OptionInteger$new(
                 "width",
                 width,
@@ -96,6 +101,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..type)
             self$.addOption(private$..plot)
             self$.addOption(private$..clust)
+            self$.addOption(private$..horiz)
             self$.addOption(private$..width)
             self$.addOption(private$..height)
         }),
@@ -109,6 +115,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         type = function() private$..type$value,
         plot = function() private$..plot$value,
         clust = function() private$..clust$value,
+        horiz = function() private$..horiz$value,
         width = function() private$..width$value,
         height = function() private$..height$value),
     private = list(
@@ -121,6 +128,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..type = NA,
         ..plot = NA,
         ..clust = NA,
+        ..horiz = NA,
         ..width = NA,
         ..height = NA)
 )
@@ -176,7 +184,8 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "type",
                     "method",
                     "width",
-                    "height")))}))
+                    "height",
+                    "horiz")))}))
 
 hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcBase",
@@ -211,6 +220,7 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param method .
 #' @param type .
 #' @param plot .
+#' @param horiz .
 #' @param width .
 #' @param height .
 #' @return A results object containing:
@@ -231,6 +241,7 @@ hc <- function(
     method = "ward.D2",
     type = "rectangle",
     plot = FALSE,
+    horiz = FALSE,
     width = 500,
     height = 500) {
 
@@ -255,6 +266,7 @@ hc <- function(
         method = method,
         type = type,
         plot = plot,
+        horiz = horiz,
         width = width,
         height = height)
 
