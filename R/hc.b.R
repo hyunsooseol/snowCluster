@@ -58,10 +58,18 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 # Handling id----------
              
+                #  Assuming your data frame is named 'data'
+                # row.names(data) <- data$City
+                # data <- data[, -1]
+                
+                
                 if ( ! is.null(self$options$labels)) {
+                    
                     rownames(data) <- data[[self$options$labels]]
                     data[[self$options$labels]] <- NULL
-                }
+                
+                    #data <- data[,-1]
+                    }
               
                 for (i in seq_along(vars))
                     data[[i]] <- jmvcore::toNumeric(data[[i]])
@@ -94,26 +102,7 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     self$results$clust$setRowNums(rownames(data))
                     
                   }
-                   
-               
-                #   if(! is.null(self$options$labels)){
-                #     
-                #     err_string <- stringr::str_interp(
-                #      "Please remove the variable from the Label box, otherwise the cluster number option will not work."
-                #     )
-                #     stop(err_string)
-                #     
-                #   } else{
-                #   
-                #   cluster <- hc$cluster
-                # 
-                #   self$results$clust$setValues(cluster)
-                #   self$results$clust$setRowNums(rownames(data))
-                # 
-                #   }
-                # 
-                # }
-                
+            
             ##### plot-------------------
                 
            image <- self$results$plot
