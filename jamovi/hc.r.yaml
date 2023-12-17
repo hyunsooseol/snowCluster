@@ -8,6 +8,10 @@ items:
       title: Instructions
       type: Html
       visible: True  
+
+    - name:  text
+      title: '' 
+      type:  Preformatted
   
     - name: clust
       title: Clustering

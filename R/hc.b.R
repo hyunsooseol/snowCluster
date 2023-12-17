@@ -27,8 +27,7 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <body>
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
-            <p> 1. Please remove the variable from the Label box to show cluster numbers in datasheet.</p>
-            <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
@@ -68,7 +67,6 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                     rownames(data) <- data[[self$options$labels]]
                     data[[self$options$labels]] <- NULL
                 
-                    #data <- data[,-1]
                     }
               
                 for (i in seq_along(vars))
@@ -86,22 +84,34 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
                 #### Cluster number for the output variable--------------------
               
-                 if(jmvcore::isError(hc)){
-                    err_string <- stringr::str_interp(
-                      "Please remove the variable from the Label box to get cluster numbers in datasheet."
-                    )
-                    stop(err_string)
-                    
-                  } 
+                 # if(jmvcore::isError(hc)){
+                 #    err_string <- stringr::str_interp(
+                 #      "Please remove the variable from the Label box to get cluster numbers in datasheet."
+                 #    )
+                 #    stop(err_string)
+                 #    
+                 #  } 
+                 #  
+                 #  if (! jmvcore::isError(hc) ){
                   
-                  if (! jmvcore::isError(hc) ){
+                
+                if ( ! is.null(self$options$labels)) {
+                
+                      cluster <- data.frame(hc$cluster)
+                     #self$results$text$setContent(cluster)
+                    
+                      for (i in 1:length(self$options$labels)) {
+                        scores <- as.numeric(cluster[, i])
+                        self$results$clust$setValues(index=i, scores)
+                      }
+                   } else{
                   
-                      cluster <- hc$cluster
-                    
-                    self$results$clust$setValues(cluster)
-                    self$results$clust$setRowNums(rownames(data))
-                    
-                  }
+                  cluster <- hc$cluster
+                  
+                   self$results$clust$setValues(cluster)
+                   self$results$clust$setRowNums(rownames(data))
+                }
+                
             
             ##### plot-------------------
                 
