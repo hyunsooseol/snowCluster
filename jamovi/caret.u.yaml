@@ -186,21 +186,27 @@ children:
     label: 'Model comparison'
     margin: normal
     collapsed: true
-    stretchFactor: 1
     children:
       - type: LayoutBox
         margin: large
         stretchFactor: 1
         children:
-          - type: Label
-            label: ''
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
             children:
               - name: ml
                 type: TextBox
                 format: string
-                stretchFactor: 2
+                stretchFactor: 3
+      - type: LayoutBox
+        margin: large
+        style: inline
+        children:
           - type: Label
-            label: Tuning parameters
+            label: 'Tuning parameters'
             children:
               - type: ComboBox
                 name: me
@@ -210,16 +216,8 @@ children:
               - type: TextBox
                 name: rep
                 format: number
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        cell:
-          column: 2
-          row: 0
-        fitToGrid: true
-        children:
           - type: Label
-            label: Model comparison
+            label: 'Model comparison'
             children:
               - type: CheckBox
                 name: accu
