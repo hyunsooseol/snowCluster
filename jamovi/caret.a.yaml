@@ -212,7 +212,7 @@ options:
       default: FALSE      
 
     - name: plot
-      title: 'ROC plot'         
+      title: 'Comparison of ROC curves'         
       type: Bool
       default: FALSE
 
@@ -285,6 +285,12 @@ options:
       type: Number
       min: 5
       default: 5    
+
+    - name: tune1
+      title: Tune Length
+      type: Number
+      min: 3
+      default: 10   
 
     - name: accu
       title: 'Accuracy'
@@ -376,5 +382,18 @@ options:
       title: "X"
       default: 500
 
+    - name: plot8
+      title: 'ROC plot'          
+      type: Bool
+      default: FALSE      
 
+    - name: width8
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height8
+      type: Integer
+      title: "X"
+      default: 500
 ...

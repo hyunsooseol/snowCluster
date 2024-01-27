@@ -2,9 +2,9 @@ refs:
    snowCluster:
        type: 'software'
        author: Seol, H.
-       year: 2023
+       year: 2024
        title: "snowCluster: Multivariate Analysis"
-       publisher: '(Version 7.2.8) [jamovi module]. URL https://github.com/hyunsooseol/snowCluster'
+       publisher: '(Version 7.2.9) [jamovi module]. URL https://github.com/hyunsooseol/snowCluster'
        url: https://github.com/hyunsooseol/snowCluster
        
    factoextra:
@@ -12,60 +12,54 @@ refs:
        author: Kassambara, A. & Mundt, F.
        year: 2020
        title: "factoextra: Extract and Visualize the Results of Multivariate Data Analyses"
-       publisher: '[R package]. https://CRAN.R-project.org/package=factoextra'
-       url: https://CRAN.R-project.org/package=factoextra
-       
+       publisher: '[R package]. URL https://CRAN.R-project.org/package=factoextra'
+
    MASS:
        type: 'software'
        author: Ripley, B., et.al.
        year: 2021
        title: "MASS: Support Functions and Datasets for Venables and Ripley's MASS"
-       publisher: '[R package]. https://CRAN.R-project.org/package=MASS'
-       url: https://CRAN.R-project.org/package=MASS
-   
+       publisher: '[R package]. URL https://CRAN.R-project.org/package=MASS'
+
    forecast:
        type: 'software'
        author:  Hyndman, R., et.al.
        year: 2022
        title: "forecast: Forecasting Functions for Time Series and Linear Models"
-       publisher: '[R package]. https://CRAN.R-project.org/package=forecast'
-       url: https://CRAN.R-project.org/package=forecast
-           
+       publisher: '[R package]. URL https://CRAN.R-project.org/package=forecast'
+
    party:
        type: 'software'
        author:  Horthon, T., Hornik, K., Strobl, C., & Zeileis, A.
        year: 2022
        title: "party: A Laboratory for Recursive Partytioning"
-       publisher: '[R package]. https://CRAN.R-project.org/package=party'
-       url: https://CRAN.R-project.org/package=party
+       publisher: '[R package]. URL https://CRAN.R-project.org/package=party'
+
    caret:
        type: 'software'
        author:  Kuhn, M., et.al.
        year: 2022
        title: "caret: Classification and Regression Training"
-       publisher: '(Version 6.0-93)[R package]. https://CRAN.R-project.org/package=caret'
-       url: https://CRAN.R-project.org/package=caret
-
+       publisher: '(Version 6.0-93)[R package]. URL https://CRAN.R-project.org/package=caret'
+ 
    MLeval:
        type: 'software'
        author:  John, C.
        year: 2020
        title: "MLeval: Machine Learning Model Evaluation"
-       publisher: '(Version 0.3)[R package]. https://CRAN.R-project.org/package=MLeval'
-       url: https://CRAN.R-project.org/package=MLeval
+       publisher: '(Version 0.3)[R package]. URL https://CRAN.R-project.org/package=MLeval'
 
    prophet:
        type: 'software'
        author:  Taylor, S. & Letham, B.
        year: 2021
        title: "prophet: Automatic Forecasting Procedure"
-       publisher: '(Version 1.0)[R package]. https://CRAN.R-project.org/package=prophet'
-       url: https://CRAN.R-project.org/package=prophet
+       publisher: '(Version 1.0)[R package]. URL https://CRAN.R-project.org/package=prophet'
 
    rpart.plot:
        type: 'software'
        author:  Milborrow, S.
        year: 2022
        title: "Plot 'rpart' Models: An Enhanced Version of 'plot.rpart'"
-       publisher: '[R package]. https://CRAN.R-project.org/package=rpart.plot'
-       url: https://CRAN.R-project.org/package=rpart.plot
+       publisher: '[R package]. URL https://CRAN.R-project.org/package=rpart.plot'
+ 

@@ -35,6 +35,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             me = "cv",
             num = 10,
             rep = 5,
+            tune1 = 10,
             accu = FALSE,
             kapp = FALSE,
             width = 500,
@@ -52,7 +53,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             width6 = 500,
             height6 = 500,
             width7 = 500,
-            height7 = 500, ...) {
+            height7 = 500,
+            plot8 = FALSE,
+            width8 = 500,
+            height8 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -253,6 +257,11 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 rep,
                 min=5,
                 default=5)
+            private$..tune1 <- jmvcore::OptionNumber$new(
+                "tune1",
+                tune1,
+                min=3,
+                default=10)
             private$..accu <- jmvcore::OptionBool$new(
                 "accu",
                 accu,
@@ -325,6 +334,18 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "height7",
                 height7,
                 default=500)
+            private$..plot8 <- jmvcore::OptionBool$new(
+                "plot8",
+                plot8,
+                default=FALSE)
+            private$..width8 <- jmvcore::OptionInteger$new(
+                "width8",
+                width8,
+                default=500)
+            private$..height8 <- jmvcore::OptionInteger$new(
+                "height8",
+                height8,
+                default=500)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -356,6 +377,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..me)
             self$.addOption(private$..num)
             self$.addOption(private$..rep)
+            self$.addOption(private$..tune1)
             self$.addOption(private$..accu)
             self$.addOption(private$..kapp)
             self$.addOption(private$..width)
@@ -374,6 +396,9 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..height6)
             self$.addOption(private$..width7)
             self$.addOption(private$..height7)
+            self$.addOption(private$..plot8)
+            self$.addOption(private$..width8)
+            self$.addOption(private$..height8)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -406,6 +431,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         me = function() private$..me$value,
         num = function() private$..num$value,
         rep = function() private$..rep$value,
+        tune1 = function() private$..tune1$value,
         accu = function() private$..accu$value,
         kapp = function() private$..kapp$value,
         width = function() private$..width$value,
@@ -423,7 +449,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         width6 = function() private$..width6$value,
         height6 = function() private$..height6$value,
         width7 = function() private$..width7$value,
-        height7 = function() private$..height7$value),
+        height7 = function() private$..height7$value,
+        plot8 = function() private$..plot8$value,
+        width8 = function() private$..width8$value,
+        height8 = function() private$..height8$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -455,6 +484,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..me = NA,
         ..num = NA,
         ..rep = NA,
+        ..tune1 = NA,
         ..accu = NA,
         ..kapp = NA,
         ..width = NA,
@@ -472,7 +502,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..width6 = NA,
         ..height6 = NA,
         ..width7 = NA,
-        ..height7 = NA)
+        ..height7 = NA,
+        ..plot8 = NA,
+        ..width8 = NA,
+        ..height8 = NA)
 )
 
 caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -489,10 +522,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         cla1 = function() private$.items[["cla1"]],
         cla = function() private$.items[["cla"]],
         plot2 = function() private$.items[["plot2"]],
+        plot8 = function() private$.items[["plot8"]],
         plot = function() private$.items[["plot"]],
+        plot4 = function() private$.items[["plot4"]],
         plot1 = function() private$.items[["plot1"]],
         plot3 = function() private$.items[["plot3"]],
-        plot4 = function() private$.items[["plot4"]],
         plot5 = function() private$.items[["plot5"]],
         plot6 = function() private$.items[["plot6"]],
         mf = function() private$.items[["mf"]],
@@ -735,8 +769,32 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "height2")))
             self$add(jmvcore::Image$new(
                 options=options,
-                name="plot",
+                name="plot8",
                 title="ROC plot with training set",
+                visible="(plot8)",
+                renderFun=".plot8",
+                refs="MLeval",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method",
+                    "tune",
+                    "facs",
+                    "ml",
+                    "me",
+                    "num",
+                    "rep",
+                    "trans",
+                    "width8",
+                    "height8")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot",
+                title="Comparison of ROC curves",
                 visible="(plot)",
                 renderFun=".plot",
                 refs="MLeval",
@@ -758,6 +816,31 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "trans",
                     "width",
                     "height")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot4",
+                title="Calibration curve with training set",
+                visible="(plot4)",
+                renderFun=".plot4",
+                refs="MLeval",
+                clearWith=list(
+                    "facs",
+                    "covs",
+                    "dep",
+                    "per",
+                    "mecon",
+                    "number",
+                    "repeats",
+                    "method",
+                    "tune",
+                    "cm1",
+                    "ml",
+                    "me",
+                    "num",
+                    "rep",
+                    "trans",
+                    "width4",
+                    "height4")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -805,32 +888,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rep",
                     "trans",
                     "width3",
-                    "plot3")))
-            self$add(jmvcore::Image$new(
-                options=options,
-                name="plot4",
-                title="Calibration curve with training set",
-                visible="(plot4)",
-                renderFun=".plot4",
-                refs="MLeval",
-                clearWith=list(
-                    "facs",
-                    "covs",
-                    "dep",
-                    "per",
-                    "mecon",
-                    "number",
-                    "repeats",
-                    "method",
-                    "tune",
-                    "cm1",
-                    "ml",
-                    "me",
-                    "num",
-                    "rep",
-                    "trans",
-                    "width4",
-                    "plot4")))
+                    "height3")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
@@ -904,10 +962,8 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 "dep",
                                 "per",
                                 "mecon",
-                                "number",
-                                "repeats",
                                 "method",
-                                "tune",
+                                "tune1",
                                 "cm1",
                                 "ml",
                                 "me",
@@ -959,15 +1015,13 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 "dep",
                                 "per",
                                 "mecon",
-                                "number",
-                                "repeats",
                                 "method",
-                                "tune",
                                 "cm1",
                                 "ml",
                                 "me",
                                 "num",
                                 "rep",
+                                "tune1",
                                 "trans"),
                             columns=list(
                                 list(
@@ -1016,15 +1070,13 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep",
                     "per",
                     "mecon",
-                    "number",
-                    "repeats",
                     "method",
-                    "tune",
                     "cm1",
                     "ml",
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width7",
                     "height7")))
@@ -1046,8 +1098,6 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm1",
                     "ml",
                     "me",
-                    "num",
-                    "rep",
                     "trans")))}))
 
 caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -1104,6 +1154,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param me .
 #' @param num .
 #' @param rep .
+#' @param tune1 .
 #' @param accu .
 #' @param kapp .
 #' @param width .
@@ -1122,6 +1173,9 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param height6 .
 #' @param width7 .
 #' @param height7 .
+#' @param plot8 .
+#' @param width8 .
+#' @param height8 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -1134,10 +1188,11 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$cla1} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot8} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$mf$accu} \tab \tab \tab \tab \tab a table \cr
@@ -1184,6 +1239,7 @@ caret <- function(
     me = "cv",
     num = 10,
     rep = 5,
+    tune1 = 10,
     accu = FALSE,
     kapp = FALSE,
     width = 500,
@@ -1201,7 +1257,10 @@ caret <- function(
     width6 = 500,
     height6 = 500,
     width7 = 500,
-    height7 = 500) {
+    height7 = 500,
+    plot8 = FALSE,
+    width8 = 500,
+    height8 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("caret requires jmvcore to be installed (restart may be required)")
@@ -1249,6 +1308,7 @@ caret <- function(
         me = me,
         num = num,
         rep = rep,
+        tune1 = tune1,
         accu = accu,
         kapp = kapp,
         width = width,
@@ -1266,7 +1326,10 @@ caret <- function(
         width6 = width6,
         height6 = height6,
         width7 = width7,
-        height7 = height7)
+        height7 = height7,
+        plot8 = plot8,
+        width8 = width8,
+        height8 = height8)
 
     analysis <- caretClass$new(
         options = options,

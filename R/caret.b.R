@@ -117,6 +117,11 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           self$results$plot7$setSize(width, height)
         }  
         
+        if(isTRUE(self$options$plot8)){
+          width <- self$options$width8
+          height <- self$options$height8
+          self$results$plot8$setSize(width, height)
+        }  
         
       },
       
@@ -356,10 +361,15 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                         
                       }
                     }
-                      
-                    if(self$options$plot7==TRUE){
+                     
+                    # ROC with training set-----------
+                    if(self$options$plot8==TRUE){
+                    image8 <- self$results$plot8
+                    image8$setState(fit)
+                    }
+                     
                     # box plots for model comparison---- 
-                    
+                    if(self$options$plot7==TRUE){
                     image7 <- self$results$plot7
                     image7$setState(results)
                     
@@ -771,7 +781,28 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         TRUE
       },
       
+      .plot4 = function(image4,...) {
+        
+        if (is.null(image4$state))
+          return(FALSE)
+        
+        state<- image4$state
+        
+        fit <- state[[1]]
+        comp <- state[[2]]
+        
+        
+        res<- MLeval::evalm(list(fit,comp),
+                            gnames=c(self$options$method,self$options$cm1))
+        
+        # Calibration curve
+        plot4 <- res$cc
+        
+        print(plot4)
+        TRUE
+      },
       
+            
       .plot2 = function(image2,ggtheme, theme,...) {
         
         if (is.null(image2$state))
@@ -820,27 +851,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         TRUE
       },
       
-      .plot4 = function(image4,...) {
-        
-        if (is.null(image4$state))
-          return(FALSE)
-        
-        state<- image4$state
-        
-        fit <- state[[1]]
-        comp <- state[[2]]
-        
-        
-        res<- MLeval::evalm(list(fit,comp),
-                            gnames=c(self$options$method,self$options$cm1))
-        
-        # Calibration curve
-        plot4 <- res$cc
-        
-        print(plot4)
-        TRUE
-      },
-      
       .plot7 = function(image7,...) {
         
         # ROC with test set-----
@@ -857,7 +867,26 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
        
         print(plot7)
         TRUE
+      },
+      
+      .plot8 = function(image8,...) {
+        
+        # ROC with traing set-----
+        
+        if (is.null(image8$state))
+          return(FALSE)
+        
+        res<- image8$state
+        
+        res1<- MLeval::evalm(res)
+       
+        # get ROC---
+        plot8 <- res1$roc
+        
+        print(plot8)
+        TRUE
       }
+        
       
        )
 )

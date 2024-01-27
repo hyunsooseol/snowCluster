@@ -35,6 +35,7 @@ caret(
   me = "cv",
   num = 10,
   rep = 5,
+  tune1 = 10,
   accu = FALSE,
   kapp = FALSE,
   width = 500,
@@ -52,7 +53,10 @@ caret(
   width6 = 500,
   height6 = 500,
   width7 = 500,
-  height7 = 500
+  height7 = 500,
+  plot8 = FALSE,
+  width8 = 500,
+  height8 = 500
 )
 }
 \arguments{
@@ -116,6 +120,8 @@ caret(
 
 \item{rep}{.}
 
+\item{tune1}{.}
+
 \item{accu}{.}
 
 \item{kapp}{.}
@@ -151,6 +157,12 @@ caret(
 \item{width7}{.}
 
 \item{height7}{.}
+
+\item{plot8}{.}
+
+\item{width8}{.}
+
+\item{height8}{.}
 }
 \value{
 A results object containing:
@@ -165,10 +177,11 @@ A results object containing:
   \code{results$cla1} \tab \tab \tab \tab \tab a table \cr
   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot8} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
-  \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
   \code{results$mf$accu} \tab \tab \tab \tab \tab a table \cr

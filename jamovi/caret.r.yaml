@@ -77,7 +77,6 @@ items:
         - rep
         - trans
 
-        
       columns:
         - name: accu
           title: 'Accuracy'
@@ -225,9 +224,33 @@ items:
         - trans
         - width2
         - height2
-        
+
+    - name:  plot8
+      title: 'ROC plot with training set'            
+      type:  Image
+      visible: (plot8)
+      renderFun: .plot8
+      refs: MLeval
+      clearWith:
+        - covs 
+        - dep
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+        - facs
+        - ml
+        - me
+        - num
+        - rep
+        - trans
+        - width8
+        - height8        
+ 
     - name:  plot
-      title: ROC plot with training set               
+      title:  'Comparison of ROC curves'                
       type:  Image
       visible: (plot)
       renderFun: .plot
@@ -250,7 +273,32 @@ items:
         - trans
         - width
         - height
-        
+
+    - name:  plot4
+      title: 'Calibration curve with training set'
+      type:  Image
+      visible: (plot4)
+      renderFun: .plot4
+      refs: MLeval
+      clearWith:
+        - facs
+        - covs 
+        - dep
+        - per
+        - mecon
+        - number
+        - repeats
+        - method
+        - tune
+        - cm1
+        - ml
+        - me
+        - num
+        - rep
+        - trans
+        - width4
+        - height4
+
     - name:  plot1
       title: Variable importance plot
       type:  Image
@@ -297,33 +345,8 @@ items:
         - rep
         - trans
         - width3
-        - plot3
-        
-    - name:  plot4
-      title: Calibration curve with training set               
-      type:  Image
-      visible: (plot4)
-      renderFun: .plot4
-      refs: MLeval
-      clearWith:
-        - facs
-        - covs 
-        - dep
-        - per
-        - mecon
-        - number
-        - repeats
-        - method
-        - tune
-        - cm1
-        - ml
-        - me
-        - num
-        - rep
-        - trans
-        - width4
-        - plot4
-        
+        - height3
+
     - name:  plot5
       title: Box plot              
       type:  Image
@@ -388,10 +411,8 @@ items:
             - dep
             - per
             - mecon
-            - number
-            - repeats
             - method
-            - tune
+            - tune1
             - cm1 
             - ml
             - me
@@ -436,15 +457,13 @@ items:
             - dep
             - per
             - mecon
-            - number
-            - repeats
             - method
-            - tune
             - cm1 
             - ml
             - me
             - num
             - rep
+            - tune1
             - trans
 
           columns:
@@ -486,15 +505,13 @@ items:
         - dep
         - per
         - mecon
-        - number
-        - repeats
         - method
-        - tune
         - cm1 
         - ml
         - me
         - num
         - rep
+        - tune1
         - trans
         - width7
         - height7
@@ -516,8 +533,6 @@ items:
         - cm1
         - ml
         - me
-        - num
-        - rep
         - trans
         
 ...
