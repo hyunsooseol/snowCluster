@@ -37,6 +37,7 @@ items:
         - me
         - num
         - rep
+        - tune1        
         - trans
 
       columns:
@@ -62,6 +63,7 @@ items:
       visible: (over)
       refs: caret  
       clearWith:
+        - facs
         - covs 
         - dep
         - per
@@ -70,11 +72,11 @@ items:
         - repeats
         - method
         - tune
-        - facs
         - ml
         - me
         - num
         - rep
+        - tune1
         - trans
 
       columns:
@@ -99,6 +101,7 @@ items:
       visible: (tra)
       refs: caret  
       clearWith:
+        - facs
         - covs 
         - dep
         - per
@@ -107,11 +110,11 @@ items:
         - repeats
         - method
         - tune
-        - facs
         - ml
         - me
         - num
         - rep
+        - tune1        
         - trans
         
       columns:
@@ -125,6 +128,7 @@ items:
       type: Table
       visible: (tes)
       clearWith:
+        - facs
         - covs 
         - dep
         - per
@@ -133,11 +137,11 @@ items:
         - repeats
         - method
         - tune
-        - facs
         - ml
         - me
         - num
         - rep
+        - tune1        
         - trans
       refs: caret    
 
@@ -153,6 +157,7 @@ items:
       visible: (cla1)
       refs: caret 
       clearWith:
+        - facs
         - covs 
         - dep
         - per
@@ -161,11 +166,11 @@ items:
         - repeats
         - method
         - tune
-        - facs
         - ml
         - me
         - num
         - rep
+        - tune1
         - trans
         
       columns:
@@ -180,6 +185,7 @@ items:
       visible: (cla)
       refs: caret 
       clearWith:
+        - facs
         - covs 
         - dep
         - per
@@ -188,11 +194,11 @@ items:
         - repeats
         - method
         - tune
-        - facs
         - ml
         - me
         - num
         - rep
+        - tune1        
         - trans
         
       columns:
@@ -208,6 +214,7 @@ items:
       renderFun: .plot2
       refs: caret
       clearWith:
+        - facs
         - covs 
         - dep
         - per
@@ -216,11 +223,11 @@ items:
         - repeats
         - method
         - tune
-        - facs
         - ml
         - me
         - num
         - rep
+        - tune1        
         - trans
         - width2
         - height2
@@ -232,6 +239,7 @@ items:
       renderFun: .plot8
       refs: MLeval
       clearWith:
+        - facs
         - covs 
         - dep
         - per
@@ -245,6 +253,7 @@ items:
         - me
         - num
         - rep
+        - tune1
         - trans
         - width8
         - height8        
@@ -270,6 +279,7 @@ items:
         - me
         - num
         - rep
+        - tune1
         - trans
         - width
         - height
@@ -295,6 +305,7 @@ items:
         - me
         - num
         - rep
+        - tune1
         - trans
         - width4
         - height4
@@ -306,6 +317,7 @@ items:
       renderFun: .plot1
       refs: caret
       clearWith:
+        - facs
         - covs 
         - dep
         - per
@@ -319,6 +331,7 @@ items:
         - me
         - num
         - rep
+        - tune1
         - trans
         - width1
         - height1
@@ -343,6 +356,7 @@ items:
         - me
         - num
         - rep
+        - tune1
         - trans
         - width3
         - height3
@@ -368,6 +382,7 @@ items:
         - me
         - num
         - rep
+        - tune1
         - trans
         - width5
         - height5
@@ -393,6 +408,7 @@ items:
         - me
         - num
         - rep
+        - tune1
         - trans
         - width6
         - height6
@@ -402,7 +418,7 @@ items:
       type: Group
       items:        
         - name: accu
-          title: 'Accuracy for model comparison'
+          title: Accuracy for model comparison
           visible: (accu)
           type: Table
           clearWith:
@@ -412,12 +428,12 @@ items:
             - per
             - mecon
             - method
-            - tune1
             - cm1 
             - ml
             - me
             - num
             - rep
+            - tune1
             - trans
 
           columns:
@@ -525,10 +541,11 @@ items:
         - facs
         - covs 
         - dep
+        - per
         - mecon
+        - method
         - number
         - repeats
-        - method
         - tune
         - cm1
         - ml

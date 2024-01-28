@@ -574,6 +574,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans"),
                 columns=list(
                     list(
@@ -602,6 +603,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(over)",
                 refs="caret",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
                     "per",
@@ -610,11 +612,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "repeats",
                     "method",
                     "tune",
-                    "facs",
                     "ml",
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans"),
                 columns=list(
                     list(
@@ -642,6 +644,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(tra)",
                 refs="caret",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
                     "per",
@@ -650,11 +653,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "repeats",
                     "method",
                     "tune",
-                    "facs",
                     "ml",
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans"),
                 columns=list(
                     list(
@@ -668,6 +671,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Confusion matrix with test set",
                 visible="(tes)",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
                     "per",
@@ -676,11 +680,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "repeats",
                     "method",
                     "tune",
-                    "facs",
                     "ml",
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans"),
                 refs="caret",
                 columns=list(
@@ -696,6 +700,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(cla1)",
                 refs="caret",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
                     "per",
@@ -704,11 +709,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "repeats",
                     "method",
                     "tune",
-                    "facs",
                     "ml",
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans"),
                 columns=list(
                     list(
@@ -723,6 +728,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(cla)",
                 refs="caret",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
                     "per",
@@ -731,11 +737,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "repeats",
                     "method",
                     "tune",
-                    "facs",
                     "ml",
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans"),
                 columns=list(
                     list(
@@ -751,6 +757,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot2",
                 refs="caret",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
                     "per",
@@ -759,11 +766,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "repeats",
                     "method",
                     "tune",
-                    "facs",
                     "ml",
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width2",
                     "height2")))
@@ -775,6 +782,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot8",
                 refs="MLeval",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
                     "per",
@@ -788,6 +796,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width8",
                     "height8")))
@@ -813,6 +822,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width",
                     "height")))
@@ -838,6 +848,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width4",
                     "height4")))
@@ -849,6 +860,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot1",
                 refs="caret",
                 clearWith=list(
+                    "facs",
                     "covs",
                     "dep",
                     "per",
@@ -862,6 +874,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width1",
                     "height1")))
@@ -886,6 +899,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width3",
                     "height3")))
@@ -911,6 +925,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width5",
                     "height5")))
@@ -936,6 +951,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "me",
                     "num",
                     "rep",
+                    "tune1",
                     "trans",
                     "width6",
                     "height6")))
@@ -963,12 +979,12 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 "per",
                                 "mecon",
                                 "method",
-                                "tune1",
                                 "cm1",
                                 "ml",
                                 "me",
                                 "num",
                                 "rep",
+                                "tune1",
                                 "trans"),
                             columns=list(
                                 list(
@@ -1090,10 +1106,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "facs",
                     "covs",
                     "dep",
+                    "per",
                     "mecon",
+                    "method",
                     "number",
                     "repeats",
-                    "method",
                     "tune",
                     "cm1",
                     "ml",
