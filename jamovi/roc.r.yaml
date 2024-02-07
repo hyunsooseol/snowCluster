@@ -40,7 +40,7 @@ items:
         - height2
 
     - name:  plot3
-      title: 'ROC with facets'
+      title: 'Faceted ROC plots'
       type:  Image
       requiresData: true
       visible: (plot3)

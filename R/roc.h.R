@@ -164,7 +164,7 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
-                title="ROC with facets",
+                title="Faceted ROC plots",
                 requiresData=TRUE,
                 visible="(plot3)",
                 renderFun=".plot3",

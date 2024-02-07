@@ -52,7 +52,7 @@ options:
       default: 500   
 
     - name: plot3
-      title: 'facetted plot'
+      title: 'Faceted ROC plots'
       type: Bool
       default: FALSE    
 
