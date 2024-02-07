@@ -148,7 +148,7 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
      plot2 <-multipleROC::plot_ROC(roc, show.eta = FALSE, 
                                     show.sens = FALSE)
    
-     plot2 <- plot2+ggtheme
+   #  plot2 <- plot2+ggtheme
        
     print(plot2)
     TRUE
@@ -165,7 +165,7 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     plot3 <-multipleROC::plot_ROC(roc, facet=TRUE) 
                                    
     
-    plot3 <- plot3+ggtheme
+  #  plot3 <- plot3+ggtheme
     
     print(plot3)
     TRUE
