@@ -1,12 +1,12 @@
 ---
 title: Multivariate Analysis
 name: snowCluster
-version: 7.2.9
+version: 7.3.0
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2024-01-29'
+date: '2024-00-07'
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
@@ -87,6 +87,12 @@ analyses:
     menuGroup: snowCluster
     menuTitle: Machine Learning
     menuSubgroup: Classification
+  - title: ROC Analysis
+    name: roc
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: ROC Analysis
+    menuSubgroup: Classification
   - title: Univariate time series
     name: arima
     ns: snowCluster
@@ -162,16 +168,25 @@ datasets:
     description: Decision Tree
     tags:
       - Decision Tree
+      - Classification
   - name: credit
     path: credit.omv
     description: German credit
     tags:
       - Machine Learning
+      - Classification
   - name: sim
     path: sim.omv
     description: Simulation data
     tags:
       - Machine Learning
+      - Classification
+  - name: roc
+    path: roc.omv
+    description: ROC Analysis
+    tags:
+      - Classification
+      - ROC
   - name: swiss
     path: swiss.omv
     description: Multidimensional Scaling Plot

@@ -1,0 +1,54 @@
+---
+name:  roc
+title: ROC Analysis
+jrs:   '1.1'
+refs: snowCluster
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+
+    - name:  text
+      title: ROC Analysis
+      type:  Preformatted
+
+    - name:  plot1
+      title: 'ROC Curve'
+      type:  Image
+      requiresData: true
+      visible: (plot1)
+      renderFun: .plot1
+      refs: multipleROC
+      clearWith:
+        - covs 
+        - dep
+        - width1
+        - height1
+
+    - name:  plot2
+      title: 'Multiple ROC curves'
+      type:  Image
+      requiresData: true
+      visible: (plot2)
+      renderFun: .plot2
+      refs: multipleROC
+      clearWith:
+        - covs 
+        - dep
+        - width2
+        - height2
+
+    - name:  plot3
+      title: 'ROC with facets'
+      type:  Image
+      requiresData: true
+      visible: (plot3)
+      renderFun: .plot3
+      refs: multipleROC
+      clearWith:
+        - covs 
+        - dep
+        - width3
+        - height3
+...

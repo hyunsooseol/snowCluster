@@ -7,7 +7,7 @@
         `author`="Seol, H.", 
         `year`=2024, 
         `title`="snowCluster: Multivariate Analysis", 
-        `publisher`="(Version 7.2.9) [jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
+        `publisher`="(Version 7.3.0) [jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
         `url`="https://github.com/hyunsooseol/snowCluster"), 
     `factoextra`=list(
         `type`="software", 
@@ -56,4 +56,10 @@
         `author`="Milborrow, S.", 
         `year`=2022, 
         `title`="Plot 'rpart' Models: An Enhanced Version of 'plot.rpart'", 
-        `publisher`="[R package]. URL https://CRAN.R-project.org/package=rpart.plot"))
+        `publisher`="[R package]. URL https://CRAN.R-project.org/package=rpart.plot"), 
+    `multipleROC`=list(
+        `type`="software", 
+        `author`="Moon, K.", 
+        `year`=2020, 
+        `title`="multipleROC: Package for ROC Analysis with Models with Multiple Predictors", 
+        `publisher`="[R package]. URL https://github.com/cardiomoon/multipleROC"))
