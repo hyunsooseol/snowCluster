@@ -66,10 +66,19 @@ options:
       title: "X"
       default: 500   
 
-    - name: delong
-      title: 'DeLong test'
+    - name: auc
+      title: 'AUC test'
       type: Bool
       default: False
 
+    - name: dif
+      title: 'AUC difference'
+      type: Bool
+      default: False
+
+    - name: overall
+      title: 'Overall test'
+      type: Bool
+      default: False
 
 ...

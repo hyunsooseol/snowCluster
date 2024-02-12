@@ -48,13 +48,82 @@ items:
         - width3
         - height3
 
-    - name:  delong
-      title: 'DeLong Test of Difference between AUCs'
-      type:  Preformatted
-      refs: snowCluster
-      visible: false
-      clearWith:
-        - covs 
-        - dep      
+    # - name:  delong
+    #   title: 'DeLong Test of Difference between AUCs'
+    #   type:  Preformatted
+    #   refs: snowCluster
+    #   visible: false
+    #   clearWith:
+    #     - covs 
+    #     - dep      
 
+    - name: auc
+      title: 'A nonparametric test for AUC'
+      visible: (auc)
+      type: Table
+      clearWith:
+        - dep
+        - covs
+ 
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: auc
+          title: 'AUC'
+          type: number
+        - name: p
+          title: 'p'
+          type: number
+          format: zto,pvalue
+
+    - name: dif
+      title: 'Pairwise comparisons for AUC difference'
+      visible: (auc)
+      type: Table
+      clearWith:
+        - dep
+        - covs
+ 
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+        - name: auc
+          title: 'AUC Difference'
+          type: number
+        - name: lower
+          title: Lower
+          type: number
+          superTitle: '95% CI'
+        - name: upper
+          title: Upper
+          type: number
+          superTitle: '95% CI'   
+        - name: p
+          title: 'p'
+          type: number
+          format: zto,pvalue
+
+    - name: overall
+      title: 'Overall test'
+      type: Table
+      rows: 1
+      visible: (overall)
+      clearWith:
+        - dep
+        - covs
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: Value
+        - name: Z
+          type: number
+        - name: p
+          type: number
+          format: zto,pvalue
 ...

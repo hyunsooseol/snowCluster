@@ -17,7 +17,9 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot3 = FALSE,
             width3 = 500,
             height3 = 500,
-            delong = FALSE, ...) {
+            auc = FALSE,
+            dif = FALSE,
+            overall = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -71,9 +73,17 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "height3",
                 height3,
                 default=500)
-            private$..delong <- jmvcore::OptionBool$new(
-                "delong",
-                delong,
+            private$..auc <- jmvcore::OptionBool$new(
+                "auc",
+                auc,
+                default=FALSE)
+            private$..dif <- jmvcore::OptionBool$new(
+                "dif",
+                dif,
+                default=FALSE)
+            private$..overall <- jmvcore::OptionBool$new(
+                "overall",
+                overall,
                 default=FALSE)
 
             self$.addOption(private$..dep)
@@ -87,7 +97,9 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot3)
             self$.addOption(private$..width3)
             self$.addOption(private$..height3)
-            self$.addOption(private$..delong)
+            self$.addOption(private$..auc)
+            self$.addOption(private$..dif)
+            self$.addOption(private$..overall)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -101,7 +113,9 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot3 = function() private$..plot3$value,
         width3 = function() private$..width3$value,
         height3 = function() private$..height3$value,
-        delong = function() private$..delong$value),
+        auc = function() private$..auc$value,
+        dif = function() private$..dif$value,
+        overall = function() private$..overall$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -114,7 +128,9 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot3 = NA,
         ..width3 = NA,
         ..height3 = NA,
-        ..delong = NA)
+        ..auc = NA,
+        ..dif = NA,
+        ..overall = NA)
 )
 
 rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -125,7 +141,9 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]],
-        delong = function() private$.items[["delong"]]),
+        auc = function() private$.items[["auc"]],
+        dif = function() private$.items[["dif"]],
+        overall = function() private$.items[["overall"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -178,15 +196,84 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep",
                     "width3",
                     "height3")))
-            self$add(jmvcore::Preformatted$new(
+            self$add(jmvcore::Table$new(
                 options=options,
-                name="delong",
-                title="DeLong Test of Difference between AUCs",
-                refs="snowCluster",
-                visible=FALSE,
+                name="auc",
+                title="A nonparametric test for AUC",
+                visible="(auc)",
                 clearWith=list(
-                    "covs",
-                    "dep")))}))
+                    "dep",
+                    "covs"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="auc", 
+                        `title`="AUC", 
+                        `type`="number"),
+                    list(
+                        `name`="p", 
+                        `title`="p", 
+                        `type`="number", 
+                        `format`="zto,pvalue"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="dif",
+                title="Pairwise comparisons for AUC difference",
+                visible="(auc)",
+                clearWith=list(
+                    "dep",
+                    "covs"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="auc", 
+                        `title`="AUC Difference", 
+                        `type`="number"),
+                    list(
+                        `name`="lower", 
+                        `title`="Lower", 
+                        `type`="number", 
+                        `superTitle`="95% CI"),
+                    list(
+                        `name`="upper", 
+                        `title`="Upper", 
+                        `type`="number", 
+                        `superTitle`="95% CI"),
+                    list(
+                        `name`="p", 
+                        `title`="p", 
+                        `type`="number", 
+                        `format`="zto,pvalue"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="overall",
+                title="Overall test",
+                rows=1,
+                visible="(overall)",
+                clearWith=list(
+                    "dep",
+                    "covs"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="Value"),
+                    list(
+                        `name`="Z", 
+                        `type`="number"),
+                    list(
+                        `name`="p", 
+                        `type`="number", 
+                        `format`="zto,pvalue"))))}))
 
 rocBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "rocBase",
@@ -224,15 +311,25 @@ rocBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot3 .
 #' @param width3 .
 #' @param height3 .
-#' @param delong .
+#' @param auc .
+#' @param dif .
+#' @param overall .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$delong} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$auc} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$dif} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$overall} \tab \tab \tab \tab \tab a table \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$auc$asDF}
+#'
+#' \code{as.data.frame(results$auc)}
 #'
 #' @export
 roc <- function(
@@ -248,7 +345,9 @@ roc <- function(
     plot3 = FALSE,
     width3 = 500,
     height3 = 500,
-    delong = FALSE) {
+    auc = FALSE,
+    dif = FALSE,
+    overall = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("roc requires jmvcore to be installed (restart may be required)")
@@ -275,7 +374,9 @@ roc <- function(
         plot3 = plot3,
         width3 = width3,
         height3 = height3,
-        delong = delong)
+        auc = auc,
+        dif = dif,
+        overall = overall)
 
     analysis <- rocClass$new(
         options = options,

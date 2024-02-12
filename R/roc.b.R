@@ -134,7 +134,7 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     # res <- Daim::deLong.test(x, labels=y, labpos="1")
     
     
-    if ( self$options$delong == TRUE) {
+    if ( self$options$auc == TRUE) {
       
       if (length(self$options$covs) < 2){
         stop("Please specify at least two Covariate variables to use DeLong's test.")
@@ -314,18 +314,65 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       
     # delong test ---------------------
 
-      delongres <- deLong.test(x = data[,-1],
-                                 labels =data[,1],
-                                 labpos= "1")
+              res <- deLong.test(x = data[,-1],
+                               labels =data[,1],
+                                labpos= "1")
 
-      #self$results$text$setContent(delongres)
+      # self$results$delong$setVisible(visible = TRUE)
+      # self$results$delong$setContent(delongres)
+     
+      #----------------------------------------
+      table <- self$results$auc
+      res1<- res$AUC
+      names <- dimnames(res$AUC)[[1]]
       
-      self$results$delong$setVisible(visible = TRUE)
-      self$results$delong$setContent(delongres)
-      }}
- 
+        for (name in names) {
+          row <- list()
+          row[["auc"]] <- res1[name, 1]
+          row[["p"]] <- res1[name, 5]
+          
+          table$addRow(rowKey=name, values=row)
+        }
+      
+ #--------------------------------------
+    if(isTRUE(self$options$dif)){  
+      table <- self$results$dif
+      res1<- res$difference
+      names <- dimnames(res$difference)[[1]]
+      
+      for (name in names) {
+        row <- list()
+        row[["auc"]] <- res1[name, 1]
+        row[["lower"]] <-  res1[name, 2]
+        row[["upper"]] <-  res1[name, 3]
+        row[["p"]] <- res1[name, 4]
+        
+        table$addRow(rowKey=name, values=row)
+      }
+    }
+     
+    if(isTRUE(self$options$overall)){
+      
+      table <- self$results$overall
+      
+      z <- as.vector(res$global.z)
+      p <- as.vector(res$global.p)
+      
+      row <- list()
+      
+      row[['Z']] <- z
+      row[['p']] <- p
+      
+      table$setRow(rowNo = 1, values = row)
+      
+    }
+      
     
-          },
+      }
+      
+      
+    }
+    },
         
   .plot1 = function(image, ...){
           

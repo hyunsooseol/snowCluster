@@ -17,7 +17,9 @@ roc(
   plot3 = FALSE,
   width3 = 500,
   height3 = 500,
-  delong = FALSE
+  auc = FALSE,
+  dif = FALSE,
+  overall = FALSE
 )
 }
 \arguments{
@@ -45,7 +47,11 @@ roc(
 
 \item{height3}{.}
 
-\item{delong}{.}
+\item{auc}{.}
+
+\item{dif}{.}
+
+\item{overall}{.}
 }
 \value{
 A results object containing:
@@ -54,8 +60,16 @@ A results object containing:
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
-  \code{results$delong} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$auc} \tab \tab \tab \tab \tab a table \cr
+  \code{results$dif} \tab \tab \tab \tab \tab a table \cr
+  \code{results$overall} \tab \tab \tab \tab \tab a table \cr
 }
+
+Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+
+\code{results$auc$asDF}
+
+\code{as.data.frame(results$auc)}
 }
 \description{
 ROC Analysis
