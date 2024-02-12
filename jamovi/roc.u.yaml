@@ -71,3 +71,20 @@ children:
                     name: height3
                     format: number
                     enable: (plot3)
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: 'AUC(Covariates>1)'
+            children:
+              - type: CheckBox
+                name: delong
+ 
+                
+                
+                

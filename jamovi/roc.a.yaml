@@ -65,4 +65,11 @@ options:
       type: Integer
       title: "X"
       default: 500   
+
+    - name: delong
+      title: 'DeLong test'
+      type: Bool
+      default: False
+
+
 ...

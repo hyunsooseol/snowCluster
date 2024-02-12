@@ -16,7 +16,8 @@ roc(
   height2 = 500,
   plot3 = FALSE,
   width3 = 500,
-  height3 = 500
+  height3 = 500,
+  delong = FALSE
 )
 }
 \arguments{
@@ -43,15 +44,17 @@ roc(
 \item{width3}{.}
 
 \item{height3}{.}
+
+\item{delong}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
-  \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+  \code{results$delong} \tab \tab \tab \tab \tab a preformatted \cr
 }
 }
 \description{

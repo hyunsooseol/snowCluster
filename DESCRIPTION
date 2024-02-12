@@ -1,7 +1,7 @@
 Package: snowCluster
 Type: Package
 Title: Multivariate Analysis
-Version: 7.3.0
+Version: 7.3.1
 Author: Hyunsoo Seol
 Maintainer: Hyunsoo Seol <snow@cau.ac.kr>
 Description: This module allows users to analyze k-means and hierarchical
@@ -54,5 +54,7 @@ Imports:
     glmnet,
     C50,
     scatterplot3d,
-    rpart
-Remotes: cardiomoon/multipleROC    
+    rpart,
+    rms
+Remotes: cardiomoon/multipleROC
+         
