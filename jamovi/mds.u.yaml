@@ -55,11 +55,8 @@ children:
                         enable: (plot)
                   - type: CheckBox
                     name: plot1
+                    style: list-inline
                     children:
-                      - type: TextBox
-                        name: k
-                        enable: (plot1)
-                        format: number
                       - type: TextBox
                         name: width1
                         format: number
@@ -68,6 +65,10 @@ children:
                         name: height1
                         format: number
                         enable: (plot1)     
+                  - type: TextBox
+                    name: k
+                    enable: (plot1)
+                    format: number
       - type: Content
         name: complex
         children:
