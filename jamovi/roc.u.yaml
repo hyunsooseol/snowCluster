@@ -80,7 +80,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: 'Delong Test(Covariates>1)'
+            label: 'DeLong Test(Covariates>1)'
             children:
               - type: CheckBox
                 name: auc
