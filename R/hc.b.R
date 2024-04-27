@@ -119,7 +119,23 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            image$setState(hc) 
            
             }
-            
+         
+           # Clustering dendrogram with p-values-------------
+           # https://github.com/shimo-lab/pvclust
+           
+           # Example           
+           # library(pvclust)
+           # data(lung)
+           # res <- pvclust::pvclust(lung, 
+           #                         method.dist="cor", 
+           #                         method.hclust="average", 
+           #                         nboot=1000, 
+           #                         parallel=TRUE)
+           
+           
+           
+           
+              
         },
         
         # Hierarchical clustering plot---------------

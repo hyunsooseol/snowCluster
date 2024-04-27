@@ -6,6 +6,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
+            mode = NULL,
             labels = NULL,
             vars = NULL,
             stand = TRUE,
@@ -16,7 +17,10 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot = FALSE,
             horiz = FALSE,
             width = 500,
-            height = 500, ...) {
+            height = 500,
+            vars1 = NULL,
+            method1 = "average",
+            nb = 1000, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -24,6 +28,12 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 ...)
 
+            private$..mode <- jmvcore::OptionList$new(
+                "mode",
+                mode,
+                options=list(
+                    "simple",
+                    "complex"))
             private$..labels <- jmvcore::OptionVariable$new(
                 "labels",
                 labels,
@@ -91,7 +101,29 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "height",
                 height,
                 default=500)
+            private$..vars1 <- jmvcore::OptionVariables$new(
+                "vars1",
+                vars1)
+            private$..method1 <- jmvcore::OptionList$new(
+                "method1",
+                method1,
+                options=list(
+                    "ward.D",
+                    "ward.D2",
+                    "single",
+                    "complete",
+                    "average",
+                    "mcquitty",
+                    "median",
+                    "centroid"),
+                default="average")
+            private$..nb <- jmvcore::OptionInteger$new(
+                "nb",
+                nb,
+                default=1000,
+                min=10)
 
+            self$.addOption(private$..mode)
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
             self$.addOption(private$..stand)
@@ -104,8 +136,12 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..horiz)
             self$.addOption(private$..width)
             self$.addOption(private$..height)
+            self$.addOption(private$..vars1)
+            self$.addOption(private$..method1)
+            self$.addOption(private$..nb)
         }),
     active = list(
+        mode = function() private$..mode$value,
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
         stand = function() private$..stand$value,
@@ -117,8 +153,12 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         clust = function() private$..clust$value,
         horiz = function() private$..horiz$value,
         width = function() private$..width$value,
-        height = function() private$..height$value),
+        height = function() private$..height$value,
+        vars1 = function() private$..vars1$value,
+        method1 = function() private$..method1$value,
+        nb = function() private$..nb$value),
     private = list(
+        ..mode = NA,
         ..labels = NA,
         ..vars = NA,
         ..stand = NA,
@@ -130,7 +170,10 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..clust = NA,
         ..horiz = NA,
         ..width = NA,
-        ..height = NA)
+        ..height = NA,
+        ..vars1 = NA,
+        ..method1 = NA,
+        ..nb = NA)
 )
 
 hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -216,6 +259,7 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' Clustering Dendrogram
 #'
 #' 
+#' @param mode .
 #' @param data The data as a data frame.
 #' @param labels .
 #' @param vars .
@@ -228,6 +272,9 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param horiz .
 #' @param width .
 #' @param height .
+#' @param vars1 .
+#' @param method1 .
+#' @param nb .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -238,6 +285,7 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' @export
 hc <- function(
+    mode,
     data,
     labels,
     vars,
@@ -249,21 +297,27 @@ hc <- function(
     plot = FALSE,
     horiz = FALSE,
     width = 500,
-    height = 500) {
+    height = 500,
+    vars1,
+    method1 = "average",
+    nb = 1000) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("hc requires jmvcore to be installed (restart may be required)")
 
     if ( ! missing(labels)) labels <- jmvcore::resolveQuo(jmvcore::enquo(labels))
     if ( ! missing(vars)) vars <- jmvcore::resolveQuo(jmvcore::enquo(vars))
+    if ( ! missing(vars1)) vars1 <- jmvcore::resolveQuo(jmvcore::enquo(vars1))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(labels), labels, NULL),
-            `if`( ! missing(vars), vars, NULL))
+            `if`( ! missing(vars), vars, NULL),
+            `if`( ! missing(vars1), vars1, NULL))
 
 
     options <- hcOptions$new(
+        mode = mode,
         labels = labels,
         vars = vars,
         stand = stand,
@@ -274,7 +328,10 @@ hc <- function(
         plot = plot,
         horiz = horiz,
         width = width,
-        height = height)
+        height = height,
+        vars1 = vars1,
+        method1 = method1,
+        nb = nb)
 
     analysis <- hcClass$new(
         options = options,

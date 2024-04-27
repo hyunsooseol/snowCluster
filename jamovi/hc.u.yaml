@@ -4,77 +4,120 @@ jus: '3.0'
 stage: 0
 compilerMode: tame
 children:
-  - type: VariableSupplier
-    persistentItems: false
-    stretchFactor: 1
-    permitted:
-      - numeric
-      - factor
-      - id
-    children:
-      - type: TargetLayoutBox
-        label: Variables
-        children:
-          - type: VariablesListBox
-            name: vars
-            isTarget: true
-      - type: TargetLayoutBox
-        children:
-          - type: VariablesListBox
-            name: labels
-            isTarget: true
-            maxItemCount: 1
-  - type: LayoutBox
-    margin: large
+  - type: ModeSelector
+    name: mode
     stretchFactor: 1
     children:
-      - type: LayoutBox
-        margin: large
-        cell:
-          column: 0
-          row: 0
-        stretchFactor: 1
+      - type: Content
+        name: simple
         children:
-          - type: Label
-            label: 'Options'
+          - type: LayoutBox
+            margin: large
+            stretchFactor: 1
             children:
-              - type: CheckBox
-                name: stand
-              - name: k
-                type: TextBox
-                format: number
-              - type: ComboBox
-                name: metric
-              - type: ComboBox
-                name: method
-              - type: ComboBox
-                name: type
-      - type: LayoutBox
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: Label
-            label: 'Plot'
-            children:
-              - type: CheckBox
-                name: plot
+              - type: VariableSupplier
+                persistentItems: false
+                stretchFactor: 1
+                permitted:
+                  - numeric
+                  - factor
+                  - id
                 children:
-                  - type: CheckBox
-                    name: horiz
-                    enable: (plot)
-                  - type: TextBox
-                    name: width
-                    format: number
-                    enable: (plot)
-                  - type: TextBox
-                    name: height
-                    format: number
-                    enable: (plot)                   
-          - type: Label
-            label: 'Save'
+                  - type: TargetLayoutBox
+                    label: Variables
+                    children:
+                      - type: VariablesListBox
+                        name: vars
+                        isTarget: true
+                  - type: TargetLayoutBox
+                    children:
+                      - type: VariablesListBox
+                        name: labels
+                        isTarget: true
+                        maxItemCount: 1
+              - type: LayoutBox
+                margin: large
+                stretchFactor: 1
+                children:
+                  - type: LayoutBox
+                    margin: large
+                    cell:
+                      column: 0
+                      row: 0
+                    stretchFactor: 1
+                    children:
+                      - type: Label
+                        label: Options
+                        children:
+                          - type: CheckBox
+                            name: stand
+                          - name: k
+                            type: TextBox
+                            format: number
+                          - type: ComboBox
+                            name: metric
+                          - type: ComboBox
+                            name: method
+                          - type: ComboBox
+                            name: type
+                  - type: LayoutBox
+                    margin: large
+                    cell:
+                      column: 1
+                      row: 0
+                    stretchFactor: 1
+                    children:
+                      - type: Label
+                        label: Plot
+                        children:
+                          - type: CheckBox
+                            name: plot
+                            children:
+                              - type: CheckBox
+                                name: horiz
+                                enable: (plot)
+                              - type: TextBox
+                                name: width
+                                format: number
+                                enable: (plot)
+                              - type: TextBox
+                                name: height
+                                format: number
+                                enable: (plot)
+                      - type: Label
+                        label: Save
+                        children:
+                          - type: Output
+                            name: clust
+      - type: Content
+        name: complex
+        children:
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
             children:
-              - type: Output
-                name: clust      
+              - type: TargetLayoutBox
+                label: Variables
+                children:
+                  - type: VariablesListBox
+                    name: vars1
+                    isTarget: true
+          - type: LayoutBox
+            margin: large
+            stretchFactor: 1
+            children:
+              - type: LayoutBox
+                margin: large
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: Label
+                    label: 'Options'
+                    children: 
+                      - type: TextBox
+                        name: nb
+                        format: number
+                      - type: ComboBox
+                        name: method1

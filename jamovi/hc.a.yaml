@@ -7,6 +7,15 @@ version: '1.0.0'
 jas: '1.2'
 
 options:
+    - name: mode
+      title: ""
+      type: List
+      options:
+            - name: simple
+              title: 'Dendrogram'
+            - name: complex
+              title: 'With p-values'
+
     - name: data
       type: Data
       description:
@@ -92,4 +101,28 @@ options:
       type: Integer
       title: "Height"
       default: 500    
+
+    - name: vars1
+      title: Variables
+      type: Variables
+
+    - name: method1
+      title: Clustering method
+      type: List
+      options:
+        - ward.D
+        - ward.D2
+        - single
+        - complete
+        - average
+        - mcquitty
+        - median
+        - centroid
+      default: average
+
+    - name: nb
+      title: Number of bootstrap
+      default: 1000
+      type: Integer
+      min: 10
 ...

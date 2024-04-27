@@ -5,6 +5,7 @@
 \title{Clustering Dendrogram}
 \usage{
 hc(
+  mode,
   data,
   labels,
   vars,
@@ -16,10 +17,15 @@ hc(
   plot = FALSE,
   horiz = FALSE,
   width = 500,
-  height = 500
+  height = 500,
+  vars1,
+  method1 = "average",
+  nb = 1000
 )
 }
 \arguments{
+\item{mode}{.}
+
 \item{data}{The data as a data frame.}
 
 \item{labels}{.}
@@ -43,6 +49,12 @@ hc(
 \item{width}{.}
 
 \item{height}{.}
+
+\item{vars1}{.}
+
+\item{method1}{.}
+
+\item{nb}{.}
 }
 \value{
 A results object containing:

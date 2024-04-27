@@ -1,12 +1,12 @@
 ---
 title: Multivariate Analysis
 name: snowCluster
-version: 7.3.1
+version: 7.3.2
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2024-01-12'
+date: '2024-04-26'
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical
@@ -108,7 +108,7 @@ analyses:
 datasets:
   - name: iris
     path: iris.omv
-    description: 'kmeans, Group plot, and Classification'
+    description: kmeans, Group plot, and Classification
     tags:
       - Kmeans
       - Group plot
@@ -122,7 +122,7 @@ datasets:
       - PCA Plot
   - name: crime
     path: crime.omv
-    description: 'City crime data(Hartigan,1975)'
+    description: City crime data(Hartigan,1975)
     tags:
       - Hierarchical Clustering
       - PCA Plot
