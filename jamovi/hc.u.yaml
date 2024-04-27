@@ -121,3 +121,32 @@ children:
                         format: number
                       - type: ComboBox
                         name: method1
+                      - type: ComboBox
+                        name: dm
+              - type: LayoutBox
+                margin: large
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: Label
+                    label: 'Plot'
+                    children:
+                      - type: CheckBox
+                        name: plot1 
+                        style: list-inline
+                        children:
+                          - type: TextBox
+                            name: width1
+                            format: number
+                            enable: (plot1)
+                          - type: TextBox
+                            name: height1
+                            format: number
+                            enable: (plot1)
+                  # - type: Label
+                  #   label: 'Summary'
+                  #   children:
+                  #     - type: CheckBox
+                  #       name: list 

@@ -20,7 +20,11 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             height = 500,
             vars1 = NULL,
             method1 = "average",
-            nb = 1000, ...) {
+            nb = 1000,
+            dm = "correlation",
+            plot1 = FALSE,
+            width1 = 500,
+            height1 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -108,20 +112,40 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "method1",
                 method1,
                 options=list(
+                    "average",
+                    "median",
+                    "centroid",
                     "ward.D",
                     "ward.D2",
                     "single",
                     "complete",
-                    "average",
-                    "mcquitty",
-                    "median",
-                    "centroid"),
+                    "mcquitty"),
                 default="average")
             private$..nb <- jmvcore::OptionInteger$new(
                 "nb",
                 nb,
                 default=1000,
                 min=10)
+            private$..dm <- jmvcore::OptionList$new(
+                "dm",
+                dm,
+                options=list(
+                    "correlation",
+                    "uncentered",
+                    "abscor"),
+                default="correlation")
+            private$..plot1 <- jmvcore::OptionBool$new(
+                "plot1",
+                plot1,
+                default=FALSE)
+            private$..width1 <- jmvcore::OptionInteger$new(
+                "width1",
+                width1,
+                default=500)
+            private$..height1 <- jmvcore::OptionInteger$new(
+                "height1",
+                height1,
+                default=500)
 
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
@@ -139,6 +163,10 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..vars1)
             self$.addOption(private$..method1)
             self$.addOption(private$..nb)
+            self$.addOption(private$..dm)
+            self$.addOption(private$..plot1)
+            self$.addOption(private$..width1)
+            self$.addOption(private$..height1)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -156,7 +184,11 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         height = function() private$..height$value,
         vars1 = function() private$..vars1$value,
         method1 = function() private$..method1$value,
-        nb = function() private$..nb$value),
+        nb = function() private$..nb$value,
+        dm = function() private$..dm$value,
+        plot1 = function() private$..plot1$value,
+        width1 = function() private$..width1$value,
+        height1 = function() private$..height1$value),
     private = list(
         ..mode = NA,
         ..labels = NA,
@@ -173,7 +205,11 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..height = NA,
         ..vars1 = NA,
         ..method1 = NA,
-        ..nb = NA)
+        ..nb = NA,
+        ..dm = NA,
+        ..plot1 = NA,
+        ..width1 = NA,
+        ..height1 = NA)
 )
 
 hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -181,9 +217,10 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
-        text = function() private$.items[["text"]],
         clust = function() private$.items[["clust"]],
-        plot = function() private$.items[["plot"]]),
+        plot = function() private$.items[["plot"]],
+        plot1 = function() private$.items[["plot1"]],
+        text = function() private$.items[["text"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -197,10 +234,6 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
-            self$add(jmvcore::Preformatted$new(
-                options=options,
-                name="text",
-                title=""))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="clust",
@@ -233,7 +266,26 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "width",
                     "height",
-                    "horiz")))}))
+                    "horiz")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot1",
+                title="Cluster Dendrogram with p-values",
+                requiresData=TRUE,
+                refs="pvclust",
+                visible="(plot1)",
+                renderFun=".plot1",
+                clearWith=list(
+                    "vars1",
+                    "nb",
+                    "method1",
+                    "dm",
+                    "width1",
+                    "height1")))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text",
+                title="Cluster Information"))}))
 
 hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcBase",
@@ -275,12 +327,17 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars1 .
 #' @param method1 .
 #' @param nb .
+#' @param dm .
+#' @param plot1 .
+#' @param width1 .
+#' @param height1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
-#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #' }
 #'
 #' @export
@@ -300,7 +357,11 @@ hc <- function(
     height = 500,
     vars1,
     method1 = "average",
-    nb = 1000) {
+    nb = 1000,
+    dm = "correlation",
+    plot1 = FALSE,
+    width1 = 500,
+    height1 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("hc requires jmvcore to be installed (restart may be required)")
@@ -331,7 +392,11 @@ hc <- function(
         height = height,
         vars1 = vars1,
         method1 = method1,
-        nb = nb)
+        nb = nb,
+        dm = dm,
+        plot1 = plot1,
+        width1 = width1,
+        height1 = height1)
 
     analysis <- hcClass$new(
         options = options,

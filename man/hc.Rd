@@ -20,7 +20,11 @@ hc(
   height = 500,
   vars1,
   method1 = "average",
-  nb = 1000
+  nb = 1000,
+  dm = "correlation",
+  plot1 = FALSE,
+  width1 = 500,
+  height1 = 500
 )
 }
 \arguments{
@@ -55,14 +59,23 @@ hc(
 \item{method1}{.}
 
 \item{nb}{.}
+
+\item{dm}{.}
+
+\item{plot1}{.}
+
+\item{width1}{.}
+
+\item{height1}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
-  \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+  \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 }
 }
 \description{

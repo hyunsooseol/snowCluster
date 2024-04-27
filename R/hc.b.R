@@ -3,6 +3,9 @@
 #' @importFrom factoextra hcut
 #' @importFrom factoextra fviz_dend
 #' @importFrom stringr str_interp
+#' @importFrom pvclust pvclust
+#' @importFrom pvclust pvrect
+#' @importFrom pvclust pvpick
 #' @import ggplot2
 #' @export
 
@@ -35,20 +38,31 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             </html>"
             )
            
+            if(self$options$mode == "simple"){  
             if(isTRUE(self$options$plot)){
               width <- self$options$width
               height <- self$options$height
               self$results$plot$setSize(width, height)
             }
+            }
             
-             
+            if(self$options$mode == "complex"){  
+              
+              if(isTRUE(self$options$plot1)){
+                width <- self$options$width1
+                height <- self$options$height1
+                self$results$plot1$setSize(width, height)
+              }
+            }
         },
         
         #---------------------------------------------
         
          .run = function() {
 
-            
+         
+           if(self$options$mode == "simple"){
+              
             if (!is.null(self$options$vars)) {
                 
                 vars <- self$options$vars
@@ -120,6 +134,10 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            
             }
          
+           }
+           
+           if(self$options$mode == "complex"){
+             
            # Clustering dendrogram with p-values-------------
            # https://github.com/shimo-lab/pvclust
            
@@ -132,10 +150,36 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            #                         nboot=1000, 
            #                         parallel=TRUE)
            
+             vars1 <- self$options$vars1
+             data <- self$data
+             data <- jmvcore::naOmit(data)
+             data <- as.data.frame(data)
+             
+             if (length(self$options$vars1)>=2) {
+             
+             nb <- self$options$nb
+             method1 <-  self$options$method1
+             dm <- self$options$dm
+             
+             # analysis----------------------------
+             res <- pvclust::pvclust(data,
+                                     method.dist= dm,
+                                     method.hclust= method1,
+                                     nboot=nb,
+                                     parallel=FALSE)
+             
+             image <- self$results$plot1
+             image$setState(res) 
            
-           
-           
-              
+             # List of clusters-------
+             
+          #   if(isTRUE(self$options$list)){
+             list<- pvclust::pvpick(res)
+             self$results$text$setContent(list)
+           #  }
+             
+           } 
+           }  
         },
         
         # Hierarchical clustering plot---------------
@@ -175,7 +219,28 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             print(plot)
             TRUE
             
-        }
+        },
         
+        # Dendrogram with p-values-----------------
+        
+        .plot1 = function(image, ...) {
+          
+          if (is.null(image$state))
+            return(FALSE)
+          
+          res <- image$state
+        
+         # plot1<- plot(res)
+          plot(res)
+          ask.bak <- par()$ask
+          par(ask=TRUE)
+          ## highlight clusters with high au p-values
+          plot1<- pvclust::pvrect(res)
+          
+          
+          print(plot1)
+          TRUE
+          
+          }
         )
 )

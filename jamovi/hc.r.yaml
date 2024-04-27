@@ -9,10 +9,6 @@ items:
       type: Html
       visible: True  
 
-    - name:  text
-      title: '' 
-      type:  Preformatted
-  
     - name: clust
       title: Clustering
       type: Output
@@ -45,4 +41,23 @@ items:
         - width
         - height
         - horiz
+
+    - name:  plot1
+      title: 'Cluster Dendrogram with p-values'
+      type:  Image
+      requiresData: true
+      refs: pvclust
+      visible: (plot1)
+      renderFun: .plot1
+      clearWith:
+        - vars1
+        - nb
+        - method1
+        - dm
+        - width1
+        - height1
+
+    - name:  text
+      title: 'Cluster Information' 
+      type:  Preformatted
 ...
