@@ -150,8 +150,13 @@ options:
       title: "X"
       default: 500
 
-    # - name: list
-    #   title: 'List of clusters'
-    #   type: Bool
-    #   default: false
+    # - name: para
+    #   title: 'Parallel'
+    #   type: List
+    #   options:
+    #     - title: 'TRUE'
+    #       name: 'TRUE'
+    #     - title: 'FALSE'
+    #       name: 'FALSE'
+    #   default: 'TRUE'
 ...

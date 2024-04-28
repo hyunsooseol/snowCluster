@@ -161,6 +161,9 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
              method1 <-  self$options$method1
              dm <- self$options$dm
              
+             # para <- as.logical(self$options$para)
+            
+             
              # analysis----------------------------
              res <- pvclust::pvclust(data,
                                      method.dist= dm,
@@ -168,15 +171,16 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                                      nboot=nb,
                                      parallel=FALSE)
              
+             # parallel=TRUE does not working in this analysis.
+             
              image <- self$results$plot1
              image$setState(res) 
            
              # List of clusters-------
-             
-          #   if(isTRUE(self$options$list)){
+         
              list<- pvclust::pvpick(res)
              self$results$text$setContent(list)
-           #  }
+         
              
            } 
            }  
@@ -230,8 +234,9 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
           
           res <- image$state
         
-         # plot1<- plot(res)
+          #plot1<- plot(res)
           plot(res)
+          
           ask.bak <- par()$ask
           par(ask=TRUE)
           ## highlight clusters with high au p-values

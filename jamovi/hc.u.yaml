@@ -115,7 +115,7 @@ children:
                 children:
                   - type: Label
                     label: 'Options'
-                    children: 
+                    children:
                       - type: TextBox
                         name: nb
                         format: number
@@ -123,6 +123,8 @@ children:
                         name: method1
                       - type: ComboBox
                         name: dm
+                      # - type: ComboBox
+                      #   name: para
               - type: LayoutBox
                 margin: large
                 cell:
@@ -131,10 +133,10 @@ children:
                 stretchFactor: 1
                 children:
                   - type: Label
-                    label: 'Plot'
+                    label: Plot
                     children:
                       - type: CheckBox
-                        name: plot1 
+                        name: plot1
                         style: list-inline
                         children:
                           - type: TextBox
@@ -145,8 +147,3 @@ children:
                             name: height1
                             format: number
                             enable: (plot1)
-                  # - type: Label
-                  #   label: 'Summary'
-                  #   children:
-                  #     - type: CheckBox
-                  #       name: list 

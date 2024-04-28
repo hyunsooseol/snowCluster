@@ -70,3 +70,10 @@ refs:
        title: "multipleROC: Package for ROC Analysis with Models with Multiple Predictors"
        publisher: '[R package]. URL https://github.com/cardiomoon/multipleROC'
  
+   pvclust:
+       type: 'software'
+       author: Suzuki, R., Terada, Y., & Shimodaira, H.
+       year: 2019
+       title: "pvclust: Hierarchical Clustering with P-Values via Multiscale Bootstrap Resampling"
+       publisher: '[R package]. URL https://CRAN.R-project.org/package=pvclust'
+ 
