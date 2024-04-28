@@ -178,9 +178,10 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            
              # List of clusters-------
          
+             if(isTRUE(self$options$plot1)){
              list<- pvclust::pvpick(res)
              self$results$text$setContent(list)
-         
+             }
              
            } 
            }  

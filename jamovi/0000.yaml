@@ -127,7 +127,13 @@ datasets:
       - Hierarchical Clustering
       - PCA Plot
       - MDS
-      - Cluster dendrogram
+      - Clustering dendrogram
+  - name: mtcars
+    path: mtcars.omv
+    description: Cluster dendrogam with p-values
+    tags:
+      - Clustering dendrogram
+      - Dendrogram with p-values
   - name: housetasks
     path: housetasks.omv
     description: contingency table

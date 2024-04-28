@@ -60,4 +60,5 @@ items:
     - name:  text
       title: 'Cluster Information' 
       type:  Preformatted
+      visible: (plot1)     
 ...
