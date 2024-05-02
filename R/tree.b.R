@@ -32,9 +32,8 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
             <p> 1. The values for the target variable cannot be a number. </p> 
-            <p> 2. Continuous variables were standardized using <b> caret::prePrecess()</b>. </p>
-            <p> 3. Plots are drawn with training data. </p>
-            <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 2. Plots are drawn with training data. </p>
+            <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
@@ -129,18 +128,18 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         #set.seed(1234)
         
         split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
-        train1 <-data[split1,]
-        test1 <- data[-split1,]
+        train <-data[split1,]
+        test <- data[-split1,]
         
-        # Transformed dataset-----------------
-        
-        preProcValues <- caret::preProcess(train1, 
-                                           method = c("center", "scale"))
-        
-        
-        #--------------------------------------------
-        train <- predict(preProcValues, train1)
-        test <- predict(preProcValues, test1)
+        # # Decision tree does not require normalization of data-----
+        # # Transformed dataset-----------------
+        # 
+        # preProcValues <- caret::preProcess(train1, 
+        #                                    method = c("center", "scale"))
+        # 
+        # #--------------------------------------------
+        # train <- predict(preProcValues, train1)
+        # test <- predict(preProcValues, test1)
         #-------------------------------------------
        
         # rpart plot------------------
