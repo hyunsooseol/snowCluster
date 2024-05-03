@@ -33,7 +33,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
             <p> 1. The values for the target variable cannot be a number. </p> 
-            <p> 2. Plots are drawn with overall data. </p>
+            <p> 2. Plots are drawn with Entire dataset. </p>
             <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
