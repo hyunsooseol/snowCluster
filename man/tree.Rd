@@ -9,13 +9,15 @@ tree(
   dep,
   covs,
   facs,
-  per = 1,
+  per = 0.7,
   plot = FALSE,
-  over = FALSE,
+  over = TRUE,
   tab = FALSE,
-  cla = FALSE,
-  over1 = TRUE,
+  over1 = FALSE,
   tab1 = FALSE,
+  over2 = FALSE,
+  tab2 = FALSE,
+  cla = FALSE,
   plot1 = FALSE,
   width = 500,
   height = 500,
@@ -40,11 +42,15 @@ tree(
 
 \item{tab}{.}
 
-\item{cla}{.}
-
 \item{over1}{.}
 
 \item{tab1}{.}
+
+\item{over2}{.}
+
+\item{tab2}{.}
+
+\item{cla}{.}
 
 \item{plot1}{.}
 
@@ -61,10 +67,12 @@ A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
-  \code{results$over1} \tab \tab \tab \tab \tab a table \cr
-  \code{results$tab1} \tab \tab \tab \tab \tab a table \cr
   \code{results$over} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
+  \code{results$over1} \tab \tab \tab \tab \tab a table \cr
+  \code{results$tab1} \tab \tab \tab \tab \tab a table \cr
+  \code{results$over2} \tab \tab \tab \tab \tab a table \cr
+  \code{results$tab2} \tab \tab \tab \tab \tab a table \cr
   \code{results$cla} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
@@ -72,9 +80,9 @@ A results object containing:
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 
-\code{results$over1$asDF}
+\code{results$over$asDF}
 
-\code{as.data.frame(results$over1)}
+\code{as.data.frame(results$over)}
 }
 \description{
 Decision Tree

@@ -39,7 +39,7 @@ options:
       type: Number
       min: 0.1
       max: 1
-      default: 1
+      default: 0.7
 
     - name: plot
       title: Tree plot 
@@ -49,27 +49,37 @@ options:
     - name: over
       title: 'Overall statistics' 
       type: Bool 
-      default: FALSE  
+      default: TRUE
       
     - name: tab
-      title: Confusion matrix 
+      title: 'Confusion matrix' 
       type: Bool 
       default: FALSE          
 
-    - name: cla
-      title: Statistics by class
-      type: Bool 
-      default: FALSE     
-      
     - name: over1
       title: 'Overall statistics' 
       type: Bool 
-      default: TRUE   
+      default: FALSE   
       
     - name: tab1
       title: 'Confusion matrix' 
       type: Bool 
       default: FALSE          
+
+    - name: over2
+      title: 'Overall statistics' 
+      type: Bool 
+      default: FALSE   
+      
+    - name: tab2
+      title: 'Confusion matrix' 
+      type: Bool 
+      default: FALSE     
+
+    - name: cla
+      title: Statistics by class
+      type: Bool 
+      default: FALSE     
 
     - name: plot1
       title: rpart plot (Using rpart model) 
