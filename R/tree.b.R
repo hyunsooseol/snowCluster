@@ -123,17 +123,22 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         #self$results$text$setContent(model)
         
+        if(isTRUE(self$options$plot)){
         # Tree plot----------
         image <- self$results$plot
         image$setState(model)
+        }
+        
+        if(isTRUE(self$options$plot1)){
         
         # rpart plot-------------
-        # rp <-  rpart::rpart(formula, data=data,
-        #                     method='class')
-        # 
-        # image1 <- self$results$plot1
-        # image1$setState(rp)
+        rp <-  rpart::rpart(formula, data=data,
+                            method='class')
+
+        image1 <- self$results$plot1
+        image1$setState(rp)
         
+        }
 
         # predict model----------
          pred <- predict(model)
@@ -328,21 +333,21 @@ if(isTRUE(self$options$cla)){
 
           print(plot)
           TRUE
-        }
+        },
 
-      # .plot1 = function(image1,...) {
-      # 
-      #   if (is.null(image1$state))
-      #     return(FALSE)
-      # 
-      # 
-      #   rpar <- image1$state
-      # 
-      #   plot1 <- rpart.plot::rpart.plot(rpar)
-      # 
-      #   print(plot)
-      #   TRUE
-      # }
+      .plot1 = function(image1,...) {
+
+        if (is.null(image1$state))
+          return(FALSE)
+
+
+        rpar <- image1$state
+
+        plot1 <- rpart.plot::rpart.plot(rpar)
+
+        print(plot)
+        TRUE
+      }
 
         
         )
