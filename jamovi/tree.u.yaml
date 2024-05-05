@@ -37,14 +37,11 @@ children:
         stretchFactor: 1
         children:
           - type: Label
-            label: 'Data split'
+            label: 'Training set'
             children:
               - type: TextBox
                 name: per
                 format: number
-          - type: Label
-            label: 'Training set'
-            children:
               - type: CheckBox
                 name: over1
               - type: CheckBox

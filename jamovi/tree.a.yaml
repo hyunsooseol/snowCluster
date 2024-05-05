@@ -35,7 +35,7 @@ options:
         - factor
  
     - name: per
-      title: Split set(%)
+      title: Split set
       type: Number
       min: 0.1
       max: 1
