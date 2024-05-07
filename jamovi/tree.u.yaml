@@ -64,7 +64,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: 'Entire dataset'
+            label: 'Whole dataset'
             children:
               - type: CheckBox
                 name: over

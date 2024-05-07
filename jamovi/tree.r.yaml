@@ -59,7 +59,7 @@ items:
           content: ($key)
 
     - name: over1
-      title: 'Overall statistics with train data'
+      title: 'Overall statistics with training set'
       type: Table
       rows: 1
       visible: (over1)
@@ -87,7 +87,7 @@ items:
           type: number
 
     - name: tab1
-      title: 'Confusion Matrix with train data'
+      title: 'Confusion Matrix with training set'
       type: Table
       visible: (tab1)
       refs: caret 
@@ -166,9 +166,10 @@ items:
           content: ($key)
 
     - name:  plot
-      title: Decision tree plot
+      title: 'Decision tree with whole dataset'
       type:  Image
       visible: (plot)
+      requiresData: true
       renderFun: .plot
       refs: party
       clearWith:
@@ -180,9 +181,10 @@ items:
         - height
 
     - name:  plot1
-      title: rpart plot
+      title: 'rpart plot with whole dataset'
       type:  Image
       visible: (plot1)
+      requiresData: true
       renderFun: .plot1
       refs: rpart.plot
       clearWith:

@@ -250,7 +250,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="over1",
-                title="Overall statistics with train data",
+                title="Overall statistics with training set",
                 rows=1,
                 visible="(over1)",
                 clearWith=list(
@@ -281,7 +281,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tab1",
-                title="Confusion Matrix with train data",
+                title="Confusion Matrix with training set",
                 visible="(tab1)",
                 refs="caret",
                 clearWith=list(
@@ -363,8 +363,9 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Decision tree plot",
+                title="Decision tree with whole dataset",
                 visible="(plot)",
+                requiresData=TRUE,
                 renderFun=".plot",
                 refs="party",
                 clearWith=list(
@@ -377,8 +378,9 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
-                title="rpart plot",
+                title="rpart plot with whole dataset",
                 visible="(plot1)",
+                requiresData=TRUE,
                 renderFun=".plot1",
                 refs="rpart.plot",
                 clearWith=list(

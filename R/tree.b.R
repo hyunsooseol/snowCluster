@@ -6,10 +6,7 @@
 #' @importFrom caret confusionMatrix
 #' @importFrom  rpart rpart
 #' @importFrom rpart.plot rpart.plot
-#' @import ggplot2
 #' @import jmvcore
-#' @import rpart
-#' @import rpart.plot
 #' @export
 
 treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
@@ -33,7 +30,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
             <p> 1. The values for the target variable cannot be a number. </p> 
-            <p> 2. Plots are drawn with Entire dataset. </p>
+            <p> 2. Plots are drawn with whole dataset. </p>
             <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
@@ -102,9 +99,6 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         #Analysis---------------------------------
         #set.seed(1234)
        
-        # To speed up the function------
-        formula <- as.formula(paste0(self$options$dep, " ~ ."))
-        
         # Example(iris data)----------------
         
         # data(iris)
@@ -118,30 +112,33 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         # eval<- caret::confusionMatrix(pred,actual)
         
 ####################################################################        
-       # Analysis using party package-----------
+        # To speed up the function------
+        formula <- as.formula(paste0(self$options$dep, " ~ ."))
+        
+        # Analysis using party package-----------
         model <- party::ctree(formula, data=data)
-        
         #self$results$text$setContent(model)
-        
-        if(isTRUE(self$options$plot)){
-        # Tree plot----------
+
+        # Tree plot----------         
+        # if(isTRUE(self$options$plot)){
         image <- self$results$plot
         image$setState(model)
-        }
-        
-        if(isTRUE(self$options$plot1)){
+        #}
         
         # rpart plot-------------
         rp <-  rpart::rpart(formula, data=data,
                             method='class')
-
+  
+        #rpart plot----------
+        if(isTRUE(self$options$plot1)){
+       
         image1 <- self$results$plot1
         image1$setState(rp)
         
         }
 
-        # predict model----------
-         pred <- predict(model)
+# predict model----------
+ pred <- predict(model)
 
 #Overall data---------------------------------------------
 eval<- caret::confusionMatrix(pred, data[[dep]])
@@ -345,7 +342,7 @@ if(isTRUE(self$options$cla)){
 
         plot1 <- rpart.plot::rpart.plot(rpar)
 
-        print(plot)
+        print(plot1)
         TRUE
       }
 
