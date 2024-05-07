@@ -7,6 +7,10 @@
 #' @importFrom  rpart rpart
 #' @importFrom rpart.plot rpart.plot
 #' @import jmvcore
+#' @import rpart
+#' @import rpart.plot
+#' @import party
+#' @import caret
 #' @export
 
 treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
@@ -124,18 +128,16 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         image <- self$results$plot
         image$setState(model)
         #}
-        
-        # rpart plot-------------
-        rp <-  rpart::rpart(formula, data=data,
-                            method='class')
-  
+
         #rpart plot----------
         if(isTRUE(self$options$plot1)){
-       
-        image1 <- self$results$plot1
-        image1$setState(rp)
-        
-        }
+
+          rp <-  rpart::rpart(formula, data=data,
+                              method='class')
+
+         image1 <- self$results$plot1
+         image1$setState(rp)
+         }
 
 # predict model----------
  pred <- predict(model)

@@ -371,7 +371,6 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "per",
                     "facs",
                     "width",
                     "height")))
@@ -386,7 +385,6 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "per",
                     "facs",
                     "width1",
                     "height1")))}))

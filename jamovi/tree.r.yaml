@@ -175,7 +175,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - per
         - facs
         - width
         - height
@@ -190,7 +189,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - per
         - facs
         - width1
         - height1       
