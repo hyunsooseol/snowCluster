@@ -180,7 +180,7 @@ items:
         - height
 
     - name:  plot1
-      title: 'rpart plot with whole dataset'
+      title: 'rpart plot with train set'
       type:  Image
       visible: (plot1)
       requiresData: true

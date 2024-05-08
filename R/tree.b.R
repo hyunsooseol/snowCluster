@@ -129,16 +129,6 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             image$setState(model)
             #}
 
-            #rpart plot----------
-            if(isTRUE(self$options$plot1)){
-
-                rp <-  rpart::rpart(formula, data=data,
-                                    method='class')
-
-                image1 <- self$results$plot1
-                #image1$setState(rp)
-            }
-
             # predict model----------
             pred <- predict(model)
 
@@ -198,6 +188,18 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 train <-data[split1,]
                 test <- data[-split1,]
 
+                
+                # #rpart plot----------
+                # if(isTRUE(self$options$plot1)){
+                #   
+                #   rp <-  rpart::rpart(formula, data=train,
+                #                       method='class')
+                #   
+                #   image1 <- self$results$plot1
+                #   #image1$setState(rp)
+                # }
+                
+                
                 #Train---------------------------
                 pred<-predict(model, train)
                 eval1<- caret::confusionMatrix(pred, train[[dep]])
@@ -351,8 +353,16 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
             data <- jmvcore::naOmit(data)
 
+            per <- self$options$per
+            dep <- self$options$dep
+            
+            # Split set-----------
+            split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
+            train <-data[split1,]
+            test <- data[-split1,]
+            
             rpar <- rpart::rpart(formula=as.formula(paste0(self$options$dep, " ~ .")),
-                                 data=data,
+                                 data=train,
                                  method='class')
 
             plot1 <- rpart.plot::rpart.plot(rpar)
