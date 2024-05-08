@@ -18,8 +18,6 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     inherit = treeBase,
     private = list(
 
-        #------------------------------------
-
         .init = function() {
             if (is.null(self$options$dep) | is.null(self$options$covs)) {
                 self$results$instructions$setVisible(visible = TRUE)
@@ -43,7 +41,6 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             </html>"
             )
 
-
             if(isTRUE(self$options$plot)){
                 width <- self$options$width
                 height <- self$options$height
@@ -58,27 +55,11 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
         },
 
-        #---------------------------------------------
-
+#---------------------------------------------
         .run = function() {
 
             if (is.null(self$options$dep) || length(self$options$covs) == 0)
                 return()
-
-            # Example---------
-
-            # data(iris)
-            #
-            # split1<- caret::createDataPartition(iris$Species, p=0.7,list = F)
-            #
-            # split1_train <-iris[split1,]
-            # split1_test <- iris[-split1,]
-            #
-            # model <- rpart::rpart(Species~., data=split1_train,
-            #                       control = rpart.control(minsplit=2))
-            #
-            # rpart.plot::rpart.plot(model, tweak = 1.1)
-
 
             dep <- self$options$dep
             covs <- self$options$covs
@@ -91,31 +72,11 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
             for(fac in facs)
                 data[[fac]]<-as.factor(data[[fac]])
-
             for(cov in covs)
                 data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-
             data[[dep]] <- as.factor(data[[dep]])
-
             data <- jmvcore::naOmit(data)
 
-
-            #Analysis---------------------------------
-            #set.seed(1234)
-
-            # Example(iris data)----------------
-
-            # data(iris)
-            # model <- party::ctree(Species ~ .,data = iris)
-            # plot(model)
-
-            # pred <- predict(model)
-            # actual <- iris$Species
-
-            # table(predict(model), iris$Species)
-            # eval<- caret::confusionMatrix(pred,actual)
-
-            ####################################################################
             # To speed up the function------
             formula <- as.formula(paste0(self$options$dep, " ~ ."))
 
@@ -124,17 +85,12 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             #self$results$text$setContent(model)
 
             # Tree plot----------
-            # if(isTRUE(self$options$plot)){
             image <- self$results$plot
             image$setState(model)
-            #}
 
             # predict model----------
             pred <- predict(model)
-
-            #Overall data---------------------------------------------
             eval<- caret::confusionMatrix(pred, data[[dep]])
-            #---------------------------------------------
 
             if(isTRUE(self$options$over)){
                 # Overall statistics-----------
@@ -177,7 +133,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 }
             }
 
-            ############## Test set(Split set<1)########################
+ ############## Test set(Split set<1)########################
 
             if(self$options$per<1){
 
@@ -188,8 +144,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 train <-data[split1,]
                 test <- data[-split1,]
 
-                
-                # #rpart plot----------
+                 # #rpart plot----------
                 # if(isTRUE(self$options$plot1)){
                 #   
                 #   rp <-  rpart::rpart(formula, data=train,
@@ -198,15 +153,16 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 #   image1 <- self$results$plot1
                 #   #image1$setState(rp)
                 # }
-                
+  
+                # Analysis using party package-----------
+                model.train <- party::ctree(formula, data=train)
                 
                 #Train---------------------------
-                pred<-predict(model, train)
+                pred<-predict(model.train, train)
                 eval1<- caret::confusionMatrix(pred, train[[dep]])
                 #---------------------------------------------------
-
+                # Overall statistics with train data-----------
                 if(isTRUE(self$options$over1)){
-                    # Overall statistics with train data-----------
 
                     table <- self$results$over1
 
@@ -225,8 +181,8 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     table$setRow(rowNo = 1, values = row)
                 }
 
+                # Confusion matrix with train data-------------
                 if(isTRUE(self$options$tab1)){
-                    # Confusion matrix with train data-----------------------------
                     table <- self$results$tab1
 
                     tab1<- eval1$table
@@ -249,12 +205,12 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 }
 
                 #Test-------------------------------------------
-                pred2<-predict(model, test)
+                pred2<-predict(model.train, test)
                 eval2<- caret::confusionMatrix(pred2, test[[dep]])
                 #-------------------------------------------------
-
+                # Overall statistics with test set-----------
                 if(isTRUE(self$options$over2)){
-                    # Overall statistics with test set-----------
+  
                     table <- self$results$over2
 
                     acc<- eval2[["overall"]][1]
@@ -294,7 +250,6 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 }
 
                 # Statistics by class with test-----------
-
                 if(isTRUE(self$options$cla)){
                     table <- self$results$cla
 
@@ -346,11 +301,8 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
             data <- self$data
             data[[self$options$dep]] <- as.factor(data[[self$options$dep]])
-
             for(cov in self$options$covs) data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-
             for(fac in self$options$facs) data[[fac]] <- as.factor(data[[fac]])
-
             data <- jmvcore::naOmit(data)
 
             per <- self$options$per
@@ -374,3 +326,35 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
     )
 )
+
+# Example---------
+
+# data(iris)
+#
+# split1<- caret::createDataPartition(iris$Species, p=0.7,list = F)
+#
+# split1_train <-iris[split1,]
+# split1_test <- iris[-split1,]
+#
+# model <- rpart::rpart(Species~., data=split1_train,
+#                       control = rpart.control(minsplit=2))
+#
+# rpart.plot::rpart.plot(model, tweak = 1.1)
+
+
+#Analysis---------------------------------
+#set.seed(1234)
+
+# Example(iris data)----------------
+
+# data(iris)
+# model <- party::ctree(Species ~ .,data = iris)
+# plot(model)
+
+# pred <- predict(model)
+# actual <- iris$Species
+
+# table(predict(model), iris$Species)
+# eval<- caret::confusionMatrix(pred,actual)
+
+

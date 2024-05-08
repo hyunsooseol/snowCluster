@@ -166,7 +166,7 @@ items:
           content: ($key)
 
     - name:  plot
-      title: 'Decision tree with whole dataset'
+      title: 'Tree plot with whole dataset'
       type:  Image
       visible: (plot)
       requiresData: true

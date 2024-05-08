@@ -41,11 +41,6 @@ options:
       max: 1
       default: 0.7
 
-    - name: plot
-      title: Tree plot 
-      type: Bool
-      default: FALSE
-      
     - name: over
       title: 'Overall statistics' 
       type: Bool 
@@ -81,8 +76,14 @@ options:
       type: Bool 
       default: FALSE     
 
+
+    - name: plot
+      title: Tree plot with whole dataset
+      type: Bool
+      default: FALSE
+      
     - name: plot1
-      title: rpart plot(Using rpart model) 
+      title: rpart plot with train set 
       type: Bool
       default: FALSE
 

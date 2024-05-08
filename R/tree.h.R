@@ -10,7 +10,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             covs = NULL,
             facs = NULL,
             per = 0.7,
-            plot = FALSE,
             over = TRUE,
             tab = FALSE,
             over1 = FALSE,
@@ -18,6 +17,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             over2 = FALSE,
             tab2 = FALSE,
             cla = FALSE,
+            plot = FALSE,
             plot1 = FALSE,
             width = 500,
             height = 500,
@@ -58,10 +58,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0.1,
                 max=1,
                 default=0.7)
-            private$..plot <- jmvcore::OptionBool$new(
-                "plot",
-                plot,
-                default=FALSE)
             private$..over <- jmvcore::OptionBool$new(
                 "over",
                 over,
@@ -90,6 +86,10 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "cla",
                 cla,
                 default=FALSE)
+            private$..plot <- jmvcore::OptionBool$new(
+                "plot",
+                plot,
+                default=FALSE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -115,7 +115,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..covs)
             self$.addOption(private$..facs)
             self$.addOption(private$..per)
-            self$.addOption(private$..plot)
             self$.addOption(private$..over)
             self$.addOption(private$..tab)
             self$.addOption(private$..over1)
@@ -123,6 +122,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..over2)
             self$.addOption(private$..tab2)
             self$.addOption(private$..cla)
+            self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..width)
             self$.addOption(private$..height)
@@ -134,7 +134,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         covs = function() private$..covs$value,
         facs = function() private$..facs$value,
         per = function() private$..per$value,
-        plot = function() private$..plot$value,
         over = function() private$..over$value,
         tab = function() private$..tab$value,
         over1 = function() private$..over1$value,
@@ -142,6 +141,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         over2 = function() private$..over2$value,
         tab2 = function() private$..tab2$value,
         cla = function() private$..cla$value,
+        plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         width = function() private$..width$value,
         height = function() private$..height$value,
@@ -152,7 +152,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..covs = NA,
         ..facs = NA,
         ..per = NA,
-        ..plot = NA,
         ..over = NA,
         ..tab = NA,
         ..over1 = NA,
@@ -160,6 +159,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..over2 = NA,
         ..tab2 = NA,
         ..cla = NA,
+        ..plot = NA,
         ..plot1 = NA,
         ..width = NA,
         ..height = NA,
@@ -363,7 +363,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Decision tree with whole dataset",
+                title="Tree plot with whole dataset",
                 visible="(plot)",
                 requiresData=TRUE,
                 renderFun=".plot",
@@ -377,7 +377,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
-                title="rpart plot with whole dataset",
+                title="rpart plot with train set",
                 visible="(plot1)",
                 requiresData=TRUE,
                 renderFun=".plot1",
@@ -418,7 +418,6 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param covs .
 #' @param facs .
 #' @param per .
-#' @param plot .
 #' @param over .
 #' @param tab .
 #' @param over1 .
@@ -426,6 +425,7 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param over2 .
 #' @param tab2 .
 #' @param cla .
+#' @param plot .
 #' @param plot1 .
 #' @param width .
 #' @param height .
@@ -459,7 +459,6 @@ tree <- function(
     covs,
     facs,
     per = 0.7,
-    plot = FALSE,
     over = TRUE,
     tab = FALSE,
     over1 = FALSE,
@@ -467,6 +466,7 @@ tree <- function(
     over2 = FALSE,
     tab2 = FALSE,
     cla = FALSE,
+    plot = FALSE,
     plot1 = FALSE,
     width = 500,
     height = 500,
@@ -494,7 +494,6 @@ tree <- function(
         covs = covs,
         facs = facs,
         per = per,
-        plot = plot,
         over = over,
         tab = tab,
         over1 = over1,
@@ -502,6 +501,7 @@ tree <- function(
         over2 = over2,
         tab2 = tab2,
         cla = cla,
+        plot = plot,
         plot1 = plot1,
         width = width,
         height = height,
