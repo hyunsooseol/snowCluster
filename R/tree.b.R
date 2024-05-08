@@ -137,8 +137,25 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
             if(self$options$per<1){
 
-                per <- self$options$per
+              per <- self$options$per
+              dep <- self$options$dep
+              covs <- self$options$covs
+              facs <- self$options$facs
 
+              data <- self$data
+              
+              # data cleaning---------------
+              
+              for(fac in facs)
+                data[[fac]]<-as.factor(data[[fac]])
+              for(cov in covs)
+                data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+              data[[dep]] <- as.factor(data[[dep]])
+              data <- jmvcore::naOmit(data)
+              
+              # To speed up the function------
+              formula <- as.formula(paste0(self$options$dep, " ~ ."))
+ 
                 # Split set-----------
                 split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
                 train <-data[split1,]

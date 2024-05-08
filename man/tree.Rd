@@ -10,7 +10,6 @@ tree(
   covs,
   facs,
   per = 0.7,
-  plot = FALSE,
   over = TRUE,
   tab = FALSE,
   over1 = FALSE,
@@ -18,6 +17,7 @@ tree(
   over2 = FALSE,
   tab2 = FALSE,
   cla = FALSE,
+  plot = FALSE,
   plot1 = FALSE,
   width = 500,
   height = 500,
@@ -36,8 +36,6 @@ tree(
 
 \item{per}{.}
 
-\item{plot}{.}
-
 \item{over}{.}
 
 \item{tab}{.}
@@ -51,6 +49,8 @@ tree(
 \item{tab2}{.}
 
 \item{cla}{.}
+
+\item{plot}{.}
 
 \item{plot1}{.}
 
