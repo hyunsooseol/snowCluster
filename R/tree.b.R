@@ -19,13 +19,13 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     private = list(
 
         .init = function() {
+
             if (is.null(self$options$dep) | is.null(self$options$covs)) {
                 self$results$instructions$setVisible(visible = TRUE)
-
             }
 
             self$results$instructions$setContent(
-                "<html>
+            "<html>
             <head>
             </head>
             <body>
@@ -40,275 +40,190 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             </html>"
             )
 
-            if(isTRUE(self$options$plot)){
+            if(isTRUE(self$options$plot)) {
                 width <- self$options$width
                 height <- self$options$height
                 self$results$plot$setSize(width, height)
             }
 
-            if(isTRUE(self$options$plot1)){
+            if(isTRUE(self$options$plot1)) {
                 width <- self$options$width1
                 height <- self$options$height1
                 self$results$plot1$setSize(width, height)
             }
-
         },
 
-#---------------------------------------------
         .run = function() {
 
              if (is.null(self$options$dep) || length(self$options$covs) == 0)
                  return()
-            # 
-            # dep <- self$options$dep
-            # covs <- self$options$covs
-            # facs <- self$options$facs
-            # 
-            # per <- self$options$per
-            # data <- self$data
-            # 
-            # # data cleaning---------------
-            # 
-            # for(fac in facs)
-            #     data[[fac]]<-as.factor(data[[fac]])
-            # for(cov in covs)
-            #     data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-            # data[[dep]] <- as.factor(data[[dep]])
-            # data <- jmvcore::naOmit(data)
-            # 
-            # # To speed up the function------
-            # formula <- as.formula(paste0(self$options$dep, " ~ ."))
-            # 
-            # # Analysis using party package-----------
-            # model <- party::ctree(formula, data=data)
-            # #self$results$text$setContent(model)
-            # 
-            # # Tree plot----------
-            # image <- self$results$plot
-            # image$setState(model)
-            # 
-            # # predict model----------
-            # pred <- predict(model)
-            # eval<- caret::confusionMatrix(pred, data[[dep]])
-            # 
-            # if(isTRUE(self$options$over)){
-            #     # Overall statistics-----------
-            #     table <- self$results$over
-            # 
-            #     acc<- eval[["overall"]][1]
-            #     acclow <- eval[["overall"]][3]
-            #     acchigh <- eval[["overall"]][4]
-            #     kappa <- eval[["overall"]][2]
-            # 
-            #     row <- list()
-            # 
-            #     row[['accu']] <- acc
-            #     row[['lower']] <- acclow
-            #     row[['upper']] <- acchigh
-            #     row[['kappa']] <- kappa
-            # 
-            #     table$setRow(rowNo = 1, values = row)
-            # }
-            # 
-            # if(isTRUE(self$options$tab)){
-            #     # Confusion matrix-----------------------------
-            #     table <- self$results$tab
-            #     tab<- eval$table
-            # 
-            #     res2<- as.matrix(tab)
-            #     names<- dimnames(res2)[[1]]
-            # 
-            #     for (name in names) {
-            #         table$addColumn(name = paste0(name),
-            #                         type = 'Integer',
-            #                         superTitle = 'Predicted')
-            #     }
-            #     for (name in names) {
-            #         row <- list()
-            #         for(j in seq_along(names)){
-            #             row[[names[j]]] <- res2[name,j]
-            #         }
-            #         table$addRow(rowKey=name, values=row)
-            #     }
-            # }
-            # 
- ############## Test set(Split set<1)########################
 
-            # if(self$options$per<1){
+              resdc <- private$.dataClear()
 
-              per <- self$options$per
-              dep <- self$options$dep
-              covs <- self$options$covs
-              facs <- self$options$facs
+              # ---- Train Data ------------------------- #
+              if(self$options$over1 || self$options$tab1) {
 
-              data <- self$data
-              
-              # data cleaning---------------
-              
-              for(fac in facs)
-                data[[fac]]<-as.factor(data[[fac]])
-              for(cov in covs)
-                data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-              data[[dep]] <- as.factor(data[[dep]])
-              data <- jmvcore::naOmit(data)
-              
-                 # To speed up the function------
-                 formula <- as.formula(paste0(self$options$dep, " ~ ."))
- 
-                # Split set-----------
-                split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
-                train <-data[split1,]
-                test <- data[-split1,]
+                  pred <- predict(resdc$mtrain, resdc$train)
+                  eval1 <- caret::confusionMatrix(pred,
+                                                  resdc$train[[self$options$dep]])
 
-                # Analysis using party package------------------
-                model.train <- party::ctree(formula, data=train)
-                #-----------------------------------------------
-                
-#Train model---------------------------
-pred<-predict(model.train, train)
-eval1<- caret::confusionMatrix(pred, train[[dep]])
-              
-                # Overall statistics with train data-----------
-                if(isTRUE(self$options$over1)){
+                  # Overall statistics
+                  if(self$options$over1) {
+                      table   <- self$results$over1
 
-                    table <- self$results$over1
+                      acc     <- eval1[["overall"]][1]
+                      acclow  <- eval1[["overall"]][3]
+                      acchigh <- eval1[["overall"]][4]
+                      kappa   <- eval1[["overall"]][2]
 
-                    acc<- eval1[["overall"]][1]
-                    acclow <- eval1[["overall"]][3]
-                    acchigh <- eval1[["overall"]][4]
-                    kappa <- eval1[["overall"]][2]
+                      row <- list()
+                      row[['accu']]  <- acc
+                      row[['lower']] <- acclow
+                      row[['upper']] <- acchigh
+                      row[['kappa']] <- kappa
 
-                    row <- list()
+                      table$setRow(rowNo = 1, values = row)
+                  }
 
-                    row[['accu']] <- acc
-                    row[['lower']] <- acclow
-                    row[['upper']] <- acchigh
-                    row[['kappa']] <- kappa
+                  # Confusion matrix
+                  if(self$options$tab1) {
+                      table <- self$results$tab1
 
-                    table$setRow(rowNo = 1, values = row)
-                }
+                      tab1  <- eval1$table
 
-                # Confusion matrix with train data-------------
-                if(isTRUE(self$options$tab1)){
-                    table <- self$results$tab1
+                      res2<- as.matrix(tab1)
+                      names<- dimnames(res2)[[1]]
 
-                    tab1<- eval1$table
+                      for (name in names) {
+                          table$addColumn(name = paste0(name),
+                                          type = 'Integer',
+                                          superTitle = 'Predicted')
+                      }
+                      for (name in names) {
+                          row <- list()
+                          for(j in seq_along(names)){
+                              row[[names[j]]] <- res2[name,j]
+                          }
+                          table$addRow(rowKey=name, values=row)
+                      }
+                  }
 
-                    res2<- as.matrix(tab1)
-                    names<- dimnames(res2)[[1]]
+              }
 
-                    for (name in names) {
-                        table$addColumn(name = paste0(name),
-                                        type = 'Integer',
-                                        superTitle = 'Predicted')
-                    }
-                    for (name in names) {
-                        row <- list()
-                        for(j in seq_along(names)){
-                            row[[names[j]]] <- res2[name,j]
-                        }
-                        table$addRow(rowKey=name, values=row)
-                    }
-                }
 
-#Test model-------------------------------------------
-pred2<-predict(model.train, test)
-eval2<- caret::confusionMatrix(pred2, test[[dep]])
-                
-                # Overall statistics with test set-----------
-                if(isTRUE(self$options$over2)){
-  
-                    table <- self$results$over2
+              # ---- Test model --------------------------------------------- #
+              if(self$options$over2 || self$options$tab2 || self$options$cla) {
 
-                    acc<- eval2[["overall"]][1]
-                    acclow <- eval2[["overall"]][3]
-                    acchigh <- eval2[["overall"]][4]
-                    kappa <- eval2[["overall"]][2]
+                  pred2 <- predict(resdc$mtrain, resdc$test)
+                  eval2 <- caret::confusionMatrix(pred2,
+                                                  resdc$test[[self$options$dep]])
 
-                    row <- list()
+                  # Overall statistics
+                  if(self$options$over2){
+                      table <- self$results$over2
 
-                    row[['accu']] <- acc
-                    row[['lower']] <- acclow
-                    row[['upper']] <- acchigh
-                    row[['kappa']] <- kappa
+                      acc     <- eval2[["overall"]][1]
+                      acclow  <- eval2[["overall"]][3]
+                      acchigh <- eval2[["overall"]][4]
+                      kappa   <- eval2[["overall"]][2]
 
-                    table$setRow(rowNo = 1, values = row)
-                }
+                      row <- list()
+                      row[['accu']]  <- acc
+                      row[['lower']] <- acclow
+                      row[['upper']] <- acchigh
+                      row[['kappa']] <- kappa
 
-                # confusion matrix with test---------------------------
-                if(isTRUE(self$options$tab2)){
-                    table <- self$results$tab2
-                    tab2<- eval2$table
-                    res1<- as.matrix(tab2)
-                    names<- dimnames(res1)[[1]]
+                      table$setRow(rowNo = 1, values = row)
+                  }
 
-                    for (name in names) {
-                        table$addColumn(name = paste0(name),
-                                        type = 'Integer',
-                                        superTitle = 'Predicted')
-                    }
-                    for (name in names) {
-                        row <- list()
-                        for(j in seq_along(names)){
-                            row[[names[j]]] <- res1[name,j]
-                        }
-                        table$addRow(rowKey=name, values=row)
-                    }
-                }
+                  # Confusion matrix
+                  if(self$options$tab2) {
+                      table <- self$results$tab2
+                      tab2  <- eval2$table
+                      res1  <- as.matrix(tab2)
+                      names <- dimnames(res1)[[1]]
 
-                # Statistics by class with test-----------
-                if(isTRUE(self$options$cla)){
-                    table <- self$results$cla
+                      for (name in names)
+                          table$addColumn(name = paste0(name),
+                                          type = 'Integer',
+                                          superTitle = 'Predicted')
 
-                    cla<- eval2[["byClass"]]
-                    cla<- t(cla)
-                    cla <- as.data.frame(cla)
+                      for (name in names) {
+                          row <- list()
+                          for(j in seq_along(names))
+                              row[[names[j]]] <- res1[name,j]
 
-                    names<- dimnames(cla)[[1]]
-                    dims <- dimnames(cla)[[2]]
-                    covs <- self$options$covs
+                          table$addRow(rowKey=name, values=row)
+                      }
+                  }
 
-                    for (dim in dims) {
-                        table$addColumn(name = paste0(dim),
-                                        type = 'number')
-                    }
-                    for (name in names) {
-                        row <- list()
-                        for(j in seq_along(dims)){
-                            row[[dims[j]]] <- cla[name,j]
-                        }
-                        table$addRow(rowKey=name, values=row)
-                    }
-                }
+                  # Statistics by class
+                  if(self$options$cla) {
+                      table <- self$results$cla
 
-                
-                # Tree plot----------
-                image <- self$results$plot
-                image$setState(model.train)
-                
-                # #rpart plot----------
-                # if(isTRUE(self$options$plot1)){
-                #   
-                #   rp <-  rpart::rpart(formula, data=train,
-                #                       method='class')
-                #   
-                #   image1 <- self$results$plot1
-                #   #image1$setState(rp)
-                # }
-                
-                
-            #}
+                      cla <- eval2[["byClass"]]
+                      cla <- t(cla)
+                      cla <- as.data.frame(cla)
+
+                      names <- dimnames(cla)[[1]]
+                      dims  <- dimnames(cla)[[2]]
+                      covs  <- self$options$covs
+
+                      for (dim in dims)
+                          table$addColumn(name = paste0(dim),
+                                          type = 'number')
+
+                      for (name in names) {
+                          row <- list()
+                          for(j in seq_along(dims))
+                              row[[dims[j]]] <- cla[name, j]
+
+                          table$addRow(rowKey = name, values = row)
+                      }
+                  }
+              }
         },
 
+        .dataClear = function() {
+
+            data <- self$data
+
+            data[[self$options$dep]] <- as.factor(data[[self$options$dep]])
+
+            for(cov in self$options$covs)
+                data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+
+            for(fac in self$options$facs)
+                data[[fac]] <- as.factor(data[[fac]])
+
+            data <- jmvcore::naOmit(data)
+
+            split <- caret::createDataPartition(data[[self$options$dep]],
+                                                p=self$options$per,
+                                                list=F)
+
+            train <- data[split,]
+            test  <- data[-split,]
+
+            mtrain <- party::ctree(formula=as.formula(paste0(self$options$dep, " ~ .")),
+                                   data=train)
+
+            rpart <- rpart::rpart(formula=as.formula(paste0(self$options$dep, " ~ .")),
+                                  data=train,
+                                  method='class')
+
+            retlist <- list(train=train, test=test, mtrain=mtrain, rpart=rpart)
+            return(retlist)
+
+        },
 
         .plot = function(image,...) {
 
-            if (is.null(image$state))
+            if(!self$options$plot)
                 return(FALSE)
 
-            model.train <- image$state
-
-            plot <- plot(model.train)
+            resdc <- private$.dataClear()
+            plot  <- plot(resdc$mtrain)
 
             print(plot)
             TRUE
@@ -316,36 +231,15 @@ eval2<- caret::confusionMatrix(pred2, test[[dep]])
 
         .plot1 = function(image1,...) {
 
-            #if (is.null(image1$state))
             if(!self$options$plot1)
                 return(FALSE)
 
-            #rpar <- image1$state
-
-            data <- self$data
-            data[[self$options$dep]] <- as.factor(data[[self$options$dep]])
-            for(cov in self$options$covs) data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-            for(fac in self$options$facs) data[[fac]] <- as.factor(data[[fac]])
-            data <- jmvcore::naOmit(data)
-
-            per <- self$options$per
-            dep <- self$options$dep
-            
-            # Split set-----------
-            split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
-            train <-data[split1,]
-            test <- data[-split1,]
-            
-            rpar <- rpart::rpart(formula=as.formula(paste0(self$options$dep, " ~ .")),
-                                 data=train,
-                                 method='class')
-
-            plot1 <- rpart.plot::rpart.plot(rpar)
+            resdc <- private$.dataClear()
+            plot1 <- rpart.plot::rpart.plot(resdc$rpart)
 
             print(plot1)
             TRUE
         }
-
 
     )
 )
