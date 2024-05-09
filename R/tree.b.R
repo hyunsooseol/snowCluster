@@ -4,7 +4,7 @@
 #' @importFrom jmvcore constructFormula
 #' @importFrom party ctree
 #' @importFrom caret confusionMatrix
-#' @importFrom  rpart rpart
+#' @importFrom rpart rpart
 #' @importFrom rpart.plot rpart.plot
 #' @import jmvcore
 #' @import rpart
@@ -32,8 +32,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
             <p> 1. The values for the target variable cannot be a number. </p>
-            <p> 2. Plots are drawn with whole dataset. </p>
-            <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
 
             </div>
@@ -58,84 +57,84 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 #---------------------------------------------
         .run = function() {
 
-            if (is.null(self$options$dep) || length(self$options$covs) == 0)
-                return()
-
-            dep <- self$options$dep
-            covs <- self$options$covs
-            facs <- self$options$facs
-
-            per <- self$options$per
-            data <- self$data
-
-            # data cleaning---------------
-
-            for(fac in facs)
-                data[[fac]]<-as.factor(data[[fac]])
-            for(cov in covs)
-                data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-            data[[dep]] <- as.factor(data[[dep]])
-            data <- jmvcore::naOmit(data)
-
-            # To speed up the function------
-            formula <- as.formula(paste0(self$options$dep, " ~ ."))
-
-            # Analysis using party package-----------
-            model <- party::ctree(formula, data=data)
-            #self$results$text$setContent(model)
-
-            # Tree plot----------
-            image <- self$results$plot
-            image$setState(model)
-
-            # predict model----------
-            pred <- predict(model)
-            eval<- caret::confusionMatrix(pred, data[[dep]])
-
-            if(isTRUE(self$options$over)){
-                # Overall statistics-----------
-                table <- self$results$over
-
-                acc<- eval[["overall"]][1]
-                acclow <- eval[["overall"]][3]
-                acchigh <- eval[["overall"]][4]
-                kappa <- eval[["overall"]][2]
-
-                row <- list()
-
-                row[['accu']] <- acc
-                row[['lower']] <- acclow
-                row[['upper']] <- acchigh
-                row[['kappa']] <- kappa
-
-                table$setRow(rowNo = 1, values = row)
-            }
-
-            if(isTRUE(self$options$tab)){
-                # Confusion matrix-----------------------------
-                table <- self$results$tab
-                tab<- eval$table
-
-                res2<- as.matrix(tab)
-                names<- dimnames(res2)[[1]]
-
-                for (name in names) {
-                    table$addColumn(name = paste0(name),
-                                    type = 'Integer',
-                                    superTitle = 'Predicted')
-                }
-                for (name in names) {
-                    row <- list()
-                    for(j in seq_along(names)){
-                        row[[names[j]]] <- res2[name,j]
-                    }
-                    table$addRow(rowKey=name, values=row)
-                }
-            }
-
+             if (is.null(self$options$dep) || length(self$options$covs) == 0)
+                 return()
+            # 
+            # dep <- self$options$dep
+            # covs <- self$options$covs
+            # facs <- self$options$facs
+            # 
+            # per <- self$options$per
+            # data <- self$data
+            # 
+            # # data cleaning---------------
+            # 
+            # for(fac in facs)
+            #     data[[fac]]<-as.factor(data[[fac]])
+            # for(cov in covs)
+            #     data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+            # data[[dep]] <- as.factor(data[[dep]])
+            # data <- jmvcore::naOmit(data)
+            # 
+            # # To speed up the function------
+            # formula <- as.formula(paste0(self$options$dep, " ~ ."))
+            # 
+            # # Analysis using party package-----------
+            # model <- party::ctree(formula, data=data)
+            # #self$results$text$setContent(model)
+            # 
+            # # Tree plot----------
+            # image <- self$results$plot
+            # image$setState(model)
+            # 
+            # # predict model----------
+            # pred <- predict(model)
+            # eval<- caret::confusionMatrix(pred, data[[dep]])
+            # 
+            # if(isTRUE(self$options$over)){
+            #     # Overall statistics-----------
+            #     table <- self$results$over
+            # 
+            #     acc<- eval[["overall"]][1]
+            #     acclow <- eval[["overall"]][3]
+            #     acchigh <- eval[["overall"]][4]
+            #     kappa <- eval[["overall"]][2]
+            # 
+            #     row <- list()
+            # 
+            #     row[['accu']] <- acc
+            #     row[['lower']] <- acclow
+            #     row[['upper']] <- acchigh
+            #     row[['kappa']] <- kappa
+            # 
+            #     table$setRow(rowNo = 1, values = row)
+            # }
+            # 
+            # if(isTRUE(self$options$tab)){
+            #     # Confusion matrix-----------------------------
+            #     table <- self$results$tab
+            #     tab<- eval$table
+            # 
+            #     res2<- as.matrix(tab)
+            #     names<- dimnames(res2)[[1]]
+            # 
+            #     for (name in names) {
+            #         table$addColumn(name = paste0(name),
+            #                         type = 'Integer',
+            #                         superTitle = 'Predicted')
+            #     }
+            #     for (name in names) {
+            #         row <- list()
+            #         for(j in seq_along(names)){
+            #             row[[names[j]]] <- res2[name,j]
+            #         }
+            #         table$addRow(rowKey=name, values=row)
+            #     }
+            # }
+            # 
  ############## Test set(Split set<1)########################
 
-            if(self$options$per<1){
+            # if(self$options$per<1){
 
               per <- self$options$per
               dep <- self$options$dep
@@ -153,31 +152,22 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
               data[[dep]] <- as.factor(data[[dep]])
               data <- jmvcore::naOmit(data)
               
-              # To speed up the function------
-              formula <- as.formula(paste0(self$options$dep, " ~ ."))
+                 # To speed up the function------
+                 formula <- as.formula(paste0(self$options$dep, " ~ ."))
  
                 # Split set-----------
                 split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
                 train <-data[split1,]
                 test <- data[-split1,]
 
-                 # #rpart plot----------
-                # if(isTRUE(self$options$plot1)){
-                #   
-                #   rp <-  rpart::rpart(formula, data=train,
-                #                       method='class')
-                #   
-                #   image1 <- self$results$plot1
-                #   #image1$setState(rp)
-                # }
-  
-                # Analysis using party package-----------
+                # Analysis using party package------------------
                 model.train <- party::ctree(formula, data=train)
+                #-----------------------------------------------
                 
-                #Train---------------------------
-                pred<-predict(model.train, train)
-                eval1<- caret::confusionMatrix(pred, train[[dep]])
-                #---------------------------------------------------
+#Train model---------------------------
+pred<-predict(model.train, train)
+eval1<- caret::confusionMatrix(pred, train[[dep]])
+              
                 # Overall statistics with train data-----------
                 if(isTRUE(self$options$over1)){
 
@@ -221,10 +211,10 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     }
                 }
 
-                #Test-------------------------------------------
-                pred2<-predict(model.train, test)
-                eval2<- caret::confusionMatrix(pred2, test[[dep]])
-                #-------------------------------------------------
+#Test model-------------------------------------------
+pred2<-predict(model.train, test)
+eval2<- caret::confusionMatrix(pred2, test[[dep]])
+                
                 # Overall statistics with test set-----------
                 if(isTRUE(self$options$over2)){
   
@@ -291,7 +281,23 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     }
                 }
 
-            }
+                
+                # Tree plot----------
+                image <- self$results$plot
+                image$setState(model.train)
+                
+                # #rpart plot----------
+                # if(isTRUE(self$options$plot1)){
+                #   
+                #   rp <-  rpart::rpart(formula, data=train,
+                #                       method='class')
+                #   
+                #   image1 <- self$results$plot1
+                #   #image1$setState(rp)
+                # }
+                
+                
+            #}
         },
 
 
@@ -300,9 +306,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             if (is.null(image$state))
                 return(FALSE)
 
-            model <- image$state
+            model.train <- image$state
 
-            plot <- plot(model)
+            plot <- plot(model.train)
 
             print(plot)
             TRUE

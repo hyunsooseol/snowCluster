@@ -41,20 +41,10 @@ options:
       max: 1
       default: 0.7
 
-    - name: over
-      title: 'Overall statistics' 
-      type: Bool 
-      default: TRUE
-      
-    - name: tab
-      title: 'Confusion matrix' 
-      type: Bool 
-      default: FALSE          
-
     - name: over1
       title: 'Overall statistics' 
       type: Bool 
-      default: FALSE   
+      default: TRUE   
       
     - name: tab1
       title: 'Confusion matrix' 
@@ -72,18 +62,17 @@ options:
       default: FALSE     
 
     - name: cla
-      title: Statistics by class
+      title: 'Statistics by class'
       type: Bool 
       default: FALSE     
 
-
     - name: plot
-      title: Tree plot with whole dataset
+      title: 'Tree plot'
       type: Bool
       default: FALSE
       
     - name: plot1
-      title: rpart plot with train set 
+      title: 'rpart plot' 
       type: Bool
       default: FALSE
 

@@ -12,7 +12,7 @@ children:
           - type: VariablesListBox
             name: dep
             isTarget: true
-            maxItemCount: 1 
+            maxItemCount: 1
       - type: TargetLayoutBox
         label: Covariates
         children:
@@ -47,31 +47,7 @@ children:
               - type: CheckBox
                 name: tab1
           - type: Label
-            label: 'Test set'
-            children:
-              - type: CheckBox
-                name: over2
-              - type: CheckBox
-                name: tab2
-              - type: CheckBox
-                name: cla
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        fitToGrid: true
-        children:
-          - type: Label
-            label: 'Whole dataset'
-            children:
-              - type: CheckBox
-                name: over
-              - type: CheckBox
-                name: tab
-          - type: Label
-            label: 'Plots' 
+            label: 'Plots with train set'
             children:
               - type: CheckBox
                 name: plot
@@ -97,3 +73,20 @@ children:
                     name: height1
                     format: number
                     enable: (plot1)
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: 'Test set'
+            children:
+              - type: CheckBox
+                name: over2
+              - type: CheckBox
+                name: tab2
+              - type: CheckBox
+                name: cla

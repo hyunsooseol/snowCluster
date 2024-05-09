@@ -10,9 +10,7 @@ tree(
   covs,
   facs,
   per = 0.7,
-  over = TRUE,
-  tab = FALSE,
-  over1 = FALSE,
+  over1 = TRUE,
   tab1 = FALSE,
   over2 = FALSE,
   tab2 = FALSE,
@@ -35,10 +33,6 @@ tree(
 \item{facs}{.}
 
 \item{per}{.}
-
-\item{over}{.}
-
-\item{tab}{.}
 
 \item{over1}{.}
 
@@ -67,8 +61,6 @@ A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
-  \code{results$over} \tab \tab \tab \tab \tab a table \cr
-  \code{results$tab} \tab \tab \tab \tab \tab a table \cr
   \code{results$over1} \tab \tab \tab \tab \tab a table \cr
   \code{results$tab1} \tab \tab \tab \tab \tab a table \cr
   \code{results$over2} \tab \tab \tab \tab \tab a table \cr
@@ -80,9 +72,9 @@ A results object containing:
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 
-\code{results$over$asDF}
+\code{results$over1$asDF}
 
-\code{as.data.frame(results$over)}
+\code{as.data.frame(results$over1)}
 }
 \description{
 Decision Tree

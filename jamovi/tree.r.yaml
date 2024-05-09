@@ -13,50 +13,50 @@ items:
       title: ''
       type:  Preformatted
 
-    - name: over
-      title: 'Overall statistics'
-      type: Table
-      rows: 1
-      visible: (over)
-      clearWith:
-        - covs
-        - dep
-        - per
-        - facs
-      refs: caret    
-
-      columns:
-        - name: accu
-          title: 'Accuracy'
-          type: number
-        - name: lower
-          title: 'Lower'
-          type: number
-          superTitle: 'Accuracy 95% CI'
-        - name: upper
-          title: 'Upper'
-          type: number
-          superTitle: 'Accuracy 95% CI'
-        - name: kappa
-          title: 'Kappa'
-          type: number
-
-    - name: tab
-      title: 'Confusion Matrix'
-      type: Table
-      visible: (tab)
-      refs: caret 
-      clearWith:
-        - covs 
-        - dep
-        - per
-        - facs
-        
-      columns:
-        - name: name
-          title: ''
-          type: 'text'
-          content: ($key)
+    # - name: over
+    #   title: 'Overall statistics'
+    #   type: Table
+    #   rows: 1
+    #   visible: (over)
+    #   clearWith:
+    #     - covs
+    #     - dep
+    #     - per
+    #     - facs
+    #   refs: caret    
+    # 
+    #   columns:
+    #     - name: accu
+    #       title: 'Accuracy'
+    #       type: number
+    #     - name: lower
+    #       title: 'Lower'
+    #       type: number
+    #       superTitle: 'Accuracy 95% CI'
+    #     - name: upper
+    #       title: 'Upper'
+    #       type: number
+    #       superTitle: 'Accuracy 95% CI'
+    #     - name: kappa
+    #       title: 'Kappa'
+    #       type: number
+    # 
+    # - name: tab
+    #   title: 'Confusion Matrix'
+    #   type: Table
+    #   visible: (tab)
+    #   refs: caret 
+    #   clearWith:
+    #     - covs 
+    #     - dep
+    #     - per
+    #     - facs
+    #     
+    #   columns:
+    #     - name: name
+    #       title: ''
+    #       type: 'text'
+    #       content: ($key)
 
     - name: over1
       title: 'Overall statistics with training set'
@@ -166,7 +166,7 @@ items:
           content: ($key)
 
     - name:  plot
-      title: 'Tree plot with whole dataset'
+      title: 'Tree plot with train set'
       type:  Image
       visible: (plot)
       requiresData: true
@@ -176,6 +176,7 @@ items:
         - covs 
         - dep
         - facs
+        - per
         - width
         - height
 
@@ -190,6 +191,7 @@ items:
         - covs 
         - dep
         - facs
+        - per
         - width1
         - height1       
 ...

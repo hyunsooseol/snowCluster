@@ -10,9 +10,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             covs = NULL,
             facs = NULL,
             per = 0.7,
-            over = TRUE,
-            tab = FALSE,
-            over1 = FALSE,
+            over1 = TRUE,
             tab1 = FALSE,
             over2 = FALSE,
             tab2 = FALSE,
@@ -58,18 +56,10 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0.1,
                 max=1,
                 default=0.7)
-            private$..over <- jmvcore::OptionBool$new(
-                "over",
-                over,
-                default=TRUE)
-            private$..tab <- jmvcore::OptionBool$new(
-                "tab",
-                tab,
-                default=FALSE)
             private$..over1 <- jmvcore::OptionBool$new(
                 "over1",
                 over1,
-                default=FALSE)
+                default=TRUE)
             private$..tab1 <- jmvcore::OptionBool$new(
                 "tab1",
                 tab1,
@@ -115,8 +105,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..covs)
             self$.addOption(private$..facs)
             self$.addOption(private$..per)
-            self$.addOption(private$..over)
-            self$.addOption(private$..tab)
             self$.addOption(private$..over1)
             self$.addOption(private$..tab1)
             self$.addOption(private$..over2)
@@ -134,8 +122,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         covs = function() private$..covs$value,
         facs = function() private$..facs$value,
         per = function() private$..per$value,
-        over = function() private$..over$value,
-        tab = function() private$..tab$value,
         over1 = function() private$..over1$value,
         tab1 = function() private$..tab1$value,
         over2 = function() private$..over2$value,
@@ -152,8 +138,6 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..covs = NA,
         ..facs = NA,
         ..per = NA,
-        ..over = NA,
-        ..tab = NA,
         ..over1 = NA,
         ..tab1 = NA,
         ..over2 = NA,
@@ -173,8 +157,6 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         instructions = function() private$.items[["instructions"]],
         text = function() private$.items[["text"]],
-        over = function() private$.items[["over"]],
-        tab = function() private$.items[["tab"]],
         over1 = function() private$.items[["over1"]],
         tab1 = function() private$.items[["tab1"]],
         over2 = function() private$.items[["over2"]],
@@ -199,54 +181,6 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="text",
                 title=""))
-            self$add(jmvcore::Table$new(
-                options=options,
-                name="over",
-                title="Overall statistics",
-                rows=1,
-                visible="(over)",
-                clearWith=list(
-                    "covs",
-                    "dep",
-                    "per",
-                    "facs"),
-                refs="caret",
-                columns=list(
-                    list(
-                        `name`="accu", 
-                        `title`="Accuracy", 
-                        `type`="number"),
-                    list(
-                        `name`="lower", 
-                        `title`="Lower", 
-                        `type`="number", 
-                        `superTitle`="Accuracy 95% CI"),
-                    list(
-                        `name`="upper", 
-                        `title`="Upper", 
-                        `type`="number", 
-                        `superTitle`="Accuracy 95% CI"),
-                    list(
-                        `name`="kappa", 
-                        `title`="Kappa", 
-                        `type`="number"))))
-            self$add(jmvcore::Table$new(
-                options=options,
-                name="tab",
-                title="Confusion Matrix",
-                visible="(tab)",
-                refs="caret",
-                clearWith=list(
-                    "covs",
-                    "dep",
-                    "per",
-                    "facs"),
-                columns=list(
-                    list(
-                        `name`="name", 
-                        `title`="", 
-                        `type`="text", 
-                        `content`="($key)"))))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="over1",
@@ -363,7 +297,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Tree plot with whole dataset",
+                title="Tree plot with train set",
                 visible="(plot)",
                 requiresData=TRUE,
                 renderFun=".plot",
@@ -372,6 +306,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "facs",
+                    "per",
                     "width",
                     "height")))
             self$add(jmvcore::Image$new(
@@ -386,6 +321,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "facs",
+                    "per",
                     "width1",
                     "height1")))}))
 
@@ -418,8 +354,6 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param covs .
 #' @param facs .
 #' @param per .
-#' @param over .
-#' @param tab .
 #' @param over1 .
 #' @param tab1 .
 #' @param over2 .
@@ -435,8 +369,6 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
-#'   \code{results$over} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$tab} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$over1} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tab1} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$over2} \tab \tab \tab \tab \tab a table \cr
@@ -448,9 +380,9 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 #'
-#' \code{results$over$asDF}
+#' \code{results$over1$asDF}
 #'
-#' \code{as.data.frame(results$over)}
+#' \code{as.data.frame(results$over1)}
 #'
 #' @export
 tree <- function(
@@ -459,9 +391,7 @@ tree <- function(
     covs,
     facs,
     per = 0.7,
-    over = TRUE,
-    tab = FALSE,
-    over1 = FALSE,
+    over1 = TRUE,
     tab1 = FALSE,
     over2 = FALSE,
     tab2 = FALSE,
@@ -494,8 +424,6 @@ tree <- function(
         covs = covs,
         facs = facs,
         per = per,
-        over = over,
-        tab = tab,
         over1 = over1,
         tab1 = tab1,
         over2 = over2,
