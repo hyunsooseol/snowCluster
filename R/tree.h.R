@@ -297,7 +297,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Tree plot with train set",
+                title="Decision tree plot with train set",
                 visible="(plot)",
                 requiresData=TRUE,
                 renderFun=".plot",

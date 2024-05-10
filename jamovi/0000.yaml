@@ -112,7 +112,6 @@ datasets:
     tags:
       - Kmeans
       - Group plot
-      - Classification
       - Machine Learning
   - name: usarrests
     path: USArrests.omv
@@ -174,24 +173,20 @@ datasets:
     description: Decision Tree
     tags:
       - Decision Tree
-      - Classification
   - name: credit
     path: credit.omv
     description: German credit
     tags:
       - Machine Learning
-      - Classification
   - name: sim
     path: sim.omv
     description: Simulation data
     tags:
       - Machine Learning
-      - Classification
   - name: roc
     path: roc.omv
     description: ROC Analysis
     tags:
-      - Classification
       - ROC
   - name: swiss
     path: swiss.omv

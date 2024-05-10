@@ -82,7 +82,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: 'Test set'
+            label: 'Test set(Split set<1)'
             children:
               - type: CheckBox
                 name: over2

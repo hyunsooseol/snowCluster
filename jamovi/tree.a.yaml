@@ -67,12 +67,12 @@ options:
       default: FALSE     
 
     - name: plot
-      title: 'Tree plot'
+      title: 'Decision tree'
       type: Bool
       default: FALSE
       
     - name: plot1
-      title: 'rpart plot' 
+      title: 'rpart tree' 
       type: Bool
       default: FALSE
 
