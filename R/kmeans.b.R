@@ -141,7 +141,9 @@ kmeansClass <- if (requireNamespace('jmvcore'))
               
                 if (length(self$options$vars)<= k ) return() 
                 
-                
+                # Solved Problem that does not change plot using set.seed()
+                     set.seed(1234)
+                     
                     vars <- self$options$vars
                     
                     data <- self$data
