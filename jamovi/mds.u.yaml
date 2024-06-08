@@ -35,41 +35,59 @@ children:
                         name: labels
                         isTarget: true
                         maxItemCount: 1
-          - type: LayoutBox
-            margin: large
-            children:
-              - type: Label
-                label: 'Plots'
+              - type: LayoutBox
+                margin: large
+                stretchFactor: 1
                 children:
-                  - type: CheckBox
-                    name: plot
-                    style: list-inline
+                  - type: LayoutBox
+                    margin: large
+                    cell:
+                      column: 0
+                      row: 0
+                    stretchFactor: 1
                     children:
-                      - type: TextBox
-                        name: width
-                        format: number
-                        enable: (plot)
-                      - type: TextBox
-                        name: height
-                        format: number
-                        enable: (plot)
-                  - type: CheckBox
-                    name: plot1
-                    style: list-inline
+                      - type: Label
+                        label: 'MDS'
+                        children:
+                          - type: CheckBox
+                            name: plot
+                            style: list-inline
+                            children:
+                              - type: TextBox
+                                name: width
+                                format: number
+                                enable: (plot)
+                              - type: TextBox
+                                name: height
+                                format: number
+                                enable: (plot)
+                  - type: LayoutBox
+                    margin: large
+                    cell:
+                      column: 1
+                      row: 0
+                    stretchFactor: 1
                     children:
-                      - type: TextBox
-                        name: width1
-                        format: number
-                        enable: (plot1)
-                      - type: TextBox
-                        name: height1
-                        format: number
-                        enable: (plot1)     
-                  - type: TextBox
-                    name: k
-                    format: number
-                  - type: Output
-                    name: clust
+                      - type: Label
+                        label: 'K-means'
+                        children:
+                          - type: CheckBox
+                            name: plot1
+                            style: list-inline
+                            children:
+                              - type: TextBox
+                                name: width1
+                                format: number
+                                enable: (plot1)
+                              - type: TextBox
+                                name: height1
+                                format: number
+                                enable: (plot1)     
+                          - type: TextBox
+                            name: k
+                            format: number
+                          - type: Output
+                            name: clust
       - type: Content
         name: complex
         children:
