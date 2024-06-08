@@ -24,10 +24,11 @@ options:
             The data as a data frame.
 
     - name: labels
-      title: Labels (Optional)
+      title: Labels(Required)
       type: Variable
       suggested:
         - id
+        - nominal
       permitted:
         - id
         - factor
@@ -36,15 +37,12 @@ options:
       title: Variables
       type: Variables
       suggested:
-        - id
         - continuous
       permitted:
         - numeric
-        - factor
-        - id
 
     - name: k
-      title: Num. of groups
+      title: Num. of clusters
       default: 2
       type: Integer
       min: 1
@@ -117,4 +115,8 @@ options:
       type: Integer
       title: "X"
       default: 500
+
+    - name: clust
+      title: Cluster number
+      type: Output
 ...

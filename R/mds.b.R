@@ -67,104 +67,145 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
         .run = function() {
 
-           
-            # if (!is.null(self$options$vars)) {
-                
-          # if (is.null(self$options$vars))
-          # return()
+          if (is.null(self$options$vars)) return()
           
+          #res <- private$.dataClear()         
+
+          vars <- self$options$vars
+          labels <- self$options$labels
+          k <- self$options$k
           
-                vars <- self$options$vars
+          data <- self$data
+          data <- jmvcore::naOmit(data)
+          
+          # Handling id----------
+          
+          if ( ! is.null(self$options$labels)) {
+            rownames(data) <- data[[self$options$labels]]
+            data[[self$options$labels]] <- NULL
+          }
+          
+          for (i in seq_along(vars))
+            data[[i]] <- jmvcore::toNumeric(data[[i]])
+ 
+          # if(length(labels) > 0) {
+          #   ime <- as.character(self$data[,which(names(self$data) == labels)])
+          #   pod0 <- self$data[,which(names(self$data) != labels)]
+          #   
+          #   data <- na.omit(pod0)
+          #   rownames(data) <- ime  
+          # }
+          # 
+          #   self$results$text$setContent(data)
+          
+         
+          # MDS analysis---------
+          d <- stats:: dist(data)
+          mds<- stats::cmdscale(d)
+          # kmeans clustering--------
+          # clust <- kmeans(mds, 3)$cluster %>%
+          #     as.factor()
+          # mds <- mds %>%
+          #     mutate(groups = clust)
+          
+          model <- stats::kmeans(mds, k)
+          mc <- model$cluster
+          
+    if(self$options$mode == "simple"){
                 
-                k <- self$options$k
-                
-                x <- self$options$xlab
-                y <- self$options$ylab
-                z <- self$options$zlab
-                
-                data <- self$data
-                
-                data <- jmvcore::naOmit(data)
-                
-                
-                # Handling id----------
-                
-                if ( ! is.null(self$options$labels)) {
-                    rownames(data) <- data[[self$options$labels]]
-                    data[[self$options$labels]] <- NULL
-                }
-                
-                for (i in seq_along(vars))
-                    data[[i]] <- jmvcore::toNumeric(data[[i]])
-                
-                
-     if(self$options$mode == "simple"){
-                
-        if (is.null(self$options$vars))
-        return()
-                
-                # MDS analysis---------
-                
-                d <- stats:: dist(data)
-                mds<- stats::cmdscale(d)
-                #---------------------------
-                
+         if(self$options$plot){
+            
                 colnames(mds) <- c("Dim.1", "Dim.2")
                 mds<- as.data.frame(mds)
                 name <- rownames(mds)
-                
                 state <- list(mds, name)
-                
                 #  MDS plot----------
-                
                 image <- self$results$plot
                 image$setState(state)
+          }
                 
-                
-                # kmeans clustering--------
-                
-                # clust <- kmeans(mds, 3)$cluster %>%
-                #     as.factor()
-                # mds <- mds %>%
-                #     mutate(groups = clust)
-                
-                clust <- stats::kmeans(mds, k)$cluster
-                clust <- as.factor(clust)
-                
-                mds1 <- mutate(mds,Groups=clust)
-                
+         if(self$options$plot1){    
+             
+                clust <- as.factor(mc)
+                mds1 <- mutate(mds, Clusters=clust)
                 name1 <- rownames(data)
-                
                 state <- list(mds1, name1)
-                
                 #  kmeans plot----------
-                
                 image1 <- self$results$plot1
                 image1$setState(state)
                
      } 
     
-                
+         if(isTRUE(self$options$clust)){
+  
+           self$results$text$setContent(mc)
+            
+            clust1 <- as.data.frame(mc)
+            clust2 <- clust1$mc
+            
+            self$results$clust$setValues(clust2)
+            self$results$clust$setRowNums(data$clust2)         
+}      
+      
+    }
+          
     if(self$options$mode == "complex"){            
        
       
-      if (is.null(self$options$xlab))
-        return()         
+      if (is.null(self$options$xlab)) return()         
                 
-        d <- stats:: dist(data)
-        three<- stats::cmdscale(dist(d), k=3)
+      d <- stats:: dist(data)
+      three<- stats::cmdscale(dist(d), k=3)
                 
         image2 <- self$results$plot2
         image2$setState(three)               
               
              
                 }
-                
-                 
-            # }
+          
         },
         
-        .plot = function(image,ggtheme, theme, ...) {
+    # .dataClear = function() {
+    #   
+    #   vars <- self$options$vars
+    #   labels <- self$options$labels
+    #   k <- self$options$k
+    #   
+    #   data <- self$data
+    #   data <- jmvcore::naOmit(data)
+    #   
+    #   # Handling id----------
+    #   
+    #   if ( ! is.null(self$options$labels)) {
+    #     rownames(data) <- data[[self$options$labels]]
+    #     data[[self$options$labels]] <- NULL
+    #   }
+    #   
+    #   for (i in seq_along(vars))
+    #     data[[i]] <- jmvcore::toNumeric(data[[i]])
+    #   
+    #   # MDS analysis---------
+    #   d <- stats:: dist(data)
+    #   mds<- stats::cmdscale(d)
+    #   #---------------------------
+    #   # kmeans clustering--------
+    #   # clust <- kmeans(mds, 3)$cluster %>%
+    #   #     as.factor()
+    #   # mds <- mds %>%
+    #   #     mutate(groups = clust)
+    #   
+    #   km <- stats::kmeans(mds, k)
+    #   kmc <- km$cluster
+    # 
+    #   name1 <- rownames(data)
+    #   
+    #   retlist <- list(d=d, mds=mds, kmc=kmc, name1=name1)
+    #   return(retlist)
+    #   
+    # },
+    # 
+
+      .plot = function(image,ggtheme, theme, ...) {
             
           if (is.null(image$state))
             return(FALSE)
@@ -193,7 +234,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             plot1 <- ggpubr::ggscatter(mds1,
                                       x = "Dim.1", y = "Dim.2", 
                                       label = name1,
-                                      color = "Groups",
+                                      color = "Clusters",
                                       palette = "jco",
                                       size = 1, 
                                       ellipse = TRUE,
@@ -212,7 +253,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
           three <- image2$state
 
-          x<-self$options$xlab
+          x<-  self$options$xlab
           y <- self$options$ylab
           z <- self$options$zlab
 

@@ -67,8 +67,9 @@ children:
                         enable: (plot1)     
                   - type: TextBox
                     name: k
-                    enable: (plot1)
                     format: number
+                  - type: Output
+                    name: clust
       - type: Content
         name: complex
         children:

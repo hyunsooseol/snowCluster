@@ -40,7 +40,8 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "labels",
                 labels,
                 suggested=list(
-                    "id"),
+                    "id",
+                    "nominal"),
                 permitted=list(
                     "id",
                     "factor"))
@@ -48,12 +49,9 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "vars",
                 vars,
                 suggested=list(
-                    "id",
                     "continuous"),
                 permitted=list(
-                    "numeric",
-                    "factor",
-                    "id"))
+                    "numeric"))
             private$..k <- jmvcore::OptionInteger$new(
                 "k",
                 k,
@@ -116,6 +114,8 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "height2",
                 height2,
                 default=500)
+            private$..clust <- jmvcore::OptionOutput$new(
+                "clust")
 
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
@@ -133,6 +133,7 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..height1)
             self$.addOption(private$..width2)
             self$.addOption(private$..height2)
+            self$.addOption(private$..clust)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -150,7 +151,8 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         width1 = function() private$..width1$value,
         height1 = function() private$..height1$value,
         width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value),
+        height2 = function() private$..height2$value,
+        clust = function() private$..clust$value),
     private = list(
         ..mode = NA,
         ..labels = NA,
@@ -167,7 +169,8 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..width1 = NA,
         ..height1 = NA,
         ..width2 = NA,
-        ..height2 = NA)
+        ..height2 = NA,
+        ..clust = NA)
 )
 
 mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -177,7 +180,9 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         instructions = function() private$.items[["instructions"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
-        plot2 = function() private$.items[["plot2"]]),
+        plot2 = function() private$.items[["plot2"]],
+        text = function() private$.items[["text"]],
+        clust = function() private$.items[["clust"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -228,7 +233,21 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ylab",
                     "zlab",
                     "width2",
-                    "height2")))}))
+                    "height2")))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text",
+                title="Cluster number"))
+            self$add(jmvcore::Output$new(
+                options=options,
+                name="clust",
+                title="Clustering",
+                varTitle="Clustering",
+                measureType="nominal",
+                clearWith=list(
+                    "vars",
+                    "labels",
+                    "k")))}))
 
 mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mdsBase",
@@ -248,7 +267,7 @@ mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 pause = NULL,
                 completeWhenFilled = FALSE,
                 requiresMissings = FALSE,
-                weightsSupport = 'auto')
+                weightsSupport = 'none')
         }))
 
 #' Multidimensional Scaling Plot
@@ -277,6 +296,8 @@ mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #' }
 #'
 #' @export

@@ -47,4 +47,18 @@ items:
         - width2
         - height2
        
+    - name:  text
+      title: 'Cluster number' 
+      type:  Preformatted     
+
+    - name: clust
+      title: Clustering
+      type: Output
+      varTitle: Clustering
+      measureType: nominal
+      clearWith:
+        - vars
+        - labels
+        - k
+
 ...
