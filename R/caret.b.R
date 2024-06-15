@@ -271,10 +271,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 #                       trControl =  ctrl)
                   
                               
-                all <- private$.computeFIT()  
+all <- private$.computeFIT()  
                 
                 # Model information-----------
-                
                  self$results$text$setContent(all$fit)
                 
                  
@@ -299,8 +298,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                                        methodList=algorithmList) 
                     results <- caret::resamples(models)
                     res<- summary(results)
-                    
-                    #self$results$text2$setContent(res)
                     
                     # Accuracy Table---------
                     
@@ -413,9 +410,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 image1$setState(vi)
                 }
                 
-                #########     TRAINING SET    #############################
+#TRAINING SET#############################
                 
-                # Prediction with train model -----------
+                # Save: Prediction with train model -----------
                   
                   if(self$options$pred==TRUE){
                     
@@ -465,23 +462,21 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     #dataset to predict dep. with train model------------
                     new_data <- jmvcore::select(self$data, c(covs, facs))
                     new_data <- jmvcore::naOmit(new_data)
-                    #self$results$text$setContent(new_data)
-                    
+                   
                     pred <- predict(all$fit, new_data)
                     
                     self$results$pred$setValues(pred)
                     self$results$pred$setRowNums(rownames(new_data))
                    
                   }
-                  
-                 
-                # Predict with train set-----------------
+ 
+# Predict with train set-----------------
                 
-                pred.tr<-predict(all$fit, all$train)
+pred.tr<-predict(all$fit, all$train)
 
-                # Confusion matrix(train set)---------------------------
+# Confusion matrix(train set)---------------------------
                 
-                eval.tr<- caret::confusionMatrix(pred.tr, all$train[[dep]]) 
+eval.tr<- caret::confusionMatrix(pred.tr, all$train[[dep]]) 
                 
                 if(isTRUE(self$options$tra)){    
                 
@@ -506,7 +501,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 # Overall statistics with training set-----------
                 
                 if(isTRUE(self$options$over1)){    
-                table <- self$results$over1
+                
+                  table <- self$results$over1
                 
                 acc<- eval.tr[["overall"]][1]
                 acclow <- eval.tr[["overall"]][3]
@@ -526,7 +522,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 # Statistics by class WITH TRAINing set-----------
 
                 if(isTRUE(self$options$cla1)){
-                table <- self$results$cla1
+                
+                  table <- self$results$cla1
 
                 cla1<- eval.tr[["byClass"]]
                 cla1<- t(cla1)
@@ -549,11 +546,11 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 }
               }
 
-                ############ TEST SET  ####################################
+#TEST SET---
                 
-                # Predict with test set-----------------
+# Predict with test set-----------------
                
-                pred<-predict(all$fit, all$test)
+pred<-predict(all$fit, all$test)
                 
                 # ROC curve with test set------
                 
@@ -568,9 +565,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 image3$setState(pred1)
                 }
                 
-                # Confusion matrix(test set)---------------------------
+# Confusion matrix(test set)---------------------------
                 
-                eval<- caret::confusionMatrix(pred, all$test[[dep]]) 
+eval<- caret::confusionMatrix(pred, all$test[[dep]]) 
                 
                 if(isTRUE(self$options$tes)){
                     
@@ -657,9 +654,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                     data[[dep]] <- as.factor(data[[dep]])
                   
                   data <- na.omit(data)
-                  
-                  #self$results$text1$setContent(head(data))  
-                  
+                 
                   image5 <- self$results$plot5 
                   image5$setState(data)
                   
@@ -671,7 +666,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
                 },
           
-      ##########################################################
+#Plot---
 
       .plot5 = function(image5,...) {
         
@@ -722,26 +717,14 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         print(plot6)
         TRUE
       }, 
-      
-      
+     
       .plot = function(image,...) {
         
-        # if (is.null(image$state))
-        #   return(FALSE)
-        # 
-        #   state<- image$state
-        #  
-        #    fit <- state[[1]]
-        #    comp <- state[[2]]
         if(!self$options$plot)
           return(FALSE)
      
        all <- private$.computeFIT()
-       
-       fit <- all$fit
-       comp <- all$comp
-                  
-        res<- MLeval::evalm(list(fit,comp),
+       res<- MLeval::evalm(list(all$fit,all$comp),
                             gnames=c(self$options$method,self$options$cm1))
        
         plot <- res$roc
@@ -752,23 +735,12 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       
       .plot4 = function(image4,...) {
         
-        # if (is.null(image4$state))
-        #   return(FALSE)
-        # 
-        # state<- image4$state
-        # 
-        # fit <- state[[1]]
-        # comp <- state[[2]]
-        
         if(!self$options$plot4)
           return(FALSE)
 
         all <- private$.computeFIT()
 
-        fit <- all$fit
-        comp <- all$comp
-        
-        res<- MLeval::evalm(list(fit,comp),
+        res<- MLeval::evalm(list(all$fit,all$comp),
                             gnames=c(self$options$method,self$options$cm1))
         
         # Calibration curve
@@ -778,15 +750,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         TRUE
       },
       
-            
       .plot2 = function(image2,ggtheme, theme,...) {
-        
-        # Model selection
-        
-        # if (is.null(image2$state))
-        #   return(FALSE)
-        # 
-        # fit <- image2$state
         
         if(!self$options$plot2)
           return(FALSE)
@@ -801,8 +765,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         TRUE
         
       },
-                
-  
+     
       .plot1 = function(image1,...) {
         
         if (is.null(image1$state))
@@ -815,7 +778,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         print(plot1)
         TRUE
       },
-      
       
       .plot3 = function(image3,...) {
         
@@ -857,17 +819,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         if(!self$options$plot8)
           return(FALSE)
         # ROC with traing set-----
-        
-        # if (is.null(image8$state))
-        #   return(FALSE)
-        # 
-        # res<- image8$state
-
         all <- private$.computeFIT() 
-        res <- all$fit
-      
-        res1<- MLeval::evalm(res)
-       
+        res1<- MLeval::evalm(all$fit)
         # get ROC---
         plot8 <- res1$roc
         
