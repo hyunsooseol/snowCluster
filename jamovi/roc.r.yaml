@@ -9,6 +9,10 @@ items:
       type: Html
       visible: True
 
+    - name:  text
+      title: '' 
+      type:  Preformatted
+
     - name:  plot1
       title: 'ROC Curve'
       type:  Image
@@ -47,15 +51,6 @@ items:
         - dep
         - width3
         - height3
-
-    # - name:  delong
-    #   title: 'DeLong Test of Difference between AUCs'
-    #   type:  Preformatted
-    #   refs: snowCluster
-    #   visible: false
-    #   clearWith:
-    #     - covs 
-    #     - dep      
 
     - name: auc
       title: 'A nonparametric test for AUC'

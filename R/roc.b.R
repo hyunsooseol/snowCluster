@@ -81,44 +81,52 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     image$setState(formula)
     }   
    
-    if(isTRUE(self$options$plot2)){
+#    if(isTRUE(self$options$plot2)){
           
-            #MUltiple ROC curves----------
-           
-           # a=multipleROC::multipleROC(formula1,data=data,plot=FALSE)
-           # b=multipleROC::multipleROC(formula1,data=data,plot=FALSE)
-          # c=multipleROC(form=male~weight,data=radial,plot=FALSE)
-          # plot_ROC(list(a,b,c),show.eta=FALSE,show.sens=FALSE)
-         
-    roc <- list()
-
-    # Loop through each element in covs
-     for (i in seq_along(covs)) {
-        # Compute ROC curve for the current covariate and store it in the list
-         roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(dep, paste0(covs[[i]]), sep="~"))), 
-                                              data = data, plot = FALSE)
-       }
-          
-       #self$results$text$setContent(roc)
-         
-          image <- self$results$plot2
-          image$setState(roc)
-          }
+    #         #MUltiple ROC curves----------
+    #        
+    #        # a=multipleROC::multipleROC(formula1,data=data,plot=FALSE)
+    #        # b=multipleROC::multipleROC(formula1,data=data,plot=FALSE)
+    #       # c=multipleROC(form=male~weight,data=radial,plot=FALSE)
+    #       # plot_ROC(list(a,b,c),show.eta=FALSE,show.sens=FALSE)
+    #      
+    # roc <- list()
+    # 
+    # # Loop through each element in covs
+    #  for (i in seq_along(covs)) {
+    #     # Compute ROC curve for the current covariate and store it in the list
+    #      roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(dep, paste0(covs[[i]]), sep="~"))), 
+    #                                           data = data, plot = FALSE)
+    #    }
+    #       
+    #    #self$results$text$setContent(roc)
+    #      
+    #       image <- self$results$plot2
+    #       image$setState(roc)
+    #       }
     
-    if(isTRUE(self$options$plot3)){
-     
-      roc <- list()
+p2 <- private$.computeP2()
+#self$results$text$setContent(p2)
+
+p3 <- private$.computeP3()
+ 
+
+#    }
       
-      # Loop through each element in covs
-      for (i in seq_along(covs)) {
-        # Compute ROC curve for the current covariate and store it in the list
-        roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(dep, paste0(covs[[i]]), sep="~"))), 
-                                             data = data, plot = FALSE)
-      }
+# if(isTRUE(self$options$plot3)){
      
-      image <- self$results$plot3
-      image$setState(roc)
-    }
+      # roc <- list()
+      # 
+      # # Loop through each element in covs
+      # for (i in seq_along(covs)) {
+      #   # Compute ROC curve for the current covariate and store it in the list
+      #   roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(dep, paste0(covs[[i]]), sep="~"))), 
+      #                                        data = data, plot = FALSE)
+      # }
+      # 
+      # image <- self$results$plot3
+      # image$setState(roc)
+#    }
     
    # delong test----------------------------------------
     
@@ -394,12 +402,17 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           
   .plot2 = function(image,ggtheme,theme, ...){
     
-    if (is.null(image$state))
+    # if (is.null(image$state))
+    #   return(FALSE)
+    # 
+    # roc <- image$state
+    
+    if(!self$options$plot2)
       return(FALSE)
     
-    roc <- image$state
+    p2 <- private$.computeP2() 
    
-     plot2 <-multipleROC::plot_ROC(roc, show.eta = FALSE, 
+     plot2 <-multipleROC::plot_ROC(p2, show.eta = FALSE, 
                                     show.sens = FALSE)
    
    #  plot2 <- plot2+ggtheme
@@ -411,21 +424,64 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
   
   .plot3 = function(image,ggtheme, theme, ...){
     
-    if (is.null(image$state))
+    # if (is.null(image$state))
+    #   return(FALSE)
+    # 
+    # roc <- image$state
+    
+    if(!self$options$plot3)
       return(FALSE)
     
-    roc <- image$state
-    
-    plot3 <-multipleROC::plot_ROC(roc, facet=TRUE) 
-                                   
-    
-  #  plot3 <- plot3+ggtheme
-    
+    p3 <- private$.computeP3() 
+    plot3 <-multipleROC::plot_ROC(p3, facet=TRUE) 
+    #  plot3 <- plot3+ggtheme
     print(plot3)
     TRUE
     
+  },
+  
+##############
+
+.computeP2=function(){
+  
+  dep <- self$options$dep
+  covs <- self$options$covs
+  data <- self$data
+  data <- na.omit(data)
+  data <- as.data.frame(data)  
+  
+  roc <- list()
+  
+  # Loop through each element in covs
+  for (i in seq_along(covs)) {
+    # Compute ROC curve for the current covariate and store it in the list
+    roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(dep, paste0(covs[[i]]), sep="~"))), 
+                                         data = data, plot = FALSE)
   }
   
+  return(roc)
+},
+
+.computeP3=function(){
   
+  dep <- self$options$dep
+  covs <- self$options$covs
+  data <- self$data
+  data <- na.omit(data)
+  data <- as.data.frame(data)  
+  
+  roc <- list()
+  
+  # Loop through each element in covs
+  for (i in seq_along(covs)) {
+    # Compute ROC curve for the current covariate and store it in the list
+    roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(dep, paste0(covs[[i]]), sep="~"))), 
+                                         data = data, plot = FALSE)
+  }
+  
+  return(roc)
+}
+ 
+   
      )
 )
