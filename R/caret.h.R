@@ -756,6 +756,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot2)",
                 renderFun=".plot2",
                 refs="caret",
+                requiresData=TRUE,
                 clearWith=list(
                     "facs",
                     "covs",
@@ -781,6 +782,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot8)",
                 renderFun=".plot8",
                 refs="MLeval",
+                requiresData=TRUE,
                 clearWith=list(
                     "facs",
                     "covs",
@@ -807,6 +809,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot)",
                 renderFun=".plot",
                 refs="MLeval",
+                requiresData=TRUE,
                 clearWith=list(
                     "facs",
                     "covs",
@@ -833,6 +836,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot4)",
                 renderFun=".plot4",
                 refs="MLeval",
+                requiresData=TRUE,
                 clearWith=list(
                     "facs",
                     "covs",

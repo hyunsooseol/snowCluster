@@ -213,6 +213,7 @@ items:
       visible: (plot2)
       renderFun: .plot2
       refs: caret
+      requiresData: true
       clearWith:
         - facs
         - covs 
@@ -238,6 +239,7 @@ items:
       visible: (plot8)
       renderFun: .plot8
       refs: MLeval
+      requiresData: true
       clearWith:
         - facs
         - covs 
@@ -264,6 +266,7 @@ items:
       visible: (plot)
       renderFun: .plot
       refs: MLeval
+      requiresData: true
       clearWith:
         - facs
         - covs 
@@ -290,6 +293,7 @@ items:
       visible: (plot4)
       renderFun: .plot4
       refs: MLeval
+      requiresData: true
       clearWith:
         - facs
         - covs 
