@@ -80,69 +80,14 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     image <- self$results$plot1
     image$setState(formula)
     }   
-   
-#    if(isTRUE(self$options$plot2)){
-          
-    #         #MUltiple ROC curves----------
-    #        
-    #        # a=multipleROC::multipleROC(formula1,data=data,plot=FALSE)
-    #        # b=multipleROC::multipleROC(formula1,data=data,plot=FALSE)
-    #       # c=multipleROC(form=male~weight,data=radial,plot=FALSE)
-    #       # plot_ROC(list(a,b,c),show.eta=FALSE,show.sens=FALSE)
-    #      
-    # roc <- list()
-    # 
-    # # Loop through each element in covs
-    #  for (i in seq_along(covs)) {
-    #     # Compute ROC curve for the current covariate and store it in the list
-    #      roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(dep, paste0(covs[[i]]), sep="~"))), 
-    #                                           data = data, plot = FALSE)
-    #    }
-    #       
-    #    #self$results$text$setContent(roc)
-    #      
-    #       image <- self$results$plot2
-    #       image$setState(roc)
-    #       }
-    
+
 p2 <- private$.computeP2()
 #self$results$text$setContent(p2)
 
 p3 <- private$.computeP3()
  
 
-#    }
-      
-# if(isTRUE(self$options$plot3)){
-     
-      # roc <- list()
-      # 
-      # # Loop through each element in covs
-      # for (i in seq_along(covs)) {
-      #   # Compute ROC curve for the current covariate and store it in the list
-      #   roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(dep, paste0(covs[[i]]), sep="~"))), 
-      #                                        data = data, plot = FALSE)
-      # }
-      # 
-      # image <- self$results$plot3
-      # image$setState(roc)
-#    }
-    
-   # delong test----------------------------------------
-    
-    #Example---------------
-    # y <- rbinom(100, 1, .5)
-    # x1 <- rnorm(100) + 1.5 * y
-    # x2 <- rnorm(100) + .5 * y
-    # x3 <- rnorm(100) + 2.5 * y
-    # 
-    # x <- data.frame(x1,x2,x3)
-    # y <- as.factor(y)
-    # 
-    # res <- Daim::deLong.test(x, labels=y, labpos="1")
-    
-    
-    if ( self$options$auc == TRUE) {
+if ( self$options$auc == TRUE) {
       
       if (length(self$options$covs) < 2){
         stop("Please specify at least two Covariate variables to use DeLong's test.")
@@ -401,12 +346,7 @@ p3 <- private$.computeP3()
           },
           
   .plot2 = function(image,ggtheme,theme, ...){
-    
-    # if (is.null(image$state))
-    #   return(FALSE)
-    # 
-    # roc <- image$state
-    
+ 
     if(!self$options$plot2)
       return(FALSE)
     
@@ -423,12 +363,7 @@ p3 <- private$.computeP3()
   },
   
   .plot3 = function(image,ggtheme, theme, ...){
-    
-    # if (is.null(image$state))
-    #   return(FALSE)
-    # 
-    # roc <- image$state
-    
+
     if(!self$options$plot3)
       return(FALSE)
     
@@ -440,7 +375,7 @@ p3 <- private$.computeP3()
     
   },
   
-##############
+#Function---
 
 .computeP2=function(){
   
