@@ -1,19 +1,19 @@
 ---
 title: Multivariate Analysis
 name: snowCluster
-version: 7.3.6
+version: 7.3.7
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2024-06-15'
+date: '2024-07-10'
 type: R
 description: >-
-  This module allows users to analyze k-means and hierarchical
-  clustering,Correspondence Analysis, Multiple Factor Analysis, Factor analysis
-  of mixed data, Discriminant Analysis, Multidimensional Scaling, Univariate
-  time series, Prophet analysis, Decision Tree, Machine Learning,and various
-  visualization results.
+  This module allows users to analyze k-means and hierarchical clustering,Time
+  series clustering, Correspondence Analysis, Multiple Factor Analysis, Factor
+  analysis of mixed data, Discriminant Analysis, Multidimensional Scaling,
+  Univariate time series, Prophet analysis, Decision Tree, Machine Learning,and
+  various visualization results.
 analyses:
   - title: K-means Clustering
     name: kmeans
@@ -27,6 +27,12 @@ analyses:
     menuGroup: snowCluster
     menuSubgroup: Cluster Analysis
     menuTitle: Hierarchical Clustering
+  - title: Time Series Clustering
+    name: timeclust
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuSubgroup: Cluster Analysis
+    menuTitle: Time Series Clustering
   - title: Clustering Dendrogram
     name: hc
     ns: snowCluster
@@ -113,6 +119,16 @@ datasets:
       - Kmeans
       - Group plot
       - Machine Learning
+  - name: timeclust
+    path: timeclust.omv
+    description: Time series clustering
+    tags:
+      - Time series clustering
+  - name: gap
+    path: gap.omv
+    description: gapminder with lifeExp
+    tags:
+      - Time series clustering
   - name: usarrests
     path: USArrests.omv
     description: Violent Crime Rates by US State

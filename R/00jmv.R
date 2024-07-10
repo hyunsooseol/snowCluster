@@ -68,4 +68,10 @@
         `author`="Suzuki, R., Terada, Y., & Shimodaira, H.", 
         `year`=2019, 
         `title`="pvclust: Hierarchical Clustering with P-Values via Multiscale Bootstrap Resampling", 
-        `publisher`="[R package]. URL https://CRAN.R-project.org/package=pvclust"))
+        `publisher`="[R package]. URL https://CRAN.R-project.org/package=pvclust"), 
+    `widyr`=list(
+        `type`="software", 
+        `author`="Robinson, D., Misra, K., & Silge, J.", 
+        `year`=2022, 
+        `title`="widyr: Widen, Process, then Re-Tidy Data", 
+        `publisher`="[R package]. URL https://CRAN.R-project.org/package=widyr"))

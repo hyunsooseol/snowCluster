@@ -77,3 +77,9 @@ refs:
        title: "pvclust: Hierarchical Clustering with P-Values via Multiscale Bootstrap Resampling"
        publisher: '[R package]. URL https://CRAN.R-project.org/package=pvclust'
  
+   widyr:
+       type: 'software'
+       author: Robinson, D., Misra, K., & Silge, J.
+       year: 2022
+       title: "widyr: Widen, Process, then Re-Tidy Data"
+       publisher: '[R package]. URL https://CRAN.R-project.org/package=widyr'

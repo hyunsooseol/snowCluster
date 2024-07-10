@@ -1,0 +1,43 @@
+---
+name:  timeclust
+title: Time Series Clustering
+jrs:   '1.1'
+refs: snowCluster
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+
+    - name:  text
+      title: ''
+      type:  Preformatted
+
+    - name: clust
+      title: Cluster 
+      type: Output
+      varTitle: Cluster
+      measureType: nominal
+      clearWith:
+        - item
+        - feature
+        - value
+        - k
+
+    - name:  plot
+      title: 'Time series clustering'
+      type:  Image
+      requiresData: true
+      visible: (plot)
+      refs: widyr
+      renderFun: .plot
+      clearWith:
+        - item
+        - feature
+        - value
+        - k 
+        - width
+        - height
+ 
+
+...

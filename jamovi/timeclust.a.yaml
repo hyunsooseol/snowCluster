@@ -1,0 +1,75 @@
+---
+name:  timeclust
+title: Time Series Clustering
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: >
+            The data as a data frame.
+
+    - name: k
+      title: Number of clusters
+      default: 2
+      type: Integer
+      min: 2
+
+    - name: feature
+      title: 'time'
+      type: Variable
+      suggested:
+        - nominal
+      permitted:
+        - factor
+
+    - name: item
+      title: 'item'
+      type: Variable
+      suggested:
+        - nominal
+      permitted:
+        - factor
+
+    - name: value
+      title: 'value'
+      type: Variable
+      suggested:
+         - continuous
+      permitted:
+        - numeric  
+
+    - name: plot
+      title: 'Cluster plot'
+      type: Bool
+      default: FALSE
+
+    - name: width
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height
+      type: Integer
+      title: "X"
+      default: 500  
+
+    - name: clust
+      title: Cluster number
+      type: Output
+
+    # - name: angle
+    #   title: Angle of x-axis labels
+    #   type: Number
+    #   min: 0
+    #   max: 90
+    #   default: 0
+    #   description:
+    #       R: >
+    #         a number from 0 to 90 defining the angle of the x-axis labels, 
+    #         where 0 degrees represents completely horizontal labels.
+
+...
