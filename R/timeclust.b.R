@@ -1,11 +1,9 @@
 
 # This file is a generated template, your changes will not be overwritten
 #' @importFrom magrittr %>% 
-#' @importFrom stats as.formula
 #' @importFrom widyr widely_kmeans
 #' @importFrom tibble as.tibble
-#' @importFrom reshape2 acast
-#' @importFrom stats kmeans
+#' @importFrom mclust mclustBIC
 #' @import ggthemes
 #' @import widyr
 #' @import ggplot2 
@@ -40,14 +38,20 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             </html>"
         )
         
-        # min or max option is possible in .a yaml.
-        
         if(isTRUE(self$options$plot)){
           
           width <- self$options$width
           height <- self$options$height
           
           self$results$plot$setSize(width, height)
+        }  
+        
+        if(isTRUE(self$options$plot1)){
+          
+          width <- self$options$width1
+          height <- self$options$height1
+          
+          self$results$plot1$setSize(width, height)
         }  
         
       },
@@ -91,12 +95,17 @@ if (is.null(self$data) | is.null(self$options$item) | is.null(self$options$featu
           #                  dplyr::arrange(cluster)
           # }
 
-                all <- private$.computeRES()          
+          all <- private$.computeRES()          
           
+         if(isTRUE(self$options$plot1)){
+           
+           image <- self$results$plot1
+           image$setState(all$bic)
+         }
          
-            
-            # cluster number--
-        if(isTRUE(self$options$clust)){
+         # cluster number--
+        
+          if(isTRUE(self$options$clust)){
               
               m<- as.factor(all$df$cluster)
               
@@ -114,9 +123,25 @@ if (is.null(self$data) | is.null(self$options$item) | is.null(self$options$featu
             image <- self$results$plot
             image$setState(all$df)
         }
-              },
+       
+           },
       
   # plot---
+
+.plot1 = function(image,...) {
+  
+  if (is.null(image$state))
+    return(FALSE)
+  
+  bic <- image$state
+  
+  plot1 <- plot(bic)
+  
+  print(plot1)
+  TRUE    
+  
+},
+
   
   .plot = function(image, ggtheme, theme, ...) {
     
@@ -167,12 +192,16 @@ if (is.null(self$data) | is.null(self$options$item) | is.null(self$options$featu
     data <- tibble::as.tibble(data)
     
     
+    # Optimal number of clusters using BIC---
+    bic <- mclust::mclustBIC(data$value)  
+    self$results$text$setContent(bic)
+    
+    
     # Perform k-means clustering using widely_kmeans
     # The variable names should be item, time, value respectively!!! 
     set.seed(1234)
-    
     res <-  data %>%
-      widyr::widely_kmeans(tbl=data,
+           widyr::widely_kmeans(tbl=data,
                            item =item,
                            feature = time,
                            value = value,
@@ -181,9 +210,11 @@ if (is.null(self$data) | is.null(self$options$item) | is.null(self$options$featu
     df <- dplyr::left_join(data, res)
   
       
-    retlist=list(res=res, df=df) 
+    retlist=list(res=res, df=df, bic=bic) 
     return(retlist)  
-                 
+  
+
+
             
         })
 )

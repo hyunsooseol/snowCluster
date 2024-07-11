@@ -12,7 +12,10 @@ timeclust(
   value,
   plot = FALSE,
   width = 500,
-  height = 500
+  height = 500,
+  plot1 = FALSE,
+  width1 = 500,
+  height1 = 500
 )
 }
 \arguments{
@@ -31,6 +34,12 @@ timeclust(
 \item{width}{.}
 
 \item{height}{.}
+
+\item{plot1}{.}
+
+\item{width1}{.}
+
+\item{height1}{.}
 }
 \value{
 A results object containing:
@@ -38,6 +47,7 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
+  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 }
 }

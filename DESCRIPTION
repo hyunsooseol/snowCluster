@@ -60,5 +60,6 @@ Imports:
     widyr,
     tibble,
     ggthemes,
+    mclust,
 Remotes: cardiomoon/multipleROC
          

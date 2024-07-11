@@ -74,4 +74,10 @@
         `author`="Robinson, D., Misra, K., & Silge, J.", 
         `year`=2022, 
         `title`="widyr: Widen, Process, then Re-Tidy Data", 
-        `publisher`="[R package]. URL https://CRAN.R-project.org/package=widyr"))
+        `publisher`="[R package]. URL https://CRAN.R-project.org/package=widyr"), 
+    `mclust`=list(
+        `type`="software", 
+        `author`="Fraley, C., Raftery, A., Scrucca, L., Murphy, T., & Fop, M.", 
+        `year`=2024, 
+        `title`="mclust: Gaussian Mixture Modelling for Model-Based Clustering, Classification, and Density Estimation", 
+        `publisher`="(Version 6.1.1)[R package]. URL https://CRAN.R-project.org/package=mclust"))

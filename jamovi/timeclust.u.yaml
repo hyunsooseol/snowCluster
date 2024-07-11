@@ -9,21 +9,21 @@ children:
     stretchFactor: 1
     children:
       - type: TargetLayoutBox
-        label: 'time'
+        label: time
         children:
           - type: VariablesListBox
             name: feature
             maxItemCount: 1
             isTarget: true
       - type: TargetLayoutBox
-        label: 'item'
+        label: item
         children:
           - type: VariablesListBox
             name: item
             maxItemCount: 1
             isTarget: true
       - type: TargetLayoutBox
-        label: 'value'
+        label: value
         children:
           - type: VariablesListBox
             name: value
@@ -31,29 +31,56 @@ children:
             isTarget: true
   - type: LayoutBox
     margin: large
+    stretchFactor: 1
     children:
-      - type: TextBox
-        name: k
-        format: number
-      - type: Output
-        name: clust
-      - type: CheckBox
-        name: plot
-        style: list-inline
+      - type: LayoutBox
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
         children:
-          - type: TextBox
-            name: width
-            format: number
-            enable: (plot)
-          - type: TextBox
-            name: height
-            format: number
-            enable: (plot)
-      # - type: TextBox
-      #   name: angle
-      #   format: number
-      #   enable: (plot)
-      #   suggestedValues:
-      #     - value: 0
-      #     - value: 45
-      #     - value: 90
+          - type: Label
+            label: 'Cluster information'
+            children:
+              - type: TextBox
+                name: k
+                format: number
+              - type: CheckBox
+                name: plot1
+                style: list-inline
+                children: 
+                  - type: TextBox
+                    name: width1
+                    format: number
+                    enable: (plot1)
+                  - type: TextBox
+                    name: height1
+                    format: number
+                    enable: (plot1)
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: 'Tests'
+            children:
+              - type: Output
+                name: clust
+              - type: CheckBox
+                name: plot
+                style: list-inline
+                children:
+                  - type: TextBox
+                    name: width
+                    format: number
+                    enable: (plot)
+                  - type: TextBox
+                    name: height
+                    format: number
+                    enable: (plot)
+

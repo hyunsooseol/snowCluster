@@ -10,7 +10,7 @@ items:
       visible: True
 
     - name:  text
-      title: ''
+      title: 'BIC information'
       type:  Preformatted
 
     - name: clust
@@ -24,6 +24,21 @@ items:
         - value
         - k
 
+    - name:  plot1
+      title: 'BIC plot'
+      type:  Image
+      requiresData: true
+      visible: (plot1)
+      refs: mclust
+      renderFun: .plot1
+      clearWith:
+        - item
+        - feature
+        - value
+        - k 
+        - width1
+        - height1
+        
     - name:  plot
       title: 'Time series clustering'
       type:  Image
@@ -38,6 +53,7 @@ items:
         - k 
         - width
         - height
+ 
  
 
 ...
