@@ -43,9 +43,6 @@ children:
           - type: Label
             label: 'Cluster information'
             children:
-              - type: TextBox
-                name: k
-                format: number
               - type: CheckBox
                 name: plot1
                 style: list-inline
@@ -69,6 +66,9 @@ children:
           - type: Label
             label: 'Tests'
             children:
+              - type: TextBox
+                name: k
+                format: number
               - type: Output
                 name: clust
               - type: CheckBox
