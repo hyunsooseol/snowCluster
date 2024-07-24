@@ -7,6 +7,9 @@ snowCluster module can be installed and used in R as a standard R packages.
 # Installation
 At the moment, snowCluster is not in CRAN yet, so you need to install it via devtools
 library(jmv)
+
 library(jmvReadWrite)
+
 library(jmvconnect)
+
 devtools::install_github("hyunsooseol/snowCluster")
