@@ -15,6 +15,7 @@ disc(
   prop = FALSE,
   tra = FALSE,
   tes = FALSE,
+  gc = FALSE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -48,6 +49,8 @@ disc(
 
 \item{tes}{.}
 
+\item{gc}{.}
+
 \item{plot}{.}
 
 \item{plot1}{.}
@@ -80,6 +83,7 @@ A results object containing:
   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$gc} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 }

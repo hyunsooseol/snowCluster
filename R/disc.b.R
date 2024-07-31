@@ -7,6 +7,7 @@
 #' @importFrom klaR partimat
 #' @importFrom caret createDataPartition
 #' @importFrom stringr str_interp
+#' @import dplyr
 #' @import MASS
 #' @import ggplot2
 #' @import jmvcore
@@ -18,7 +19,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = discBase,
     private = list(
     
-        #------------------------------------
+ #------------------------------------
         
         .init = function() {
             if (is.null(self$options$dep) | is.null(self$options$covs)) {
@@ -68,8 +69,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             if (is.null(self$options$dep) || length(self$options$covs) < 2)
                 return()
-            
-            
+
             dep <- self$options$dep
             covs <- self$options$covs
             per <- self$options$per
@@ -103,9 +103,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             lda.train <- MASS::lda(formula, data=train)
             
            ###################################################
-            
-           
-            # creating table-----
+           # creating table-----
             
             value<- lda.train$prior
             prior<- as.data.frame(value)
@@ -284,16 +282,16 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             if(isTRUE(self$options$prop)){
               
-              
+
               if(length(levels(data[[dep]]))<=2){
-                
+
                 err_string <- stringr::str_interp(
                   "Dependent levels should be at least 3."
                 )
                 stop(err_string)
-                
-              } 
-              
+
+              }
+
               if(length(levels(data[[dep]]))>2){
                 
                 # proportion of trace----------
@@ -313,20 +311,11 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 row[['LD2']] <- ld2
                 
                 table$setRow(rowNo = 1, values = row)
-                
-                
-              }}
-              
-              
-            #  LD plot----------
-            
-            # state <- list(lda.train, train)
-            # 
-            # image <- self$results$plot
-            # 
-            # image$setState(state)  
-            
-            if(isTRUE(self$options$plot)){
+            }   
+            }    
+          
+ 
+    if(isTRUE(self$options$plot)){
             
               if(length(levels(data[[dep]]))<=2){
                 
@@ -338,14 +327,69 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
               } 
               
               if(length(levels(data[[dep]]))>2){
-              
-            df <- cbind(train, predict(lda.train)$x)
-            
-            image <- self$results$plot
-            
-            image$setState(df)
-            
-              }
+ 
+                df <- cbind(train, predict(lda.train)$x)
+                Groups <- data[[dep]]
+                df<- cbind(df, Groups)
+                df$Groups <- as.factor(df$Groups)
+                
+                df <- dplyr::select(df, LD1,LD2, Groups)
+                df <- data.frame(df)
+                
+                # Calculate group centroids
+                
+                lda_scores_grouped <- dplyr::group_by(df, Groups)
+                centroids_summarized <- dplyr::summarize(lda_scores_grouped,
+                                                         LD1 = mean(LD1),
+                                                         LD2 = mean(LD2))
+                
+                cent <- data.frame(centroids_summarized)
+                #self$results$text$setContent(cent) 
+                
+                state <- list(df, cent)
+                image <- self$results$plot
+                image$setState(state)  
+                
+                # group centroids table---
+                
+                if(isTRUE(self$options$gc)){
+                  
+                  cent <- as.data.frame(cent)
+                  
+                  # name<- as.vector(cent[[1]])
+                  # ld1<- as.vector(cent[[2]])
+                  # ld2 <- as.vector(cent[[3]])
+                  # 
+                  # items <- length(levels(data[[dep]]))
+                  # 
+                  # for (i in seq_along(1:items)) {
+                  #   
+                  #   row <- list()
+                  #   
+                  #   row[["name"]] <-name[i]
+                  #   row[["ld1"]] <- ld1[i]
+                  #   row[["ld2"]] <- ld2[i]
+                  #   
+                  #   table$addRow(rowKey = items[i], values = row)
+                  # }
+                
+                  names<- dimnames(cent)[[1]]
+                  
+                  for (name in names) {
+                    
+                    row <- list()
+                    
+                    row[["name"]]   <-  cent[name, 1]
+                    row[["ld1"]] <-  cent[name, 2]
+                    row[["ld2"]] <-  cent[name, 3]
+                    
+                    
+                    table$addRow(rowKey=name, values=row)
+                    
+                  }
+                  
+                  }
+                }
             
             }
             
@@ -367,35 +411,30 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             },
             
-            .plot = function(image,ggtheme, theme,...) {
-                
-             
+  .plot = function(image,ggtheme, theme,...) {
               if (is.null(image$state))
                 return(FALSE)
               
-                
-                dep<- self$options$dep
-                
-                
-                # 
-                # lda.train <- image$state[[1]]
-                # train <- image$state[[2]]
-                # 
-                # plot <- plot(lda.train, col = as.integer(train[[dep]]))
-                
-                df <- image$state
-                
-                Groups <- df[[dep]]
-                
-                plot<- ggplot(df, aes(LD1, LD2)) +
-                    geom_point(aes(color = Groups, shape = Groups ))
-                
-                plot <- plot+ggtheme
-                
-                print(plot)
-                TRUE
+              df <- image$state[[1]]
+              cent <- image$state[[2]]
+
+          plot<- ggplot(df, ggplot2::aes(x = LD1, y = LD2, color = Groups)) +
+                geom_point(alpha = 0.7) +
+                geom_point(data = cent, ggplot2::aes(x = LD1, 
+                                                     y = LD2, 
+                                                     color = Groups),
+                           size = 6, 
+                           shape = 17,
+                           alpha=1.2) +
+                labs(title = "",
+                     x = "LD 1",
+                     y = "LD 2")      
+              
+              plot <- plot+ggtheme
+              print(plot)
+              TRUE
             },
-        
+
         .plot1 = function(image1,...) {
             
         

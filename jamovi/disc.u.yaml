@@ -88,6 +88,9 @@ children:
                     format: number
                     enable: (plot)
               - type: CheckBox
+                name: gc
+                enable: (plot)
+              - type: CheckBox
                 name: plot1
                 style: list-inline
                 children:

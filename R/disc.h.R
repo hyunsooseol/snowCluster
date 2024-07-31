@@ -15,6 +15,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             prop = FALSE,
             tra = FALSE,
             tes = FALSE,
+            gc = FALSE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -76,6 +77,10 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "tes",
                 tes,
                 default=FALSE)
+            private$..gc <- jmvcore::OptionBool$new(
+                "gc",
+                gc,
+                default=FALSE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -129,6 +134,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..prop)
             self$.addOption(private$..tra)
             self$.addOption(private$..tes)
+            self$.addOption(private$..gc)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
@@ -150,6 +156,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         prop = function() private$..prop$value,
         tra = function() private$..tra$value,
         tes = function() private$..tes$value,
+        gc = function() private$..gc$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
@@ -170,6 +177,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..prop = NA,
         ..tra = NA,
         ..tes = NA,
+        ..gc = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA,
@@ -195,6 +203,7 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         tra = function() private$.items[["tra"]],
         tes = function() private$.items[["tes"]],
         plot = function() private$.items[["plot"]],
+        gc = function() private$.items[["gc"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]]),
     private = list(),
@@ -328,6 +337,30 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "per",
                     "width",
                     "height")))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="gc",
+                title="Group centroids",
+                refs="MASS",
+                visible="(gc)",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "per"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="Groups", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="ld1", 
+                        `title`="LD1", 
+                        `type`="number"),
+                    list(
+                        `name`="ld2", 
+                        `title`="LD2", 
+                        `type`="number"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -390,6 +423,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param prop .
 #' @param tra .
 #' @param tes .
+#' @param gc .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
@@ -411,6 +445,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$gc} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #' }
@@ -433,6 +468,7 @@ disc <- function(
     prop = FALSE,
     tra = FALSE,
     tes = FALSE,
+    gc = FALSE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -467,6 +503,7 @@ disc <- function(
         prop = prop,
         tra = tra,
         tes = tes,
+        gc = gc,
         plot = plot,
         plot1 = plot1,
         plot2 = plot2,

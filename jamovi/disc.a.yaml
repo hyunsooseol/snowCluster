@@ -63,6 +63,11 @@ options:
       type: Bool 
       default: FALSE      
 
+    - name: gc
+      title: 'Group centroids'
+      type: Bool 
+      default: FALSE   
+
     - name: plot
       title: 'LD plot' 
       type: Bool

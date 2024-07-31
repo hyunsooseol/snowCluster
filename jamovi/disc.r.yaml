@@ -125,6 +125,30 @@ items:
         - width
         - height
 
+    - name: gc
+      title: 'Group centroids'
+      type: Table
+      refs: MASS
+      visible: (gc)
+      clearWith:
+        - covs
+        - dep
+        - per
+
+      columns:
+        - name: name
+          title: 'Groups'
+          type: 'text'
+          content: ($key)
+
+        - name: ld1
+          title: 'LD1'
+          type: number
+          
+        - name: ld2
+          title: 'LD2'
+          type: number      
+
     - name:  plot1
       title: Histogram
       type:  Image
