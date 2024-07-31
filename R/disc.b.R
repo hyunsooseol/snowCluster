@@ -314,7 +314,8 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             }   
             }    
           
- 
+#LD plot---
+            
     if(isTRUE(self$options$plot)){
             
               if(length(levels(data[[dep]]))<=2){
@@ -354,32 +355,15 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 if(isTRUE(self$options$gc)){
                   
+                  table <- self$results$gc                 
                   cent <- as.data.frame(cent)
-                  
-                  # name<- as.vector(cent[[1]])
-                  # ld1<- as.vector(cent[[2]])
-                  # ld2 <- as.vector(cent[[3]])
-                  # 
-                  # items <- length(levels(data[[dep]]))
-                  # 
-                  # for (i in seq_along(1:items)) {
-                  #   
-                  #   row <- list()
-                  #   
-                  #   row[["name"]] <-name[i]
-                  #   row[["ld1"]] <- ld1[i]
-                  #   row[["ld2"]] <- ld2[i]
-                  #   
-                  #   table$addRow(rowKey = items[i], values = row)
-                  # }
-                
                   names<- dimnames(cent)[[1]]
                   
                   for (name in names) {
                     
                     row <- list()
                     
-                    row[["name"]]   <-  cent[name, 1]
+                    row[["name"]] <- as.character(cent[name, 1])
                     row[["ld1"]] <-  cent[name, 2]
                     row[["ld2"]] <-  cent[name, 3]
                     
@@ -419,13 +403,13 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
               cent <- image$state[[2]]
 
           plot<- ggplot(df, ggplot2::aes(x = LD1, y = LD2, color = Groups)) +
-                geom_point(alpha = 0.7) +
+                geom_point(alpha = 0.6) +
                 geom_point(data = cent, ggplot2::aes(x = LD1, 
                                                      y = LD2, 
                                                      color = Groups),
-                           size = 6, 
+                           size = 7, 
                            shape = 17,
-                           alpha=1.2) +
+                           alpha=1) +
                 labs(title = "",
                      x = "LD 1",
                      y = "LD 2")      
