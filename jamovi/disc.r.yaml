@@ -162,17 +162,4 @@ items:
         - width1
         - height1
 
-    - name:  plot2
-      title: Partition plots
-      type:  Image
-      requiresData: true
-      visible: (plot2)
-      renderFun: .plot2 
-      clearWith:
-        - covs 
-        - dep
-        - method
-        - per
-        - width2
-        - height2
 ...

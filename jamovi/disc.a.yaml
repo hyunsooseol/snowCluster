@@ -78,19 +78,6 @@ options:
       type: Bool
       default: FALSE
       
-    - name: plot2
-      title: Partition plots
-      type: Bool
-      default: FALSE
-
-    - name: method
-      title: Method
-      type: List
-      options:
-        - lda
-        - qda
-      default: lda
-
     - name: width
       type: Integer
       title: "Size: "
@@ -111,13 +98,4 @@ options:
       title: "X"
       default: 500  
       
-    - name: width2
-      type: Integer
-      title: "Size: "
-      default: 500
-      
-    - name: height2
-      type: Integer
-      title: "X"
-      default: 500
 ...

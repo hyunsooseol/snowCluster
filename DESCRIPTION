@@ -24,7 +24,6 @@ Imports:
     forecast,
     magrittr,
     ggpubr,
-    klaR,
     caret,
     party,
     xgboost,

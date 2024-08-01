@@ -4,7 +4,6 @@
 #' @importFrom MASS lda
 #' @importFrom jmvcore constructFormula
 #' @importFrom MASS lda
-#' @importFrom klaR partimat
 #' @importFrom caret createDataPartition
 #' @importFrom stringr str_interp
 #' @import dplyr
@@ -34,7 +33,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             <body>
             <div class='instructions'>
             <p>____________________________________________________________________________________</p>
-            <p> 1. The rationale of Discriminant Analysis is described in the <a href='https://rpubs.com/Nolan/298913' target = '_blank'>page.</a></p>
+            <p> 1. If you set <b>Split set</b> to less than 1, uncheck the LD plot. Otherwise, you will get an error.</p>
             <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
@@ -54,13 +53,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
               height <- self$options$height1
               self$results$plot1$setSize(width, height)
             }  
-            
-            if(isTRUE(self$options$plot2)){
-              width <- self$options$width2
-              height <- self$options$height2
-              self$results$plot2$setSize(width, height)
-            }  
-              
+
         },
         
         #---------------------------------------------
@@ -93,8 +86,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
             train <-data[split1,]
             test <- data[-split1,] 
-            
-            
+
             formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
             formula <- as.formula(formula)
             
@@ -383,16 +375,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             image1 <- self$results$plot1
             image1$setState(lda.train)
             }
-           
-            # partion plots---------------------
-            
-             image2 <- self$results$plot2
-            # state <- list(formula, train)
-            # image2$setState(state)
-            df <- cbind(train, predict(lda.train)$x)
-            image2$setState(df)
-            
-            
+     
             },
             
   .plot = function(image,ggtheme, theme,...) {
@@ -428,41 +411,11 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
             lda.train <- image1$state
             
-            plot1 <- plot(lda.train, dimen=1, type="b")
+            plot1 <- plot(lda.train, dimen=1, type="both")
             
             print(plot1)
             TRUE
-        },
-        
-        .plot2 = function(image2,...) {
-         
-          if (is.null(image2$state))
-            return(FALSE)
-          
-          
-          method <- self$options$method
-        
-          # formula <- image2$state[[1]]
-          # train <- image2$state[[2]]
-          
-          data <- self$data
-          data <- jmvcore::naOmit(data)
-          per <- self$options$per
-          formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
-          formula <- as.formula(formula)
-          split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
-          train <-data[split1,]
-          
-          
-          ########## Partition plots###########
-          
-          plot2 <- klaR::partimat(formula, data=train, method=method)
-          
-          
-          print(plot2)
-          TRUE
         }
-        
-       
+ 
          ))
 
