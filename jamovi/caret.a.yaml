@@ -80,6 +80,8 @@ options:
           name:  glmnet          
         - title: blackboost
           name:  blackboost
+        - title: lda
+          name:  lda  
         - title: mda
           name:  mda  
         - title: treebag
@@ -126,6 +128,8 @@ options:
           name:  glmnet   
         - title: blackboost
           name:  blackboost
+        - title: lda
+          name:  lda  
         - title: mda
           name:  mda  
         - title: treebag

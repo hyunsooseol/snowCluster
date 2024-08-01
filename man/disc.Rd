@@ -15,17 +15,13 @@ disc(
   prop = FALSE,
   tra = FALSE,
   tes = FALSE,
-  gc = FALSE,
+  gc = TRUE,
   plot = FALSE,
   plot1 = FALSE,
-  plot2 = FALSE,
-  method = "lda",
   width = 500,
   height = 500,
   width1 = 500,
-  height1 = 500,
-  width2 = 500,
-  height2 = 500
+  height1 = 500
 )
 }
 \arguments{
@@ -55,10 +51,6 @@ disc(
 
 \item{plot1}{.}
 
-\item{plot2}{.}
-
-\item{method}{.}
-
 \item{width}{.}
 
 \item{height}{.}
@@ -66,10 +58,6 @@ disc(
 \item{width1}{.}
 
 \item{height1}{.}
-
-\item{width2}{.}
-
-\item{height2}{.}
 }
 \value{
 A results object containing:
@@ -85,7 +73,6 @@ A results object containing:
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$gc} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
-  \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
