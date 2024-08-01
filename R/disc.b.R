@@ -411,8 +411,8 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                            shape = 17,
                            alpha=1) +
                 labs(title = "",
-                     x = "LD 1",
-                     y = "LD 2")      
+                     x = "LD1",
+                     y = "LD2")      
               
               plot <- plot+ggtheme
               print(plot)

@@ -15,7 +15,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             prop = FALSE,
             tra = FALSE,
             tes = FALSE,
-            gc = FALSE,
+            gc = TRUE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -80,7 +80,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..gc <- jmvcore::OptionBool$new(
                 "gc",
                 gc,
-                default=FALSE)
+                default=TRUE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -327,7 +327,7 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="LD plot",
+                title="Linear discriminant plot",
                 requiresData=TRUE,
                 visible="(plot)",
                 renderFun=".plot",
@@ -468,7 +468,7 @@ disc <- function(
     prop = FALSE,
     tra = FALSE,
     tes = FALSE,
-    gc = FALSE,
+    gc = TRUE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,

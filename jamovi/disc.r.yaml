@@ -113,7 +113,7 @@ items:
           content: ($key)
 
     - name:  plot
-      title: LD plot
+      title: 'Linear discriminant plot'
       type:  Image
       requiresData: true
       visible: (plot)
