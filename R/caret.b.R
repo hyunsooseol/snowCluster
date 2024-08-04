@@ -60,7 +60,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             <p>____________________________________________________________________________________</p>
             <p> 1. Machine learning based on  <a href='https://topepo.github.io/caret/' target = '_blank'>caret R package.</a></p> 
             <p> 2. The values for the target variable cannot be a number. </p> 
-            <p> 3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            <p> 3. If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection plot</b> in Plots.
+            <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
             <p>____________________________________________________________________________________</p>
             
             </div>
