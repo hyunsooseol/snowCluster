@@ -33,6 +33,8 @@ Imports:
     elasticnet,
     nnet,
     reshape2,
+    rstan,
+    prophet,
     gbm,
     earth,
     mda,
