@@ -59,5 +59,6 @@ Imports:
     widyr,
     tibble,
     ggthemes,
-    mclust
+    mclust,
+Remotes: cardiomoon/multipleROC    
 
