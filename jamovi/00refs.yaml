@@ -4,7 +4,7 @@ refs:
        author: Seol, H.
        year: 2024
        title: "snowCluster: Multivariate Analysis"
-       publisher: '(Version 7.3.9) [jamovi module]. URL https://github.com/hyunsooseol/snowCluster'
+       publisher: '(Version 7.4.0) [jamovi module]. URL https://github.com/hyunsooseol/snowCluster'
        url: https://github.com/hyunsooseol/snowCluster
        
    factoextra:

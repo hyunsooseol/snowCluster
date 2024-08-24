@@ -4,7 +4,6 @@
 #' @importFrom widyr widely_kmeans
 #' @importFrom tibble as.tibble
 #' @importFrom mclust mclustBIC
-#' @import ggthemes
 #' @import widyr
 #' @import ggplot2 
 #' @export
@@ -155,15 +154,7 @@ if (is.null(self$data) | is.null(self$options$item) | is.null(self$options$featu
       scale_y_continuous(labels = scales::comma) +
       facet_wrap(vars(cluster)) +
       scale_color_solarized()    
-       
-      # if (self$options$angle > 0) {
-      #   plot <- plot + ggplot2::theme(
-      #     axis.text.x = ggplot2::element_text(
-      #       angle = self$options$angle, hjust = 1
-      #     )
-      #   )
-      # }
-      
+     
      plot <- plot+ggtheme
      print(plot)
       TRUE    
