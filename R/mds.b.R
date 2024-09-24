@@ -14,31 +14,51 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "mdsClass",
     inherit = mdsBase,
     private = list(
-        
+      .htmlwidget = NULL,
         #------------------------------------
         
         .init = function() {
-            if (is.null(self$options$vars) | is.null(self$options$labels)) {
+            
+          private$.htmlwidget <- HTMLWidget$new()
+          
+          if (is.null(self$options$vars) | is.null(self$options$labels)) {
                 self$results$instructions$setVisible(visible = TRUE)
                 
             }
             
-            self$results$instructions$setContent(
-                "<html>
-            <head>
-            </head>
-            <body>
-            <div class='instructions'>
-            <p>____________________________________________________________________________________</p>
-            <p>1. The rationale of Classical Multidimensional Scaling is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/122-multidimensional-scaling-essentials-algorithms-and-r-code/' target = '_blank'>page.</a></p>
-            <p>2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            <p>____________________________________________________________________________________</p>
-    
-            </div>
-            </body>
-            </html>"
-            )
+            # self$results$instructions$setContent(
+            #     "<html>
+            # <head>
+            # </head>
+            # <body>
+            # <div class='instructions'>
+            # <p>____________________________________________________________________________________</p>
+            # <p>1. The rationale of Classical Multidimensional Scaling is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/122-multidimensional-scaling-essentials-algorithms-and-r-code/' target = '_blank'>page.</a></p>
+            # <p>2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            # <p>____________________________________________________________________________________</p>
+            # 
+            # </div>
+            # </body>
+            # </html>"
+            # )
        
+          self$results$instructions$setContent(
+            private$.htmlwidget$generate_accordion(
+              title="Instructions",
+              content = paste(
+                '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+                '<div style="text-align:justify;">',
+                '<ul>',
+                '<li>The rationale of Classical Multidimensional Scaling is described in the <a href="http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/122-multidimensional-scaling-essentials-algorithms-and-r-code/" target = "_blank">page</a>.</li>',
+                '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+                '</ul></div></div>'
+                
+              )
+              
+            )
+          )          
+          
+          
             if(self$options$mode == "simple"){  
             if(isTRUE(self$options$plot)){
               width <- self$options$width

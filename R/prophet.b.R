@@ -20,8 +20,12 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "prophetClass",
     inherit = prophetBase,
     private = list(
+
+      .htmlwidget = NULL,
+      
       .init = function() {
         
+        private$.htmlwidget <- HTMLWidget$new()
         
         if (is.null(self$options$dep)){
           
@@ -30,22 +34,40 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           
         }
         
+        # self$results$instructions$setContent(
+        #   "<html>
+        #     <head>
+        #     </head>
+        #     <body>
+        #     <div class='instructions'>
+        #     
+        #     <p>_____________________________________________________________________________________________</p>
+        #     <p>1. Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs</p>
+        #     <p>2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+        #     <p>_____________________________________________________________________________________________</p>
+        #     
+        #     </div>
+        #     </body>
+        #     </html>"
+        # )
+        
         self$results$instructions$setContent(
-          "<html>
-            <head>
-            </head>
-            <body>
-            <div class='instructions'>
+          private$.htmlwidget$generate_accordion(
+            title="Instructions",
+            content = paste(
+              '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+              '<div style="text-align:justify;">',
+              '<ul>',
+              '<li>Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs.</li>',
+              '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+              '</ul></div></div>'
+              
+            )
             
-            <p>_____________________________________________________________________________________________</p>
-            <p>1. Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs</p>
-            <p>2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            <p>_____________________________________________________________________________________________</p>
-            
-            </div>
-            </body>
-            </html>"
-        )
+          )
+        )          
+        
+        
         
         if(isTRUE(self$options$plot1)){
           

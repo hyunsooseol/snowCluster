@@ -23,9 +23,12 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "arimaClass",
     inherit = arimaBase,
     private = list(
-
+      .htmlwidget = NULL,
+      
         .init = function() {
-            
+      
+          private$.htmlwidget <- HTMLWidget$new()
+                
          if (is.null(self$options$dep) | is.null(self$options$dep1)){
                 
                     
@@ -33,28 +36,49 @@ arimaClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 
             }
             
-            self$results$instructions$setContent(
-                "<html>
-            <head>
-            </head>
-            <body>
-            <div class='instructions'>
+            # self$results$instructions$setContent(
+            #     "<html>
+            # <head>
+            # </head>
+            # <body>
+            # <div class='instructions'>
+            # 
+            # <p>_____________________________________________________________________________________________</p>
+            # <p>1. <b>To run ARIMA,</b> remove the variables from the prophet analysis box.
+            # <p>2. In order to perform a prophet analysis, the variables must be named <b>'ds' and 'y'</b> respectively.</p>
+            # <p>3. Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs</p>
+            # <p>4. ARIMA options are classified by two factors; <b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting.</p>
+            # <p>5. The results of ARIMA were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
+            # <p>6. The rationale of <b>forecast</b> R package is described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
+            # <p>7. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            # <p>_____________________________________________________________________________________________</p>
+            # 
+            # </div>
+            # </body>
+            # </html>"
+            # )
             
-            <p>_____________________________________________________________________________________________</p>
-            <p>1. <b>To run ARIMA,</b> remove the variables from the prophet analysis box.
-            <p>2. In order to perform a prophet analysis, the variables must be named <b>'ds' and 'y'</b> respectively.</p>
-            <p>3. Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs</p>
-            <p>4. ARIMA options are classified by two factors; <b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting.</p>
-            <p>5. The results of ARIMA were implemented with <b>auto.arima() and forecast() function</b> in R.</p>
-            <p>6. The rationale of <b>forecast</b> R package is described in the <a href='https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf' target = '_blank'>documentation.</a></p>
-            <p>7. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            <p>_____________________________________________________________________________________________</p>
-            
-            </div>
-            </body>
-            </html>"
+          self$results$instructions$setContent(
+            private$.htmlwidget$generate_accordion(
+              title="Instructions",
+              content = paste(
+                '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+                '<div style="text-align:justify;">',
+                '<ul>',
+                '<li><b>To run ARIMA,</b> remove the variables from the prophet analysis box.</li>',
+                '<li>In order to perform a prophet analysis, the variables must be named <b>ds and y</b> respectively.</li>',
+                '<li>Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs</li>',
+                '<li>ARIMA options are classified by two factors; <b>Frequency</b>= the number of observations per unit of time. <b>Prediction</b>= number of periods for forecasting.</li>',
+                '<li>The results of ARIMA were implemented with <b>auto.arima() and forecast() function</b> in R.</li>',
+                '<li>The rationale of <b>forecast</b> R package is described in the <a href="https://cran.r-project.org/web/packages/forecast/vignettes/JSS2008.pdf" target = "_blank">documentation</a>.</li>',
+                '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+                '</ul></div></div>'
+                
+              )
+              
             )
-            
+          )          
+          
             if(self$options$fit)
                 self$results$fit$setNote(
                     "Note",

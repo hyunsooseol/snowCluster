@@ -12,7 +12,11 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     inherit = timeclustBase,
     private = list(
 
+      .htmlwidget = NULL,
+      
       .init = function() {
+        
+        private$.htmlwidget <- HTMLWidget$new()
         
         if (is.null(self$data) | is.null(self$options$item)) {
           
@@ -20,22 +24,40 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           
         }
         
+        # self$results$instructions$setContent(
+        #   "<html>
+        #     <head>
+        #     </head>
+        #     <body>
+        #     <div class='instructions'>
+        #     <p>____________________________________________________________________________________</p>
+        #     <p>1. Perform time series clustering based on <a href='https://www.r-bloggers.com/2024/07/time-series-clustering-in-r/' target = '_blank'>Widyr R package.</a></p>
+        #     <p>2. The variables must be named <b>'time', 'item', and 'value'</b> respectively.</p>
+        #     <p>3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+        #     <p>____________________________________________________________________________________</p>
+        #     
+        #     </div>
+        #     </body>
+        #     </html>"
+        # )
         self$results$instructions$setContent(
-          "<html>
-            <head>
-            </head>
-            <body>
-            <div class='instructions'>
-            <p>____________________________________________________________________________________</p>
-            <p>1. Perform time series clustering based on <a href='https://www.r-bloggers.com/2024/07/time-series-clustering-in-r/' target = '_blank'>Widyr R package.</a></p>
-            <p>2. The variables must be named <b>'time', 'item', and 'value'</b> respectively.</p>
-            <p>3. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            <p>____________________________________________________________________________________</p>
+          private$.htmlwidget$generate_accordion(
+            title="Instructions",
+            content = paste(
+              '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+              '<div style="text-align:justify;">',
+              '<ul>',
+              '<li>Perform time series clustering based on <a href="https://www.r-bloggers.com/2024/07/time-series-clustering-in-r/" target = "_blank">Widyr R package</a>.</li>',
+              '<li>The variables must be named <b>time, item, and value</b> respectively.</li>',
+              '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+              '</ul></div></div>'
+              
+            )
             
-            </div>
-            </body>
-            </html>"
-        )
+          )
+        )          
+        
+        
         
         if(isTRUE(self$options$plot)){
           

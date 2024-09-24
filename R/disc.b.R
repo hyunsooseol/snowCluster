@@ -17,30 +17,49 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     "discClass",
     inherit = discBase,
     private = list(
-    
+      .htmlwidget = NULL,
  #------------------------------------
         
         .init = function() {
-            if (is.null(self$options$dep) | is.null(self$options$covs)) {
+            
+          private$.htmlwidget <- HTMLWidget$new()
+          
+          if (is.null(self$options$dep) | is.null(self$options$covs)) {
                 self$results$instructions$setVisible(visible = TRUE)
                 
             }
             
-            self$results$instructions$setContent(
-                "<html>
-            <head>
-            </head>
-            <body>
-            <div class='instructions'>
-            <p>____________________________________________________________________________________</p>
-            <p> 1. If you set <b>Split set</b> to less than 1, uncheck the LD plot. Otherwise, you will get an error.</p>
-            <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            <p>____________________________________________________________________________________</p>
-            
-            </div>
-            </body>
-            </html>"
+            # self$results$instructions$setContent(
+            #     "<html>
+            # <head>
+            # </head>
+            # <body>
+            # <div class='instructions'>
+            # <p>____________________________________________________________________________________</p>
+            # <p> 1. If you set <b>Split set</b> to less than 1, uncheck the LD plot. Otherwise, you will get an error.</p>
+            # <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            # <p>____________________________________________________________________________________</p>
+            # 
+            # </div>
+            # </body>
+            # </html>"
+            # )
+          
+          self$results$instructions$setContent(
+            private$.htmlwidget$generate_accordion(
+              title="Instructions",
+              content = paste(
+                '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+                '<div style="text-align:justify;">',
+                '<ul>',
+                '<li>If you set <b>Split set</b> to less than 1, uncheck the LD plot. Otherwise, you will get an error.</li>',
+                '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+                '</ul></div></div>'
+                
+              )
+              
             )
+          )          
           
             if(isTRUE(self$options$plot)){
               width <- self$options$width

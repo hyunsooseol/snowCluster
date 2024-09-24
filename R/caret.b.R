@@ -42,32 +42,53 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "caretClass",
     inherit = caretBase,
     private = list(
-
+      .htmlwidget = NULL,
+      
       #------------------------------------
       
       .init = function() {
+        private$.htmlwidget <- HTMLWidget$new()
+        
         if (is.null(self$options$dep) | is.null(self$options$covs)) {
           self$results$instructions$setVisible(visible = TRUE)
           
         }
         
+        # self$results$instructions$setContent(
+        #   "<html>
+        #     <head>
+        #     </head>
+        #     <body>
+        #     <div class='instructions'>
+        #     <p>____________________________________________________________________________________</p>
+        #     <p> 1. Machine learning based on  <a href='https://topepo.github.io/caret/' target = '_blank'>caret R package.</a></p> 
+        #     <p> 2. The values for the target variable cannot be a number. </p> 
+        #     <p> 3. If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection plot</b> in Plots.
+        #     <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+        #     <p>____________________________________________________________________________________</p>
+        #     
+        #     </div>
+        #     </body>
+        #     </html>"
+        # )
         self$results$instructions$setContent(
-          "<html>
-            <head>
-            </head>
-            <body>
-            <div class='instructions'>
-            <p>____________________________________________________________________________________</p>
-            <p> 1. Machine learning based on  <a href='https://topepo.github.io/caret/' target = '_blank'>caret R package.</a></p> 
-            <p> 2. The values for the target variable cannot be a number. </p> 
-            <p> 3. If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection plot</b> in Plots.
-            <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            <p>____________________________________________________________________________________</p>
+          private$.htmlwidget$generate_accordion(
+            title="Instructions",
+            content = paste(
+              '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+              '<div style="text-align:justify;">',
+              '<ul>',
+              '<li>Machine learning based on  <a href="https://topepo.github.io/caret/" target = "_blank">caret R package</a>.</li>',
+              '<li>The values for the target variable cannot be a number.</li>',
+              '<li>If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection plot</b> in Plots.</li>',
+              '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+              '</ul></div></div>'
+              
+            )
             
-            </div>
-            </body>
-            </html>"
-        )
+          )
+        )          
+        
         
         if(isTRUE(self$options$plot)){
           width <- self$options$width

@@ -19,34 +19,61 @@ mfaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     inherit = mfaBase,
     private = list(
         
+      .htmlwidget = NULL,
+      
         #------------------------------------
         
         .init = function() {
-            if (is.null(self$data) | is.null(self$options$vars)) {
+            
+          private$.htmlwidget <- HTMLWidget$new()
+          
+          if (is.null(self$data) | is.null(self$options$vars)) {
                 self$results$instructions$setVisible(visible = TRUE)
                 
             }
             
-            self$results$instructions$setContent(
-                "<html>
-            <head>
-            </head>
-            <body>
-            <div class='instructions'>
-            <p>____________________________________________________________________________________</p>
-            <p> 1. Specify 'Model Component'.</p>
-            <p> 2. Type of value indicates 's' for the variables are scaled to unit variance,'n' for categorical variables, or 'f' for frequencies.</p>
-            <p> 3. Move the variables into 'Variables'box.
-            <p> 4. Factor box can be specified for visualizing 'individuals by group' plot. </p>
-            <p> 5. The rationale of Multiple Factor Analysis is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
-            <p> 6. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            <p>____________________________________________________________________________________</p>
-            
-            </div>
-            </body>
-            </html>"
-            )
+            # self$results$instructions$setContent(
+            #     "<html>
+            # <head>
+            # </head>
+            # <body>
+            # <div class='instructions'>
+            # <p>____________________________________________________________________________________</p>
+            # <p> 1. Specify 'Model Component'.</p>
+            # <p> 2. Type of value indicates 's' for the variables are scaled to unit variance,'n' for categorical variables, or 'f' for frequencies.</p>
+            # <p> 3. Move the variables into 'Variables'box.
+            # <p> 4. Factor box can be specified for visualizing 'individuals by group' plot. </p>
+            # <p> 5. The rationale of Multiple Factor Analysis is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/' target = '_blank'>page.</a></p>
+            # <p> 6. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
+            # <p>____________________________________________________________________________________</p>
+            # 
+            # </div>
+            # </body>
+            # </html>"
+            # )
         
+          self$results$instructions$setContent(
+            private$.htmlwidget$generate_accordion(
+              title="Instructions",
+              content = paste(
+                '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+                '<div style="text-align:justify;">',
+                '<ul>',
+                '<li>Specify <b>Model Component</b>.</li>',
+                '<li>Type of value indicates <b>s</b> for the variables are scaled to unit variance,<b>n</b> for categorical variables, or <b>f</b> for frequencies.</li>',
+                '<li>Move the variables into Variables box.</li>',
+                '<li>Factor box can be specified for visualizing <b>individuals by group</b> plot.</li>',
+                '<li>The rationale of Multiple Factor Analysis is described in the <a href="http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/116-mfa-multiple-factor-analysis-in-r-essentials/" target = "_blank">page</a>.</li>',
+                '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+                '</ul></div></div>'
+                
+              )
+              
+            )
+          )          
+          
+          
+          
             if(isTRUE(self$options$plot)){
               width <- self$options$width
               height <- self$options$height
