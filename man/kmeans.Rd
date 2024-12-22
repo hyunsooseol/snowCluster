@@ -8,6 +8,8 @@ kmeans(
   data,
   vars,
   k = 2,
+  k1 = 2,
+  gower = FALSE,
   algo = "Hartigan-Wong",
   nstart = 10,
   stand = FALSE,
@@ -32,6 +34,10 @@ kmeans(
 \item{vars}{.}
 
 \item{k}{.}
+
+\item{k1}{.}
+
+\item{gower}{.}
 
 \item{algo}{.}
 
@@ -79,6 +85,8 @@ A results object containing:
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
+  \code{results$clust1} \tab \tab \tab \tab \tab an output \cr
+  \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

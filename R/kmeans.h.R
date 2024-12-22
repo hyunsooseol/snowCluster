@@ -8,10 +8,12 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             vars = NULL,
             k = 2,
+            k1 = 2,
+            gower = FALSE,
             algo = "Hartigan-Wong",
             nstart = 10,
             stand = FALSE,
-            plot = TRUE,
+            plot = FALSE,
             angle = 0,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -33,16 +35,23 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             private$..vars <- jmvcore::OptionVariables$new(
                 "vars",
-                vars,
-                suggested=list(
-                    "continuous"),
-                permitted=list(
-                    "numeric"))
+                vars)
             private$..k <- jmvcore::OptionInteger$new(
                 "k",
                 k,
                 default=2,
-                min=1)
+                min=2)
+            private$..k1 <- jmvcore::OptionInteger$new(
+                "k1",
+                k1,
+                default=2,
+                min=2)
+            private$..gower <- jmvcore::OptionBool$new(
+                "gower",
+                gower,
+                default=FALSE)
+            private$..clust1 <- jmvcore::OptionOutput$new(
+                "clust1")
             private$..algo <- jmvcore::OptionList$new(
                 "algo",
                 algo,
@@ -63,7 +72,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
-                default=TRUE)
+                default=FALSE)
             private$..angle <- jmvcore::OptionNumber$new(
                 "angle",
                 angle,
@@ -119,6 +128,9 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..vars)
             self$.addOption(private$..k)
+            self$.addOption(private$..k1)
+            self$.addOption(private$..gower)
+            self$.addOption(private$..clust1)
             self$.addOption(private$..algo)
             self$.addOption(private$..nstart)
             self$.addOption(private$..stand)
@@ -140,6 +152,9 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         vars = function() private$..vars$value,
         k = function() private$..k$value,
+        k1 = function() private$..k1$value,
+        gower = function() private$..gower$value,
+        clust1 = function() private$..clust1$value,
         algo = function() private$..algo$value,
         nstart = function() private$..nstart$value,
         stand = function() private$..stand$value,
@@ -160,6 +175,9 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..vars = NA,
         ..k = NA,
+        ..k1 = NA,
+        ..gower = NA,
+        ..clust1 = NA,
         ..algo = NA,
         ..nstart = NA,
         ..stand = NA,
@@ -192,7 +210,9 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]],
-        clust = function() private$.items[["clust"]]),
+        clust = function() private$.items[["clust"]],
+        clust1 = function() private$.items[["clust1"]],
+        text1 = function() private$.items[["text1"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -341,7 +361,20 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "k",
                     "algo",
                     "nstart",
-                    "stand")))}))
+                    "stand")))
+            self$add(jmvcore::Output$new(
+                options=options,
+                name="clust1",
+                title="G_cluster",
+                varTitle="G_cluster",
+                measureType="nominal",
+                clearWith=list(
+                    "vars",
+                    "k1")))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text1",
+                title="Gower distance"))}))
 
 kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "kmeansBase",
@@ -370,6 +403,8 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data The data as a data frame.
 #' @param vars .
 #' @param k .
+#' @param k1 .
+#' @param gower .
 #' @param algo .
 #' @param nstart .
 #' @param stand .
@@ -399,6 +434,8 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
+#'   \code{results$clust1} \tab \tab \tab \tab \tab an output \cr
+#'   \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -412,10 +449,12 @@ kmeans <- function(
     data,
     vars,
     k = 2,
+    k1 = 2,
+    gower = FALSE,
     algo = "Hartigan-Wong",
     nstart = 10,
     stand = FALSE,
-    plot = TRUE,
+    plot = FALSE,
     angle = 0,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -442,6 +481,8 @@ kmeans <- function(
     options <- kmeansOptions$new(
         vars = vars,
         k = k,
+        k1 = k1,
+        gower = gower,
         algo = algo,
         nstart = nstart,
         stand = stand,

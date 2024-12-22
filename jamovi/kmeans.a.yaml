@@ -16,17 +16,28 @@ options:
     - name: vars
       title: Variables
       type: Variables
-      suggested:
-         - continuous
-      permitted:
-        - numeric  
 
     - name: k
       title: Number of clusters
       default: 2
       type: Integer
-      min: 1
+      min: 2
 
+    - name: k1
+      title: Number of clusters
+      default: 2
+      type: Integer
+      min: 2
+
+    - name: gower
+      title: 'Gower distance'
+      type: Bool
+      default: FALSE
+      
+    - name: clust1
+      title: 'Gower cluster number'
+      type: Output
+      
     - name: algo
       title: Algorithm
       type: List
@@ -54,7 +65,7 @@ options:
     - name: plot
       title: Plot of means across clusters
       type: Bool
-      default: TRUE
+      default: FALSE
 
     - name: angle
       title: Angle of x-axis labels

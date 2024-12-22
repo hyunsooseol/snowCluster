@@ -144,5 +144,17 @@ items:
         - algo
         - nstart
         - stand
-      
+
+    - name: clust1
+      title: G_cluster
+      type: Output
+      varTitle: G_cluster
+      measureType: nominal
+      clearWith:
+        - vars
+        - k1
+
+    - name:  text1
+      title: 'Gower distance'
+      type:  Preformatted
 ...

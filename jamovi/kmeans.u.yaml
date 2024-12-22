@@ -52,7 +52,7 @@ children:
         stretchFactor: 1
         children:
           - type: Label
-            label: Options
+            label: 'Options'
             children:
               - name: stand
                 type: CheckBox
@@ -62,6 +62,11 @@ children:
               - name: nstart
                 type: TextBox
                 format: number
+          - type: Label
+            label: 'Save'
+            children:
+              - type: Output
+                name: clust
   - type: CollapseBox
     label: 'Plots'
     margin: normal
@@ -145,7 +150,7 @@ children:
                     format: number
                     enable: (plot3)      
   - type: CollapseBox
-    label: Save
+    label: 'Gower distance'
     collapsed: true
     stretchFactor: 1
     children:
@@ -153,5 +158,11 @@ children:
         margin: large
         stretchFactor: 1
         children:
-          - type: Output
-            name: clust
+          - name: gower
+            type: CheckBox
+          - name: clust1
+            type: Output
+          - name: k1
+            type: TextBox
+            format: number          
+ 
