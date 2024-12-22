@@ -13,7 +13,7 @@ kmeans(
   algo = "Hartigan-Wong",
   nstart = 10,
   stand = FALSE,
-  plot = TRUE,
+  plot = FALSE,
   angle = 0,
   plot1 = FALSE,
   plot2 = FALSE,
