@@ -156,5 +156,6 @@ items:
 
     - name:  text1
       title: 'Gower distance'
+      refs: vegan
       type:  Preformatted
 ...
