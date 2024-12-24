@@ -365,20 +365,22 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     # dat <- jmvcore::select(data, c(self$options$vars,self$options$factors))
                     # 
                     
-                    # 연속형 변수를 숫자형으로 변환
-                    if (length(vars) > 0) {  # 연속형 변수가 있을 경우에만 처리
+                    # continuous vars---
+                    if (length(vars) > 0) {  
                       for (i in seq_along(vars))
                         data[[vars[i]]] <- jmvcore::toNumeric(data[[vars[i]]])
                     }
                     
-                    # 범주형 변수를 팩터로 변환
-                    if (length(facs) > 0) {  # 범주형 변수가 있을 경우에만 처리
+                    # factor vars---
+                    if (length(facs) > 0) {  
                       for (fac in facs)
                         data[[fac]] <- as.factor(data[[fac]])
                     }
                     
+                    # a <- capture.output(summary(data[fac]))
+                    # self$results$text$setContent(paste(a, collapse = "\n"))
                     
-                    # 연속형 변수와 범주형 변수를 모두 포함한 데이터 선택
+                    # combine dataset---
                     selected_vars <- c(vars, facs)
                     dat <- jmvcore::select(data, selected_vars)
                     

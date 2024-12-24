@@ -210,28 +210,47 @@ treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
 
             data[[self$options$dep]] <- as.factor(data[[self$options$dep]])
 
-            for(cov in self$options$covs)
+            for(cov in self$options$covs){
                 data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-
-            for(fac in self$options$facs)
+            }
+                
+            for(fac in self$options$facs){
                 data[[fac]] <- as.factor(data[[fac]])
-
+            
+            }
+            
+            # a <- capture.output(summary(data[fac]))
+            # self$results$text$setContent(paste(a, collapse = "\n"))
+            
+            
             data <- jmvcore::naOmit(data)
 
             split <- caret::createDataPartition(data[[self$options$dep]],
                                                 p=self$options$per,
-                                                list=F)
+                                                list=FALSE)
 
             train <- data[split,]
             test  <- data[-split,]
 
-            mtrain <- party::ctree(formula=as.formula(paste0(self$options$dep, " ~ .")),
-                                   data=train)
+            # mtrain <- party::ctree(formula=as.formula(paste0(self$options$dep, " ~ .")),
+            #                        data=train)
+            mtrain <- party::ctree(
+              formula = as.formula(paste0(self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + "))),
+              data = train
+            )
+            
+            
+            # rpart <- rpart::rpart(formula=as.formula(paste0(self$options$dep, " ~ .")),
+            #                       data=train,
+            #                       method='class')
 
-            rpart <- rpart::rpart(formula=as.formula(paste0(self$options$dep, " ~ .")),
-                                  data=train,
-                                  method='class')
-
+            rpart <- rpart::rpart(
+              formula = as.formula(paste0(self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + "))),
+              data = train,
+              method = 'class'
+            )
+            
+            
             retlist <- list(train=train, test=test, mtrain=mtrain, rpart=rpart)
             return(retlist)
 
