@@ -14,6 +14,12 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
+      - type: TargetLayoutBox
+        label: Factors
+        children:
+          - type: VariablesListBox
+            name: factors
+            isTarget: true
   - type: LayoutBox
     margin: large
     stretchFactor: 1

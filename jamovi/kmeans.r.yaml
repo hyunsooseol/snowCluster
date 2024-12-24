@@ -152,11 +152,12 @@ items:
       measureType: nominal
       clearWith:
         - vars
+        - factors
         - k1
-        - type
 
     - name:  text1
       title: 'Gower distance '
       refs: clustMixType
       type:  Preformatted
+
 ...

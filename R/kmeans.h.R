@@ -7,6 +7,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             vars = NULL,
+            factors = NULL,
             k = 2,
             k1 = 2,
             kp = FALSE,
@@ -35,7 +36,18 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             private$..vars <- jmvcore::OptionVariables$new(
                 "vars",
-                vars)
+                vars,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..factors <- jmvcore::OptionVariables$new(
+                "factors",
+                factors,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
             private$..k <- jmvcore::OptionInteger$new(
                 "k",
                 k,
@@ -127,6 +139,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=500)
 
             self$.addOption(private$..vars)
+            self$.addOption(private$..factors)
             self$.addOption(private$..k)
             self$.addOption(private$..k1)
             self$.addOption(private$..kp)
@@ -151,6 +164,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         }),
     active = list(
         vars = function() private$..vars$value,
+        factors = function() private$..factors$value,
         k = function() private$..k$value,
         k1 = function() private$..k1$value,
         kp = function() private$..kp$value,
@@ -174,6 +188,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         height3 = function() private$..height3$value),
     private = list(
         ..vars = NA,
+        ..factors = NA,
         ..k = NA,
         ..k1 = NA,
         ..kp = NA,
@@ -370,8 +385,8 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 measureType="nominal",
                 clearWith=list(
                     "vars",
-                    "k1",
-                    "type")))
+                    "factors",
+                    "k1")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text1",
@@ -404,6 +419,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data The data as a data frame.
 #' @param vars .
+#' @param factors .
 #' @param k .
 #' @param k1 .
 #' @param kp .
@@ -450,6 +466,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 kmeans <- function(
     data,
     vars,
+    factors,
     k = 2,
     k1 = 2,
     kp = FALSE,
@@ -474,14 +491,18 @@ kmeans <- function(
         stop("kmeans requires jmvcore to be installed (restart may be required)")
 
     if ( ! missing(vars)) vars <- jmvcore::resolveQuo(jmvcore::enquo(vars))
+    if ( ! missing(factors)) factors <- jmvcore::resolveQuo(jmvcore::enquo(factors))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
-            `if`( ! missing(vars), vars, NULL))
+            `if`( ! missing(vars), vars, NULL),
+            `if`( ! missing(factors), factors, NULL))
 
+    for (v in factors) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- kmeansOptions$new(
         vars = vars,
+        factors = factors,
         k = k,
         k1 = k1,
         kp = kp,

@@ -119,6 +119,11 @@ datasets:
       - Kmeans
       - Group plot
       - Machine Learning
+  - name: gower
+    path: gower.omv
+    description: Gower distance
+    tags:
+      - Gower distance
   - name: timeclust
     path: timeclust.omv
     description: Time series clustering

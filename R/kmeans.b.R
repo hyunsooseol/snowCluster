@@ -159,14 +159,15 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             
             .run = function() {
                 
-                     k <- self$options$k
-              
-                if (length(self$options$vars)<= k ) return() 
+                    
+             if (length(self$options$vars)> 2 ){  
                 
                 # Solved Problem that does not change plot using set.seed()
                      set.seed(1234)
                      
+                     k <- self$options$k         
                     vars <- self$options$vars
+                    facs <- self$options$factors
                     
                     data <- self$data
                     
@@ -334,14 +335,56 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                        
                       
                     }
-                
-                  if(isTRUE(self$options$kp)){
+             }  
+                  
+                    if(length(self$options$factors)>=1){
+                    
+                    if(isTRUE(self$options$kp)){
                     
                     
                     k1 <- self$options$k1
-                  
+                    
+                    vars <- self$options$vars
+                    facs <- self$options$factors
+                    
+                    data <- self$data
+                    
+                    # # convert to appropriate data types
+                    # for (i in seq_along(vars))
+                    #   data[[i]] <- jmvcore::toNumeric(data[[i]])
+                    # 
+                    # #  data[[vars]] <- jmvcore::toNumeric(data[[vars]])
+                    # 
+                    # for (fac in facs)
+                    #   data[[fac]] <- as.factor(data[[fac]])
+                    # 
+                    # # data is now all of the appropriate type we can begin!
+                    # 
+                    # #data <- na.omit(data)
+                    # 
+                    # dat <- jmvcore::select(data, c(self$options$vars,self$options$factors))
+                    # 
+                    
+                    # 연속형 변수를 숫자형으로 변환
+                    if (length(vars) > 0) {  # 연속형 변수가 있을 경우에만 처리
+                      for (i in seq_along(vars))
+                        data[[vars[i]]] <- jmvcore::toNumeric(data[[vars[i]]])
+                    }
+                    
+                    # 범주형 변수를 팩터로 변환
+                    if (length(facs) > 0) {  # 범주형 변수가 있을 경우에만 처리
+                      for (fac in facs)
+                        data[[fac]] <- as.factor(data[[fac]])
+                    }
+                    
+                    
+                    # 연속형 변수와 범주형 변수를 모두 포함한 데이터 선택
+                    selected_vars <- c(vars, facs)
+                    dat <- jmvcore::select(data, selected_vars)
+                    
+                    
                     # Gower distance---
-                    proto <-clustMixType::kproto(data, k=k1, type = 'gower')
+                    proto <-clustMixType::kproto(dat, k=k1, type = 'gower')
                     
                     # Matrix with distances---
                     self$results$text1$setContent(proto$dists)
@@ -353,7 +396,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     self$results$clust1$setRowNums(rownames(data))
                   
                   } 
-                  
+                    
+                      }  
             },
             
             

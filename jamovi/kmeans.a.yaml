@@ -16,6 +16,18 @@ options:
     - name: vars
       title: Variables
       type: Variables
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+
+    - name: factors
+      title: Factors
+      type: Variables
+      suggested:
+        - nominal
+      permitted:
+        - factor
 
     - name: k
       title: Number of clusters
