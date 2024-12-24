@@ -59,7 +59,6 @@ Imports:
     tibble,
     ggthemes,
     mclust,
-    vegan,
-    cluster,
+    clustMixType,
 Remotes: cardiomoon/multipleROC    
 

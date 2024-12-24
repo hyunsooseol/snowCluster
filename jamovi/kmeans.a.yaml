@@ -29,15 +29,15 @@ options:
       type: Integer
       min: 2
 
-    - name: gower
+    - name: kp
       title: 'Gower distance'
       type: Bool
       default: FALSE
       
     - name: clust1
-      title: 'Gower cluster number'
+      title: 'Gower memberships'
       type: Output
-      
+
     - name: algo
       title: Algorithm
       type: List

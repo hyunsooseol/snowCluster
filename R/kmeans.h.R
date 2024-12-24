@@ -9,7 +9,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             k = 2,
             k1 = 2,
-            gower = FALSE,
+            kp = FALSE,
             algo = "Hartigan-Wong",
             nstart = 10,
             stand = FALSE,
@@ -46,9 +46,9 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 k1,
                 default=2,
                 min=2)
-            private$..gower <- jmvcore::OptionBool$new(
-                "gower",
-                gower,
+            private$..kp <- jmvcore::OptionBool$new(
+                "kp",
+                kp,
                 default=FALSE)
             private$..clust1 <- jmvcore::OptionOutput$new(
                 "clust1")
@@ -129,7 +129,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..vars)
             self$.addOption(private$..k)
             self$.addOption(private$..k1)
-            self$.addOption(private$..gower)
+            self$.addOption(private$..kp)
             self$.addOption(private$..clust1)
             self$.addOption(private$..algo)
             self$.addOption(private$..nstart)
@@ -153,7 +153,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars = function() private$..vars$value,
         k = function() private$..k$value,
         k1 = function() private$..k1$value,
-        gower = function() private$..gower$value,
+        kp = function() private$..kp$value,
         clust1 = function() private$..clust1$value,
         algo = function() private$..algo$value,
         nstart = function() private$..nstart$value,
@@ -176,7 +176,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars = NA,
         ..k = NA,
         ..k1 = NA,
-        ..gower = NA,
+        ..kp = NA,
         ..clust1 = NA,
         ..algo = NA,
         ..nstart = NA,
@@ -365,17 +365,18 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Output$new(
                 options=options,
                 name="clust1",
-                title="G_cluster",
-                varTitle="G_cluster",
+                title="Gower",
+                varTitle="Gower",
                 measureType="nominal",
                 clearWith=list(
                     "vars",
-                    "k1")))
+                    "k1",
+                    "type")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text1",
-                title="Gower distance",
-                refs="vegan"))}))
+                title="Gower distance ",
+                refs="clustMixType"))}))
 
 kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "kmeansBase",
@@ -405,7 +406,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars .
 #' @param k .
 #' @param k1 .
-#' @param gower .
+#' @param kp .
 #' @param algo .
 #' @param nstart .
 #' @param stand .
@@ -451,7 +452,7 @@ kmeans <- function(
     vars,
     k = 2,
     k1 = 2,
-    gower = FALSE,
+    kp = FALSE,
     algo = "Hartigan-Wong",
     nstart = 10,
     stand = FALSE,
@@ -483,7 +484,7 @@ kmeans <- function(
         vars = vars,
         k = k,
         k1 = k1,
-        gower = gower,
+        kp = kp,
         algo = algo,
         nstart = nstart,
         stand = stand,

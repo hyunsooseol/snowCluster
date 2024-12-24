@@ -81,15 +81,9 @@
         `year`=2024, 
         `title`="mclust: Gaussian Mixture Modelling for Model-Based Clustering, Classification, and Density Estimation", 
         `publisher`="(Version 6.1.1)[R package]. URL https://CRAN.R-project.org/package=mclust"), 
-    `vegan`=list(
+    `clustMixType`=list(
         `type`="software", 
-        `author`="Oksanen, J., et.al.", 
+        `author`="Szepannek, G. & Aschenbruck, R.", 
         `year`=2024, 
-        `title`="vegan: Community Ecology Package", 
-        `publisher`="(Version 2.6-8)[R package]. URL https://CRAN.R-project.org/package=vegan"), 
-    `cluster`=list(
-        `type`="software", 
-        `author`="Maechler, M., et.al.", 
-        `year`=2024, 
-        `title`="cluster: Finding Groups in Data: Cluster Analysis Extended Rousseeuw et al.", 
-        `publisher`="(Version 2.1.8)[R package]. URL https://CRAN.R-project.org/package=cluster"))
+        `title`="clustMixType: k-PrototypesClusteringforMixedVariable-TypeData", 
+        `publisher`="(Version 0.4-2)[R package]. URL https://CRAN.R-project.org/package=clustMixType"))

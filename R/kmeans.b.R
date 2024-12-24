@@ -6,8 +6,7 @@
 #' @importFrom factoextra fviz_pca_var
 #' @importFrom FactoMineR PCA
 #' @importFrom factoextra get_pca_var
-#' @importFrom vegan vegdist
-#' @importFrom cluster pam
+#' @importFrom clustMixType kproto
 #' @import ggplot2
 #' @export
 
@@ -336,29 +335,25 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                       
                     }
                 
-                  if(isTRUE(self$options$gower)){
+                  if(isTRUE(self$options$kp)){
                     
-                    # mtcars <- mtcars
-                    # gow.mat <- vegan::vegdist(mtcars, method="gower")
-                    # clust <- cluster::pam(x = gow.mat, k = 3, diss = TRUE)
-                    # clust$clustering
                     
                     k1 <- self$options$k1
+                  
+                    # Gower distance---
+                    proto <-clustMixType::kproto(data, k=k1, type = 'gower')
                     
-                    gow.mat <- vegan::vegdist(data, method="gower")
-                    clust <- cluster::pam(x = gow.mat, k = k1, diss = TRUE)
-                    cn <- clust$clustering
+                    # Matrix with distances---
+                    self$results$text1$setContent(proto$dists)
                     
-                    # Gower matrix
-                    self$results$text1$setContent(gow.mat)
+                    #cluster number
+                    gn <- proto$cluster
                     
-                    #Gower cluster number
-                    self$results$clust1$setValues(cn)
+                    self$results$clust1$setValues(gn)
                     self$results$clust1$setRowNums(rownames(data))
-                    
+                  
                   } 
-                    
-                
+                  
             },
             
             

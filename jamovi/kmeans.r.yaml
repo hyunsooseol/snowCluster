@@ -146,16 +146,17 @@ items:
         - stand
 
     - name: clust1
-      title: G_cluster
+      title: 'Gower'
       type: Output
-      varTitle: G_cluster
+      varTitle: Gower
       measureType: nominal
       clearWith:
         - vars
         - k1
+        - type
 
     - name:  text1
-      title: 'Gower distance'
-      refs: vegan
+      title: 'Gower distance '
+      refs: clustMixType
       type:  Preformatted
 ...
