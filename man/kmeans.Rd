@@ -7,9 +7,10 @@
 kmeans(
   data,
   vars,
+  factors,
   k = 2,
   k1 = 2,
-  gower = FALSE,
+  kp = FALSE,
   algo = "Hartigan-Wong",
   nstart = 10,
   stand = FALSE,
@@ -33,11 +34,13 @@ kmeans(
 
 \item{vars}{.}
 
+\item{factors}{.}
+
 \item{k}{.}
 
 \item{k1}{.}
 
-\item{gower}{.}
+\item{kp}{.}
 
 \item{algo}{.}
 
