@@ -50,6 +50,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
                     '<div style="text-align:justify;">',
                     '<ul>',
+                    '<li>If the variables consist solely of continuous variables, apply K-means clustering analysis.</li>', 
+                    '<li>If the variables are categorical or mixed-type variables, apply Gower distance analysis.</li>',
                     '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
                     '</ul></div></div>'
                     
