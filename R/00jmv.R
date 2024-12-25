@@ -85,5 +85,5 @@
         `type`="software", 
         `author`="Szepannek, G. & Aschenbruck, R.", 
         `year`=2024, 
-        `title`="clustMixType: k-PrototypesClusteringforMixedVariable-TypeData", 
+        `title`="clustMixType: k-Prototypes Clustering for Mixed Variable-Type Data", 
         `publisher`="(Version 0.4-2)[R package]. URL https://CRAN.R-project.org/package=clustMixType"))
