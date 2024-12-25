@@ -343,9 +343,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     
                     if(isTRUE(self$options$kp)){
                     
-                    
                     k1 <- self$options$k1
-                    
                     vars <- self$options$vars
                     facs <- self$options$factors
                     
@@ -386,12 +384,33 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     selected_vars <- c(vars, facs)
                     dat <- jmvcore::select(data, selected_vars)
                     
-                    
+                    set.seed(1234)
                     # Gower distance---
                     proto <-clustMixType::kproto(dat, k=k1, type = 'gower')
                     
                     # Matrix with distances---
-                    self$results$text1$setContent(proto$dists)
+                    #self$results$text1$setContent(proto$dists)
+                    
+                    # Table of Gower distance---
+                    
+                    table <- self$results$kp
+                    mat <- data.frame(proto$dists)
+                    colnames(mat) <-  paste0("Cluster", seq_along(colnames(mat)))
+                    names<- dimnames(mat)[[1]]
+                    dims <- colnames(mat)
+                    
+                    for (dim in dims) {
+                      table$addColumn(name = paste0(dim),
+                                      type = 'text',
+                                      combineBelow=TRUE)
+                    }
+                    for (name in names) {
+                      row <- list()
+                      for(j in seq_along(dims)){
+                        row[[dims[j]]] <- mat[name,j]
+                      }
+                      table$addRow(rowKey=name, values=row)
+                    }
                     
                     #cluster number
                     gn <- proto$cluster

@@ -155,9 +155,19 @@ items:
         - factors
         - k1
 
-    - name:  text1
-      title: 'Gower distance '
+    - name: kp
+      title: 'Gower distance'
+      type: Table
+      visible: (kp)
       refs: clustMixType
-      type:  Preformatted
-
+      clearWith:
+        - vars
+        - factors
+        - k1
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+  
 ...

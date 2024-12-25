@@ -9,13 +9,13 @@ children:
     stretchFactor: 1
     children:
       - type: TargetLayoutBox
-        label: Variables
+        label: 'Covariates'
         children:
           - type: VariablesListBox
             name: vars
             isTarget: true
       - type: TargetLayoutBox
-        label: Factors
+        label: 'Factors'
         children:
           - type: VariablesListBox
             name: factors

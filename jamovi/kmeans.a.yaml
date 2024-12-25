@@ -14,7 +14,7 @@ options:
             The data as a data frame.
 
     - name: vars
-      title: Variables
+      title: Covariates
       type: Variables
       suggested:
         - continuous

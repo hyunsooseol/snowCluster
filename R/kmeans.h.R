@@ -227,7 +227,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot3 = function() private$.items[["plot3"]],
         clust = function() private$.items[["clust"]],
         clust1 = function() private$.items[["clust1"]],
-        text1 = function() private$.items[["text1"]]),
+        kp = function() private$.items[["kp"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -387,11 +387,22 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "factors",
                     "k1")))
-            self$add(jmvcore::Preformatted$new(
+            self$add(jmvcore::Table$new(
                 options=options,
-                name="text1",
-                title="Gower distance ",
-                refs="clustMixType"))}))
+                name="kp",
+                title="Gower distance",
+                visible="(kp)",
+                refs="clustMixType",
+                clearWith=list(
+                    "vars",
+                    "factors",
+                    "k1"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"))))}))
 
 kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "kmeansBase",
@@ -453,7 +464,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$clust1} \tab \tab \tab \tab \tab an output \cr
-#'   \code{results$text1} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$kp} \tab \tab \tab \tab \tab a table \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
