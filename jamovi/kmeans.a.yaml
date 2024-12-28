@@ -45,6 +45,11 @@ options:
       title: 'Gower distance'
       type: Bool
       default: FALSE
+
+    - name: oc
+      title: 'Silhouette index'
+      type: Bool
+      default: FALSE
       
     - name: clust1
       title: 'Gower memberships'

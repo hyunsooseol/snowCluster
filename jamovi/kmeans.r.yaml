@@ -155,6 +155,25 @@ items:
         - factors
         - k1
 
+    - name: oc
+      title: 'Silhouette index'
+      type: Table
+      clearWith:
+        - vars
+        - factors
+        - K1
+
+      refs: clustMixType
+      columns:
+        - name: name
+          title: 'Cluster No.'
+          type: 'text'
+          content: ($key)  
+
+        - name: value
+          title: 'Silhouette index'
+          type: number
+
     - name: kp
       title: 'Gower distance'
       type: Table

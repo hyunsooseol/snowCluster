@@ -7,6 +7,7 @@
 #' @importFrom FactoMineR PCA
 #' @importFrom factoextra get_pca_var
 #' @importFrom clustMixType kproto
+#' @importFrom clustMixType validation_kproto
 #' @import ggplot2
 #' @export
 
@@ -98,6 +99,14 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 self$results$plot3$setSize(width, height)
               }  
               
+              if (self$options$oc)
+                self$results$oc$setNote(
+                  "Note",
+                  "The highest silhouette score can generally be interpreted as the optimal number of cluster."
+                )
+              
+              
+              
               ##initialize the centroids of cluster table-------------
                 
                 tab2 <- self$results$centroids
@@ -162,7 +171,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             .run = function() {
                 
                     
-             if (length(self$options$vars)> 2 ){  
+     if (length(self$options$vars)> 2 ){  
                 
                 # Solved Problem that does not change plot using set.seed()
                      set.seed(1234)
@@ -339,9 +348,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     }
              }  
                   
-                    if(length(self$options$factors)>=1){
-                    
-                    if(isTRUE(self$options$kp)){
+     if(length(self$options$factors)>=1){
                     
                     k1 <- self$options$k1
                     vars <- self$options$vars
@@ -383,11 +390,31 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     # combine dataset---
                     selected_vars <- c(vars, facs)
                     dat <- jmvcore::select(data, selected_vars)
+                   
+                    if(isTRUE(self$options$oc)){
+                      
+                    set.seed(1234)
+                    oc <- clustMixType::validation_kproto(data=dat, type='gower')
+                   #self$results$text1$setContent(oc$indices)
+                    table <- self$results$oc
+                    oc<- data.frame(oc$indices)
+                    names<- dimnames(oc)[[1]]
+                    
+                    for (name in names) {
+                      row <- list()
+                      row[['value']] <- oc[name,1]
+                      table$addRow(rowKey=name, values=row)
+                      
+                    }
+                    
+                    }
+                    
+                    if(isTRUE(self$options$kp)){
                     
                     set.seed(1234)
                     # Gower distance---
                     proto <-clustMixType::kproto(dat, k=k1, type = 'gower')
-                    
+                   
                     # Matrix with distances---
                     #self$results$text1$setContent(proto$dists)
                     
@@ -419,7 +446,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                     self$results$clust1$setRowNums(rownames(data))
                   
                   } 
-                    
+
                       }  
             },
             

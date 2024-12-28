@@ -172,11 +172,10 @@ children:
             stretchFactor: 1
             children:
               - type: Label
-                label: 'Option'
+                label: 'Optimal cluster'
                 children:
-                  - name: k1
-                    type: TextBox
-                    format: number
+                  - name: oc
+                    type: CheckBox
           - type: LayoutBox
             margin: large
             cell:
@@ -185,11 +184,15 @@ children:
             stretchFactor: 1
             children:
               - type: Label
-                label: Clustering
+                label: 'Clustering'
                 children:
+                  - name: k1
+                    type: TextBox
+                    format: number  
                   - name: kp
                     type: CheckBox
                     children:
                       - name: clust1
                         type: Output
                         enable: (kp)
+  

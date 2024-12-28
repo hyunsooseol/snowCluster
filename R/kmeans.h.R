@@ -11,6 +11,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             k = 2,
             k1 = 2,
             kp = FALSE,
+            oc = FALSE,
             algo = "Hartigan-Wong",
             nstart = 10,
             stand = FALSE,
@@ -61,6 +62,10 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..kp <- jmvcore::OptionBool$new(
                 "kp",
                 kp,
+                default=FALSE)
+            private$..oc <- jmvcore::OptionBool$new(
+                "oc",
+                oc,
                 default=FALSE)
             private$..clust1 <- jmvcore::OptionOutput$new(
                 "clust1")
@@ -143,6 +148,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..k)
             self$.addOption(private$..k1)
             self$.addOption(private$..kp)
+            self$.addOption(private$..oc)
             self$.addOption(private$..clust1)
             self$.addOption(private$..algo)
             self$.addOption(private$..nstart)
@@ -168,6 +174,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         k = function() private$..k$value,
         k1 = function() private$..k1$value,
         kp = function() private$..kp$value,
+        oc = function() private$..oc$value,
         clust1 = function() private$..clust1$value,
         algo = function() private$..algo$value,
         nstart = function() private$..nstart$value,
@@ -192,6 +199,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..k = NA,
         ..k1 = NA,
         ..kp = NA,
+        ..oc = NA,
         ..clust1 = NA,
         ..algo = NA,
         ..nstart = NA,
@@ -227,6 +235,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot3 = function() private$.items[["plot3"]],
         clust = function() private$.items[["clust"]],
         clust1 = function() private$.items[["clust1"]],
+        oc = function() private$.items[["oc"]],
         kp = function() private$.items[["kp"]]),
     private = list(),
     public=list(
@@ -389,6 +398,25 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "k1")))
             self$add(jmvcore::Table$new(
                 options=options,
+                name="oc",
+                title="Silhouette index",
+                clearWith=list(
+                    "vars",
+                    "factors",
+                    "K1"),
+                refs="clustMixType",
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="Cluster No.", 
+                        `type`="text", 
+                        `content`="($key)"),
+                    list(
+                        `name`="value", 
+                        `title`="Silhouette index", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
                 name="kp",
                 title="Gower distance",
                 visible="(kp)",
@@ -434,6 +462,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param k .
 #' @param k1 .
 #' @param kp .
+#' @param oc .
 #' @param algo .
 #' @param nstart .
 #' @param stand .
@@ -464,6 +493,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$clust1} \tab \tab \tab \tab \tab an output \cr
+#'   \code{results$oc} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$kp} \tab \tab \tab \tab \tab a table \cr
 #' }
 #'
@@ -481,6 +511,7 @@ kmeans <- function(
     k = 2,
     k1 = 2,
     kp = FALSE,
+    oc = FALSE,
     algo = "Hartigan-Wong",
     nstart = 10,
     stand = FALSE,
@@ -517,6 +548,7 @@ kmeans <- function(
         k = k,
         k1 = k1,
         kp = kp,
+        oc = oc,
         algo = algo,
         nstart = nstart,
         stand = stand,
