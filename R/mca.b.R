@@ -144,7 +144,7 @@ mcaClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 # Correspondence analysis---------
                 
                 res.mca <- FactoMineR::MCA(data, 
-                                           ncp = length(self$options$vars),
+                                           #ncp = length(self$options$vars),
                                            graph = FALSE)
                 
                 
