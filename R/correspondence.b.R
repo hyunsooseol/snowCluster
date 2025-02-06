@@ -121,7 +121,9 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 ##### Correspondence analysis---------
                 
-                res.ca <- FactoMineR::CA(data, graph = FALSE)
+                res.ca <- FactoMineR::CA(data, 
+                                         ncp = length(self$options$vars),
+                                         graph = FALSE)
                 
                 chi <- chisq.test(data)
                 
