@@ -17,6 +17,7 @@ options:
       title: Labels (Optional)
       type: Variable
       suggested:
+         - nominal
          - id
       permitted:
         - id

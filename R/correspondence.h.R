@@ -37,6 +37,7 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 "labels",
                 labels,
                 suggested=list(
+                    "nominal",
                     "id"),
                 permitted=list(
                     "id",
