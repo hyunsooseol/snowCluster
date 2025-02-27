@@ -5,8 +5,11 @@
 #' @importFrom tibble as.tibble
 #' @importFrom mclust mclustBIC
 #' @import widyr
-#' @import ggplot2 
+#' @import ggplot2
+#' @import ggthemes 
 #' @export
+
+
 timeclustClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "timeclustClass",
     inherit = timeclustBase,
