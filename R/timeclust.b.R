@@ -178,7 +178,7 @@ if (is.null(self$data) | is.null(self$options$item) | is.null(self$options$featu
       geom_line(show.legend = F) +
       scale_y_continuous(labels = scales::comma) +
       facet_wrap(vars(cluster)) +
-      scale_color_solarized()    
+    ggthemes::scale_color_solarized()    
      
      plot <- plot+ggtheme
      print(plot)
