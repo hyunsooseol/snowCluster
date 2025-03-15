@@ -82,129 +82,100 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             if (is.null(self$options$dep) || length(self$options$covs) < 2)
                 return()
 
-            dep <- self$options$dep
-            covs <- self$options$covs
-            per <- self$options$per
-            
+             dep <- self$options$dep
+             covs <- self$options$covs
+             per <- self$options$per
+
             data <- self$data
             data <- jmvcore::naOmit(data)
-            
+
             for(cov in covs)
               data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-            
-            data[[dep]] <- as.factor(data[[dep]])
-            
-            # dividing two datasets------------------------
-            
-            set.seed(1234) # Set seed for reproducibility
-            
-            # training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.7,0.3))
-            # train <- data[training_sample, ]
-            # test <- data[!training_sample, ]
-            
-            split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
-            train <-data[split1,]
-            test <- data[-split1,] 
 
-            formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
-            formula <- as.formula(formula)
-            
-            ####LDA ANALYSIS##############################################
-            
-            lda.train <- MASS::lda(formula, data=train)
-            
-           ###################################################
-           # creating table-----
-            
-            value<- lda.train$prior
-            prior<- as.data.frame(value)
+            data[[dep]] <- as.factor(data[[dep]])
+           #  
+           #  # dividing two datasets------------------------
+           #  
+           #  set.seed(1234) # Set seed for reproducibility
+           #  
+           #  # training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.7,0.3))
+           #  # train <- data[training_sample, ]
+           #  # test <- data[!training_sample, ]
+           #  
+           #  split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
+           #  train <-data[split1,]
+           #  test <- data[-split1,] 
+           # 
+           #  formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
+           #  formula <- as.formula(formula)
+           #  
+           #  ####LDA ANALYSIS##############################################
+           #  
+           #  lda.train <- MASS::lda(formula, data=train)
+           #  
+           # ###################################################
           
+            res <- private$.computeRES()
+           
+###################### creating tables $ plots  
+
+# Prior probabilities of groups table----             
+
+            value<- res$lda.train$prior
+            prior<- as.data.frame(value)
             names<- dimnames(prior)[[1]]
-           
-            # Prior probabilities of groups table----
-            
+
             table <- self$results$prior
-            
             for (name in names) {
-                
                 row <- list()
-                
                 row[['value']] <- prior[name,1]
-                
                 table$addRow(rowKey=name, values=row)
-              
-                            }
-            
-            # Group means---------------
-            
-            gm <- lda.train$means
-            covs <- self$options$covs 
-           
+                        }
+        
+# Group means---------------
+            gm <- res$lda.train$means
             names<- dimnames(gm)[[1]]
-              
             table <- self$results$gm
             
             for (i in seq_along(covs)) {
-              
                   cov <- covs[[i]]
-
                 table$addColumn(name = paste0(cov),
                                type = 'number',
                                format = 'zto')
-                             
                 }
             
             for (name in names) {
-                
                 row <- list()
-                
-                
                 for(j in seq_along(covs)){
-                    
                     cov <- covs[[j]]
-                    
                     row[[cov]] <- gm[name, j]
-
-                }
-                
+              }
                 table$addRow(rowKey=name, values=row)
-             
-                  
             }
            
-           # Coefficients of linear discriminants-------
+# Coefficients of linear discriminants-------
             
-            coef<- lda.train$scaling
+            coef<- res$lda.train$scaling
             coef <- as.data.frame(coef)
             
             names <-  dimnames(coef)[[1]]
             dims <- dimnames(coef)[[2]]
             
             table <- self$results$coef
-            
-            
+
             for (dim in dims) {
-                
                 table$addColumn(name = paste0(dim),
                                 type = 'number')
             }
-            
-            
             for (name in names) {
-                
                 row <- list()
-                
                 for(j in seq_along(dims)){
-                    
                     row[[dims[j]]] <- coef[name,j]
-                    
                 }
-                
                 table$addRow(rowKey=name, values=row)
-                
             }
             
-            # Accuracy with training data-----------
+# Accuracy with training data-----------
             
             # lda.train <- predict(lda.iris)
             # 
@@ -212,42 +183,33 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             # table(train$lda,train$Species)
            
             if(isTRUE(self$options$tra)){
+
+            pred = predict(res$lda.train)
+            #self$results$text$setContent(pred)
             
-            
-            pred = predict(lda.train)
-            
-            res<- table(train[[dep]],pred$class)
-            res<- as.matrix(res)
-            
-            #self$results$text$setContent(res)
-            
-            
-            names<- dimnames(res)[[1]]
+            res1<- table(res$train[[self$options$dep]],pred$class)
+            res1<- as.matrix(res1)
+          
+
+            names<- dimnames(res1)[[1]]
             table <- self$results$tra
             
             for (name in names) {
-
                 table$addColumn(name = paste0(name),
                                 type = 'Integer',
                                 superTitle = 'Predicted')
                                    }
 
             for (name in names) {
-
                  row <- list()
-
                 for(j in seq_along(names)){
-                
-                    row[[names[j]]] <- res[name,j]
-                
+                    row[[names[j]]] <- res1[name,j]
                                     }
-
                 table$addRow(rowKey=name, values=row)
-
             }
             }
 
-          # # Accuracy with test data-----------
+# # Accuracy with test data-----------
 
             # lda.test <- predict(lda.iris,test)
             # test$lda <- lda.test$class
@@ -256,14 +218,13 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
    
         if(isTRUE(self$options$tes)){
 
-        
-            lda.test = predict(lda.train,test)
-            test$lda <- lda.test$class
+            lda.test = predict(res$lda.train,res$test)
+            te <- lda.test$class
             
-            res1<- table(test$lda,test[[dep]])
-            res1<- as.matrix(res1)
+            res2<- table(te,res$test[[self$options$dep]])
+            res2<- as.matrix(res2)
             
-            names<- dimnames(res1)[[1]]
+            names<- dimnames(res2)[[1]]
             table <- self$results$tes
             
             for (name in names) {
@@ -274,28 +235,19 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             }
             
             for (name in names) {
-                
                 row <- list()
-                
                 for(j in seq_along(names)){
-                    
-                    row[[names[j]]] <- res1[name,j]
-                    
+                    row[[names[j]]] <- res2[name,j]
                 }
-                
                 table$addRow(rowKey=name, values=row)
-                
             }
 }
 
-
-## Proportion of trace------------------
+# Proportion of trace------------------
             
             if(isTRUE(self$options$prop)){
-              
 
-              if(length(levels(data[[dep]]))<=2){
-
+              if(length(levels(data[[self$options$dep]]))<=2){
                 err_string <- stringr::str_interp(
                   "Dependent levels should be at least 3."
                 )
@@ -303,21 +255,18 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
 
               }
 
-              if(length(levels(data[[dep]]))>2){
+       if(length(levels(data[[self$options$dep]]))>2){
                 
                 # proportion of trace----------
                 
-                prop.lda = lda.train$svd^2/sum(lda.train$svd^2)
-                
-                ###################
-                
+                prop.lda = res$lda.train$svd^2/sum(res$lda.train$svd^2)
+              
                 table <- self$results$prop
                 
                 ld1 <- prop.lda[[1]]
                 ld2 <- prop.lda[[2]]
                 
                 row <- list()
-                
                 row[['LD1']] <- ld1
                 row[['LD2']] <- ld2
                 
@@ -329,19 +278,17 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
     if(isTRUE(self$options$plot)){
             
-              if(length(levels(data[[dep]]))<=2){
-                
+              if(length(levels(data[[self$options$dep]]))<=2){
                 err_string <- stringr::str_interp(
                   "Dependent levels should be at least 3."
                 )
                 stop(err_string)
-                
               } 
-              
-              if(length(levels(data[[dep]]))>2){
+            
+              if(length(levels(data[[self$options$dep]]))>2){
  
-                df <- cbind(train, predict(lda.train)$x)
-                Groups <- data[[dep]]
+                df <- cbind(res$train, predict(res$lda.train)$x)
+                Groups <- data[[self$options$dep]]
                 df<- cbind(df, Groups)
                 df$Groups <- as.factor(df$Groups)
                 
@@ -367,38 +314,34 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 if(isTRUE(self$options$gc)){
                   
                   table <- self$results$gc                 
+                  
                   cent <- as.data.frame(cent)
                   names<- dimnames(cent)[[1]]
                   
                   for (name in names) {
-                    
                     row <- list()
-                    
                     row[["name"]] <- as.character(cent[name, 1])
                     row[["ld1"]] <-  cent[name, 2]
                     row[["ld2"]] <-  cent[name, 3]
-                    
-                    
                     table$addRow(rowKey=name, values=row)
-                    
                   }
-                  
                   }
                 }
-            
             }
             
             # Histogram---------------------
-            if(length(self$options$covs) >2){
-              
-            image1 <- self$results$plot1
-            image1$setState(lda.train)
-            }
+            # if(length(self$options$covs) >2){
+            #  
+            # image1 <- self$results$plot1
+            # image1$setState(lda.train)
+            # }
      
             },
-            
-  .plot = function(image,ggtheme, theme,...) {
-              if (is.null(image$state))
+ #Plot---
+
+.plot = function(image,ggtheme, theme,...) {
+
+                if (is.null(image$state))
                 return(FALSE)
               
               df <- image$state[[1]]
@@ -421,20 +364,64 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
               TRUE
             },
 
-        .plot1 = function(image1,...) {
-            
-        
-           if (is.null(image1$state))
-             return(FALSE)
+#Histogram---
+.plot1 = function(image1,...) {
+
+          if(!self$options$plot1)
+            return(FALSE)
+          if(length(self$options$covs)<=2) return()
+         
+          res <- private$.computeRES()
           
-            
-            lda.train <- image1$state
-            
-            plot1 <- plot(lda.train, dimen=1, type="both")
+            plot1 <- plot(res$lda.train, dimen=1, type="both")
             
             print(plot1)
             TRUE
-        }
- 
+          },
+
+#data cleaning---
+
+.computeRES = function() {
+  
+  dep <- self$options$dep
+  covs <- self$options$covs
+  per <- self$options$per
+
+  data <- self$data
+  data <- jmvcore::naOmit(data)
+
+  for(cov in covs)
+    data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+
+  data[[dep]] <- as.factor(data[[dep]])
+
+  # dividing two datasets------------------------
+  
+  set.seed(1234) # Set seed for reproducibility
+  
+  # training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.7,0.3))
+  # train <- data[training_sample, ]
+  # test <- data[!training_sample, ]
+  
+  split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
+  train <-data[split1,]
+  test <- data[-split1,] 
+  
+  formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
+  formula <- as.formula(formula)
+  
+  ####LDA ANALYSIS##############################################
+  
+  lda.train <- MASS::lda(formula, data=train)
+  
+  ###################################################
+  
+  res <- list(lda.train=lda.train, 
+               train=train, 
+               test=test)
+  return(res)
+  
+  
+}
          ))
 
