@@ -122,7 +122,7 @@ options:
 
     - name: nb
       title: Number of bootstrap
-      default: 1000
+      default: 100
       type: Integer
       min: 10
 

@@ -20,7 +20,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             height = 500,
             vars1 = NULL,
             method1 = "average",
-            nb = 1000,
+            nb = 100,
             dm = "correlation",
             plot1 = FALSE,
             width1 = 500,
@@ -124,7 +124,7 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..nb <- jmvcore::OptionInteger$new(
                 "nb",
                 nb,
-                default=1000,
+                default=100,
                 min=10)
             private$..dm <- jmvcore::OptionList$new(
                 "dm",
@@ -358,7 +358,7 @@ hc <- function(
     height = 500,
     vars1,
     method1 = "average",
-    nb = 1000,
+    nb = 100,
     dm = "correlation",
     plot1 = FALSE,
     width1 = 500,
