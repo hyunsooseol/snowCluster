@@ -1,12 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom FactoMineR CA
-#' @importFrom factoextra fviz_ca_row
-#' @importFrom factoextra fviz_ca_col
-#' @importFrom factoextra fviz_ca_biplot
-#' @importFrom factoextra fviz_screeplot
-#' @import ggplot2
 #' @export
 
 

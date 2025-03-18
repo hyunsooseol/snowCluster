@@ -1,40 +1,5 @@
 
 # This file is a generated template, your changes will not be overwritten
-#' @importFrom caret createDataPartition
-#' @importFrom jmvcore constructFormula
-#' @importFrom caret preProcess
-#' @importFrom caret confusionMatrix
-#' @importFrom caret trainControl
-#' @importFrom caret varImp
-#' @importFrom MLeval evalm
-#' @importFrom caret preProcess
-#' @importFrom caTools sample.split
-#' @importFrom lattice strip.custom
-#' @importFrom caret dummyVars
-#' @importFrom caretEnsemble caretList
-#' @importFrom caret resamples
-#' @importFrom lattice bwplot
-#' @import caret
-#' @import xgboost
-#' @import rpart.plot
-#' @import neuralnet
-#' @import pls
-#' @import party
-#' @import elasticnet
-#' @import nnet
-#' @import gbm
-#' @import mda
-#' @import kernlab
-#' @import earth
-#' @import ggplot2
-#' @import jmvcore
-#' @import RANN
-#' @import klaR
-#' @import randomForest
-#' @import plyr
-#' @import mboost
-#' @import glmnet
-#' @import C50
 #' @export
 
 

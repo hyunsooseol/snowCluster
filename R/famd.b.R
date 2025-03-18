@@ -1,13 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom FactoMineR FAMD
-#' @importFrom factoextra fviz_screeplot
-#' @importFrom factoextra fviz_famd_var
-#' @importFrom factoextra fviz_famd_ind
-#' @import factoextra
-#' @import FactoMineR
-#' @import ggplot2
 #' @export
 
 

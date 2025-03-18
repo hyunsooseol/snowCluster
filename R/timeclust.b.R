@@ -1,11 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 #' @importFrom magrittr %>% 
-#' @importFrom widyr widely_kmeans
-#' @importFrom tibble as.tibble
-#' @importFrom mclust mclustBIC
-#' @import widyr
-#' @import ggplot2
 #' @import ggthemes 
 #' @export
 

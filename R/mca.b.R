@@ -1,12 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom FactoMineR MCA
-#' @importFrom factoextra fviz_mca_var
-#' @importFrom factoextra get_mca_ind
-#' @importFrom factoextra fviz_screeplot
-#' @importFrom factoextra fviz_mca_biplot
-#' @import ggplot2
 #' @export
 
 

@@ -1,12 +1,7 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom stats dist
-#' @importFrom stats cmdscale
-#' @import magrittr
-#' @import ggpubr 
-#' @import ggplot2 
-#' @import scatterplot3d scatterplot3d
+
 #' @export
 
 

@@ -1,15 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom MASS lda
-#' @importFrom jmvcore constructFormula
-#' @importFrom MASS lda
-#' @importFrom caret createDataPartition
-#' @importFrom stringr str_interp
-#' @import dplyr
-#' @import MASS
-#' @import ggplot2
-#' @import jmvcore
 #' @export
 
 

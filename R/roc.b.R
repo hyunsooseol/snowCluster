@@ -1,7 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
-#' @import jmvcore
-#' @import ggplot2
+
 #' @importFrom multipleROC multipleROC
 #' @importFrom multipleROC plot_ROC
 #' @importFrom rms matinv

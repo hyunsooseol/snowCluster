@@ -1,15 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom FactoMineR MFA
-#' @importFrom factoextra get_eigenvalue
-#' @importFrom factoextra fviz_mfa_ind
-#' @importFrom factoextra get_mfa_var
-#' @importFrom factoextra fviz_contrib
-#' @importFrom factoextra fviz_screeplot
-#' @import FactoMineR
-#' @import factoextra
-#' @import ggplot2
 #' @export
 
 

@@ -1,11 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom factoextra fviz_pca_var
-#' @importFrom factoextra fviz_pca_ind
-#' @importFrom factoextra fviz_pca_biplot
-#' @importFrom FactoMineR PCA
-#' @import ggplot2
 #' @export
 
 

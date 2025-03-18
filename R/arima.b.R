@@ -1,20 +1,7 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom stats decompose
-#' @importFrom stats ts
-#' @importFrom stats cycle
-#' @import forecast 
-#' @import ggplot2
-#' @import jmvcore
-#' @import prophet 
-#' @import lubridate
 #' @importFrom magrittr %>%
-#' @importFrom forecast auto.arima
-#' @importFrom forecast forecast
-#' @importFrom prophet prophet
-#' @importFrom prophet make_future_dataframe
-#' @importFrom prophet prophet_plot_components
 #' @export
 
 

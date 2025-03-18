@@ -1,17 +1,7 @@
 
 # This file is a generated template, your changes will not be overwritten
-#' @import forecast 
-#' @import ggplot2
-#' @import jmvcore
-#' @import prophet 
-#' @import lubridate
+
 #' @importFrom magrittr %>%
-#' @importFrom dplyr rename
-#' @importFrom dplyr select
-#' @importFrom forecast forecast
-#' @importFrom prophet prophet
-#' @importFrom prophet make_future_dataframe
-#' @importFrom prophet prophet_plot_components
 #' @export
 
 

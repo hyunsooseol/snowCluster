@@ -1,12 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
-#' @importFrom factoextra hcut
-#' @importFrom factoextra fviz_dend
-#' @importFrom stringr str_interp
-#' @importFrom pvclust pvclust
-#' @importFrom pvclust pvrect
-#' @importFrom pvclust pvpick
-#' @import ggplot2
+
 #' @export
 
 

@@ -1,14 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom factoextra fviz_nbclust
-#' @importFrom factoextra fviz_cluster
-#' @importFrom factoextra fviz_pca_var
-#' @importFrom FactoMineR PCA
-#' @importFrom factoextra get_pca_var
-#' @importFrom clustMixType kproto
-#' @importFrom clustMixType validation_kproto
-#' @import ggplot2
 #' @export
 
 

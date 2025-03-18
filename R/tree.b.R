@@ -1,16 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
-#' @importFrom caret createDataPartition
-#' @importFrom jmvcore constructFormula
-#' @importFrom party ctree
-#' @importFrom caret confusionMatrix
-#' @importFrom rpart rpart
-#' @importFrom rpart.plot rpart.plot
-#' @import jmvcore
-#' @import rpart
-#' @import rpart.plot
-#' @import party
-#' @import caret
+
 #' @export
 
 treeClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
