@@ -2,9 +2,6 @@
 # This file is a generated template, your changes will not be overwritten
 
 #' @importFrom magrittr %>%
-#' @export
-
-
 
 prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "prophetClass",
@@ -23,24 +20,6 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           self$results$instructions$setVisible(visible = TRUE)
           
         }
-        
-        # self$results$instructions$setContent(
-        #   "<html>
-        #     <head>
-        #     </head>
-        #     <body>
-        #     <div class='instructions'>
-        #     
-        #     <p>_____________________________________________________________________________________________</p>
-        #     <p>1. Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs</p>
-        #     <p>2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-        #     <p>_____________________________________________________________________________________________</p>
-        #     
-        #     </div>
-        #     </body>
-        #     </html>"
-        # )
-        
         self$results$instructions$setContent(
           private$.htmlwidget$generate_accordion(
             title="Instructions",
@@ -56,9 +35,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
           )
         )          
-        
-        
-        
+
         if(isTRUE(self$options$plot1)){
           
           width <- self$options$width
@@ -171,7 +148,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
   
   forecast_combined <- image$state
   
-  
+  library(ggplot2)
   plot1 <- ggplot2::ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
     geom_line() +
     labs(x = "Date", y = "Forecast", color = "Variable") +
@@ -193,7 +170,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
   
   forecast_combined <- image1$state
   
- 
+ library(ggplot2)
   plot2<- ggplot2::ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
     
     geom_smooth(method= method) +
