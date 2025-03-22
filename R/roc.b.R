@@ -1,11 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @importFrom multipleROC multipleROC
-#' @importFrom multipleROC plot_ROC
-#' @importFrom rms matinv
-#' @export
-
 rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "rocClass",
     inherit = rocBase,
@@ -22,25 +17,6 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           self$results$instructions$setVisible(visible = TRUE)
           
         }
-        
-        # self$results$instructions$setContent(
-        #   "<html>
-        #     <head>
-        #     </head>
-        #     <body>
-        #     <div class='instructions'>
-        #     <p>____________________________________________________________________________________</p>
-        #     <p> ROC analysis based on Binomial logistic regression.</p>
-        #     <p> Perform ROC curve based on <a href='https://github.com/cardiomoon/multipleROC' target = '_blank'>multipleROC<a> R package.</p>
-        #     <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-        #     <p>____________________________________________________________________________________</p>
-        #     
-        #     </div>
-        #     </body>
-        #     </html>"
-        # )
-        
-    
     self$results$instructions$setContent(
       private$.htmlwidget$generate_accordion(
         title="Instructions",
@@ -57,8 +33,6 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         
       )
     )          
-        
-        
         if(isTRUE(self$options$plot1)){
           width <- self$options$width1
           height <- self$options$height1
@@ -124,7 +98,7 @@ if ( self$options$auc == TRUE) {
       class <- self$options$dep
       df <- c(class, covs)
       
-      data <- select(self$data, df)
+      data <- jmvcore::select(self$data, df)
       
       for (cov in covs)
         data[[cov]] <- jmvcore::toNumeric(data[[cov]])
@@ -236,9 +210,9 @@ if ( self$options$auc == TRUE) {
         
         
         ### global p-value
-        ###
+        
         aucdiff <- L %*% auc
-        z <- t(aucdiff) %*% matinv(L %*% S %*% t(L)) %*% aucdiff
+        z <- t(aucdiff) %*% rms::matinv(L %*% S %*% t(L)) %*% aucdiff
         p <- pchisq(z, df=qr(L %*% S %*% t(L))$rank, lower.tail=FALSE)
         
         if(is.null(ref)) {
@@ -252,7 +226,7 @@ if ( self$options$auc == TRUE) {
             for(j in (i+1):nauc) {
               cor.auc[ctr] <- S[i,j] / sqrt(S[i,i]*S[j,j])
               LSL <- t(c(1,-1)) %*% S[c(j,i),c(j,i)] %*% c(1,-1)
-              tmpz <- (aucdiff[ctr]) %*% matinv(LSL) %*% aucdiff[ctr]
+              tmpz <- (aucdiff[ctr]) %*% rms::matinv(LSL) %*% aucdiff[ctr]
               pairp[ctr] <- 1 - pchisq(tmpz, df=qr(LSL)$rank)
               ci[ctr,] <- c(aucdiff[ctr] - quantil*sqrt(LSL), aucdiff[ctr] + quantil*sqrt(LSL))
               rows[ctr] <- paste(i, j, sep=" vs. ")
@@ -268,7 +242,7 @@ if ( self$options$auc == TRUE) {
           for(i in 1:(nauc-1)) {
             cor.auc[i] <- S[ref,comp[i]] / sqrt(S[ref,ref] * S[comp[i],comp[i]])
             LSL <- t(c(1,-1)) %*% S[c(ref,comp[i]),c(ref,comp[i])] %*% c(1,-1)
-            tmpz <- aucdiff[i] %*% matinv(LSL) %*% aucdiff[i]
+            tmpz <- aucdiff[i] %*% rms::matinv(LSL) %*% aucdiff[i]
             pairp[i] <- 1 - pchisq(tmpz, df=qr(LSL)$rank)
             ci[i,] <- c(aucdiff[i] - quantil*sqrt(LSL), aucdiff[i] + quantil*sqrt(LSL))
             rows[i] <- paste(ref, comp[i], sep=" vs. ")
