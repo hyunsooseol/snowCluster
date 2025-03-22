@@ -36,6 +36,12 @@ children:
         stretchFactor: 1
         children:
           - type: Label
+            label: "Option"
+            children:
+              - type: TextBox
+                name: nd
+                format: number            
+          - type: Label
             label: "Tables"
             children:
               - name: chi

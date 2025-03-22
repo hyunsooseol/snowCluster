@@ -102,8 +102,9 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     }    
     
     if(isTRUE(self$options$eigen)){  
-    
-                 eigen <- res.ca$eig[,1]
+                 nd<- self$options$nd
+      
+                 eigen <- res.ca$eig[1:nd,1]
                  eigen<- as.vector(eigen)
                 
                 # eigenvalue table-------------
@@ -131,81 +132,55 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     }
   
    if(isTRUE(self$options$loadingvar)){                  
-   
-                # init. contribution of columns to the dimensions table-------
-                # loadingvar<- res.ca$col$contrib
-                
+                nd<- self$options$nd
                 colvar <- self$options$colvar
-                
+    
                 if(colvar=="coordinates"){
-                    
-                    loadingvar <- res.ca$col$coord
+                  loadingvar <- res.ca$col$coord
                     
                 } else if(colvar=="cos2"){
-                    
-                    loadingvar <- res.ca$col$cos2
+                   loadingvar <- res.ca$col$cos2
                     
                 } else {
-                    
-                    loadingvar <- res.ca$col$contrib
+                   loadingvar <- res.ca$col$contrib
                     
                      }
                #----------------
                 table <- self$results$loadingvar
 
-                    for (i in seq_along(eigen))
-                        
+                    for (i in 1:nd)
                         table$addColumn(
                             name = paste0("pc", i),
                             title = as.character(i),
                             type = 'number',
                             superTitle = 'Dimension'
                         )
-                    
-               
                 for (i in seq_along(self$options$vars)) {
-                    
                     row <- list()
-                  
-                    
-                    for (j in seq_along(eigen)) {
+                    for (j in 1:nd) {
                         row[[paste0("pc", j)]] <- loadingvar[i, j]
                     }
-                    
-                   
                     table$setRow(rowNo=i, values=row)
-                    
-                }
-   }            
+                  }
+             }            
   
     if(isTRUE(self$options$loadingind)){                
-  
-                # init. contribution of rows to the dimensions table-------
-                # loadingind<- res.ca$row$contrib
-                
+                nd <- self$options$nd
                 rowvar <- self$options$rowvar
                 
                 if(rowvar=="coordinates"){
-                    
-                    loadingind <- res.ca$row$coord
+                     loadingind <- res.ca$row$coord
                     
                 } else if(rowvar=="cos2"){
-                    
-                    loadingind <- res.ca$row$cos2
+                     loadingind <- res.ca$row$cos2
                     
                 } else {
-                    
-                    loadingind <- res.ca$row$contrib
-                    
-                    #    self$results$text$setContent(loadingind)
-                    
+                     loadingind <- res.ca$row$contrib
                 }
-                
                
                 table <- self$results$loadingind
                 
-                
-                for (i in seq_along(eigen))
+                for (i in 1:nd)
                     
                     table$addColumn(
                         name = paste0("pc", i),
@@ -216,39 +191,34 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
                 for (i in 1:nrow(data)) {
                     row <- list()
-                   
-                    for (j in seq_along(eigen)) {
+                    for (j in 1:nd) {
                         row[[paste0("pc", j)]] <- loadingind[i, j]
                     }
-                    
                     table$addRow(rowKey = i, values = row)
-                    
-                }
-                
-   }             
-                
-
-                if(isTRUE(self$options$plot1)){                
+                   }
+                 }
+ 
+    if(isTRUE(self$options$plot1)){                
                 
                   #  Raw points plot----------
                 image1 <- self$results$plot1
                 image1$setState(res.ca)
                 }
                 
-                if(isTRUE(self$options$plot2)){  
+    if(isTRUE(self$options$plot2)){  
                 # Column points plot-------
                 image2 <- self$results$plot2
                 image2$setState(res.ca)
                 }
 
                 # Biplot--------
-                if(isTRUE(self$options$plot3)){  
+    if(isTRUE(self$options$plot3)){  
                 
                 image3 <- self$results$plot3
                 image3$setState(res.ca)
                 }
                 # Scree plot--------
-                if(isTRUE(self$options$plot4)){
+    if(isTRUE(self$options$plot4)){
                   
                 image4 <- self$results$plot4
                 image4$setState(res.ca)
@@ -261,12 +231,8 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             
           if (is.null(image1$state))
             return(FALSE)
-          
-            
             res.ca <- image1$state
-            
-          #  rowvar <- self$options$rowvar
-            
+ 
             plot1 <- factoextra::fviz_ca_row(res.ca, 
                                              # col.row = rowvar,
                                              # gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
@@ -297,9 +263,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
             return(FALSE)
  
             res.ca <- image3$state
-            
             plot3 <- factoextra::fviz_ca_biplot(res.ca, repel = TRUE)
-            
             
             plot3 <- plot3+ggtheme
             print(plot3)
@@ -312,12 +276,9 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
      if (is.null(image4$state))
        return(FALSE)
      
-    
     res.ca <- image4$state
     
     plot4 <- factoextra::fviz_screeplot(res.ca, addlabels = TRUE)
-    
-    
     plot4 <- plot4+ggtheme
     print(plot4)
     TRUE
@@ -342,10 +303,12 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
   for (i in seq_along(vars))
     data[[i]] <- jmvcore::toNumeric(data[[i]])
   
+  nd<- self$options$nd
+  
   ##### Correspondence analysis---------
   
   res <- FactoMineR::CA(data, 
-                           ncp = length(self$options$vars),
+                           ncp = nd,
                            graph = FALSE)
   
   res.ca<- list(data=data, 
