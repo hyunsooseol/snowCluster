@@ -1,13 +1,13 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-#' @export
 
 
 discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     "discClass",
     inherit = discBase,
     private = list(
+      .allCache = NULL,
       .htmlwidget = NULL,
  #------------------------------------
         
@@ -20,23 +20,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
             }
             
-            # self$results$instructions$setContent(
-            #     "<html>
-            # <head>
-            # </head>
-            # <body>
-            # <div class='instructions'>
-            # <p>____________________________________________________________________________________</p>
-            # <p> 1. If you set <b>Split set</b> to less than 1, uncheck the LD plot. Otherwise, you will get an error.</p>
-            # <p> 2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            # <p>____________________________________________________________________________________</p>
-            # 
-            # </div>
-            # </body>
-            # </html>"
-            # )
-          
-          self$results$instructions$setContent(
+           self$results$instructions$setContent(
             private$.htmlwidget$generate_accordion(
               title="Instructions",
               content = paste(
@@ -106,9 +90,13 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
            #  
            # ###################################################
           
-            res <- private$.computeRES()
-           
-###################### creating tables $ plots  
+            #res <- private$.computeRES()
+            
+            if (is.null(private$.allCache)) {
+              private$.allCache <- private$.computeRES()
+            }
+            
+            res <- private$.allCache     
 
 # Prior probabilities of groups table----             
 
@@ -337,7 +325,7 @@ discClass <- if (requireNamespace('jmvcore')) R6::R6Class(
               
               df <- image$state[[1]]
               cent <- image$state[[2]]
-
+                    library(ggplot2)
           plot<- ggplot(df, ggplot2::aes(x = LD1, y = LD2, color = Groups)) +
                 geom_point(alpha = 0.6) +
                 geom_point(data = cent, ggplot2::aes(x = LD1, 
