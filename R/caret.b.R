@@ -7,6 +7,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "caretClass",
     inherit = caretBase,
     private = list(
+      .allCache = NULL,
       .htmlwidget = NULL,
       
       #------------------------------------
@@ -18,24 +19,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           self$results$instructions$setVisible(visible = TRUE)
           
         }
-        
-        # self$results$instructions$setContent(
-        #   "<html>
-        #     <head>
-        #     </head>
-        #     <body>
-        #     <div class='instructions'>
-        #     <p>____________________________________________________________________________________</p>
-        #     <p> 1. Machine learning based on  <a href='https://topepo.github.io/caret/' target = '_blank'>caret R package.</a></p> 
-        #     <p> 2. The values for the target variable cannot be a number. </p> 
-        #     <p> 3. If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection plot</b> in Plots.
-        #     <p> 4. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-        #     <p>____________________________________________________________________________________</p>
-        #     
-        #     </div>
-        #     </body>
-        #     </html>"
-        # )
         self$results$instructions$setContent(
           private$.htmlwidget$generate_accordion(
             title="Instructions",
@@ -53,8 +36,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             
           )
         )          
-        
-        
         if(isTRUE(self$options$plot)){
           width <- self$options$width
           height <- self$options$height
@@ -258,7 +239,13 @@ caretClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 #                       trControl =  ctrl)
                   
                               
-all <- private$.computeFIT()  
+                #all <- private$.computeFIT() 
+                
+                if (is.null(private$.allCache)) {
+                  private$.allCache <- private$.computeFIT()
+                }
+                
+                all <- private$.allCache
                 
                 # Model information-----------
                  self$results$text$setContent(all$fit)
