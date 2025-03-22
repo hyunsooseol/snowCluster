@@ -8,6 +8,7 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             facs = NULL,
             vars = NULL,
+            nd = 3,
             eigen = TRUE,
             rowvar = "coordinates",
             loadingind = FALSE,
@@ -53,6 +54,11 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ordinal"),
                 permitted=list(
                     "factor"))
+            private$..nd <- jmvcore::OptionInteger$new(
+                "nd",
+                nd,
+                default=3,
+                min=2)
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
                 eigen,
@@ -156,6 +162,7 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..facs)
             self$.addOption(private$..vars)
+            self$.addOption(private$..nd)
             self$.addOption(private$..eigen)
             self$.addOption(private$..rowvar)
             self$.addOption(private$..loadingind)
@@ -183,6 +190,7 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         facs = function() private$..facs$value,
         vars = function() private$..vars$value,
+        nd = function() private$..nd$value,
         eigen = function() private$..eigen$value,
         rowvar = function() private$..rowvar$value,
         loadingind = function() private$..loadingind$value,
@@ -209,6 +217,7 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..facs = NA,
         ..vars = NA,
+        ..nd = NA,
         ..eigen = NA,
         ..rowvar = NA,
         ..loadingind = NA,
@@ -270,7 +279,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "facs",
                     "rowvar",
-                    "colvar"),
+                    "colvar",
+                    "nd"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -297,7 +307,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "facs",
                     "rowvar",
-                    "colvar"),
+                    "colvar",
+                    "nd"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -318,7 +329,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "facs",
                     "rowvar",
-                    "colvar"),
+                    "colvar",
+                    "nd"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -344,7 +356,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rowvar",
                     "colvar",
                     "width5",
-                    "height5")))
+                    "height5",
+                    "nd")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
@@ -358,7 +371,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rowvar",
                     "colvar",
                     "width6",
-                    "height6")))
+                    "height6",
+                    "nd")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -373,7 +387,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rowvar",
                     "colvar",
                     "width1",
-                    "height1")))
+                    "height1",
+                    "nd")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -388,7 +403,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rowvar",
                     "colvar",
                     "width2",
-                    "height2")))
+                    "height2",
+                    "nd")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -403,7 +419,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rowvar",
                     "colvar",
                     "width3",
-                    "height3")))
+                    "height3",
+                    "nd")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -418,7 +435,8 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rowvar",
                     "colvar",
                     "width4",
-                    "height4")))}))
+                    "height4",
+                    "nd")))}))
 
 mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mcaBase",
@@ -447,6 +465,7 @@ mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data The data as a data frame.
 #' @param facs .
 #' @param vars .
+#' @param nd .
 #' @param eigen .
 #' @param rowvar .
 #' @param loadingind .
@@ -495,6 +514,7 @@ mca <- function(
     data,
     facs,
     vars,
+    nd = 3,
     eigen = TRUE,
     rowvar = "coordinates",
     loadingind = FALSE,
@@ -536,6 +556,7 @@ mca <- function(
     options <- mcaOptions$new(
         facs = facs,
         vars = vars,
+        nd = nd,
         eigen = eigen,
         rowvar = rowvar,
         loadingind = loadingind,

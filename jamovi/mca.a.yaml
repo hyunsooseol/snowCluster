@@ -30,6 +30,12 @@ options:
       permitted:
         - factor  
   
+    - name: nd
+      title: Number of dimensions
+      default: 3
+      type: Integer
+      min: 2
+
     - name: eigen
       title: Eigenvalues
       type: Bool
@@ -45,7 +51,7 @@ options:
       default: coordinates
 
     - name: loadingind
-      title: Individuals 
+      title: 'Individuals' 
       type: Bool
       default: FALSE  
 
@@ -59,7 +65,7 @@ options:
       default: coordinates
 
     - name: loadingvar
-      title: Variable categories 
+      title: 'Variable categories' 
       type: Bool
       default: FALSE  
 

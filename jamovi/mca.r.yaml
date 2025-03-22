@@ -17,7 +17,8 @@ items:
         - vars
         - facs
         - rowvar
-        - colvar   
+        - colvar
+        - nd
 
       columns:
         - name: comp
@@ -41,7 +42,8 @@ items:
         - vars
         - facs
         - rowvar
-        - colvar        
+        - colvar
+        - nd
 
       columns:
         - name: name
@@ -61,7 +63,8 @@ items:
         - vars
         - facs
         - rowvar
-        - colvar   
+        - colvar
+        - nd
         
       columns:
         - name: name
@@ -86,7 +89,8 @@ items:
         - rowvar
         - colvar
         - width5
-        - height5      
+        - height5
+        - nd
  
     - name:  plot6
       title: Biplot
@@ -100,7 +104,8 @@ items:
         - rowvar
         - colvar
         - width6
-        - height6      
+        - height6
+        - nd
         
     - name:  plot1
       title: Correlation between variables and dimensions
@@ -116,6 +121,7 @@ items:
         - colvar
         - width1
         - height1
+        - nd
         
     - name:  plot2
       title: Coordinates of variable categories
@@ -130,7 +136,8 @@ items:
         - rowvar
         - colvar
         - width2
-        - height2            
+        - height2
+        - nd
  
     - name:  plot3
       title: Plot of individuals
@@ -145,7 +152,8 @@ items:
         - rowvar
         - colvar
         - width3
-        - height3            
+        - height3
+        - nd
   
     - name:  plot4
       title: Individuals by groups
@@ -160,7 +168,8 @@ items:
         - rowvar
         - colvar
         - width4
-        - height4            
+        - height4
+        - nd
   
 ...
 
