@@ -32,7 +32,7 @@ options:
   
     - name: nd
       title: Number of dimensions
-      default: 3
+      default: 2
       type: Integer
       min: 2
 

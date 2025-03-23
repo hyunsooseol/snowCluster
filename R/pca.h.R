@@ -45,7 +45,7 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "labels",
                 labels,
                 suggested=list(
-                    "id"),
+                    "nominal"),
                 permitted=list(
                     "id",
                     "factor"))

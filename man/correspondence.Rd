@@ -8,6 +8,7 @@ correspondence(
   data,
   labels,
   vars,
+  nd = 2,
   chi = TRUE,
   eigen = FALSE,
   rowvar = "coordinates",
@@ -34,6 +35,8 @@ correspondence(
 \item{labels}{.}
 
 \item{vars}{.}
+
+\item{nd}{.}
 
 \item{chi}{.}
 

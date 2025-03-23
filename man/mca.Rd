@@ -8,6 +8,7 @@ mca(
   data,
   facs,
   vars,
+  nd = 2,
   eigen = TRUE,
   rowvar = "coordinates",
   loadingind = FALSE,
@@ -39,6 +40,8 @@ mca(
 \item{facs}{.}
 
 \item{vars}{.}
+
+\item{nd}{.}
 
 \item{eigen}{.}
 

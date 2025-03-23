@@ -1,10 +1,4 @@
 
-# This file is a generated template, your changes will not be overwritten
-
-
-#' @export
-
-
 mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     "mdsClass",
     inherit = mdsBase,
@@ -20,23 +14,6 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 self$results$instructions$setVisible(visible = TRUE)
                 
             }
-            
-            # self$results$instructions$setContent(
-            #     "<html>
-            # <head>
-            # </head>
-            # <body>
-            # <div class='instructions'>
-            # <p>____________________________________________________________________________________</p>
-            # <p>1. The rationale of Classical Multidimensional Scaling is described in the <a href='http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/122-multidimensional-scaling-essentials-algorithms-and-r-code/' target = '_blank'>page.</a></p>
-            # <p>2. Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            # <p>____________________________________________________________________________________</p>
-            # 
-            # </div>
-            # </body>
-            # </html>"
-            # )
-       
           self$results$instructions$setContent(
             private$.htmlwidget$generate_accordion(
               title="Instructions",
@@ -142,7 +119,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
          if(self$options$plot1){    
              
                 clust <- as.factor(mc)
-                mds1 <- mutate(mds, Clusters=clust)
+                mds1 <- dplyr::mutate(mds, Clusters=clust)
                 name1 <- rownames(data)
                 state <- list(mds1, name1)
                 #  kmeans plot----------
@@ -179,47 +156,8 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                 }
           
         },
-        
-    # .dataClear = function() {
-    #   
-    #   vars <- self$options$vars
-    #   labels <- self$options$labels
-    #   k <- self$options$k
-    #   
-    #   data <- self$data
-    #   data <- jmvcore::naOmit(data)
-    #   
-    #   # Handling id----------
-    #   
-    #   if ( ! is.null(self$options$labels)) {
-    #     rownames(data) <- data[[self$options$labels]]
-    #     data[[self$options$labels]] <- NULL
-    #   }
-    #   
-    #   for (i in seq_along(vars))
-    #     data[[i]] <- jmvcore::toNumeric(data[[i]])
-    #   
-    #   # MDS analysis---------
-    #   d <- stats:: dist(data)
-    #   mds<- stats::cmdscale(d)
-    #   #---------------------------
-    #   # kmeans clustering--------
-    #   # clust <- kmeans(mds, 3)$cluster %>%
-    #   #     as.factor()
-    #   # mds <- mds %>%
-    #   #     mutate(groups = clust)
-    #   
-    #   km <- stats::kmeans(mds, k)
-    #   kmc <- km$cluster
-    # 
-    #   name1 <- rownames(data)
-    #   
-    #   retlist <- list(d=d, mds=mds, kmc=kmc, name1=name1)
-    #   return(retlist)
-    #   
-    # },
-    # 
-
+  
+  
       .plot = function(image,ggtheme, theme, ...) {
             
           if (is.null(image$state))
@@ -280,12 +218,8 @@ mdsClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                                                grid=TRUE,
                                                pch = 19
                                               )
-
-
-          print(plot2)
-          TRUE
-
-        }
-
+                                 print(plot2)
+                                 TRUE
+                                }
         )
 )

@@ -102,6 +102,7 @@ correspondenceClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     }    
     
     if(isTRUE(self$options$eigen)){  
+
                  nd<- self$options$nd
       
                  eigen <- res.ca$eig[1:nd,1]

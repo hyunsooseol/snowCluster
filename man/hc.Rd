@@ -20,7 +20,7 @@ hc(
   height = 500,
   vars1,
   method1 = "average",
-  nb = 1000,
+  nb = 100,
   dm = "correlation",
   plot1 = FALSE,
   width1 = 500,

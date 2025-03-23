@@ -1,8 +1,4 @@
 
-# This file is a generated template, your changes will not be overwritten
-
-#' @export
-
 
 hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
     "hcClass",
@@ -21,21 +17,6 @@ hcClass <- if (requireNamespace('jmvcore')) R6::R6Class(
                 
             }
             
-            # self$results$instructions$setContent(
-            #     "<html>
-            # <head>
-            # </head>
-            # <body>
-            # <div class='instructions'>
-            # <p>____________________________________________________________________________________</p>
-            # <p> Feature requests and bug reports can be made on the <a href='https://github.com/hyunsooseol/snowCluster/issues'  target = '_blank'>GitHub.</a></p>
-            # <p>____________________________________________________________________________________</p>
-            # 
-            # </div>
-            # </body>
-            # </html>"
-            # )
-           
           self$results$instructions$setContent(
             private$.htmlwidget$generate_accordion(
               title="Instructions",

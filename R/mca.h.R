@@ -8,7 +8,7 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             facs = NULL,
             vars = NULL,
-            nd = 3,
+            nd = 2,
             eigen = TRUE,
             rowvar = "coordinates",
             loadingind = FALSE,
@@ -57,7 +57,7 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..nd <- jmvcore::OptionInteger$new(
                 "nd",
                 nd,
-                default=3,
+                default=2,
                 min=2)
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
@@ -514,7 +514,7 @@ mca <- function(
     data,
     facs,
     vars,
-    nd = 3,
+    nd = 2,
     eigen = TRUE,
     rowvar = "coordinates",
     loadingind = FALSE,
