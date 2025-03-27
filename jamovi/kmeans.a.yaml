@@ -153,6 +153,21 @@ options:
       type: Integer
       title: "X"
       default: 500       
+
+    - name: plot4
+      title: 'Silhouette plot' 
+      type: Bool
+      default: FALSE
+
+    - name: width4
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height4
+      type: Integer
+      title: "X"
+      default: 500             
 ...      
 
  

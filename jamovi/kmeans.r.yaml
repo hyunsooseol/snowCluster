@@ -188,5 +188,14 @@ items:
           title: ''
           type: 'text'
           content: ($key)
-  
+
+    - name:  plot4
+      title: 'Silhouette plot'
+      type:  Image
+      visible: (plot4)
+      renderFun: .plot4
+      clearWith:
+        - vars
+        - factors
+        - k1
 ...

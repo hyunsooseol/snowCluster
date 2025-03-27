@@ -1,7 +1,4 @@
 
-# This file is a generated template, your changes will not be overwritten
-
-
 kmeansClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "kmeansClass",
@@ -31,39 +28,36 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           )
           
         ))
-        
-        
         # min or max option is possible in .a yaml.
-        
         if (isTRUE(self$options$plot)) {
           width <- self$options$width
           height <- self$options$height
           
           self$results$plot$setSize(width, height)
         }
-        
-        
         if (isTRUE(self$options$plot1)) {
           width <- self$options$width1
           height <- self$options$height1
           
           self$results$plot1$setSize(width, height)
         }
-        
-        
         if (isTRUE(self$options$plot2)) {
           width <- self$options$width2
           height <- self$options$height2
           
           self$results$plot2$setSize(width, height)
         }
-        
-        
         if (isTRUE(self$options$plot3)) {
           width <- self$options$width3
           height <- self$options$height3
           
           self$results$plot3$setSize(width, height)
+        }
+        if (isTRUE(self$options$plot4)) {
+          width <- self$options$width4
+          height <- self$options$height4
+          
+          self$results$plot4$setSize(width, height)
         }
         
         if (self$options$oc)
@@ -71,9 +65,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             "Note",
             "The highest silhouette score can generally be interpreted as the optimal number of cluster."
           )
-        
-        
-        
         ##initialize the centroids of cluster table-------------
         
         tab2 <- self$results$centroids
@@ -132,221 +123,158 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         
       },
       
-      
-      ########################################################
+      #---
       
       .run = function() {
-        if (length(self$options$vars) > 2) {
-          # Solved Problem that does not change plot using set.seed()
-          set.seed(1234)
+        if (length(self$options$vars) < 3)
+          return()
+        
+        # Solved Problem that does not change plot using set.seed()
+        set.seed(1234)
+        
+        k <- self$options$k
+        vars <- self$options$vars
+        facs <- self$options$factors
+        data <- self$data
+        data <- jmvcore::naOmit(data)
+        
+        for (i in seq_along(vars))
+          data[[i]] <- jmvcore::toNumeric(data[[i]])
+        
+        dat2 <- jmvcore::select(data, self$options$vars)
+        
+        #standardize variables-------------
+        
+        if (self$options$stand)
+        {
+          for (var in 1:ncol(dat2))
+          {
+            tmp <- dat2[, var]
+            dat2[, var] <-
+              (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
+          }
+        }
+        
+        if (dim(dat2)[2] > 0)
+        {
+          model <- stats::kmeans(
+            dat2,
+            centers = self$options$k,
+            nstart = self$options$nstart,
+            algorithm = self$options$algo
+          )
+          cluster <- model$cluster
+          SSW <- model$withinss
+          SSB <- model$betweenss
+          SST <- model$totss
           
-          k <- self$options$k
+          tab <- self$results$clustering
+          tab$deleteRows()
+          
+          clusters <- table(model$cluster)
+          rowno <- 1
+          for (i in 1:dim(clusters))
+          {
+            tab$addRow(
+              rowKey = paste("Cluster", i),
+              values = list(cluster = i, count = clusters[i])
+            )
+          }
+          ## The centroids of clusters table------------
+          
+          tab2 <- self$results$centroids
           vars <- self$options$vars
-          facs <- self$options$factors
+          vars <- factor(vars, levels = vars)
           
-          data <- self$data
+          nVars <- length(vars)
+          k <- self$options$k
           
-          data <- jmvcore::naOmit(data)
-          
-          for (i in seq_along(vars))
-            data[[i]] <- jmvcore::toNumeric(data[[i]])
-          
-          dat2 <- jmvcore::select(data, self$options$vars)
-          
-          
-          #standardize variables-------------
-          
-          if (self$options$stand)
+          for (i in 1:k)
           {
-            for (var in 1:ncol(dat2))
-            {
-              tmp <- dat2[, var]
-              dat2[, var] <-
-                (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
-              
-            }
+            values <- unlist(list(cluster = i, model$centers[i, ]))
+            tab2$setRow(rowNo = i, values)
           }
+          # resulting clustering vector-----
+          # options(max.print=999999)
+          #
+          # self$results$text$setContent(cluster)
           
+          self$results$clust$setValues(cluster)
+          self$results$clust$setRowNums(rownames(data))
           
-          if (dim(dat2)[2] > 0)
-          {
-            model <- stats::kmeans(
-              dat2,
-              centers = self$options$k,
-              nstart = self$options$nstart,
-              algorithm = self$options$algo
-            )
-            
-            
-            cluster <- model$cluster
-            SSW <- model$withinss
-            SSB <- model$betweenss
-            SST <- model$totss
-            
-            
-            tab <- self$results$clustering
-            tab$deleteRows()
-            
-            
-            
-            clusters <- table(model$cluster)
-            rowno <- 1
-            for (i in 1:dim(clusters))
-            {
-              tab$addRow(
-                rowKey = paste("Cluster", i),
-                values = list(cluster = i, count = clusters[i])
-              )
-            }
-            
-            
-            ## The centroids of clusters table------------
-            
-            tab2 <- self$results$centroids
-            vars <- self$options$vars
-            vars <- factor(vars, levels = vars)
-            
-            nVars <- length(vars)
-            k <- self$options$k
-            
-            for (i in 1:k)
-            {
-              values <- unlist(list(cluster = i, model$centers[i, ]))
-              tab2$setRow(rowNo = i, values)
-              
-            }
-            
-            # resulting clustering vector-----
-            # options(max.print=999999)
-            #
-            # self$results$text$setContent(cluster)
-            
-            self$results$clust$setValues(cluster)
-            
-            self$results$clust$setRowNums(rownames(data))
-            
-            ### Sum of squares Table----------
-            
-            ss <- self$results$ss
-            
-            ss$setRow(rowKey = 'between', values = list(value =
-                                                          SSB))
-            
-            ss$setRow(rowKey = 'total', values = list(value =
-                                                        SST))
-            
-            for (i in seq_len(k))
-              ss$setRow(rowKey = i, values = list(value = SSW[i]))
-            
-            
-            # plot data function---------
-            
-            plotData <- data.frame(
-              cluster = as.factor(rep(1:k, nVars)),
-              var = rep(vars, each = k),
-              centers = as.vector(model$centers)
-            )
-            
-            image <- self$results$plot
-            image$setState(plotData)
-            
-          }
+          ### Sum of squares Table----------
+          ss <- self$results$ss
+          ss$setRow(rowKey = 'between', values = list(value =
+                                                        SSB))
+          ss$setRow(rowKey = 'total', values = list(value =
+                                                      SST))
+          for (i in seq_len(k))
+            ss$setRow(rowKey = i, values = list(value = SSW[i]))
           
+          # plot data function---------
           
-          ##### Prepare Data For Plot1(optimal number of clusters) -------
+          plotData <- data.frame(
+            cluster = as.factor(rep(1:k, nVars)),
+            var = rep(vars, each = k),
+            centers = as.vector(model$centers)
+          )
+          image <- self$results$plot
+          image$setState(plotData)
+        }
+        ##### Prepare Data For Plot1(optimal number of clusters) -------
+        plotData1 <- data
+        
+        # Data for plot ----
+        image1 <- self$results$plot1
+        image1$setState(plotData1)
+        
+        ###### Prepare data for plot2(cluster plot)-----------
+        data <-
+          jmvcore::select(data, self$options$vars)
+        
+        if (dim(data)[2] > 0) {
+          km.res <- stats::kmeans(
+            data,
+            centers = self$options$k,
+            nstart = self$options$nstart,
+            algorithm = self$options$algo
+          )
+          image2 <- self$results$plot2
+          image2$setState(km.res)
+          # Create a grouping variable using kmeans-----
           
+          res.pca <- FactoMineR::PCA(data, graph = FALSE)
+          var <- factoextra::get_pca_var(res.pca)
           
-          # data <-
-          #     jmvcore::select(self$data, self$options$vars)
+          res.km <- stats::kmeans(
+            var$coord,
+            centers = self$options$k,
+            nstart = self$options$nstart,
+            algorithm = self$options$algo
+          )
+          grp <- as.factor(res.km$cluster)
           
-          plotData1 <- data
-          
-          # Data for plot ----
-          
-          image1 <- self$results$plot1
-          image1$setState(plotData1)
-          
-          ###### Prepare data for plot2(cluster plot)-----------
-          
-          data <-
-            jmvcore::select(data, self$options$vars)
-          
-          if (dim(data)[2] > 0) {
-            km.res <- stats::kmeans(
-              data,
-              centers = self$options$k,
-              nstart = self$options$nstart,
-              algorithm = self$options$algo
-            )
-            
-            image2 <- self$results$plot2
-            
-            image2$setState(km.res)
-            
-            
-            # Create a grouping variable using kmeans-----
-            
-            
-            
-            res.pca <- FactoMineR::PCA(data, graph = FALSE)
-            
-            var <- factoextra::get_pca_var(res.pca)
-            
-            
-            res.km <- stats::kmeans(
-              var$coord,
-              centers = self$options$k,
-              nstart = self$options$nstart,
-              algorithm = self$options$algo
-            )
-            
-            grp <- as.factor(res.km$cluster)
-            
-            image3 <- self$results$plot3
-            
-            state <- list(res.pca, grp)
-            
-            image3$setState(state)
-            
-            
-          }
+          image3 <- self$results$plot3
+          state <- list(res.pca, grp)
+          image3$setState(state)
         }
         
         if (length(self$options$factors) >= 1) {
           k1 <- self$options$k1
           vars <- self$options$vars
           facs <- self$options$factors
-          
           data <- self$data
-          
-          # # convert to appropriate data types
-          # for (i in seq_along(vars))
-          #   data[[i]] <- jmvcore::toNumeric(data[[i]])
-          #
-          # #  data[[vars]] <- jmvcore::toNumeric(data[[vars]])
-          #
-          # for (fac in facs)
-          #   data[[fac]] <- as.factor(data[[fac]])
-          #
-          # # data is now all of the appropriate type we can begin!
-          #
-          # #data <- na.omit(data)
-          #
-          # dat <- jmvcore::select(data, c(self$options$vars,self$options$factors))
-          #
           
           # continuous vars---
           if (length(vars) > 0) {
             for (i in seq_along(vars))
               data[[vars[i]]] <- jmvcore::toNumeric(data[[vars[i]]])
           }
-          
           # factor vars---
           if (length(facs) > 0) {
             for (fac in facs)
               data[[fac]] <- as.factor(data[[fac]])
           }
-          
           # a <- capture.output(summary(data[fac]))
           # self$results$text$setContent(paste(a, collapse = "\n"))
           
@@ -362,14 +290,11 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             table <- self$results$oc
             oc <- data.frame(oc$indices)
             names <- dimnames(oc)[[1]]
-            
             for (name in names) {
               row <- list()
               row[['value']] <- oc[name, 1]
               table$addRow(rowKey = name, values = row)
-              
             }
-            
           }
           
           if (isTRUE(self$options$kp)) {
@@ -381,13 +306,11 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             #self$results$text1$setContent(proto$dists)
             
             # Table of Gower distance---
-            
             table <- self$results$kp
             mat <- data.frame(proto$dists)
             colnames(mat) <-  paste0("Cluster", seq_along(colnames(mat)))
             names <- dimnames(mat)[[1]]
             dims <- colnames(mat)
-            
             for (dim in dims) {
               table$addColumn(name = paste0(dim),
                               type = 'text',
@@ -400,27 +323,36 @@ kmeansClass <- if (requireNamespace('jmvcore'))
               }
               table$addRow(rowKey = name, values = row)
             }
-            
             #cluster number
             gn <- proto$cluster
-            
             self$results$clust1$setValues(gn)
             self$results$clust1$setRowNums(rownames(data))
-            
           }
           
+          if (isTRUE(self$options$plot4)) {
+            #require(cluster)
+            gower_dist <- stats::as.dist(proto$dists)
+            sil <- cluster::silhouette(gn, gower_dist)
+            sil_data <- data.frame(cluster = factor(sil[, 1]),
+                                   silhouette_width = sil[, 3])
+            agg_sil <- stats::aggregate(silhouette_width ~ cluster, data = sil_data, mean)
+            agg_sil$cluster_num <- as.integer(as.character(agg_sil$cluster))
+            agg_sil <- agg_sil[order(agg_sil$cluster_num), ]
+            
+            image4 <- self$results$plot4
+            image4$setState(agg_sil)
+          }
         }
       },
       
-      
-      ###### Plot of means across groups--------------------
+      # Plot of means across groups---
       
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)
         
-        
         plotData <- image$state
+        
         if (!is.null(plotData))
         {
           plot <-
@@ -440,10 +372,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           if (self$options$angle > 0) {
             plot <- plot + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = self$options$angle, hjust = 1))
           }
-          
-          
-          
-          
           print(plot)
           TRUE
         }
@@ -452,63 +380,33 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       # Optimal number of clusters------
       
       .plot1 = function(image1, ggtheme, theme, ...) {
-        # if (is.null(self$options$vars))
-        #     return()
         if (is.null(image1$state))
           return(FALSE)
         # read data ----
-        
         vars <- self$options$vars
-        
-        #  data <- self$data
-        
         data <- self$data
-        
         data <- jmvcore::naOmit(data)
-        
         
         for (i in seq_along(vars))
           data[[i]] <- jmvcore::toNumeric(data[[i]])
-        
         plotData1 <- image1$state
-        
         plot1 <-
           factoextra::fviz_nbclust(plotData1, stats::kmeans, method = "gap_stat")
-        
         plot1 <- plot1 + ggtheme
         print(plot1)
         TRUE
-        
       },
-      
-      
       # cluster plot------
       
       .plot2 = function(image2, ggtheme, theme, ...) {
-        # if (length(self$options$vars) < 2)
-        #     return()
-        
         if (is.null(image2$state))
           return(FALSE)
-        
-        # read data ----
-        
         vars <- self$options$vars
-        
-        #     data <- self$data
-        
         data <- self$data
-        
         data <- jmvcore::naOmit(data)
-        
         for (i in seq_along(vars))
           data[[i]] <- jmvcore::toNumeric(data[[i]])
-        
-        
-        #  data <- jmvcore::select(self$data, self$options$vars)
-        
         km.res <- image2$state
-        
         plot2 <-
           factoextra::fviz_cluster(
             km.res,
@@ -517,36 +415,41 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             palette = "jco",
             ggtheme = theme_minimal()
           )
-        
         plot2 <- plot2 + ggtheme
         print(plot2)
         TRUE
-        
       },
       
       # Color variables by groups----------------
-      
       .plot3 = function(image3, ggtheme, theme, ...) {
-        # if (length(self$options$vars) < 2)
-        #     return()
-        
         if (is.null(image3$state))
           return(FALSE)
         
         res.pca <- image3$state[[1]]
         grp     <- image3$state[[2]]
-        
-        
         plot3 <-
           factoextra::fviz_pca_var(res.pca, col.var = grp, # palette = c("#0073C2FF", "#EFC000FF", "#868686FF"),
                                    legend.title = "Cluster")
-        
         plot3 <- plot3 + ggtheme
         print(plot3)
         TRUE
+      },
+      
+      .plot4 = function(image4, ggtheme, theme, ...) {
+        if (is.null(image4$state))
+          return(FALSE)
         
+        agg_sil <- image4$state
+        #random_color <- sample(c("red", "green", "blue", "orange", "purple"), 1)
+        
+        plot4 <- ggplot2::ggplot(agg_sil, ggplot2::aes(x = cluster_num, y = silhouette_width)) +
+          ggplot2::geom_point(color = "purple", size = 3) +
+          ggplot2::geom_line(color = "purple") +
+          ggplot2::labs(x = "Number of Clusters", y = "Average Silhouette Width", title = "Average Silhouette Width by Cluster")
+        
+        plot4 <- plot4 + ggtheme
+        print(plot4)
+        TRUE
       }
-      
-      
     )
   )

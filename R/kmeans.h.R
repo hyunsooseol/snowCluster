@@ -27,7 +27,10 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             width2 = 500,
             height2 = 500,
             width3 = 500,
-            height3 = 500, ...) {
+            height3 = 500,
+            plot4 = FALSE,
+            width4 = 500,
+            height4 = 500, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -142,6 +145,18 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "height3",
                 height3,
                 default=500)
+            private$..plot4 <- jmvcore::OptionBool$new(
+                "plot4",
+                plot4,
+                default=FALSE)
+            private$..width4 <- jmvcore::OptionInteger$new(
+                "width4",
+                width4,
+                default=500)
+            private$..height4 <- jmvcore::OptionInteger$new(
+                "height4",
+                height4,
+                default=500)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..factors)
@@ -167,6 +182,9 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..height2)
             self$.addOption(private$..width3)
             self$.addOption(private$..height3)
+            self$.addOption(private$..plot4)
+            self$.addOption(private$..width4)
+            self$.addOption(private$..height4)
         }),
     active = list(
         vars = function() private$..vars$value,
@@ -192,7 +210,10 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         width2 = function() private$..width2$value,
         height2 = function() private$..height2$value,
         width3 = function() private$..width3$value,
-        height3 = function() private$..height3$value),
+        height3 = function() private$..height3$value,
+        plot4 = function() private$..plot4$value,
+        width4 = function() private$..width4$value,
+        height4 = function() private$..height4$value),
     private = list(
         ..vars = NA,
         ..factors = NA,
@@ -217,7 +238,10 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..width2 = NA,
         ..height2 = NA,
         ..width3 = NA,
-        ..height3 = NA)
+        ..height3 = NA,
+        ..plot4 = NA,
+        ..width4 = NA,
+        ..height4 = NA)
 )
 
 kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -236,7 +260,8 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         clust = function() private$.items[["clust"]],
         clust1 = function() private$.items[["clust1"]],
         oc = function() private$.items[["oc"]],
-        kp = function() private$.items[["kp"]]),
+        kp = function() private$.items[["kp"]],
+        plot4 = function() private$.items[["plot4"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -430,7 +455,17 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `name`="name", 
                         `title`="", 
                         `type`="text", 
-                        `content`="($key)"))))}))
+                        `content`="($key)"))))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot4",
+                title="Silhouette plot",
+                visible="(plot4)",
+                renderFun=".plot4",
+                clearWith=list(
+                    "vars",
+                    "factors",
+                    "k1")))}))
 
 kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "kmeansBase",
@@ -480,6 +515,9 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param height2 .
 #' @param width3 .
 #' @param height3 .
+#' @param plot4 .
+#' @param width4 .
+#' @param height4 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -495,6 +533,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$clust1} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$oc} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$kp} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -527,7 +566,10 @@ kmeans <- function(
     width2 = 500,
     height2 = 500,
     width3 = 500,
-    height3 = 500) {
+    height3 = 500,
+    plot4 = FALSE,
+    width4 = 500,
+    height4 = 500) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("kmeans requires jmvcore to be installed (restart may be required)")
@@ -564,7 +606,10 @@ kmeans <- function(
         width2 = width2,
         height2 = height2,
         width3 = width3,
-        height3 = height3)
+        height3 = height3,
+        plot4 = plot4,
+        width4 = width4,
+        height4 = height4)
 
     analysis <- kmeansClass$new(
         options = options,

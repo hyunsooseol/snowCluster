@@ -1,12 +1,12 @@
 ---
 title: Multivariate Analysis
 name: snowCluster
-version: 7.4.6
+version: 7.4.7
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2025-03-18'
+date: '2025-03-28'
 type: R
 description: >-
   This module allows users to analyze k-means and hierarchical clustering,Time

@@ -176,6 +176,18 @@ children:
                 children:
                   - name: oc
                     type: CheckBox
+                  - type: CheckBox
+                    name: plot4
+                    style: list-inline
+                    children:
+                      - type: TextBox
+                        name: width4
+                        format: number
+                        enable: (plot4)
+                      - type: TextBox
+                        name: height4
+                        format: number
+                        enable: (plot4)
           - type: LayoutBox
             margin: large
             cell:
