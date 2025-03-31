@@ -73,11 +73,11 @@ rocClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
     covs <- vapply(covs, function(x) jmvcore::composeTerm(x), '')
     formula <- as.formula(paste(paste(dep, paste0(covs, collapse ="+"), sep="~")))
            
-    if(isTRUE(self$options$plot1)){
-   
-    image <- self$results$plot1
-    image$setState(formula)
-    }   
+    # if(isTRUE(self$options$plot1)){
+    # 
+    # image <- self$results$plot1
+    # image$setState(formula)
+    # }   
 
 p2 <- private$.computeP2()
 #self$results$text$setContent(p2)
@@ -326,16 +326,18 @@ if ( self$options$auc == TRUE) {
     },
         
   .plot1 = function(image, ...){
-          
-            if (is.null(image$state))
-              return(FALSE)
-          
-            formula <- image$state
-            
+            if(!self$options$plot1)
+                 return(FALSE)
+            dep <- self$options$dep
+            covs <- self$options$covs
             data <- self$data
             data <- na.omit(data)
             data <- as.data.frame(data)  
             
+            #Formula(male~height+weight)------
+            covs <- vapply(covs, function(x) jmvcore::composeTerm(x), '')
+            formula <- as.formula(paste(paste(dep, paste0(covs, collapse ="+"), sep="~")))
+
             plot1 <-  multipleROC::multipleROC(formula, data=data)
           
             print(plot1)
