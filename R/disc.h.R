@@ -248,7 +248,7 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="nl",
-                title="Normalized Loadings",
+                title="Normalized loadings",
                 refs="MASS",
                 visible="(nl)",
                 clearWith=list(

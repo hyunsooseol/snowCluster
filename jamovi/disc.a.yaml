@@ -49,7 +49,7 @@ options:
       default: FALSE    
 
     - name: nl
-      title: 'Normalized Loadings'
+      title: 'Normalized loadings'
       type: Bool 
       default: FALSE    
 

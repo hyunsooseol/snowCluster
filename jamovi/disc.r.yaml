@@ -63,7 +63,7 @@ items:
           content: ($key)
        
     - name: nl
-      title: 'Normalized Loadings'
+      title: 'Normalized loadings'
       type: Table
       refs: MASS
       visible: (nl)
