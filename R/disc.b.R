@@ -150,6 +150,27 @@ discClass <- if (requireNamespace('jmvcore'))
           table$addRow(rowKey = name, values = row)
         }
         
+        #Normalized loading---
+        nl <- sweep(res$lda.train$scaling, 2, sqrt(colSums(res$lda.train$scaling^2)), "/")
+        #self$results$text$setContent(nl)
+        nl <- as.data.frame(nl)
+        
+        names <-  dimnames(nl)[[1]]
+        dims <- dimnames(nl)[[2]]
+        
+        table <- self$results$nl
+        
+        for (dim in dims) {
+          table$addColumn(name = paste0(dim), type = 'number')
+        }
+        for (name in names) {
+          row <- list()
+          for (j in seq_along(dims)) {
+            row[[dims[j]]] <- nl[name, j]
+          }
+          table$addRow(rowKey = name, values = row)
+        }
+        
         # Accuracy with training data-----------
         
         # lda.train <- predict(lda.iris)

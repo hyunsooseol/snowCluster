@@ -62,6 +62,22 @@ items:
           type: 'text'
           content: ($key)
        
+    - name: nl
+      title: 'Normalized Loadings'
+      type: Table
+      refs: MASS
+      visible: (nl)
+      clearWith:
+        - covs
+        - dep
+        - per
+
+      columns:
+        - name: name
+          title: ''
+          type: 'text'
+          content: ($key)
+
     - name: prop
       title: 'Proportion of trace'
       type: Table

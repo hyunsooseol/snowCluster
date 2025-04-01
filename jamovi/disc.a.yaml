@@ -48,6 +48,11 @@ options:
       type: Bool 
       default: FALSE    
 
+    - name: nl
+      title: 'Normalized Loadings'
+      type: Bool 
+      default: FALSE    
+
     - name: prop
       title: 'Proportion of trace'
       type: Bool 

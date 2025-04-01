@@ -12,6 +12,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             prior = TRUE,
             gm = FALSE,
             coef = FALSE,
+            nl = FALSE,
             prop = FALSE,
             tra = FALSE,
             tes = FALSE,
@@ -61,6 +62,10 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "coef",
                 coef,
                 default=FALSE)
+            private$..nl <- jmvcore::OptionBool$new(
+                "nl",
+                nl,
+                default=FALSE)
             private$..prop <- jmvcore::OptionBool$new(
                 "prop",
                 prop,
@@ -108,6 +113,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..prior)
             self$.addOption(private$..gm)
             self$.addOption(private$..coef)
+            self$.addOption(private$..nl)
             self$.addOption(private$..prop)
             self$.addOption(private$..tra)
             self$.addOption(private$..tes)
@@ -126,6 +132,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         prior = function() private$..prior$value,
         gm = function() private$..gm$value,
         coef = function() private$..coef$value,
+        nl = function() private$..nl$value,
         prop = function() private$..prop$value,
         tra = function() private$..tra$value,
         tes = function() private$..tes$value,
@@ -143,6 +150,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..prior = NA,
         ..gm = NA,
         ..coef = NA,
+        ..nl = NA,
         ..prop = NA,
         ..tra = NA,
         ..tes = NA,
@@ -164,6 +172,7 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         prior = function() private$.items[["prior"]],
         gm = function() private$.items[["gm"]],
         coef = function() private$.items[["coef"]],
+        nl = function() private$.items[["nl"]],
         prop = function() private$.items[["prop"]],
         tra = function() private$.items[["tra"]],
         tes = function() private$.items[["tes"]],
@@ -226,6 +235,22 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Coefficients of linear discriminants",
                 refs="MASS",
                 visible="(coef)",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "per"),
+                columns=list(
+                    list(
+                        `name`="name", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="($key)"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="nl",
+                title="Normalized Loadings",
+                refs="MASS",
+                visible="(nl)",
                 clearWith=list(
                     "covs",
                     "dep",
@@ -370,6 +395,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param prior .
 #' @param gm .
 #' @param coef .
+#' @param nl .
 #' @param prop .
 #' @param tra .
 #' @param tes .
@@ -387,6 +413,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$nl} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$prop} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$tes} \tab \tab \tab \tab \tab a table \cr
@@ -410,6 +437,7 @@ disc <- function(
     prior = TRUE,
     gm = FALSE,
     coef = FALSE,
+    nl = FALSE,
     prop = FALSE,
     tra = FALSE,
     tes = FALSE,
@@ -441,6 +469,7 @@ disc <- function(
         prior = prior,
         gm = gm,
         coef = coef,
+        nl = nl,
         prop = prop,
         tra = tra,
         tes = tes,
