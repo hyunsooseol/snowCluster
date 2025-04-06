@@ -1,4 +1,5 @@
 
+
 #' @import ggplot2
 
 mcaClass <- if (requireNamespace('jmvcore'))
@@ -77,7 +78,7 @@ mcaClass <- if (requireNamespace('jmvcore'))
           return()
         
         vars <- self$options$vars
-
+        
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeRES()
         }
@@ -92,35 +93,28 @@ mcaClass <- if (requireNamespace('jmvcore'))
         # n <- min(n,5)
         
         if (isTRUE(self$options$eigen)) {
-          ### get eigenvalues------------
           nd <- self$options$nd
-          
-          eigen <- res.mca$eig[1:nd, 1]
-          eigen <- as.vector(eigen)
-          
-          # eigenvalue table-------------
-          
           table <- self$results$eigen
           
-          for (i in seq_along(eigen))
+          eigen <- as.vector(res.mca$eig[1:nd, 1])
+          
+          lapply(seq_along(eigen), function(i) {
             table$addRow(rowKey = i,
                          values = list(comp = as.character(i)))
-          
-          # populating eigenvalue table-----
+          })
           
           eigenTotal <- sum(abs(eigen))
           varProp <- (abs(eigen) / eigenTotal) * 100
           varCum <- cumsum(varProp)
           
-          for (i in seq_along(eigen)) {
-            row <- list()
-            row[["eigen"]] <- eigen[i]
-            row[["varProp"]] <- varProp[i]
-            row[["varCum"]] <- varCum[i]
-            
+          lapply(seq_along(eigen), function(i) {
+            row <- list(eigen = eigen[i],
+                        varProp = varProp[i],
+                        varCum = varCum[i])
             table$setRow(rowNo = i, values = row)
-          }
+          })
         }
+        #------
         
         if (isTRUE(self$options$loadingvar)) {
           nd <- self$options$nd
@@ -266,17 +260,14 @@ mcaClass <- if (requireNamespace('jmvcore'))
         if (is.null(image3$state))
           return(FALSE)
         res.mca <- image3$state
-        plot3 <- factoextra::fviz_mca_ind(
-          res.mca,
-          #col.ind = "contrib",
-          # gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-          repel = TRUE,
-          # Avoid text overlapping (slow if many points)
-          ggtheme = theme_minimal())
-          
-          plot3 <- plot3 + ggtheme
-          print(plot3)
-          TRUE
+        plot3 <- factoextra::fviz_mca_ind(res.mca, #col.ind = "contrib",
+                                          # gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                          repel = TRUE, # Avoid text overlapping (slow if many points)
+                                          ggtheme = theme_minimal())
+        
+        plot3 <- plot3 + ggtheme
+        print(plot3)
+        TRUE
       },
       
       .plot4 = function(image4, ggtheme, theme, ...) {
@@ -309,7 +300,7 @@ mcaClass <- if (requireNamespace('jmvcore'))
         print(plot5)
         TRUE
       },
-
+      
       .plot6 = function(image6, ggtheme, theme, ...) {
         if (is.null(image6$state))
           return(FALSE)
@@ -353,6 +344,5 @@ mcaClass <- if (requireNamespace('jmvcore'))
         return(res.mca)
         
       }
-        )
     )
-    
+  )

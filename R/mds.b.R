@@ -26,10 +26,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '</ul></div></div>'
             
           )
-          
         ))
-        
-        
         if (self$options$mode == "simple") {
           if (isTRUE(self$options$plot)) {
             width <- self$options$width
@@ -145,13 +142,9 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
           image2 <- self$results$plot2
           image2$setState(three)
-          
-          
         }
-        
       },
-      
-      
+
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)

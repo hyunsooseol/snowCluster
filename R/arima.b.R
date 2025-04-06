@@ -51,8 +51,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           height <- self$options$height8
           self$results$box$setSize(width, height)
         }
-        
-        
         if (isTRUE(self$options$plot1)) {
           width <- self$options$width1
           height <- self$options$height1
@@ -87,8 +85,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           height <- self$options$height6
           self$results$plot6$setSize(width, height)
         }
-        
-        
       },
       
       ##################################################################
@@ -100,35 +96,20 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         dep1  <- self$options$dep1
         time1 <- self$options$time1
         
-        # xCol <- jmvcore::toNumeric(self$data[[dep]])
-        # yCol <- jmvcore::toNumeric(self$data[[time]])
-        # data <- data.frame(x=xCol, y=yCol)
-        # data <- jmvcore::naOmit(data)
-        #
-        
-        
         if (self$options$mode == 'simple') {
           if (is.null(self$options$dep))
             return()
-          
-          
-          # get the data
           data <- self$data
           data <- jmvcore::naOmit(data)
           
           #------------------
-          
           tsdata <- stats::ts(data, frequency = freq)
           ddata <- stats::decompose(tsdata, "multiplicative")
-          
-          
           #################################################
           
           mymodel <- forecast::auto.arima(tsdata)
           
           #############################################
-          
-          
           # Decompose plot----------
           
           image <- self$results$plot
@@ -159,28 +140,18 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           image3$setState(predict)
           
           
-          # Prediction interval table---------
-          
-          table <- self$results$point
-          
-          #  pre <- forecast::forecast(mymodel)
-          
-          pre <- as.data.frame(predict)
-          
-          names <- dimnames(pre)[[1]]
-          
-          for (name in names) {
-            row <- list()
+          if (isTRUE(self$options$point)) {
+            # Prediction interval table---------
+            table <- self$results$point
+            pre <- as.data.frame(predict)
             
-            row[["po"]]   <-  pre[name, 1]
-            row[["lower"]] <-  pre[name, 2]
-            row[["upper"]] <-  pre[name, 3]
-            
-            
-            table$addRow(rowKey = name, values = row)
-            
+            lapply(rownames(pre), function(name) {
+              row <- list(po = pre[name, 1],
+                          lower = pre[name, 2],
+                          upper = pre[name, 3])
+              table$addRow(rowKey = name, values = row)
+            })
           }
-          
           
           # ARIMA coefficients Table-------
           
@@ -212,55 +183,33 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           res <- as.data.frame(res)
           
           # populating coef. table----------
-          
-          table <- self$results$coef
-          
-          names <- dimnames(res)[[1]]
-          
-          
-          for (name in names) {
-            row <- list()
+          if (isTRUE(self$options$point)) {
+            table <- self$results$coef
             
-            row[["co"]] <- res[name, 1]
-            row[["se"]] <- res[name, 2]
-            
-            table$addRow(rowKey = name, values = row)
-            
+            lapply(rownames(res), function(name) {
+              row <- list(co = res[name, 1], se = res[name, 2])
+              table$addRow(rowKey = name, values = row)
+            })
           }
-          
           # fit table------
-          
-          log <- mymodel$loglik
-          aic <- mymodel$aic
-          aicc <- mymodel$aicc
-          bic <- mymodel$bic
-          
-          
-          mo <- data.frame(
-            LL = mymodel$loglik,
-            AIC = mymodel$aic,
-            AICc = mymodel$aicc,
-            BIC = mymodel$bic
-          )
-          
-          mo <- t(mo)
-          names <- dimnames(mo)[[1]]
-          
-          # populating fit table------
-          
-          table <- self$results$fit
-          
-          for (name in names) {
-            row <- list()
+          if (isTRUE(self$options$point)) {
+            table <- self$results$fit
             
-            row[['value']] <- mo[name, 1]
+            mo <- t(
+              data.frame(
+                LL = mymodel$loglik,
+                AIC = mymodel$aic,
+                AICc = mymodel$aicc,
+                BIC = mymodel$bic
+              )
+            )
             
-            table$addRow(rowKey = name, values = row)
-            
+            lapply(rownames(mo), function(name) {
+              row <- list(value = mo[name, 1])
+              table$addRow(rowKey = name, values = row)
+            })
           }
-          
         }
-        
         ####################################################################
         
         if (self$options$mode == 'complex') {
@@ -281,13 +230,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           # plot(m, forecast)
           # prophet_plot_components(m, forecast)
           #------------------------------------------------
-          
-          
           # get the data
           data <- self$data
           data <- jmvcore::naOmit(data)
-          
-          
           # Prophet Analysis -----------
           m <- prophet::prophet(
             data,
@@ -296,8 +241,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             yearly.seasonality = TRUE,
             weekly.seasonality = TRUE
           )
-          
-          
           # Basic predictions ------------------------------------
           future <- prophet::make_future_dataframe(m,
                                                    periods = self$options$periods,
@@ -308,10 +251,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           forecast <- predict(m, future)
           #########################################
           # self$results$text$setContent(forecast)
-          
-          
           state <- list(m, forecast)
-          
           image4 <- self$results$plot4
           image4$setState(state)
           
@@ -326,10 +266,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           image6$setState(state)
           
         }
-        
-        
-        
-        
       },
       
       .plot = function(image, ...) {
@@ -339,8 +275,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         ddata <- image$state
         
         plot <- plot(ddata)
-        
-        
         print(plot)
         TRUE
       },
@@ -356,14 +290,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         data <- self$data
         data <- jmvcore::naOmit(data)
-        
-        
         tsdata <- stats::ts(data, frequency = freq)
-        
         plot <- boxplot(tsdata ~ stats::cycle(tsdata))
-        
-        
-        
         print(plot)
         TRUE
       },
@@ -379,8 +307,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           forecast::auto.arima() %>%
           forecast::forecast(h = 20) %>%
           ggplot2::autoplot()
-        
-        
         print(plot)
         TRUE
       },
@@ -388,13 +314,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot2 = function(image2, ...) {
         if (is.null(image2$state))
           return(FALSE)
-        
-        
         res <- image2$state
-        
         plot <- plot(res)
-        
-        
         print(plot)
         TRUE
       },
@@ -402,14 +323,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot3 = function(image3, ...) {
         if (is.null(image3$state))
           return(FALSE)
-        
-        
-        
         predict <- image3$state
-        
         plot <- plot(predict)
-        
-        
         print(plot)
         TRUE
       },
@@ -417,8 +332,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot4 = function(image4, ...) {
         if (is.null(image4$state))
           return(FALSE)
-        
-        
         m <- image4$state[[1]]
         forecast <- image4$state[[2]]
         plot4 <- plot(m, forecast)
@@ -429,13 +342,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot5 = function(image5, ...) {
         if (is.null(image5$state))
           return(FALSE)
-        
-        
         m <- image5$state[[1]]
         forecast <- image5$state[[2]]
-        
         plot5 <- prophet::prophet_plot_components(m, forecast, plot_cap = FALSE, uncertainty = TRUE)
-        
         # print(plot5) # Otherwise, Only first plot is appeared.
         TRUE
       },
@@ -465,8 +374,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot6 = function(image6, ...) {
         if (is.null(image6$state))
           return(FALSE)
-        
-        
         m <- image6$state[[1]]
         forecast <- image6$state[[2]]
         
@@ -491,9 +398,5 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         print(plot6)
         TRUE
       }
-      
-      
-      
-      
     )
   )

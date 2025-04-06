@@ -85,8 +85,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                          format = 'zto')
           
         }
-        
-        
         values <- list(cluster = 1)
         
         for (i in seq_len(nVars)) {
@@ -118,9 +116,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         ss$addFormat(rowKey = 'total',
                      col = 1,
                      jmvcore::Cell.BEGIN_END_GROUP)
-        
-        
-        
       },
       
       #---

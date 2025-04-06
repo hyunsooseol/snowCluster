@@ -1,5 +1,6 @@
 
 
+
 mfaClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "mfaClass",
@@ -104,31 +105,31 @@ mfaClass <- if (requireNamespace('jmvcore'))
         
         data <- mfa$data
         mfa <- mfa$res
+        
         #Tables---
         
         if (isTRUE(self$options$eigen)) {
-          eigen <- mfa$eig[, 1]
-          eigen <- as.vector(eigen)
-          # eigenvalue table-------------
           table <- self$results$eigen
-          for (i in seq_along(eigen))
+          
+          eigen <- as.vector(mfa$eig[, 1])
+          
+          lapply(seq_along(eigen), function(i) {
             table$addRow(rowKey = i,
                          values = list(comp = as.character(i)))
-          
-          # populating eigenvalue table-----
+          })
           
           eigenTotal <- sum(abs(eigen))
           varProp <- (abs(eigen) / eigenTotal) * 100
           varCum <- cumsum(varProp)
           
-          for (i in seq_along(eigen)) {
-            row <- list()
-            row[["eigen"]] <- eigen[i]
-            row[["varProp"]] <- varProp[i]
-            row[["varCum"]] <- varCum[i]
+          lapply(seq_along(eigen), function(i) {
+            row <- list(eigen = eigen[i],
+                        varProp = varProp[i],
+                        varCum = varCum[i])
             table$setRow(rowNo = i, values = row)
-          }
+          })
         }
+        #----
         
         if (isTRUE(self$options$cg)) {
           # contribution for group of variables---------------

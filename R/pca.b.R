@@ -15,7 +15,6 @@ pcaClass <- if (requireNamespace('jmvcore'))
           self$results$instructions$setVisible(visible = TRUE)
           
         }
-        
         self$results$instructions$setContent(private$.htmlwidget$generate_accordion(
           title = "Instructions",
           content = paste(
@@ -24,9 +23,7 @@ pcaClass <- if (requireNamespace('jmvcore'))
             '<ul>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
-            
           )
-          
         ))
         
         if (self$options$mode == "simple") {
@@ -49,8 +46,6 @@ pcaClass <- if (requireNamespace('jmvcore'))
           }
           
         }
-        
-        
         if (self$options$mode == "complex") {
           if (isTRUE(self$options$plot3)) {
             width <- self$options$width3
@@ -63,13 +58,10 @@ pcaClass <- if (requireNamespace('jmvcore'))
             height <- self$options$height4
             self$results$plot4$setSize(width, height)
           }
-          
         }
-        
       },
-
+      
       .run = function() {
-
         if (self$options$mode == 'simple') {
           if (!is.null(self$options$vars)) {
             if (length(self$options$vars) < 2)
@@ -77,10 +69,7 @@ pcaClass <- if (requireNamespace('jmvcore'))
             
             vars <- self$options$vars
             data <- self$data
-            
             data <- jmvcore::naOmit(data)
-            
-            
             # Handling id----------
             
             if (!is.null(self$options$labels)) {
@@ -90,117 +79,74 @@ pcaClass <- if (requireNamespace('jmvcore'))
             
             for (i in seq_along(vars))
               data[[i]] <- jmvcore::toNumeric(data[[i]])
-            
-            
             # principal component analysis---------
-            
             pca <- FactoMineR::PCA(data, graph = FALSE)
             
-            
-            ### get eigenvalues------------
-            
-            eigen <- pca$eig[, 1]
-            eigen <- as.vector(eigen)
-            
-            # eigenvalue table-------------
-            
-            table <- self$results$eigen
-            
-            for (i in seq_along(eigen))
-              table$addRow(rowKey = i,
-                           values = list(comp = as.character(i)))
-            
-            # populating eigenvalue table-----
-            
-            eigenTotal <- sum(abs(eigen))
-            varProp <- (abs(eigen) / eigenTotal) * 100
-            varCum <- cumsum(varProp)
-            
-            for (i in seq_along(eigen)) {
-              row <- list()
-              row[["eigen"]] <- eigen[i]
-              row[["varProp"]] <- varProp[i]
-              row[["varCum"]] <- varCum[i]
+            #---
+            if (isTRUE(self$options$eigen)) {
+              table <- self$results$eigen
               
+              eigen <- as.vector(pca$eig[, 1])
               
-              table$setRow(rowNo = i, values = row)
+              lapply(seq_along(eigen), function(i) {
+                table$addRow(rowKey = i,
+                             values = list(comp = as.character(i)))
+              })
+              
+              eigenTotal <- sum(abs(eigen))
+              varProp <- (abs(eigen) / eigenTotal) * 100
+              varCum <- cumsum(varProp)
+              
+              lapply(seq_along(eigen), function(i) {
+                row <- list(eigen = eigen[i],
+                            varProp = varProp[i],
+                            varCum = varCum[i])
+                table$setRow(rowNo = i, values = row)
+              })
             }
             
-            
             # Variable contributions plot----------
-            
             image <- self$results$plot
             image$setState(pca)
             
             # Individual plot-------
-            
-            
             image1 <- self$results$plot1
             image1$setState(pca)
-            
-            
             # Biplot--------
-            
             image2 <- self$results$plot2
             image2$setState(pca)
-            
-            
           }
-          
         }
-        
         
         if (self$options$mode == 'complex') {
           if (is.null(self$options$facs) || length(self$options$vars1) < 2)
             return()
-          
-          
-          
           # read the option values into shorter variable names
-          
           vars1  <- self$options$vars1
           facs <- self$options$facs
-          
-          # get the data
-          
           data <- self$data
-          
-          
           # convert to appropriate data types
           
           for (i in seq_along(vars1))
             data[[i]] <- jmvcore::toNumeric(data[[i]])
           
-          
-          #  data[[vars]] <- jmvcore::toNumeric(data[[vars]])
-          
           for (fac in facs)
             data[[fac]] <- as.factor(data[[fac]])
           
           # data is now all of the appropriate type we can begin!
-          
           data <- na.omit(data)
-          
           data <- jmvcore::select(data, self$options$vars1)
           
           # principal component analysis---------
-          
           pca <- FactoMineR::PCA(data, graph = FALSE)
-          
-          
           # group plot----------
-          
           image3 <- self$results$plot3
           image3$setState(pca)
           
           # biplot------------------------
-          
           image4 <- self$results$plot4
           image4$setState(pca)
-          
-          
         }
-        
       },
       
       # Control variable colors using their contributions----------
@@ -209,16 +155,13 @@ pcaClass <- if (requireNamespace('jmvcore'))
         if (is.null(image$state))
           return(FALSE)
         pca <- image$state
-        plot <- factoextra::fviz_pca_var(
-          pca,
-          #col.var="contrib",
-          #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-          repel = TRUE) # Avoid text overlapping
-          plot <- plot + ggtheme
-          print(plot)
-          TRUE
+        plot <- factoextra::fviz_pca_var(pca, #col.var="contrib",
+                                         #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                         repel = TRUE) # Avoid text overlapping
+        plot <- plot + ggtheme
+        print(plot)
+        TRUE
       },
-      
       
       .plot1 = function(image1, ggtheme, theme, ...) {
         if (is.null(image1$state))
@@ -226,15 +169,13 @@ pcaClass <- if (requireNamespace('jmvcore'))
         
         pca <- image1$state
         
-        plot1 <- factoextra::fviz_pca_ind(
-          pca,
-          #col.ind = "cos2",
-          #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-          repel = TRUE) # Avoid text overlapping (slow if many points))
-          
-          plot1 <- plot1 + ggtheme
-          print(plot1)
-          TRUE
+        plot1 <- factoextra::fviz_pca_ind(pca, #col.ind = "cos2",
+                                          #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                          repel = TRUE) # Avoid text overlapping (slow if many points))
+        
+        plot1 <- plot1 + ggtheme
+        print(plot1)
+        TRUE
       },
       
       .plot2 = function(image2, ggtheme, theme, ...) {
@@ -275,8 +216,6 @@ pcaClass <- if (requireNamespace('jmvcore'))
       .plot4 = function(image4, ggtheme, theme, ...) {
         if (is.null(image4$state))
           return(FALSE)
-        
-        
         pca <- image4$state
         
         plot4 <- factoextra::fviz_pca_biplot(
@@ -294,6 +233,5 @@ pcaClass <- if (requireNamespace('jmvcore'))
         print(plot4)
         TRUE
       }
-        )
     )
-        
+  )

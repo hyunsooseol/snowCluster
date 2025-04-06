@@ -12,6 +12,7 @@ disc(
   prior = TRUE,
   gm = FALSE,
   coef = FALSE,
+  nl = FALSE,
   prop = FALSE,
   tra = FALSE,
   tes = FALSE,
@@ -38,6 +39,8 @@ disc(
 \item{gm}{.}
 
 \item{coef}{.}
+
+\item{nl}{.}
 
 \item{prop}{.}
 
@@ -67,6 +70,7 @@ A results object containing:
   \code{results$prior} \tab \tab \tab \tab \tab a table \cr
   \code{results$gm} \tab \tab \tab \tab \tab a table \cr
   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
+  \code{results$nl} \tab \tab \tab \tab \tab a table \cr
   \code{results$prop} \tab \tab \tab \tab \tab a table \cr
   \code{results$tra} \tab \tab \tab \tab \tab a table \cr
   \code{results$tes} \tab \tab \tab \tab \tab a table \cr

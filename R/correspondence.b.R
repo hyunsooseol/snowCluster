@@ -1,6 +1,5 @@
 # This file is a generated template, your changes will not be overwritten
 
-
 correspondenceClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "correspondenceClass",
@@ -72,59 +71,43 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
         }
         
         res.ca <- private$.allCache
-        
         data <- res.ca$data
         res.ca <- res.ca$res
         
+        #---
         if (isTRUE(self$options$chi)) {
           chi <- stats::chisq.test(data)
           
-          # get statistic----
-          statistic <- chi$statistic
-          # get df----------
-          df <- chi$parameter
-          # get pvalue------------
-          p <- chi$p.value
-          # Chi square table===============
+          # 테이블에 직접 결과값 할당
           table <- self$results$chi
-          row <- list()
-          row[['statistic']] <- statistic
-          row[['df']] <- df
-          row[['p']] <- p
+          row <- list(
+            statistic = chi$statistic,
+            df = chi$parameter,
+            p = chi$p.value
+          )
           
           table$setRow(rowNo = 1, values = row)
         }
-        
+        #---
         if (isTRUE(self$options$eigen)) {
           nd <- self$options$nd
-          
-          eigen <- res.ca$eig[1:nd, 1]
-          eigen <- as.vector(eigen)
-          
-          # eigenvalue table-------------
-          
           table <- self$results$eigen
-          
-          for (i in seq_along(eigen))
-            table$addRow(rowKey = i,
-                         values = list(comp = as.character(i)))
-          
-          # populating eigenvalue table-----
-          
+          eigen <- as.vector(res.ca$eig[1:nd, 1])
           eigenTotal <- sum(abs(eigen))
           varProp <- (abs(eigen) / eigenTotal) * 100
           varCum <- cumsum(varProp)
-          
-          for (i in seq_along(eigen)) {
-            row <- list()
-            row[["eigen"]] <- eigen[i]
-            row[["varProp"]] <- varProp[i]
-            row[["varCum"]] <- varCum[i]
-            
+          lapply(seq_along(eigen), function(i) {
+            table$addRow(rowKey = i,
+                         values = list(comp = as.character(i)))
+          })
+          lapply(seq_along(eigen), function(i) {
+            row <- list(eigen = eigen[i],
+                        varProp = varProp[i],
+                        varCum = varCum[i])
             table$setRow(rowNo = i, values = row)
-          }
+          })
         }
-        
+        #---
         if (isTRUE(self$options$loadingvar)) {
           nd <- self$options$nd
           colvar <- self$options$colvar
@@ -227,7 +210,6 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
                                          # gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
                                          repel = TRUE)
         plot1 <- plot1 + ggtheme
-        
         print(plot1)
         TRUE
       },
@@ -240,7 +222,6 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
         plot2 <- factoextra::fviz_ca_col(res.ca, repel = TRUE)
         
         plot2 <- plot2 + ggtheme
-        
         print(plot2)
         TRUE
       },

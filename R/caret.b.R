@@ -94,39 +94,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       #---------------------------------------------
       
       .run = function() {
-        # # iris example in R-----------
-        # library(caret)
-        # data(iris)
-        #
-        # #Split into train and test dataset
-        # trainIndex <- createDataPartition(iris$Species, p = .8,
-        #                                   list = FALSE,
-        #                                   times = 1)
-        # train <- iris[ trainIndex,]
-        # test  <- iris[-trainIndex,]
-        #
-        # fitControl <- trainControl(
-        #   method = "repeatedcv",
-        #   number = 10,
-        #   repeats = 5)
-        #
-        # dt.fit <- train(Species ~ ., data = train,
-        #                 method = "rpart",
-        #                 trControl = fitControl,
-        #                 preProcess=c("center", "scale"))
-        #
-        # predictions <- predict(dt.fit, test)
-        # predictions
-        #
-        # eval<- confusionMatrix(predictions, test$Species)
-        #
-        
-        
         if (is.null(self$options$dep) ||
             length(self$options$covs) < 2)
           return()
-        
-        
         trans <- self$options$trans
         mecon <- self$options$mecon
         repeats <- self$options$repeats
@@ -144,100 +114,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         dep <- self$options$dep
         covs <- self$options$covs
         facs <- self$options$facs
-        
-        
-        # # data cleaning---------------
-        #
-        # for(fac in facs)
-        #   data[[fac]]<-as.factor(data[[fac]])
-        #
-        # for(cov in covs)
-        #   data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-        #
-        # # data[[dep]] <- jmvcore::toNumeric(data[[dep]])
-        #
-        # # When caretList() runs a tree-based model
-        # # (here rpart, but also applies to random forests),
-        # # it converts the factor levels into variables which are used to split the tree.
-        # # For these variables, names starting with a number are not allowed nor that they contain spaces.
-        # # So for each of these variables, you can convert the level names to valid labels with the following code.
-        #
-        # # The values for the response variable cannot be a number !
-        #
-        # data[[dep]] <- as.factor(data[[dep]])
-        #
-        # data <- na.omit(data)
-        #
-        #
-        # # To speed up the function------
-        #
-        #  formula <- as.formula(paste0(self$options$dep, " ~ ."))
-        #
-        #
-        # # Create Train/test dataset using caret package-----------------
-        #
-        #   set.seed(1234)
-        #   split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
-        #   train1 <-data[split1,]
-        #   test1 <- data[-split1,]
-        #
-        # # Transformed dataset-----------------
-        # # Create the bagImpute model on the training data
-        # # for missing values with continuous variables..
-        #
-        #   preProcValues <- caret::preProcess(train1,
-        #                                      method = trans)
-        #
-        #   self$results$text1$setContent(preProcValues)
-        #
-        #   train <- predict(preProcValues, train1)
-        #   test <- predict(preProcValues, test1)
-        #
-        #
-        # # Dummy coding for factors vars.-------------------
-        #
-        #   if(isTRUE(self$options$facs==TRUE)){
-        #   #if(isTRUE(condition)==TRUE) {do something}
-        #
-        #   #if ( !is.null(self$options$facs) && self$options$facs==TRUE) {
-        #
-        #
-        #  # To speed up the function------
-        #
-        #     formula <- as.formula(paste0(self$options$dep, " ~ ."))
-        #
-        #   # One-Hot Encoding
-        #   # Creating dummy variables is converting a categorical variable to as many binary variables as here are categories.
-        #   dummies_model <- caret::dummyVars(formula,
-        #                                     data=train1)
-        #
-        #   # Create the dummy variables using predict. The Y variable (Purchase) will not be present in trainData_mat.
-        #   trainData_mat <- predict(dummies_model, newdata = test1)
-        #
-        #   # Convert to dataframe
-        #   train <- data.frame(trainData_mat)
-        #
-        #   }
-        #
-        #   # trainControl function-----------
-        #
-        #    ctrl <- caret::trainControl(method = mecon,
-        #                                        number =number ,
-        #                                        repeats = repeats,
-        #                                        p=per,
-        #                                        classProbs=T,
-        #                                        savePredictions = T)
-        #
-        #
-        # # Training dataset---------------
-        #
-        #   fit <- caret::train(formula,
-        #                       data=train,
-        #                       method = method,
-        #                       tuneLength = tune,
-        #                       trControl =  ctrl)
-        
-        
         #all <- private$.computeFIT()
         
         if (is.null(private$.allCache)) {
@@ -248,8 +124,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # Model information-----------
         self$results$text$setContent(all$fit)
-        
-        
         # Compare models--------------
         # https://www.machinelearningplus.com/machine-learning/caret-package/
         # Stacking Algorithms - Run multiple algos in one call.
@@ -277,55 +151,41 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         res <- summary(results)
         
         # Accuracy Table---------
-        
         if (self$options$accu == TRUE) {
           table <- self$results$mf$accu
-          
-          accu <- data.frame(res$statistics$Accuracy)
-          
-          names <- dimnames(accu)[[1]]
-          
-          for (name in names) {
-            row <- list()
-            
-            row[["min"]] <- accu[name, 1]
-            row[["q1"]] <- accu[name, 2]
-            row[["med"]] <- accu[name, 3]
-            row[["me"]] <- accu[name, 4]
-            row[["q3"]] <- accu[name, 5]
-            row[["max"]] <- accu[name, 6]
-            row[["na"]] <- accu[name, 7]
-            
+          accu <- as.data.frame(res$statistics$Accuracy)
+
+          lapply(rownames(accu), function(name) {
+            row <- list(
+              min = accu[name, 1],
+              q1 = accu[name, 2],
+              med = accu[name, 3],
+              me = accu[name, 4],
+              q3 = accu[name, 5],
+              max = accu[name, 6],
+              na = accu[name, 7]
+            )
             table$addRow(rowKey = name, values = row)
-            
-          }
-          
+          })
         }
-        
-        
+
         # kappa Table---------
         
         if (self$options$kapp == TRUE) {
           table <- self$results$mf$kapp
-          
-          kapp <- data.frame(res$statistics$Kappa)
-          
-          names <- dimnames(kapp)[[1]]
-          
-          for (name in names) {
-            row <- list()
-            
-            row[["min"]] <- kapp[name, 1]
-            row[["q1"]] <- kapp[name, 2]
-            row[["med"]] <- kapp[name, 3]
-            row[["me"]] <- kapp[name, 4]
-            row[["q3"]] <- kapp[name, 5]
-            row[["max"]] <- kapp[name, 6]
-            row[["na"]] <- kapp[name, 7]
-            
+          kapp <- as.data.frame(res$statistics$Kappa)
+          lapply(rownames(kapp), function(name) {
+            row <- list(
+              min = kapp[name, 1],
+              q1 = kapp[name, 2],
+              med = kapp[name, 3],
+              me = kapp[name, 4],
+              q3 = kapp[name, 5],
+              max = kapp[name, 6],
+              na = kapp[name, 7]
+            )
             table$addRow(rowKey = name, values = row)
-            
-          }
+          })
         }
         
         # # ROC with training set-----------
@@ -341,38 +201,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           image7$setState(results)
           
         }
-        
-        #  # Compare ROC curves------------------
-        # comp <- caret::train(formula,
-        #                      data=train,
-        #                      method = cm1,
-        #                      tuneLength = tune,
-        #                      trControl =  ctrl)
-        #
-        
-        # Comparing ROC curves with training set-----------------
-        
-        # if(self$options$plot==TRUE){
-        #
-        #  image <- self$results$plot
-        #  state <- list(fit,comp)
-        #  image$setState(state)
-        #
-        # }
-        # Calibration curve---------
-        #
-        # if(self$options$plot4==TRUE){
-        #  image4 <- self$results$plot4
-        #  state <- list(all$fit,all$comp)
-        #  image4$setState(state)
-        # }
-        
-        # Model selection plot2----------
-        # if(self$options$plot2==TRUE){
-        #  image2 <- self$results$plot2
-        #  image2$setState(all$fit)
-        # }
-        
         # Variable importance plot----------
         
         if (self$options$plot1 == TRUE) {
@@ -469,25 +297,18 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         # Overall statistics with training set-----------
-        
         if (isTRUE(self$options$over1)) {
           table <- self$results$over1
-          
-          acc <- eval.tr[["overall"]][1]
-          acclow <- eval.tr[["overall"]][3]
-          acchigh <- eval.tr[["overall"]][4]
-          kappa <- eval.tr[["overall"]][2]
-          
-          row <- list()
-          
-          row[['accu']] <- acc
-          row[['lower']] <- acclow
-          row[['upper']] <- acchigh
-          row[['kappa']] <- kappa
+          row <- list(
+            accu = eval.tr[["overall"]][1],
+            lower = eval.tr[["overall"]][3],
+            upper = eval.tr[["overall"]][4],
+            kappa = eval.tr[["overall"]][2]
+          )
           
           table$setRow(rowNo = 1, values = row)
         }
-        
+
         # Statistics by class WITH TRAINing set-----------
         
         if (isTRUE(self$options$cla1)) {
@@ -523,9 +344,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         if (self$options$plot3 == TRUE) {
           pred1 <- predict(all$fit, all$test, type = 'prob')
-          
           pred1 <- data.frame(pred1, all$test[[dep]], Group = self$options$method)
-          
           image3 <- self$results$plot3
           image3$setState(pred1)
         }
@@ -555,25 +374,20 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         # Overall statistics with test data-----------
-        
         if (isTRUE(self$options$over)) {
           table <- self$results$over
           
-          acc <- eval[["overall"]][1]
-          acclow <- eval[["overall"]][3]
-          acchigh <- eval[["overall"]][4]
-          kappa <- eval[["overall"]][2]
-          
-          row <- list()
-          
-          row[['accu']] <- acc
-          row[['lower']] <- acclow
-          row[['upper']] <- acchigh
-          row[['kappa']] <- kappa
+          row <- list(
+            accu = eval[["overall"]][1],
+            lower = eval[["overall"]][3],
+            upper = eval[["overall"]][4],
+            kappa = eval[["overall"]][2]
+          )
           
           table$setRow(rowNo = 1, values = row)
         }
         
+
         # Statistics by class-----------
         
         if (isTRUE(self$options$cla)) {
@@ -613,18 +427,14 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             data[[cov]] <- jmvcore::toNumeric(data[[cov]])
           
           data[[dep]] <- as.factor(data[[dep]])
-          
           data <- na.omit(data)
-          
+
           image5 <- self$results$plot5
           image5$setState(data)
           
           image6 <- self$results$plot6
           image6$setState(data)
-          
         }
-        
-        
       },
       
       #Plot---
@@ -653,8 +463,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             y = list(relation = "free")
           )
         )
-        
-        
         print(plot5)
         TRUE
       },
@@ -666,8 +474,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         data <- image6$state
         covs <- self$options$covs
         dep <- self$options$dep
-        
-        
+
         plot6 <- caret::featurePlot(
           x = data[, covs],
           y = data[[dep]],
@@ -679,8 +486,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             y = list(relation = "free")
           )
         )
-        
-        
         print(plot6)
         TRUE
       },
@@ -694,7 +499,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
                              gnames = c(self$options$method, self$options$cm1))
         
         plot <- res$roc
-        
         print(plot)
         TRUE
       },
@@ -710,7 +514,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # Calibration curve
         plot4 <- res$cc
-        
         print(plot4)
         TRUE
       },
@@ -720,14 +523,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         all <- private$.computeFIT()
-        
         plot2 <- ggplot2::ggplot(all$fit)
-        
         plot2 <- plot2 + ggtheme
-        
         print(plot2)
         TRUE
-        
       },
       
       .plot1 = function(image1, ...) {
@@ -735,9 +534,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         vi <- image1$state
-        
         plot1 <- plot(vi)
-        
         print(plot1)
         TRUE
       },
@@ -749,11 +546,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         pred1 <- image3$state
-        
         res <- MLeval::evalm(pred1)
-        
         plot3 <- res$roc
-        
         print(plot3)
         TRUE
       },
@@ -771,7 +565,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
                        y = list(relation = "free"))
         
         plot7 <- lattice::bwplot(res, scales = scales)
-        
         print(plot7)
         TRUE
       },
@@ -784,7 +577,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         res1 <- MLeval::evalm(all$fit)
         # get ROC---
         plot8 <- res1$roc
-        
         print(plot8)
         TRUE
       },
@@ -871,10 +663,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           classProbs = T,
           savePredictions = T
         )
-        
-        
         # Training dataset---------------
-        
         fit <- caret::train(
           formula,
           data = train,
@@ -901,7 +690,156 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         )
         return(retlist)
       }
-      
-      
     )
   )
+
+# # iris example in R-----------
+# library(caret)
+# data(iris)
+#
+# #Split into train and test dataset
+# trainIndex <- createDataPartition(iris$Species, p = .8,
+#                                   list = FALSE,
+#                                   times = 1)
+# train <- iris[ trainIndex,]
+# test  <- iris[-trainIndex,]
+#
+# fitControl <- trainControl(
+#   method = "repeatedcv",
+#   number = 10,
+#   repeats = 5)
+#
+# dt.fit <- train(Species ~ ., data = train,
+#                 method = "rpart",
+#                 trControl = fitControl,
+#                 preProcess=c("center", "scale"))
+#
+# predictions <- predict(dt.fit, test)
+# predictions
+#
+# eval<- confusionMatrix(predictions, test$Species)
+#
+
+
+# # data cleaning---------------
+#
+# for(fac in facs)
+#   data[[fac]]<-as.factor(data[[fac]])
+#
+# for(cov in covs)
+#   data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+#
+# # data[[dep]] <- jmvcore::toNumeric(data[[dep]])
+#
+# # When caretList() runs a tree-based model
+# # (here rpart, but also applies to random forests),
+# # it converts the factor levels into variables which are used to split the tree.
+# # For these variables, names starting with a number are not allowed nor that they contain spaces.
+# # So for each of these variables, you can convert the level names to valid labels with the following code.
+#
+# # The values for the response variable cannot be a number !
+#
+# data[[dep]] <- as.factor(data[[dep]])
+#
+# data <- na.omit(data)
+#
+#
+# # To speed up the function------
+#
+#  formula <- as.formula(paste0(self$options$dep, " ~ ."))
+#
+#
+# # Create Train/test dataset using caret package-----------------
+#
+#   set.seed(1234)
+#   split1<- caret::createDataPartition(data[[dep]], p=per,list = F)
+#   train1 <-data[split1,]
+#   test1 <- data[-split1,]
+#
+# # Transformed dataset-----------------
+# # Create the bagImpute model on the training data
+# # for missing values with continuous variables..
+#
+#   preProcValues <- caret::preProcess(train1,
+#                                      method = trans)
+#
+#   self$results$text1$setContent(preProcValues)
+#
+#   train <- predict(preProcValues, train1)
+#   test <- predict(preProcValues, test1)
+#
+#
+# # Dummy coding for factors vars.-------------------
+#
+#   if(isTRUE(self$options$facs==TRUE)){
+#   #if(isTRUE(condition)==TRUE) {do something}
+#
+#   #if ( !is.null(self$options$facs) && self$options$facs==TRUE) {
+#
+#
+#  # To speed up the function------
+#
+#     formula <- as.formula(paste0(self$options$dep, " ~ ."))
+#
+#   # One-Hot Encoding
+#   # Creating dummy variables is converting a categorical variable to as many binary variables as here are categories.
+#   dummies_model <- caret::dummyVars(formula,
+#                                     data=train1)
+#
+#   # Create the dummy variables using predict. The Y variable (Purchase) will not be present in trainData_mat.
+#   trainData_mat <- predict(dummies_model, newdata = test1)
+#
+#   # Convert to dataframe
+#   train <- data.frame(trainData_mat)
+#
+#   }
+#
+#   # trainControl function-----------
+#
+#    ctrl <- caret::trainControl(method = mecon,
+#                                        number =number ,
+#                                        repeats = repeats,
+#                                        p=per,
+#                                        classProbs=T,
+#                                        savePredictions = T)
+#
+#
+# # Training dataset---------------
+#
+#   fit <- caret::train(formula,
+#                       data=train,
+#                       method = method,
+#                       tuneLength = tune,
+#                       trControl =  ctrl)
+
+
+#  # Compare ROC curves------------------
+# comp <- caret::train(formula,
+#                      data=train,
+#                      method = cm1,
+#                      tuneLength = tune,
+#                      trControl =  ctrl)
+#
+
+# Comparing ROC curves with training set-----------------
+
+# if(self$options$plot==TRUE){
+#
+#  image <- self$results$plot
+#  state <- list(fit,comp)
+#  image$setState(state)
+#
+# }
+# Calibration curve---------
+#
+# if(self$options$plot4==TRUE){
+#  image4 <- self$results$plot4
+#  state <- list(all$fit,all$comp)
+#  image4$setState(state)
+# }
+
+# Model selection plot2----------
+# if(self$options$plot2==TRUE){
+#  image2 <- self$results$plot2
+#  image2$setState(all$fit)
+# }

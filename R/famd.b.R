@@ -79,35 +79,30 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         data <- res$data
         res <- res$res
         
+        #-----------
         if (isTRUE(self$options$eigen)) {
-          eigen <- res$eig[, 1]
-          eigen <- as.vector(eigen)
-          
-          # eigenvalue table-------------
-          
           table <- self$results$eigen
           
-          for (i in seq_along(eigen))
+          eigen <- as.vector(res$eig[, 1])
+          
+          lapply(seq_along(eigen), function(i) {
             table$addRow(rowKey = i,
                          values = list(comp = as.character(i)))
-          
-          # populating eigenvalue table-----
+          })
           
           eigenTotal <- sum(abs(eigen))
           varProp <- (abs(eigen) / eigenTotal) * 100
           varCum <- cumsum(varProp)
           
-          for (i in seq_along(eigen)) {
-            row <- list()
-            row[["eigen"]] <- eigen[i]
-            row[["varProp"]] <- varProp[i]
-            row[["varCum"]] <- varCum[i]
-            
-            
+          lapply(seq_along(eigen), function(i) {
+            row <- list(eigen = eigen[i],
+                        varProp = varProp[i],
+                        varCum = varCum[i])
             table$setRow(rowNo = i, values = row)
-          }
+          })
         }
         
+        #------------
         if (isTRUE(self$options$ci)) {
           rowvar <- self$options$rowvar
           
@@ -121,13 +116,11 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             ind <- res$ind$contrib
             
           }
-          
           names <- dimnames(ind)[[1]]
           
           table <- self$results$ci
           
           for (i in 1:5)
-            
             table$addColumn(
               name = paste0("pc", i),
               title = as.character(i),
@@ -137,7 +130,6 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
           for (name in names) {
             row <- list()
-            
             for (j in seq_along(1:5)) {
               row[[paste0("pc", j)]] <- ind[name, j]
             }
