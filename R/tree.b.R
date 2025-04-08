@@ -1,7 +1,6 @@
 
 # This file is a generated template, your changes will not be overwritten
 
-
 treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
   R6::R6Class(
     "treeClass",
@@ -26,9 +25,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<div style="text-align:justify;">',
             '<ul>',
             '<li>The values for the target variable cannot be a number.</li>',
+            '<li>Regression tree plot is only run when the dependent variable is a continuous variable.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
-            
           )
         ))
         if (isTRUE(self$options$plot)) {
@@ -41,6 +40,11 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           width <- self$options$width1
           height <- self$options$height1
           self$results$plot1$setSize(width, height)
+        }
+        if (isTRUE(self$options$plot2)) {
+          width <- self$options$width2
+          height <- self$options$height2
+          self$results$plot2$setSize(width, height)
         }
       },
       
@@ -162,60 +166,6 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
       },
       
-      .dataClear = function() {
-        data <- self$data
-        
-        data[[self$options$dep]] <- as.factor(data[[self$options$dep]])
-        
-        for (cov in self$options$covs) {
-          data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-        }
-        
-        for (fac in self$options$facs) {
-          data[[fac]] <- as.factor(data[[fac]])
-          
-        }
-        
-        # a <- capture.output(summary(data[fac]))
-        # self$results$text$setContent(paste(a, collapse = "\n"))
-        
-        
-        data <- jmvcore::naOmit(data)
-        
-        split <- caret::createDataPartition(data[[self$options$dep]], p =
-                                              self$options$per, list = FALSE)
-        
-        train <- data[split, ]
-        test  <- data[-split, ]
-        
-        # mtrain <- party::ctree(formula=as.formula(paste0(self$options$dep, " ~ .")),
-        #                        data=train)
-        mtrain <- party::ctree(formula = as.formula(paste0(
-          self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + ")
-        )), data = train)
-        
-        
-        # rpart <- rpart::rpart(formula=as.formula(paste0(self$options$dep, " ~ .")),
-        #                       data=train,
-        #                       method='class')
-        
-        rpart <- rpart::rpart(formula = as.formula(paste0(
-          self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + ")
-        )),
-        data = train,
-        method = 'class')
-        
-        
-        retlist <- list(
-          train = train,
-          test = test,
-          mtrain = mtrain,
-          rpart = rpart
-        )
-        return(retlist)
-        
-      },
-      
       .plot = function(image, ...) {
         if (!self$options$plot)
           return(FALSE)
@@ -236,8 +186,96 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         print(plot1)
         TRUE
-      }
+      },
       
+      .plot2 = function(image, ...) {
+        if (!self$options$plot2)
+          return(FALSE)
+        
+        data <- self$data
+        data <- jmvcore::naOmit(data)
+        
+        for (cov in self$options$covs) {
+          data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+        }
+        
+        for (fac in self$options$facs) {
+          data[[fac]] <- as.factor(data[[fac]])
+          
+        }
+        
+        # if dep.var. is continuous---
+        dep_var <- data[[self$options$dep]]
+        if (!is.numeric(dep_var)) {
+          return(FALSE)
+        }
+        
+        set.seed(1234)
+        model <- rpart::rpart(formula = as.formula(paste0(
+          self$options$dep, " ~ ", paste(c(self$options$covs,self$options$facs), 
+                                         collapse = " + "))),
+        data = data,
+        method = 'anova')
+        
+        plot2 <- rpart.plot::rpart.plot(
+          model,
+          type = 2,
+          extra = 101,
+          fallen.leaves = TRUE,
+          main = "Regression Tree"
+        )
+        print(plot2)
+        TRUE
+      },
+      
+      .dataClear = function() {
+        
+        data <- self$data
+        
+        data[[self$options$dep]] <- as.factor(data[[self$options$dep]])
+        
+        for (cov in self$options$covs) {
+          data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+        }
+        
+        for (fac in self$options$facs) {
+          data[[fac]] <- as.factor(data[[fac]])
+          
+        }
+        data <- jmvcore::naOmit(data)
+        
+        split <- caret::createDataPartition(data[[self$options$dep]], p =
+                                              self$options$per, list = FALSE)
+        
+        train <- data[split, ]
+        test  <- data[-split, ]
+        
+        # mtrain <- party::ctree(formula=as.formula(paste0(self$options$dep, " ~ .")),
+        #                        data=train)
+        mtrain <- party::ctree(formula = as.formula(paste0(
+          self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + ")
+        )), data = train)
+        
+        
+        # rpart <- rpart::rpart(formula=as.formula(paste0(self$options$dep, " ~ .")),
+        #                       data=train,
+        #                       method='class')
+        set.seed(1234)
+        rpart <- rpart::rpart(formula = as.formula(paste0(
+          self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + ")
+        )),
+        data = train,
+        method = 'class')
+
+        retlist <- list(
+          train = train,
+          test = test,
+          mtrain = mtrain,
+          rpart = rpart
+        )
+        return(retlist)
+        
+      }
     )
   )
 

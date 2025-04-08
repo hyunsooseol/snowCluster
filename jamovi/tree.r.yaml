@@ -149,4 +149,19 @@ items:
         - per
         - width1
         - height1       
+
+    - name:  plot2
+      title: ''
+      type:  Image
+      visible: (plot2)
+      requiresData: true
+      renderFun: .plot2
+      refs: rpart.plot
+      clearWith:
+        - covs 
+        - dep
+        - per
+        - facs
+        - width2
+        - height2          
 ...
