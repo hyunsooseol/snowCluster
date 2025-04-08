@@ -151,7 +151,7 @@ items:
         - height1       
 
     - name:  plot2
-      title: ''
+      title: 'Regression tree'
       type:  Image
       visible: (plot2)
       requiresData: true

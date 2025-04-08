@@ -221,8 +221,8 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           model,
           type = 2,
           extra = 101,
-          fallen.leaves = TRUE,
-          main = "Regression Tree"
+          fallen.leaves = TRUE
+          #main = "Regression Tree"
         )
         print(plot2)
         TRUE
