@@ -26,7 +26,7 @@ discClass <- if (requireNamespace('jmvcore'))
             '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
             '<div style="text-align:justify;">',
             '<ul>',
-            '<li>If you set <b>Split set</b> to less than 1, uncheck the LD plot. Otherwise, you will get an error.</li>',
+            '<li>If you set <b>Split set</b> to less than 1, uncheck the linear discriminant plot. Otherwise, you will get an error.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
             
@@ -324,6 +324,29 @@ discClass <- if (requireNamespace('jmvcore'))
       },
       #Plot---
       
+      # .plot = function(image, ggtheme, theme, ...) {
+      #   if (is.null(image$state))
+      #     return(FALSE)
+      #   
+      #   df <- image$state[[1]]
+      #   cent <- image$state[[2]]
+      #   library(ggplot2)
+      #   plot <- ggplot(df, ggplot2::aes(x = LD1, y = LD2, color = Groups)) +
+      #     geom_point(alpha = 0.6) +
+      #     geom_point(
+      #       data = cent,
+      #       ggplot2::aes(x = LD1, y = LD2, color = Groups),
+      #       size = 7,
+      #       shape = 17,
+      #       alpha = 1
+      #     ) +
+      #     labs(title = "", x = "LD1", y = "LD2")
+      #   
+      #   plot <- plot + ggtheme
+      #   print(plot)
+      #   TRUE
+      # },
+
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)
@@ -333,6 +356,8 @@ discClass <- if (requireNamespace('jmvcore'))
         library(ggplot2)
         plot <- ggplot(df, ggplot2::aes(x = LD1, y = LD2, color = Groups)) +
           geom_point(alpha = 0.6) +
+          #include circle---
+          stat_ellipse(aes(fill = Groups), geom = "polygon", alpha = 0.2, level = 0.95) +
           geom_point(
             data = cent,
             ggplot2::aes(x = LD1, y = LD2, color = Groups),

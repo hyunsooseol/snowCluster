@@ -325,7 +325,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep",
                     "per",
                     "width",
-                    "height")))
+                    "height",
+                    "gc")))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="gc",

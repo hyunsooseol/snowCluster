@@ -74,7 +74,7 @@ options:
       default: TRUE   
 
     - name: plot
-      title: 'LD plot' 
+      title: 'Linear discriminant' 
       type: Bool
       default: FALSE
 

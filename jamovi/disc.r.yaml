@@ -140,6 +140,7 @@ items:
         - per
         - width
         - height
+        - gc
 
     - name: gc
       title: 'Group centroids'
