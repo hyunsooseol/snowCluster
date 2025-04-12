@@ -8,6 +8,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     "prophetClass",
     inherit = prophetBase,
     private = list(
+      .allCache = NULL,
       .htmlwidget = NULL,
       
       .init = function() {
@@ -50,6 +51,56 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(self$options$dep) || length(self$options$covs) == 0)
           return()
         
+        
+        if (is.null(private$.allCache)) {
+          private$.allCache <- private$.computeSIMPLE()
+        }
+        
+        forecast_combined <- private$.allCache
+        # forecast plot----------
+        image <- self$results$plot1
+        image$setState(forecast_combined)
+        
+        # Smooth plot--------------
+        image1 <- self$results$plot2
+        image1$setState(forecast_combined)
+      },
+
+      .plot1 = function(image, ggtheme, theme, ...) {
+        if (is.null(image$state))
+          return(FALSE)
+        forecast_combined <- image$state
+        
+        library(ggplot2)
+        plot1 <- ggplot2::ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
+          geom_line() +
+          labs(x = "Date", y = "Forecast", color = "Variable") +
+          # ggtitle("Forecast of Multiple Variables") +
+          theme_bw()
+        plot1 + ggtheme
+        print(plot1)
+        TRUE
+      },
+      
+      .plot2 = function(image1, ggtheme, theme, ...) {
+        if (is.null(image1$state))
+          return(FALSE)
+        
+        method <- self$options$method
+        forecast_combined <- image1$state
+        library(ggplot2)
+        plot2 <- ggplot2::ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
+          geom_smooth(method = method) +
+          labs(x = "Date", y = "Forecast", color = "Variable") +
+          # ggtitle("Forecast of Multiple Variables") +
+          theme_bw()
+        plot2 + ggtheme
+        print(plot2)
+        TRUE
+      },
+      
+      .computeSIMPLE = function() {
+         
         dep <- self$options$dep
         covs <- self$options$covs
         data <- self$data
@@ -111,63 +162,13 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         # Combine the forecast data frames into one
-        forecast_combined <- do.call(rbind, forecast_df_list)
+        forecast_combined <- data.table::rbindlist(forecast_df_list)
+          #do.call(rbind, forecast_df_list)
         
         #self$results$text$setContent(head(forecast_combined ))
         
-        # forecast plot----------
+        return(forecast_combined)
         
-        image <- self$results$plot1
-        image$setState(forecast_combined)
-        
-        # Smooth plot--------------
-        
-        image1 <- self$results$plot2
-        image1$setState(forecast_combined)
-      },
-      
-      
-      .plot1 = function(image, ggtheme, theme, ...) {
-        if (is.null(image$state))
-          return(FALSE)
-        
-        
-        forecast_combined <- image$state
-        
-        library(ggplot2)
-        plot1 <- ggplot2::ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
-          geom_line() +
-          labs(x = "Date", y = "Forecast", color = "Variable") +
-          # ggtitle("Forecast of Multiple Variables") +
-          theme_bw()
-        
-        plot1 + ggtheme
-        print(plot1)
-        TRUE
-      },
-      
-      .plot2 = function(image1, ggtheme, theme, ...) {
-        if (is.null(image1$state))
-          return(FALSE)
-        
-        method <- self$options$method
-        
-        forecast_combined <- image1$state
-        
-        library(ggplot2)
-        plot2 <- ggplot2::ggplot(forecast_combined, aes(x = ds, y = yhat, color = variable)) +
-          
-          geom_smooth(method = method) +
-          labs(x = "Date", y = "Forecast", color = "Variable") +
-          # ggtitle("Forecast of Multiple Variables") +
-          theme_bw()
-        
-        plot2 + ggtheme
-        print(plot2)
-        TRUE
       }
-      
-      
-      
     )
   )
