@@ -7,6 +7,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     "arimaClass",
     inherit = arimaBase,
     private = list(
+      .allCache = NULL,
       .htmlwidget = NULL,
       
       .init = function() {
@@ -87,8 +88,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
       },
       
-      ##################################################################
+      #---
       .run = function() {
+
         dep  <- self$options$dep
         freq <- self$options$freq
         pred <- self$options$pred
@@ -97,110 +99,58 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         time1 <- self$options$time1
         
         if (self$options$mode == 'simple') {
-          if (is.null(self$options$dep))
-            return()
-          data <- self$data
-          data <- jmvcore::naOmit(data)
           
-          #------------------
-          tsdata <- stats::ts(data, frequency = freq)
-          ddata <- stats::decompose(tsdata, "multiplicative")
-          #################################################
+          if (is.null(self$options$dep)) return()
+
+          if (is.null(private$.allCache)) {
+            private$.allCache <- private$.computeSIMPLE()
+          }
           
-          mymodel <- forecast::auto.arima(tsdata)
-          
-          #############################################
+          sim <- private$.allCache
+
           # Decompose plot----------
-          
           image <- self$results$plot
-          image$setState(ddata)
+          image$setState(sim$ddata)
           
           # forecasts from ARIMA-------
-          
           image1 <- self$results$plot1
-          image1$setState(tsdata)
+          image1$setState(sim$tsdata)
           
           # residual plot----------
-          
-          res <- mymodel$residuals
-          
+          res <- sim$mymodel$residuals
           image2 <- self$results$plot2
           image2$setState(res)
-          
-          
-          #############################################################
-          # Forecast the Values for the Next 10 Years--------
-          
-          predict <- forecast::forecast(mymodel, level = c(95), h = pred *
-                                          freq)
-          
-          ###########################################################
-          
+
           image3 <- self$results$plot3
-          image3$setState(predict)
-          
-          
-          if (isTRUE(self$options$point)) {
-            # Prediction interval table---------
-            table <- self$results$point
-            pre <- as.data.frame(predict)
-            
-            lapply(rownames(pre), function(name) {
-              row <- list(po = pre[name, 1],
-                          lower = pre[name, 2],
-                          upper = pre[name, 3])
-              table$addRow(rowKey = name, values = row)
-            })
-          }
-          
-          # ARIMA coefficients Table-------
-          
-          fun <- function(model, dig) {
-            if (length(model$coef) > 0) {
-              cat("\nCoefficients:\n")
-              coef <- round(model$coef, digits = dig)
-              
-              if (NROW(model$var.coef)) {
-                se <- rep.int(0, length(coef))
-                se[model$mask] <- round(sqrt(diag(model$var.coef)), digits =
-                                          dig)
-                coef <- matrix(coef, 1L, dimnames = list(NULL, names(coef)))
-                coef <- rbind(coef, se = se)
-              }
-              
-              
-              mch <- match("intercept", colnames(coef))
-              if (is.null(model$xreg) & !is.na(mch)) {
-                colnames(coef)[mch] <- "mean"
-              }
-              print.default(coef, print.gap = 2)
-            }
-          }
-          
-          res <- fun(mymodel, 4)
-          res <- t(res)
-          colnames(res)[1] <- 'Coefficients'
-          res <- as.data.frame(res)
-          
+          image3$setState(sim$predict)
+
+          #fun <- private$.fun()
           # populating coef. table----------
-          if (isTRUE(self$options$point)) {
+          if (isTRUE(self$options$coef)) {
             table <- self$results$coef
             
+            #fun <- private$.fun() 
+            res <- private$.fun(model=sim$mymodel, dig=4)
+            res <- t(res)
+            colnames(res)[1] <- 'Coefficients'
+            res <- as.data.frame(res)
+
             lapply(rownames(res), function(name) {
               row <- list(co = res[name, 1], se = res[name, 2])
               table$addRow(rowKey = name, values = row)
             })
           }
+          
           # fit table------
-          if (isTRUE(self$options$point)) {
+          if (isTRUE(self$options$fit)) {
             table <- self$results$fit
             
             mo <- t(
               data.frame(
-                LL = mymodel$loglik,
-                AIC = mymodel$aic,
-                AICc = mymodel$aicc,
-                BIC = mymodel$bic
+                LL = sim$mymodel$loglik,
+                AIC = sim$mymodel$aic,
+                AICc = sim$mymodel$aicc,
+                BIC = sim$mymodel$bic
               )
             )
             
@@ -209,16 +159,34 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               table$addRow(rowKey = name, values = row)
             })
           }
+
+        # Prediction interval table---------
+        if (isTRUE(self$options$point)) {
+          table <- self$results$point
+          pre <- as.data.frame(sim$predict)
+          lapply(rownames(pre), function(name) {
+            row <- list(po = pre[name, 1],
+                        lower = pre[name, 2],
+                        upper = pre[name, 3])
+            table$addRow(rowKey = name, values = row)
+          })
         }
-        ####################################################################
+        
+          }
         
         if (self$options$mode == 'complex') {
           dep1  <- self$options$dep1
           time1 <- self$options$time1
           
-          if (is.null(self$options$dep1) |
-              is.null(self$options$time1))
+          if (is.null(self$options$dep1) | is.null(self$options$time1))
             return()
+          
+          if (is.null(private$.allCache)) {
+            private$.allCache <- private$.computeCOM()
+          }
+          
+          com <- private$.allCache
+          
           
           # prophet analysis example in R----------
           
@@ -230,28 +198,29 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           # plot(m, forecast)
           # prophet_plot_components(m, forecast)
           #------------------------------------------------
-          # get the data
-          data <- self$data
-          data <- jmvcore::naOmit(data)
-          # Prophet Analysis -----------
-          m <- prophet::prophet(
-            data,
-            changepoint.prior.scale = 0.05,
-            daily.seasonality = TRUE,
-            yearly.seasonality = TRUE,
-            weekly.seasonality = TRUE
-          )
-          # Basic predictions ------------------------------------
-          future <- prophet::make_future_dataframe(m,
-                                                   periods = self$options$periods,
-                                                   freq = self$options$unit)
-          
-          
-          #############   A L E R T  ##############
-          forecast <- predict(m, future)
-          #########################################
+          # # get the data
+          # data <- self$data
+          # data <- jmvcore::naOmit(data)
+          # # Prophet Analysis -----------
+          # m <- prophet::prophet(
+          #   data,
+          #   changepoint.prior.scale = 0.05,
+          #   daily.seasonality = TRUE,
+          #   yearly.seasonality = TRUE,
+          #   weekly.seasonality = TRUE
+          # )
+          # # Basic predictions ------------------------------------
+          # future <- prophet::make_future_dataframe(m,
+          #                                          periods = self$options$periods,
+          #                                          freq = self$options$unit)
+          # 
+          # 
+          # #############   A L E R T  ##############
+          # forecast <- predict(m, future)
+          # #########################################
           # self$results$text$setContent(forecast)
-          state <- list(m, forecast)
+          
+          state <- list(com$m, com$forecast)
           image4 <- self$results$plot4
           image4$setState(state)
           
@@ -266,7 +235,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           image6$setState(state)
           
         }
-      },
+      
+        },
       
       .plot = function(image, ...) {
         if (is.null(image$state))
@@ -397,6 +367,81 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         print(plot6)
         TRUE
+      },
+
+      .computeSIMPLE = function() {
+        
+        dep  <- self$options$dep
+        freq <- self$options$freq
+        pred <- self$options$pred
+        dep1  <- self$options$dep1
+        time1 <- self$options$time1
+
+        data <- self$data
+        data <- jmvcore::naOmit(data)
+        #------------------
+        tsdata <- stats::ts(data, frequency = freq)
+        ddata <- stats::decompose(tsdata, "multiplicative")
+
+        mymodel <- forecast::auto.arima(tsdata,
+                                        approximation =TRUE)
+        
+        # Forecast the Values for the Next 10 Years--------
+        
+        predict <- forecast::forecast(mymodel, 
+                                      level = c(95), 
+                                      h = pred * freq)
+
+        sim <- list(tsdata = tsdata,
+                    ddata = ddata,
+                    mymodel = mymodel,
+                    predict=predict)
+        return(sim)        
+        
+      },
+
+      .fun = function(model, dig) {
+        if (length(model$coef) > 0) {
+          cat("\nCoefficients:\n")
+          coef <- round(model$coef, digits = dig)
+          
+          if (NROW(model$var.coef)) {
+            se <- rep.int(0, length(coef))
+            se[model$mask] <- round(sqrt(diag(model$var.coef)), digits =
+                                      dig)
+            coef <- matrix(coef, 1L, dimnames = list(NULL, names(coef)))
+            coef <- rbind(coef, se = se)
+          }
+          mch <- match("intercept", colnames(coef))
+          if (is.null(model$xreg) & !is.na(mch)) {
+            colnames(coef)[mch] <- "mean"
+          }
+          print.default(coef, print.gap = 2)
+        }
+      },
+      
+      .computeCOM = function() {      
+        data <- self$data
+        data <- jmvcore::naOmit(data)
+        # Prophet Analysis -----------
+        m <- prophet::prophet(
+          data,
+          changepoint.prior.scale = 0.05,
+          daily.seasonality = TRUE,
+          yearly.seasonality = TRUE,
+          weekly.seasonality = TRUE
+        )
+        # Basic predictions ------------------------------------
+        future <- prophet::make_future_dataframe(m,
+                                                 periods = self$options$periods,
+                                                 freq = self$options$unit)
+        #############   A L E R T  ##############
+        forecast <- predict(m, future)
+        #########################################
+        
+        com <- list(m = m,
+                    forecast = forecast)
+        return(com)    
       }
     )
   )
