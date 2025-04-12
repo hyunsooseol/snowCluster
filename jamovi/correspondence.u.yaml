@@ -48,18 +48,18 @@ children:
                 type: CheckBox
               - name: eigen
                 type: CheckBox
-              - name: loadingvar
+              - name: col
                 type: CheckBox
                 children:
                   - type: ComboBox
-                    name: colvar
-                    enable: (loadingvar) 
-              - name: loadingind
+                    name: type
+                    enable: (col) 
+              - name: row
                 type: CheckBox  
                 children:
                   - type: ComboBox
-                    name: rowvar
-                    enable: (loadingind) 
+                    name: type1
+                    enable: (row) 
       - type: LayoutBox
         margin: large
         cell:

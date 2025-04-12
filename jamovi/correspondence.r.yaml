@@ -16,8 +16,6 @@ items:
       clearWith:
         - vars
         - labels
-        - rowvar
-        - colvar
         - nd
  
       columns:
@@ -39,8 +37,6 @@ items:
       clearWith:
         - vars
         - labels
-        - rowvar
-        - colvar
         - nd
 
       columns:
@@ -57,16 +53,15 @@ items:
           title: 'Cumulative %'
           type: number
 
-    - name: loadingvar
-      title: '`Columns across dimensions - ${colvar}`'
-      visible: (loadingvar)
+    - name: col
+      title: '`Columns across dimensions - ${type}`'
+      visible: (col)
       type: Table
       rows: (vars)
       clearWith:
         - vars
         - labels
-        - rowvar
-        - colvar
+        - type
         - nd
 
       columns:
@@ -79,15 +74,14 @@ items:
           type: number
           superTitle: 'Dimension'
 
-    - name: loadingind
-      title: '`Rows across dimensions - ${rowvar}`'
-      visible: (loadingind)
+    - name: row
+      title: '`Rows across dimensions - ${type1}`'
+      visible: (row)
       type: Table
       clearWith:
         - vars
         - labels
-        - rowvar
-        - colvar
+        - type1
         - nd
  
       columns:
@@ -110,8 +104,6 @@ items:
       clearWith:
             - vars
             - labels
-            - rowvar
-            - colvar
             - width4
             - height4
             - nd
@@ -126,8 +118,6 @@ items:
       clearWith:
             - vars
             - labels
-            - rowvar
-            - colvar
             - width1
             - height1
             - nd
@@ -142,8 +132,6 @@ items:
       clearWith:
             - vars
             - labels
-            - rowvar
-            - colvar   
             - width2
             - height2
             - nd
@@ -158,8 +146,6 @@ items:
       clearWith:
             - vars
             - labels
-            - rowvar
-            - colvar
             - width3
             - height3
             - nd
