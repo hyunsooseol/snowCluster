@@ -5,6 +5,7 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     "timeclustClass",
     inherit = timeclustBase,
     private = list(
+      .allCache = NULL,
       .htmlwidget = NULL,
       
       .init = function() {
@@ -84,8 +85,14 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         #                  dplyr::arrange(cluster)
         # }
         
-        all <- private$.computeRES()
+        #all <- private$.computeRES()
         
+        if (is.null(private$.allCache)) {
+          private$.allCache <- private$.computeRES()
+        }
+
+        all <- private$.allCache
+
         if (isTRUE(self$options$plot1)) {
           image <- self$results$plot1
           image$setState(all$bic)
@@ -121,10 +128,8 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         plot1 <- plot(bic)
         print(plot1)
         TRUE
-        
       },
-      
-      
+
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)
@@ -170,13 +175,9 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         data <- tibble::as.tibble(data)
-        
-        
         # Optimal number of clusters using BIC---
         bic <- mclust::mclustBIC(data$value)
         self$results$text$setContent(bic)
-        
-        
         # Perform k-means clustering using widely_kmeans
         # The variable names should be item, time, value respectively!!!
         set.seed(1234)
@@ -190,8 +191,6 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           )
         
         df <- dplyr::left_join(data, res)
-        
-        
         retlist = list(res = res, df = df, bic = bic)
         return(retlist)
         
