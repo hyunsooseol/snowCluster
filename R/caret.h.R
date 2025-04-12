@@ -1168,7 +1168,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
-#' @param plot3 .
+#' @param plot3 Binary dependent required.
 #' @param plot4 .
 #' @param plot5 .
 #' @param plot6 .

@@ -231,9 +231,10 @@ options:
       default: FALSE
 
     - name: plot3
-      title: 'ROC plot'         
+      title: 'ROC plot(Binary only)'         
       type: Bool
       default: FALSE
+      description: 'Binary dependent required.'
 
     - name: plot4
       title: Calibration curve         

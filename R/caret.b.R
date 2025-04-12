@@ -1,7 +1,5 @@
-
 # This file is a generated template, your changes will not be overwritten
 #' @export
-
 
 caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
   R6::R6Class(
@@ -154,7 +152,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (self$options$accu == TRUE) {
           table <- self$results$mf$accu
           accu <- as.data.frame(res$statistics$Accuracy)
-
+          
           lapply(rownames(accu), function(name) {
             row <- list(
               min = accu[name, 1],
@@ -168,7 +166,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             table$addRow(rowKey = name, values = row)
           })
         }
-
+        
         # kappa Table---------
         
         if (self$options$kapp == TRUE) {
@@ -308,7 +306,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
           table$setRow(rowNo = 1, values = row)
         }
-
+        
         # Statistics by class WITH TRAINing set-----------
         
         if (isTRUE(self$options$cla1)) {
@@ -341,12 +339,16 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         pred <- predict(all$fit, all$test)
         
         # ROC curve with test set------
-        
+        # Binary dependent required!
         if (self$options$plot3 == TRUE) {
-          pred1 <- predict(all$fit, all$test, type = 'prob')
-          pred1 <- data.frame(pred1, all$test[[dep]], Group = self$options$method)
+                  pro <- predict(all$fit, all$test, type = 'prob') 
+                  roct<-  data.frame(pro, 
+                                   all$test[[dep]], 
+                                   Group = self$options$method)
+         #self$results$text2$setContent(roct)
+                  
           image3 <- self$results$plot3
-          image3$setState(pred1)
+          image3$setState(roct)
         }
         
         # Confusion matrix(test set)---------------------------
@@ -387,7 +389,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           table$setRow(rowNo = 1, values = row)
         }
         
-
+        
         # Statistics by class-----------
         
         if (isTRUE(self$options$cla)) {
@@ -428,7 +430,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
           data[[dep]] <- as.factor(data[[dep]])
           data <- na.omit(data)
-
+          
           image5 <- self$results$plot5
           image5$setState(data)
           
@@ -474,7 +476,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         data <- image6$state
         covs <- self$options$covs
         dep <- self$options$dep
-
+        
         plot6 <- caret::featurePlot(
           x = data[, covs],
           y = data[[dep]],
@@ -541,12 +543,13 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       
       .plot3 = function(image3, ...) {
         # ROC with test set-----
+        # Binary only !
         
         if (is.null(image3$state))
           return(FALSE)
-        
-        pred1 <- image3$state
-        res <- MLeval::evalm(pred1)
+
+        roct <- image3$state
+        res <- MLeval::evalm(roct)
         plot3 <- res$roc
         print(plot3)
         TRUE
