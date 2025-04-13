@@ -37,29 +37,29 @@ children:
               - type: CheckBox
                 name: eigen
               - type: CheckBox
-                name: ci
+                name: ind  
                 children:
                   - type: ComboBox
-                    name: rowvar
-                    enable: (ci)
+                    name: type1
+                    enable: (ind)
               - type: CheckBox
-                name: cg  
+                name: vari
                 children:
                   - type: ComboBox
-                    name: colvar
-                    enable: (cg)
+                    name: type2
+                    enable: (vari)
               - type: CheckBox
-                name: quanti  
+                name: quan
                 children:
                   - type: ComboBox
-                    name: quanvar
-                    enable: (quanti)                
+                    name: type3
+                    enable: (quan)
               - type: CheckBox
                 name: qual
                 children:
                   - type: ComboBox
-                    name: qualvar
-                    enable: (qual)   
+                    name: type4
+                    enable: (qual)
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -69,7 +69,7 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: 'Plots'
+            label: Plots
             children:
               - type: CheckBox
                 name: plot
@@ -106,9 +106,9 @@ children:
                   - type: TextBox
                     name: height2
                     format: number
-                    enable: (plot2)                
+                    enable: (plot2)
               - type: CheckBox
-                name: plot3 
+                name: plot3
                 style: list-inline
                 children:
                   - type: TextBox
@@ -118,7 +118,7 @@ children:
                   - type: TextBox
                     name: height3
                     format: number
-                    enable: (plot3)                
+                    enable: (plot3)
               - type: CheckBox
                 name: plot4
                 style: list-inline

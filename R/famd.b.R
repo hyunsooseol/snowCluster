@@ -65,8 +65,7 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .run = function() {
-        if (length(self$options$vars) < 3)
-          return()
+        if (length(self$options$vars) < 3) return()
         
         vars <- self$options$vars
         
@@ -76,24 +75,17 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         res <- private$.allCache
         
-        data <- res$data
-        res <- res$res
-        
         #-----------
         if (isTRUE(self$options$eigen)) {
           table <- self$results$eigen
-          
           eigen <- as.vector(res$eig[, 1])
-          
           lapply(seq_along(eigen), function(i) {
             table$addRow(rowKey = i,
                          values = list(comp = as.character(i)))
           })
-          
           eigenTotal <- sum(abs(eigen))
           varProp <- (abs(eigen) / eigenTotal) * 100
           varCum <- cumsum(varProp)
-          
           lapply(seq_along(eigen), function(i) {
             row <- list(eigen = eigen[i],
                         varProp = varProp[i],
@@ -103,23 +95,17 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         #------------
-        if (isTRUE(self$options$ci)) {
-          rowvar <- self$options$rowvar
+        if (isTRUE(self$options$ind)) {
+          type1 <- self$options$type1
+          data_map <- list(
+            "coordinates" = res$ind$coord,
+            "cos2"        = res$ind$cos2,
+            "contribution" = res$ind$contrib
+          )
           
-          if (rowvar == "coordinates") {
-            ind <- res$ind$coord
-            
-          } else if (rowvar == "cos2") {
-            ind <- res$ind$cos2
-            
-          } else {
-            ind <- res$ind$contrib
-            
-          }
+          ind <- data_map[[type1]]
           names <- dimnames(ind)[[1]]
-          
-          table <- self$results$ci
-          
+          table <- self$results$ind
           for (i in 1:5)
             table$addColumn(
               name = paste0("pc", i),
@@ -127,7 +113,6 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               type = 'number',
               superTitle = 'Dimension'
             )
-          
           for (name in names) {
             row <- list()
             for (j in seq_along(1:5)) {
@@ -135,20 +120,17 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             }
             table$addRow(rowKey = name, values = row)
           }
-          
-          if (isTRUE(self$options$cg)) {
-            colvar <- self$options$colvar
-            
-            if (colvar == "coordinates") {
-              v <- res$var$coord
-            } else if (colvar == "cos2") {
-              v <- res$var$cos2
-            } else {
-              v <- res$var$contrib
-            }
-            
-            names <- dimnames(v)[[1]]
-            table <- self$results$cg
+          #---
+          if (isTRUE(self$options$vari)) {
+            type2 <- self$options$type2
+            data_map <- list(
+              "coordinates" = res$var$coord,
+              "cos2"        = res$var$cos2,
+              "contribution" = res$var$contrib
+            )
+            vari <- data_map[[type2]]
+            names <- dimnames(vari)[[1]]
+            table <- self$results$vari
             
             for (i in 1:5)
               
@@ -162,62 +144,54 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               row <- list()
               
               for (j in seq_along(1:5)) {
-                row[[paste0("pc", j)]] <- v[name, j]
+                row[[paste0("pc", j)]] <- vari[name, j]
               }
               table$addRow(rowKey = name, values = row)
             }
           }
-          
-          if (isTRUE(self$options$quanti)) {
-            quanvar <- self$options$quanvar
+          #---
+          if (isTRUE(self$options$quan)) {
+            type3 <- self$options$type3
             
-            if (quanvar == "coordinates") {
-              quanti <- res$quanti.var$coord
-            } else if (quanvar == "cos2") {
-              quanti <- res$quanti.var$cos2
-            } else {
-              quanti <- res$quanti.var$contrib
-            }
-            names <- dimnames(quanti)[[1]]
+            data_map <- list(
+              "coordinates" = res$quanti.var$coord,
+              "cos2"        = res$quanti.var$cos2,
+              "contribution" = res$quanti.var$contrib
+            )
             
-            table <- self$results$quanti
+            quan <- data_map[[type3]]
+            names <- dimnames(quan)[[1]]
+            table <- self$results$quan
             
             for (i in 1:5)
-              
               table$addColumn(
                 name = paste0("pc", i),
                 title = as.character(i),
                 type = 'number',
                 superTitle = 'Dimension'
               )
-            
             for (name in names) {
               row <- list()
-              
               for (j in seq_along(1:5)) {
-                row[[paste0("pc", j)]] <- quanti[name, j]
+                row[[paste0("pc", j)]] <- quan[name, j]
               }
               table$addRow(rowKey = name, values = row)
             }
           }
-          
+          #---
           if (isTRUE(self$options$qual)) {
-            qualvar <- self$options$qualvar
+            type4 <- self$options$type4
             
-            if (qualvar == "coordinates") {
-              qual <- res$quali.var$coord
-              
-            } else if (qualvar == "cos2") {
-              qual <- res$quali.var$cos2
-              
-            } else {
-              qual <- res$quali.var$contrib
-            }
+            data_map <- list(
+              "coordinates" = res$quali.var$coord,
+              "cos2"        = res$quali.var$cos2,
+              "contribution" = res$quali.var$contrib
+            )
             
+            qual <- data_map[[type4]]
             names <- dimnames(qual)[[1]]
             
             table <- self$results$qual
-            
             for (i in 1:5)
               table$addColumn(
                 name = paste0("pc", i),
@@ -225,10 +199,8 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
                 type = 'number',
                 superTitle = 'Dimension'
               )
-            
             for (name in names) {
               row <- list()
-              
               for (j in seq_along(1:5)) {
                 row[[paste0("pc", j)]] <- qual[name, j]
               }
@@ -356,7 +328,7 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         ##############################################
         
-        res <- list(data = data, res = res)
+        #res <- list(data = data, res = res)
         return(res)
         
       }

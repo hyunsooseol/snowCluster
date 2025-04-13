@@ -100,7 +100,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         mc <- model$cluster
         
         if (self$options$mode == "simple") {
-          if (self$options$plot) {
+          if (isTRUE(self$options$plot)) {
             colnames(mds) <- c("Dim.1", "Dim.2")
             mds <- as.data.frame(mds)
             name <- rownames(mds)
@@ -110,7 +110,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             image$setState(state)
           }
           
-          if (self$options$plot1) {
+          if (isTRUE(self$options$plot1)) {
             clust <- as.factor(mc)
             mds1 <- dplyr::mutate(mds, Clusters = clust)
             name1 <- rownames(data)
@@ -134,8 +134,7 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         if (self$options$mode == "complex") {
-          if (is.null(self$options$xlab))
-            return()
+          if (is.null(self$options$xlab)) return()
           
           d <- stats::dist(data)
           three <- stats::cmdscale(dist(d), k = 3)
@@ -148,10 +147,8 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)
-        
         mds <- image$state[[1]]
         name <- image$state[[2]]
-        
         plot <- ggpubr::ggscatter(
           mds,
           x = "Dim.1",
@@ -160,7 +157,6 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           size = 1,
           repel = TRUE
         )
-        
         plot <- plot + ggtheme
         print(plot)
         TRUE
@@ -169,10 +165,8 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot1 = function(image1, ggtheme, theme, ...) {
         if (is.null(image1$state))
           return(FALSE)
-        
         mds1 <- image1$state[[1]]
         name1 <- image1$state[[2]]
-        
         plot1 <- ggpubr::ggscatter(
           mds1,
           x = "Dim.1",
@@ -185,7 +179,6 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           ellipse.type = "convex",
           repel = TRUE
         )
-        
         plot1 <- plot1 + ggtheme
         print(plot1)
         TRUE
@@ -194,13 +187,10 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot2 = function(image2, ...) {
         if (is.null(image2$state))
           return(FALSE)
-        
         three <- image2$state
-        
         x <-  self$options$xlab
         y <- self$options$ylab
         z <- self$options$zlab
-        
         plot2 <- scatterplot3d::scatterplot3d(
           three,
           xlab = x,

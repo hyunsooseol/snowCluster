@@ -341,7 +341,7 @@ items:
         - height1
 
     - name:  plot3
-      title: ROC plot with test set               
+      title: 'ROC plot with test set'               
       type:  Image
       visible: (plot3)
       renderFun: .plot3

@@ -41,6 +41,12 @@ options:
       type: Integer
       min: 2
 
+    - name: max
+      title: 'Maximum clusters'
+      default: 10
+      type: Integer
+      max: 10
+
     - name: kp
       title: 'Gower distance'
       type: Bool
@@ -96,10 +102,15 @@ options:
             where 0 degrees represents completely horizontal labels.
 
     - name: plot1
-      title: Optimal number of clusters
+      title: 'Optimal number of clusters'
       type: Bool
       default: FALSE
       
+    - name: plot5
+      title: 'Scree plot'
+      type: Bool
+      default: FALSE
+
     - name: plot2
       title: Cluster plot
       type: Bool
@@ -168,6 +179,17 @@ options:
       type: Integer
       title: "X"
       default: 500             
+
+    - name: width5
+      type: Integer
+      title: "Width "
+      default: 500
+      
+    - name: height5
+      type: Integer
+      title: "Height"
+      default: 500            
+
 ...      
 
  

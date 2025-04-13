@@ -53,17 +53,8 @@ options:
       type: Bool
       default: TRUE  
       
-    - name: colvar
-      title: Type
-      type: List
-      options:
-        - coordinates
-        - cos2
-        - contribution
-      default: coordinates
-      
-    - name: rowvar
-      title: Type
+    - name: type1
+      title: 'Type'
       type: List
       options:
         - coordinates
@@ -71,29 +62,38 @@ options:
         - contribution
       default: coordinates
 
-    - name: cg
+    - name: type2
+      title: 'Type'
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
+
+    - name: type3
+      title: 'Type'
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
+
+    - name: vari
       title: Groups of variables
       type: Bool
       default: FALSE 
  
-    - name: ci
+    - name: ind
       title: Individuals
       type: Bool
       default: FALSE   
  
-    - name: quanti
+    - name: quan
       title: Quantitative variables
       type: Bool
       default: FALSE   
-
-    - name: quanvar
-      title: Type
-      type: List
-      options:
-        - coordinates
-        - cos2
-        - contribution
-      default: coordinates
 
     - name: plot
       title: Variable groups

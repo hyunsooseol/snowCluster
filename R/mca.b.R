@@ -1,5 +1,4 @@
 
-
 #' @import ggplot2
 
 mcaClass <- if (requireNamespace('jmvcore'))
@@ -74,8 +73,7 @@ mcaClass <- if (requireNamespace('jmvcore'))
       },
       
       .run = function() {
-        if (length(self$options$vars) < 2)
-          return()
+        if (length(self$options$vars) < 3) return()
         
         vars <- self$options$vars
         
@@ -114,26 +112,23 @@ mcaClass <- if (requireNamespace('jmvcore'))
             table$setRow(rowNo = i, values = row)
           })
         }
-        #------
-        
-        if (isTRUE(self$options$loadingvar)) {
+       
+        if (isTRUE(self$options$cat)) {
           nd <- self$options$nd
-          colvar <- self$options$colvar
+          type <- self$options$type
           
-          if (colvar == "coordinates") {
-            loadingvar <- res.mca$var$coord
-          } else if (colvar == "cos2") {
-            loadingvar <- res.mca$var$cos2
-          } else {
-            loadingvar <- res.mca$var$contrib
-          }
+          data_map <- list(
+            "coordinates" = res.mca$var$coord,
+            "cos2"        = res.mca$var$cos2,
+            "contribution"= res.mca$var$contrib  
+          )          
           
+          cc <- data_map[[type]]
+          #self$results$text$setContent(res.mca$var$coord)
           #-----------------
           df <- res.mca$var$coord
           names <- dimnames(df)[[1]]
-          
-          table <- self$results$loadingvar
-          
+          table <- self$results$cat
           for (i in 1:nd)
             table$addColumn(
               name = paste0("pc", i),
@@ -144,30 +139,25 @@ mcaClass <- if (requireNamespace('jmvcore'))
           for (name in names) {
             row <- list()
             for (j in 1:nd) {
-              row[[paste0("pc", j)]] <- loadingvar[name, j]
+              row[[paste0("pc", j)]] <- cc[name, j]
             }
-            table$addRow(rowKey = name, values = row)
+           table$addRow(rowKey = name, values = row)
           }
         }
         
-        if (isTRUE(self$options$loadingind)) {
+        if (isTRUE(self$options$ind)) {
           nd <- self$options$nd
-          rowvar <- self$options$rowvar
+          type1 <- self$options$type1
           
-          if (rowvar == "coordinates") {
-            loadingind <- res.mca$ind$coord
-          } else if (rowvar == "cos2") {
-            loadingind <- res.mca$ind$cos2
-          } else {
-            loadingind <- res.mca$ind$contrib
-            
-          }
-          
+          data_map <- list(
+            "coordinates" = res.mca$ind$coord,
+            "cos2"        = res.mca$ind$cos2,
+            "contribution"= res.mca$ind$contrib  
+          )          
+          rr <- data_map[[type1]]
           data <- self$data
           data <- jmvcore::naOmit(data)
-          
-          table <- self$results$loadingind
-          
+          table <- self$results$ind
           for (i in 1:nd)
             table$addColumn(
               name = paste0("pc", i),
@@ -178,7 +168,7 @@ mcaClass <- if (requireNamespace('jmvcore'))
           for (i in 1:nrow(data)) {
             row <- list()
             for (j in 1:nd) {
-              row[[paste0("pc", j)]] <- loadingind[i, j]
+              row[[paste0("pc", j)]] <- rr[i, j]
             }
             table$addRow(rowKey = i, values = row)
           }

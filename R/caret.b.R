@@ -27,7 +27,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<ul>',
             '<li>Machine learning based on  <a href="https://topepo.github.io/caret/" target = "_blank">caret R package</a>.</li>',
             '<li>The values for the target variable cannot be a number.</li>',
-            '<li>If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection plot</b> in Plots.</li>',
+            '<li>If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection</b> in Plots.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
             

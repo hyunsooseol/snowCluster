@@ -11,10 +11,10 @@ correspondence(
   nd = 2,
   chi = TRUE,
   eigen = FALSE,
-  rowvar = "coordinates",
-  loadingind = FALSE,
-  colvar = "coordinates",
-  loadingvar = FALSE,
+  type = "coordinates",
+  type1 = "coordinates",
+  col = FALSE,
+  row = FALSE,
   plot1 = TRUE,
   plot2 = FALSE,
   plot3 = FALSE,
@@ -42,13 +42,13 @@ correspondence(
 
 \item{eigen}{.}
 
-\item{rowvar}{.}
+\item{type}{.}
 
-\item{loadingind}{.}
+\item{type1}{.}
 
-\item{colvar}{.}
+\item{col}{.}
 
-\item{loadingvar}{.}
+\item{row}{.}
 
 \item{plot1}{.}
 
@@ -80,8 +80,8 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$chi} \tab \tab \tab \tab \tab a table \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
-  \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
-  \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr
+  \code{results$col} \tab \tab \tab \tab \tab a table \cr
+  \code{results$row} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr

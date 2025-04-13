@@ -63,20 +63,16 @@ pcaClass <- if (requireNamespace('jmvcore'))
       
       .run = function() {
         if (self$options$mode == 'simple') {
-          if (!is.null(self$options$vars)) {
-            if (length(self$options$vars) < 2)
-              return()
+          if (length(self$options$vars) < 3) return()
             
             vars <- self$options$vars
             data <- self$data
             data <- jmvcore::naOmit(data)
             # Handling id----------
-            
             if (!is.null(self$options$labels)) {
               rownames(data) <- data[[self$options$labels]]
               data[[self$options$labels]] <- NULL
             }
-            
             for (i in seq_along(vars))
               data[[i]] <- jmvcore::toNumeric(data[[i]])
             # principal component analysis---------
@@ -115,7 +111,6 @@ pcaClass <- if (requireNamespace('jmvcore'))
             # Biplot--------
             image2 <- self$results$plot2
             image2$setState(pca)
-          }
         }
         
         if (self$options$mode == 'complex') {
@@ -181,11 +176,8 @@ pcaClass <- if (requireNamespace('jmvcore'))
       .plot2 = function(image2, ggtheme, theme, ...) {
         if (is.null(image2$state))
           return(FALSE)
-        
         pca <- image2$state
-        
         plot2 <- factoextra::fviz_pca_biplot(pca, repel = TRUE)
-        
         plot2 <- plot2 + ggtheme
         print(plot2)
         TRUE
@@ -194,12 +186,9 @@ pcaClass <- if (requireNamespace('jmvcore'))
       .plot3 = function(image3, ggtheme, theme, ...) {
         if (is.null(image3$state))
           return(FALSE)
-        
         pca <- image3$state
-        
         plot3 <- factoextra::fviz_pca_ind(
           pca,
-          
           label = "none",
           # hide individual labels
           habillage = self$data[[self$options$facs]],
@@ -207,7 +196,6 @@ pcaClass <- if (requireNamespace('jmvcore'))
           palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           addEllipses = TRUE # Concentration ellipses
         )
-        
         plot3 <- plot3 + ggtheme
         print(plot3)
         TRUE
@@ -228,7 +216,6 @@ pcaClass <- if (requireNamespace('jmvcore'))
           repel = TRUE,
           legend.title = self$options$facs
         )
-        
         plot4 <- plot4 + ggtheme
         print(plot4)
         TRUE

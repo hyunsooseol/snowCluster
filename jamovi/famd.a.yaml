@@ -8,9 +8,6 @@ jas: '1.2'
 options:
     - name: data
       type: Data
-      description:
-          R: >
-            The data as a data frame.
 
     - name: vars
       title: Variables
@@ -30,8 +27,8 @@ options:
       type: Bool
       default: TRUE  
 
-    - name: rowvar
-      title: Type
+    - name: type1
+      title: 'Type'
       type: List
       options:
         - coordinates
@@ -39,8 +36,8 @@ options:
         - contribution
       default: coordinates
 
-    - name: colvar
-      title: Type
+    - name: type2
+      title: 'Type'
       type: List
       options:
         - coordinates
@@ -48,8 +45,8 @@ options:
         - contribution
       default: coordinates
 
-    - name: quanvar
-      title: Type
+    - name: type3
+      title: 'Type'
       type: List
       options:
         - coordinates
@@ -57,26 +54,26 @@ options:
         - contribution
       default: coordinates
 
-    - name: qualvar
-      title: Type
+    - name: type4
+      title: 'Type'
       type: List
       options:
         - coordinates
         - cos2
         - contribution
-      default: coordinates      
-      
-    - name: ci
-      title: "Individuals"
-      type: Bool
-      default: FALSE
-     
-    - name: cg
-      title: Variables
+      default: coordinates
+
+    - name: ind
+      title: 'Individuals'
       type: Bool
       default: FALSE 
 
-    - name: quanti
+    - name: vari
+      title: 'Variables'
+      type: Bool
+      default: FALSE 
+
+    - name: quan
       title: Quantitative variables
       type: Bool
       default: FALSE 

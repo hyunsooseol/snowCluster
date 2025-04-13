@@ -17,13 +17,7 @@ items:
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
-        
+
       columns:
         - name: comp
           title: 'Component'
@@ -38,19 +32,14 @@ items:
           title: 'Cumulative %'
           type: number
 
-    - name: ci
-      title:  '`Individuals across dimensions - ${rowvar}`'
-      visible: (ci)
+    - name: ind
+      title:  '`Individuals across dimensions - ${type1}`'
+      visible: (ind)
       type: Table
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
+        - type1
 
       columns:
         - name: name
@@ -62,19 +51,14 @@ items:
           type: number
           superTitle: 'Dimension'
 
-    - name: cg
-      title:  '`Variables across dimensions - ${colvar}`'
-      visible: (cg)
+    - name: vari
+      title:  '`Variables across dimensions - ${type2}`'
+      visible: (vari)
       type: Table
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
+        - type2
 
       columns:
         - name: name
@@ -86,19 +70,14 @@ items:
           type: number
           superTitle: 'Dimension'
 
-    - name: quanti
-      title:  '`Quantitative variables across dimensions - ${quanvar}`'
-      visible: (quanti)
+    - name: quan
+      title:  '`Quantitative variables across dimensions - ${type3}`'
+      visible: (quan)
       type: Table
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
+        - type3
 
       columns:
         - name: name
@@ -111,18 +90,13 @@ items:
           superTitle: 'Dimension'
 
     - name: qual
-      title: '`Qualitative variables across dimensions - ${qualvar}`'
+      title: '`Qualitative variables across dimensions - ${type4}`'
       visible: (qual)
       type: Table
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
+        - type4
 
       columns:
         - name: name
@@ -143,12 +117,6 @@ items:
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
         - width
         - height
 
@@ -161,12 +129,7 @@ items:
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
+        - type2
         - width1
         - height1
 
@@ -179,12 +142,7 @@ items:
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
+        - type3
         - width2
         - height2
 
@@ -197,17 +155,12 @@ items:
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar
+        - type4
         - width3
         - height3
 
     - name: plot4
-      title: Graph of individuals 
+      title: 'Graph of individuals' 
       type:  Image
       refs: factoextra
       visible: (plot4)
@@ -215,15 +168,8 @@ items:
       clearWith:
         - vars
         - labels
-        - type
-        - gn
-        - colvar
-        - rowvar
-        - quanvar
-        - qualvar 
+        - type1
         - width4
         - height4
-
-
 
 ...

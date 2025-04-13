@@ -61,8 +61,7 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
       },
       
       .run = function() {
-        if (length(self$options$vars) < 3)
-          return()
+        if (length(self$options$vars) < 3) return()
         
         vars <- self$options$vars
         
@@ -71,14 +70,12 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
         }
         
         res.ca <- private$.allCache
-        data <- res.ca$data
-        res.ca <- res.ca$res
+        #data <- res.ca$data
+        #res.ca <- res.ca$res
         
         #---
         if (isTRUE(self$options$chi)) {
-          chi <- stats::chisq.test(data)
-          
-          # 테이블에 직접 결과값 할당
+          chi <- stats::chisq.test(res.ca$data)
           table <- self$results$chi
           row <- list(
             statistic = chi$statistic,
@@ -92,7 +89,7 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
         if (isTRUE(self$options$eigen)) {
           nd <- self$options$nd
           table <- self$results$eigen
-          eigen <- as.vector(res.ca$eig[1:nd, 1])
+          eigen <- as.vector(res.ca$res$eig[1:nd, 1])
           eigenTotal <- sum(abs(eigen))
           varProp <- (abs(eigen) / eigenTotal) * 100
           varCum <- cumsum(varProp)
@@ -108,22 +105,20 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
           })
         }
         #---
-        if (isTRUE(self$options$loadingvar)) {
-          nd <- self$options$nd
-          colvar <- self$options$colvar
-          
-          if (colvar == "coordinates") {
-            loadingvar <- res.ca$col$coord
-            
-          } else if (colvar == "cos2") {
-            loadingvar <- res.ca$col$cos2
-            
-          } else {
-            loadingvar <- res.ca$col$contrib
-            
-          }
-          #----------------
-          table <- self$results$loadingvar
+        if (isTRUE(self$options$col)) {
+        nd <- self$options$nd
+        type <- self$options$type 
+        
+        data_map <- list(
+          "coordinates" = res.ca$res$col$coord,
+          "cos2"        = res.ca$res$col$cos2,
+          "contribution"= res.ca$res$col$contrib  
+        )          
+        
+        cc <- data_map[[type]]
+        
+        #----------------
+          table <- self$results$col
           
           for (i in 1:nd)
             table$addColumn(
@@ -135,27 +130,26 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
           for (i in seq_along(self$options$vars)) {
             row <- list()
             for (j in 1:nd) {
-              row[[paste0("pc", j)]] <- loadingvar[i, j]
+              row[[paste0("pc", j)]] <- cc[i, j]
             }
             table$setRow(rowNo = i, values = row)
           }
         }
         
-        if (isTRUE(self$options$loadingind)) {
+        #row---
+        if (isTRUE(self$options$row)) {
           nd <- self$options$nd
-          rowvar <- self$options$rowvar
+          type1 <- self$options$type1 
           
-          if (rowvar == "coordinates") {
-            loadingind <- res.ca$row$coord
-            
-          } else if (rowvar == "cos2") {
-            loadingind <- res.ca$row$cos2
-            
-          } else {
-            loadingind <- res.ca$row$contrib
-          }
+          data_map <- list(
+            "coordinates" = res.ca$res$row$coord,
+            "cos2"        = res.ca$res$row$cos2,
+            "contribution"= res.ca$res$row$contrib  
+          )          
           
-          table <- self$results$loadingind
+          rr <- data_map[[type1]]
+
+          table <- self$results$row
           
           for (i in 1:nd)
             
@@ -166,10 +160,10 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
               superTitle = 'Dimension'
             )
           
-          for (i in 1:nrow(data)) {
+          for (i in 1:nrow(res.ca$data)) {
             row <- list()
             for (j in 1:nd) {
-              row[[paste0("pc", j)]] <- loadingind[i, j]
+              row[[paste0("pc", j)]] <- rr[i, j]
             }
             table$addRow(rowKey = i, values = row)
           }
@@ -178,24 +172,24 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
         if (isTRUE(self$options$plot1)) {
           #  Raw points plot----------
           image1 <- self$results$plot1
-          image1$setState(res.ca)
+          image1$setState(res.ca$res)
         }
         
         if (isTRUE(self$options$plot2)) {
           # Column points plot-------
           image2 <- self$results$plot2
-          image2$setState(res.ca)
+          image2$setState(res.ca$res)
         }
         
         # Biplot--------
         if (isTRUE(self$options$plot3)) {
           image3 <- self$results$plot3
-          image3$setState(res.ca)
+          image3$setState(res.ca$res)
         }
         # Scree plot--------
         if (isTRUE(self$options$plot4)) {
           image4 <- self$results$plot4
-          image4$setState(res.ca)
+          image4$setState(res.ca$res)
         }
       },
       
@@ -253,8 +247,8 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
       },
       
       .computeRES = function() {
-        if (length(self$options$vars) < 3)
-          return()
+        
+        if (length(self$options$vars) < 3) return()
         vars <- self$options$vars
         
         data <- self$data

@@ -8,6 +8,10 @@ items:
       title: Instructions
       type: Html
       visible: True
+
+    - name:  text
+      title: '' 
+      type:  Preformatted
       
     - name: eigen
       title: 'Eigenvalues'
@@ -16,8 +20,6 @@ items:
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - nd
 
       columns:
@@ -34,16 +36,15 @@ items:
           title: 'Cumulative %'
           type: number
 
-    - name: loadingvar
-      title: '`Variable categories across dimensions - ${colvar}`'
-      visible: (loadingvar)
+    - name: cat
+      title: '`Variable categories across dimensions - ${type}`'
+      visible: (cat)
       type: Table
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - nd
+        - type
 
       columns:
         - name: name
@@ -55,16 +56,15 @@ items:
           type: number
           superTitle: 'Dimension'
 
-    - name: loadingind
-      title: '`Individuals across dimensions - ${rowvar}`'
-      visible: (loadingind)
+    - name: ind
+      title: '`Individuals across dimensions - ${type1}`'
+      visible: (ind)
       type: Table
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - nd
+        - type1
         
       columns:
         - name: name
@@ -86,8 +86,6 @@ items:
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - width5
         - height5
         - nd
@@ -101,8 +99,6 @@ items:
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - width6
         - height6
         - nd
@@ -117,8 +113,6 @@ items:
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - width1
         - height1
         - nd
@@ -133,8 +127,6 @@ items:
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - width2
         - height2
         - nd
@@ -149,8 +141,6 @@ items:
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - width3
         - height3
         - nd
@@ -165,8 +155,6 @@ items:
       clearWith:
         - vars
         - facs
-        - rowvar
-        - colvar
         - width4
         - height4
         - nd

@@ -9,13 +9,13 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             labels = NULL,
             eigen = TRUE,
-            rowvar = "coordinates",
-            colvar = "coordinates",
-            quanvar = "coordinates",
-            qualvar = "coordinates",
-            ci = FALSE,
-            cg = FALSE,
-            quanti = FALSE,
+            type1 = "coordinates",
+            type2 = "coordinates",
+            type3 = "coordinates",
+            type4 = "coordinates",
+            ind = FALSE,
+            vari = FALSE,
+            quan = FALSE,
             qual = FALSE,
             plot = TRUE,
             plot1 = FALSE,
@@ -54,49 +54,49 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "eigen",
                 eigen,
                 default=TRUE)
-            private$..rowvar <- jmvcore::OptionList$new(
-                "rowvar",
-                rowvar,
+            private$..type1 <- jmvcore::OptionList$new(
+                "type1",
+                type1,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
-            private$..colvar <- jmvcore::OptionList$new(
-                "colvar",
-                colvar,
+            private$..type2 <- jmvcore::OptionList$new(
+                "type2",
+                type2,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
-            private$..quanvar <- jmvcore::OptionList$new(
-                "quanvar",
-                quanvar,
+            private$..type3 <- jmvcore::OptionList$new(
+                "type3",
+                type3,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
-            private$..qualvar <- jmvcore::OptionList$new(
-                "qualvar",
-                qualvar,
+            private$..type4 <- jmvcore::OptionList$new(
+                "type4",
+                type4,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
-            private$..ci <- jmvcore::OptionBool$new(
-                "ci",
-                ci,
+            private$..ind <- jmvcore::OptionBool$new(
+                "ind",
+                ind,
                 default=FALSE)
-            private$..cg <- jmvcore::OptionBool$new(
-                "cg",
-                cg,
+            private$..vari <- jmvcore::OptionBool$new(
+                "vari",
+                vari,
                 default=FALSE)
-            private$..quanti <- jmvcore::OptionBool$new(
-                "quanti",
-                quanti,
+            private$..quan <- jmvcore::OptionBool$new(
+                "quan",
+                quan,
                 default=FALSE)
             private$..qual <- jmvcore::OptionBool$new(
                 "qual",
@@ -166,13 +166,13 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..vars)
             self$.addOption(private$..labels)
             self$.addOption(private$..eigen)
-            self$.addOption(private$..rowvar)
-            self$.addOption(private$..colvar)
-            self$.addOption(private$..quanvar)
-            self$.addOption(private$..qualvar)
-            self$.addOption(private$..ci)
-            self$.addOption(private$..cg)
-            self$.addOption(private$..quanti)
+            self$.addOption(private$..type1)
+            self$.addOption(private$..type2)
+            self$.addOption(private$..type3)
+            self$.addOption(private$..type4)
+            self$.addOption(private$..ind)
+            self$.addOption(private$..vari)
+            self$.addOption(private$..quan)
             self$.addOption(private$..qual)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
@@ -194,13 +194,13 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars = function() private$..vars$value,
         labels = function() private$..labels$value,
         eigen = function() private$..eigen$value,
-        rowvar = function() private$..rowvar$value,
-        colvar = function() private$..colvar$value,
-        quanvar = function() private$..quanvar$value,
-        qualvar = function() private$..qualvar$value,
-        ci = function() private$..ci$value,
-        cg = function() private$..cg$value,
-        quanti = function() private$..quanti$value,
+        type1 = function() private$..type1$value,
+        type2 = function() private$..type2$value,
+        type3 = function() private$..type3$value,
+        type4 = function() private$..type4$value,
+        ind = function() private$..ind$value,
+        vari = function() private$..vari$value,
+        quan = function() private$..quan$value,
         qual = function() private$..qual$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
@@ -221,13 +221,13 @@ famdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars = NA,
         ..labels = NA,
         ..eigen = NA,
-        ..rowvar = NA,
-        ..colvar = NA,
-        ..quanvar = NA,
-        ..qualvar = NA,
-        ..ci = NA,
-        ..cg = NA,
-        ..quanti = NA,
+        ..type1 = NA,
+        ..type2 = NA,
+        ..type3 = NA,
+        ..type4 = NA,
+        ..ind = NA,
+        ..vari = NA,
+        ..quan = NA,
         ..qual = NA,
         ..plot = NA,
         ..plot1 = NA,
@@ -252,9 +252,9 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         instructions = function() private$.items[["instructions"]],
         eigen = function() private$.items[["eigen"]],
-        ci = function() private$.items[["ci"]],
-        cg = function() private$.items[["cg"]],
-        quanti = function() private$.items[["quanti"]],
+        ind = function() private$.items[["ind"]],
+        vari = function() private$.items[["vari"]],
+        quan = function() private$.items[["quan"]],
         qual = function() private$.items[["qual"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
@@ -281,13 +281,7 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(eigen)",
                 clearWith=list(
                     "vars",
-                    "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar"),
+                    "labels"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -307,18 +301,13 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="ci",
-                title="`Individuals across dimensions - ${rowvar}`",
-                visible="(ci)",
+                name="ind",
+                title="`Individuals across dimensions - ${type1}`",
+                visible="(ind)",
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar"),
+                    "type1"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -332,18 +321,13 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="cg",
-                title="`Variables across dimensions - ${colvar}`",
-                visible="(cg)",
+                name="vari",
+                title="`Variables across dimensions - ${type2}`",
+                visible="(vari)",
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar"),
+                    "type2"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -357,18 +341,13 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="quanti",
-                title="`Quantitative variables across dimensions - ${quanvar}`",
-                visible="(quanti)",
+                name="quan",
+                title="`Quantitative variables across dimensions - ${type3}`",
+                visible="(quan)",
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar"),
+                    "type3"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -383,17 +362,12 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="qual",
-                title="`Qualitative variables across dimensions - ${qualvar}`",
+                title="`Qualitative variables across dimensions - ${type4}`",
                 visible="(qual)",
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar"),
+                    "type4"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -415,12 +389,6 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar",
                     "width",
                     "height")))
             self$add(jmvcore::Image$new(
@@ -433,12 +401,7 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar",
+                    "type2",
                     "width1",
                     "height1")))
             self$add(jmvcore::Image$new(
@@ -451,12 +414,7 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar",
+                    "type3",
                     "width2",
                     "height2")))
             self$add(jmvcore::Image$new(
@@ -469,12 +427,7 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar",
+                    "type4",
                     "width3",
                     "height3")))
             self$add(jmvcore::Image$new(
@@ -487,12 +440,7 @@ famdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
-                    "qualvar",
+                    "type1",
                     "width4",
                     "height4")))}))
 
@@ -520,17 +468,17 @@ famdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' Factor analysis of mixed data
 #'
 #' 
-#' @param data The data as a data frame.
+#' @param data .
 #' @param vars .
 #' @param labels .
 #' @param eigen .
-#' @param rowvar .
-#' @param colvar .
-#' @param quanvar .
-#' @param qualvar .
-#' @param ci .
-#' @param cg .
-#' @param quanti .
+#' @param type1 .
+#' @param type2 .
+#' @param type3 .
+#' @param type4 .
+#' @param ind .
+#' @param vari .
+#' @param quan .
 #' @param qual .
 #' @param plot .
 #' @param plot1 .
@@ -551,9 +499,9 @@ famdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$quanti} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$ind} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$vari} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$quan} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$qual} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
@@ -574,13 +522,13 @@ famd <- function(
     vars,
     labels,
     eigen = TRUE,
-    rowvar = "coordinates",
-    colvar = "coordinates",
-    quanvar = "coordinates",
-    qualvar = "coordinates",
-    ci = FALSE,
-    cg = FALSE,
-    quanti = FALSE,
+    type1 = "coordinates",
+    type2 = "coordinates",
+    type3 = "coordinates",
+    type4 = "coordinates",
+    ind = FALSE,
+    vari = FALSE,
+    quan = FALSE,
     qual = FALSE,
     plot = TRUE,
     plot1 = FALSE,
@@ -614,13 +562,13 @@ famd <- function(
         vars = vars,
         labels = labels,
         eigen = eigen,
-        rowvar = rowvar,
-        colvar = colvar,
-        quanvar = quanvar,
-        qualvar = qualvar,
-        ci = ci,
-        cg = cg,
-        quanti = quanti,
+        type1 = type1,
+        type2 = type2,
+        type3 = type3,
+        type4 = type4,
+        ind = ind,
+        vari = vari,
+        quan = quan,
         qual = qual,
         plot = plot,
         plot1 = plot1,

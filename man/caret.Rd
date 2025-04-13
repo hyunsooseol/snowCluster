@@ -102,7 +102,7 @@ caret(
 
 \item{plot2}{.}
 
-\item{plot3}{.}
+\item{plot3}{Binary dependent required.}
 
 \item{plot4}{.}
 

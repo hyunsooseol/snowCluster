@@ -47,8 +47,6 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           height <- self$options$height3
           self$results$plot3$setSize(width, height)
         }
-        
-        
       },
       
       
@@ -59,32 +57,28 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # Example--------
         # multipleROC::multipleROC(am~wt,data=mtcars)
-        
         dep <- self$options$dep
         covs <- self$options$covs
         data <- self$data
         data <- na.omit(data)
         data <- as.data.frame(data)
-        
         #Formula(male~height+weight)------
         covs <- vapply(covs, function(x)
           jmvcore::composeTerm(x), '')
-        formula <- as.formula(paste(paste(dep, paste0(covs, collapse = "+"), sep =
-                                            "~")))
+        
+        formula <- as.formula(paste(paste(dep, paste0(covs, collapse = "+"), 
+                                          sep ="~")))
         
         # if(isTRUE(self$options$plot1)){
         #
         # image <- self$results$plot1
         # image$setState(formula)
         # }
-        
         p2 <- private$.computeP2()
         #self$results$text$setContent(p2)
-        
         p3 <- private$.computeP3()
-        
-        
-        if (self$options$auc == TRUE) {
+
+        if (isTRUE(self$options$auc)) {
           if (length(self$options$covs) < 2) {
             stop("Please specify at least two Covariate variables to use DeLong's test.")
           } else{
@@ -94,16 +88,11 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             
             class <- self$options$dep
             df <- c(class, covs)
-            
             data <- jmvcore::select(self$data, df)
-            
             for (cov in covs)
               data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-            
             data <- jmvcore::naOmit(data)
-            
             #delong test function------------
-            
             deLong.test <- function(x,
                                     labels,
                                     labpos,

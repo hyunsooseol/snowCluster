@@ -121,6 +121,21 @@ children:
                     name: height1
                     format: number
                     enable: (plot1)
+              - type: CheckBox
+                name: plot5
+                children:
+                  - name: max
+                    type: TextBox
+                    format: number
+                    enable: (plot5)
+                  - type: TextBox
+                    name: width5
+                    format: number
+                    enable: (plot5)
+                  - type: TextBox
+                    name: height5
+                    format: number
+                    enable: (plot5)
       - type: LayoutBox
         margin: large
         cell:

@@ -101,6 +101,22 @@ items:
         - width1
         - height1
 
+    - name:  plot5
+      title: 'Scree plot'
+      type:  Image
+      refs: snowCluster
+      visible: (plot5)
+      renderFun: .plot5
+      clearWith:
+        - vars
+        - k
+        - algo
+        - nstart
+        - stand
+        - width5
+        - height5
+        - max
+
     - name:  plot2
       title: Cluster plot
       type:  Image

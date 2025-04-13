@@ -13,12 +13,12 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             type = "n,s,s,s,s,s",
             gn = "a,b,c,d,e,f",
             eigen = TRUE,
-            colvar = "coordinates",
-            rowvar = "coordinates",
-            cg = FALSE,
-            ci = FALSE,
-            quanti = FALSE,
-            quanvar = "coordinates",
+            type1 = "coordinates",
+            type2 = "coordinates",
+            type3 = "coordinates",
+            vari = FALSE,
+            ind = FALSE,
+            quan = FALSE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -88,42 +88,42 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "eigen",
                 eigen,
                 default=TRUE)
-            private$..colvar <- jmvcore::OptionList$new(
-                "colvar",
-                colvar,
+            private$..type1 <- jmvcore::OptionList$new(
+                "type1",
+                type1,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
-            private$..rowvar <- jmvcore::OptionList$new(
-                "rowvar",
-                rowvar,
+            private$..type2 <- jmvcore::OptionList$new(
+                "type2",
+                type2,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
-            private$..cg <- jmvcore::OptionBool$new(
-                "cg",
-                cg,
-                default=FALSE)
-            private$..ci <- jmvcore::OptionBool$new(
-                "ci",
-                ci,
-                default=FALSE)
-            private$..quanti <- jmvcore::OptionBool$new(
-                "quanti",
-                quanti,
-                default=FALSE)
-            private$..quanvar <- jmvcore::OptionList$new(
-                "quanvar",
-                quanvar,
+            private$..type3 <- jmvcore::OptionList$new(
+                "type3",
+                type3,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
+            private$..vari <- jmvcore::OptionBool$new(
+                "vari",
+                vari,
+                default=FALSE)
+            private$..ind <- jmvcore::OptionBool$new(
+                "ind",
+                ind,
+                default=FALSE)
+            private$..quan <- jmvcore::OptionBool$new(
+                "quan",
+                quan,
+                default=FALSE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -246,12 +246,12 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..type)
             self$.addOption(private$..gn)
             self$.addOption(private$..eigen)
-            self$.addOption(private$..colvar)
-            self$.addOption(private$..rowvar)
-            self$.addOption(private$..cg)
-            self$.addOption(private$..ci)
-            self$.addOption(private$..quanti)
-            self$.addOption(private$..quanvar)
+            self$.addOption(private$..type1)
+            self$.addOption(private$..type2)
+            self$.addOption(private$..type3)
+            self$.addOption(private$..vari)
+            self$.addOption(private$..ind)
+            self$.addOption(private$..quan)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
@@ -289,12 +289,12 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         type = function() private$..type$value,
         gn = function() private$..gn$value,
         eigen = function() private$..eigen$value,
-        colvar = function() private$..colvar$value,
-        rowvar = function() private$..rowvar$value,
-        cg = function() private$..cg$value,
-        ci = function() private$..ci$value,
-        quanti = function() private$..quanti$value,
-        quanvar = function() private$..quanvar$value,
+        type1 = function() private$..type1$value,
+        type2 = function() private$..type2$value,
+        type3 = function() private$..type3$value,
+        vari = function() private$..vari$value,
+        ind = function() private$..ind$value,
+        quan = function() private$..quan$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
@@ -331,12 +331,12 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..type = NA,
         ..gn = NA,
         ..eigen = NA,
-        ..colvar = NA,
-        ..rowvar = NA,
-        ..cg = NA,
-        ..ci = NA,
-        ..quanti = NA,
-        ..quanvar = NA,
+        ..type1 = NA,
+        ..type2 = NA,
+        ..type3 = NA,
+        ..vari = NA,
+        ..ind = NA,
+        ..quan = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..plot2 = NA,
@@ -373,9 +373,9 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         instructions = function() private$.items[["instructions"]],
         eigen = function() private$.items[["eigen"]],
-        cg = function() private$.items[["cg"]],
-        ci = function() private$.items[["ci"]],
-        quanti = function() private$.items[["quanti"]],
+        vari = function() private$.items[["vari"]],
+        ind = function() private$.items[["ind"]],
+        quan = function() private$.items[["quan"]],
         plot8 = function() private$.items[["plot8"]],
         plot = function() private$.items[["plot"]],
         plot6 = function() private$.items[["plot6"]],
@@ -405,12 +405,11 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(eigen)",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
-                    "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar"),
+                    "gn"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -430,17 +429,17 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="cg",
-                title="`Groups of variables - ${colvar}`",
-                visible="(cg)",
+                name="vari",
+                title="`Groups of variables - ${type1}`",
+                visible="(vari)",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar"),
+                    "type1"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -454,17 +453,17 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="ci",
-                title="`Individuals - ${rowvar}`",
-                visible="(ci)",
+                name="ind",
+                title="`Individuals - ${type2}`",
+                visible="(ind)",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar"),
+                    "type2"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -478,17 +477,17 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="quanti",
-                title="`Quantitative variables - ${quanvar}`",
-                visible="(quanti)",
+                name="quan",
+                title="`Quantitative variables - ${type3}`",
+                visible="(quan)",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar"),
+                    "type3"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -510,12 +509,11 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot8",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
                     "width8",
                     "height8")))
             self$add(jmvcore::Image$new(
@@ -528,12 +526,12 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
+                    "type1",
                     "width",
                     "height")))
             self$add(jmvcore::Image$new(
@@ -546,12 +544,11 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot6",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
                     "width6",
                     "height6",
                     "angle")))
@@ -565,12 +562,11 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot7",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
                     "width7",
                     "height7",
                     "angle")))
@@ -584,12 +580,12 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot1",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
+                    "type3",
                     "width1",
                     "height1")))
             self$add(jmvcore::Image$new(
@@ -602,12 +598,11 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot2",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
                     "width2",
                     "height2",
                     "angle")))
@@ -621,12 +616,11 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot3",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
                     "width3",
                     "height3",
                     "angle")))
@@ -640,12 +634,12 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot4",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
+                    "type2",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
                     "width4",
                     "height4")))
             self$add(jmvcore::Image$new(
@@ -658,12 +652,12 @@ mfaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot5",
                 clearWith=list(
                     "vars",
-                    "groups",
+                    "facs",
+                    "labels",
+                    "group",
                     "type",
                     "gn",
-                    "colvar",
-                    "rowvar",
-                    "quanvar",
+                    "type2",
                     "width5",
                     "height5")))}))
 
@@ -699,12 +693,12 @@ mfaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param type .
 #' @param gn .
 #' @param eigen .
-#' @param colvar .
-#' @param rowvar .
-#' @param cg .
-#' @param ci .
-#' @param quanti .
-#' @param quanvar .
+#' @param type1 .
+#' @param type2 .
+#' @param type3 .
+#' @param vari .
+#' @param ind .
+#' @param quan .
 #' @param plot .
 #' @param plot1 .
 #' @param plot2 .
@@ -737,9 +731,9 @@ mfaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$cg} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$ci} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$quanti} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$vari} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$ind} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$quan} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot8} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
@@ -767,12 +761,12 @@ mfa <- function(
     type = "n,s,s,s,s,s",
     gn = "a,b,c,d,e,f",
     eigen = TRUE,
-    colvar = "coordinates",
-    rowvar = "coordinates",
-    cg = FALSE,
-    ci = FALSE,
-    quanti = FALSE,
-    quanvar = "coordinates",
+    type1 = "coordinates",
+    type2 = "coordinates",
+    type3 = "coordinates",
+    vari = FALSE,
+    ind = FALSE,
+    quan = FALSE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -825,12 +819,12 @@ mfa <- function(
         type = type,
         gn = gn,
         eigen = eigen,
-        colvar = colvar,
-        rowvar = rowvar,
-        cg = cg,
-        ci = ci,
-        quanti = quanti,
-        quanvar = quanvar,
+        type1 = type1,
+        type2 = type2,
+        type3 = type3,
+        vari = vari,
+        ind = ind,
+        quan = quan,
         plot = plot,
         plot1 = plot1,
         plot2 = plot2,

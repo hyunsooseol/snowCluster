@@ -4,6 +4,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
     "kmeansClass",
     inherit = kmeansBase,
     private = list(
+      .allCache = NULL,
       .htmlwidget = NULL,
       
       .init = function() {
@@ -59,7 +60,13 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           
           self$results$plot4$setSize(width, height)
         }
-        
+        if (isTRUE(self$options$plot5)) {
+          width <- self$options$width5
+          height <- self$options$height5
+          
+          self$results$plot5$setSize(width, height)
+        }
+
         if (self$options$oc)
           self$results$oc$setNote(
             "Note",
@@ -119,10 +126,9 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       },
       
       #---
-      
       .run = function() {
-        if (length(self$options$vars) < 3)
-          return()
+        
+        if (length(self$options$vars) < 3) return()
         
         # Solved Problem that does not change plot using set.seed()
         set.seed(1234)
@@ -150,8 +156,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           }
         }
         
-        if (dim(dat2)[2] > 0)
-        {
+        if (dim(dat2)[2] > 0){
           model <- stats::kmeans(
             dat2,
             centers = self$options$k,
@@ -207,7 +212,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             ss$setRow(rowKey = i, values = list(value = SSW[i]))
           
           # plot data function---------
-          
           plotData <- data.frame(
             cluster = as.factor(rep(1:k, nVars)),
             var = rep(vars, each = k),
@@ -220,27 +224,32 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         plotData1 <- data
         
         # Data for plot ----
+        if(isTRUE(self$options$plot1)){
         image1 <- self$results$plot1
         image1$setState(plotData1)
-        
+        }
         ###### Prepare data for plot2(cluster plot)-----------
         data <-
           jmvcore::select(data, self$options$vars)
         
+        #set.seed(1234)
         if (dim(data)[2] > 0) {
-          km.res <- stats::kmeans(
-            data,
-            centers = self$options$k,
-            nstart = self$options$nstart,
-            algorithm = self$options$algo
-          )
+          # km.res <- stats::kmeans(
+          #   data,
+          #   centers = self$options$k,
+          #   nstart = self$options$nstart,
+          #   algorithm = self$options$algo
+          # )
+          km.res <- model
+          if(isTRUE(self$options$plot2)){
           image2 <- self$results$plot2
           image2$setState(km.res)
+          }
           # Create a grouping variable using kmeans-----
           
           res.pca <- FactoMineR::PCA(data, graph = FALSE)
           var <- factoextra::get_pca_var(res.pca)
-          
+          set.seed(1234)
           res.km <- stats::kmeans(
             var$coord,
             centers = self$options$k,
@@ -249,11 +258,33 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           )
           grp <- as.factor(res.km$cluster)
           
+          if(isTRUE(self$options$plot3)){
           image3 <- self$results$plot3
           state <- list(res.pca, grp)
           image3$setState(state)
+          }
+        }
+        #Scree plot---        
+        if(isTRUE(self$options$plot5)){
+          
+          inertia <- numeric(self$options$max)
+          
+          for (k in 1:self$options$max) {
+            set.seed(1234)
+            km.res <- stats::kmeans(
+            data,
+            centers = k,
+            nstart = self$options$nstart,
+            algorithm = self$options$algo
+          )
+          inertia[k] <- km.res$tot.withinss
+          }
+          elbow_data <- data.frame(K = 1:self$options$max, Inertia = inertia)
+          image5 <- self$results$plot5
+          image5$setState(elbow_data)          
         }
         
+        #---------------------------------------
         if (length(self$options$factors) >= 1) {
           k1 <- self$options$k1
           vars <- self$options$vars
@@ -391,6 +422,23 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         print(plot1)
         TRUE
       },
+      
+      .plot5 = function(image5,...) {
+        if (is.null(image5$state))
+          return(FALSE)      
+      
+        elbow_plot <- image5$state
+      
+       plot5 <- plot(elbow_plot$K, elbow_plot$Inertia,
+             type = "b", 
+             pch = 19,   
+             col = "blue", 
+             xlab = "Number of clusters",
+             ylab = "Inertia")
+       print(plot5)
+       TRUE
+      },
+      
       # cluster plot------
       
       .plot2 = function(image2, ggtheme, theme, ...) {

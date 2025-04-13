@@ -11,10 +11,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             nd = 2,
             chi = TRUE,
             eigen = FALSE,
-            rowvar = "coordinates",
-            loadingind = FALSE,
-            colvar = "coordinates",
-            loadingvar = FALSE,
+            type = "coordinates",
+            type1 = "coordinates",
+            col = FALSE,
+            row = FALSE,
             plot1 = TRUE,
             plot2 = FALSE,
             plot3 = FALSE,
@@ -64,29 +64,29 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 "eigen",
                 eigen,
                 default=FALSE)
-            private$..rowvar <- jmvcore::OptionList$new(
-                "rowvar",
-                rowvar,
+            private$..type <- jmvcore::OptionList$new(
+                "type",
+                type,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
-            private$..loadingind <- jmvcore::OptionBool$new(
-                "loadingind",
-                loadingind,
+            private$..type1 <- jmvcore::OptionList$new(
+                "type1",
+                type1,
+                options=list(
+                    "coordinates",
+                    "cos2",
+                    "contribution"),
+                default="coordinates")
+            private$..col <- jmvcore::OptionBool$new(
+                "col",
+                col,
                 default=FALSE)
-            private$..colvar <- jmvcore::OptionList$new(
-                "colvar",
-                colvar,
-                options=list(
-                    "coordinates",
-                    "cos2",
-                    "contribution"),
-                default="coordinates")
-            private$..loadingvar <- jmvcore::OptionBool$new(
-                "loadingvar",
-                loadingvar,
+            private$..row <- jmvcore::OptionBool$new(
+                "row",
+                row,
                 default=FALSE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
@@ -142,10 +142,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             self$.addOption(private$..nd)
             self$.addOption(private$..chi)
             self$.addOption(private$..eigen)
-            self$.addOption(private$..rowvar)
-            self$.addOption(private$..loadingind)
-            self$.addOption(private$..colvar)
-            self$.addOption(private$..loadingvar)
+            self$.addOption(private$..type)
+            self$.addOption(private$..type1)
+            self$.addOption(private$..col)
+            self$.addOption(private$..row)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
@@ -165,10 +165,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
         nd = function() private$..nd$value,
         chi = function() private$..chi$value,
         eigen = function() private$..eigen$value,
-        rowvar = function() private$..rowvar$value,
-        loadingind = function() private$..loadingind$value,
-        colvar = function() private$..colvar$value,
-        loadingvar = function() private$..loadingvar$value,
+        type = function() private$..type$value,
+        type1 = function() private$..type1$value,
+        col = function() private$..col$value,
+        row = function() private$..row$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
@@ -187,10 +187,10 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
         ..nd = NA,
         ..chi = NA,
         ..eigen = NA,
-        ..rowvar = NA,
-        ..loadingind = NA,
-        ..colvar = NA,
-        ..loadingvar = NA,
+        ..type = NA,
+        ..type1 = NA,
+        ..col = NA,
+        ..row = NA,
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
@@ -212,8 +212,8 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
         instructions = function() private$.items[["instructions"]],
         chi = function() private$.items[["chi"]],
         eigen = function() private$.items[["eigen"]],
-        loadingvar = function() private$.items[["loadingvar"]],
-        loadingind = function() private$.items[["loadingind"]],
+        col = function() private$.items[["col"]],
+        row = function() private$.items[["row"]],
         plot4 = function() private$.items[["plot4"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
@@ -239,8 +239,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "rowvar",
-                    "colvar",
                     "nd"),
                 columns=list(
                     list(
@@ -265,8 +263,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "rowvar",
-                    "colvar",
                     "nd"),
                 columns=list(
                     list(
@@ -287,15 +283,14 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                         `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="loadingvar",
-                title="`Columns across dimensions - ${colvar}`",
-                visible="(loadingvar)",
+                name="col",
+                title="`Columns across dimensions - ${type}`",
+                visible="(col)",
                 rows="(vars)",
                 clearWith=list(
                     "vars",
                     "labels",
-                    "rowvar",
-                    "colvar",
+                    "type",
                     "nd"),
                 columns=list(
                     list(
@@ -310,14 +305,13 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="loadingind",
-                title="`Rows across dimensions - ${rowvar}`",
-                visible="(loadingind)",
+                name="row",
+                title="`Rows across dimensions - ${type1}`",
+                visible="(row)",
                 clearWith=list(
                     "vars",
                     "labels",
-                    "rowvar",
-                    "colvar",
+                    "type1",
                     "nd"),
                 columns=list(
                     list(
@@ -341,8 +335,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "rowvar",
-                    "colvar",
                     "width4",
                     "height4",
                     "nd")))
@@ -357,8 +349,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "rowvar",
-                    "colvar",
                     "width1",
                     "height1",
                     "nd")))
@@ -373,8 +363,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "rowvar",
-                    "colvar",
                     "width2",
                     "height2",
                     "nd")))
@@ -389,8 +377,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "rowvar",
-                    "colvar",
                     "width3",
                     "height3",
                     "nd")))}))
@@ -425,10 +411,10 @@ correspondenceBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class
 #' @param nd .
 #' @param chi .
 #' @param eigen .
-#' @param rowvar .
-#' @param loadingind .
-#' @param colvar .
-#' @param loadingvar .
+#' @param type .
+#' @param type1 .
+#' @param col .
+#' @param row .
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
@@ -446,8 +432,8 @@ correspondenceBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$chi} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$col} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$row} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
@@ -468,10 +454,10 @@ correspondence <- function(
     nd = 2,
     chi = TRUE,
     eigen = FALSE,
-    rowvar = "coordinates",
-    loadingind = FALSE,
-    colvar = "coordinates",
-    loadingvar = FALSE,
+    type = "coordinates",
+    type1 = "coordinates",
+    col = FALSE,
+    row = FALSE,
     plot1 = TRUE,
     plot2 = FALSE,
     plot3 = FALSE,
@@ -504,10 +490,10 @@ correspondence <- function(
         nd = nd,
         chi = chi,
         eigen = eigen,
-        rowvar = rowvar,
-        loadingind = loadingind,
-        colvar = colvar,
-        loadingvar = loadingvar,
+        type = type,
+        type1 = type1,
+        col = col,
+        row = row,
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3,

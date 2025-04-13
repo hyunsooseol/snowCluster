@@ -65,11 +65,11 @@ children:
           - type: CheckBox
             name: eigen
           - type: CheckBox
-            name: cg
+            name: vari
             children:
               - type: ComboBox
-                name: colvar
-                enable: (cg)
+                name: type1
+                enable: (vari)
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -79,17 +79,17 @@ children:
         fitToGrid: true
         children:
           - type: CheckBox
-            name: ci
+            name: ind
             children:
               - type: ComboBox
-                name: rowvar
-                enable: (ci)
+                name: type2
+                enable: (ind)
           - type: CheckBox
-            name: quanti
+            name: quan
             children:
               - type: ComboBox
-                name: quanvar
-                enable: (quanti)            
+                name: type3
+                enable: (quan)            
   - type: CollapseBox
     label: 'Plots'
     margin: normal

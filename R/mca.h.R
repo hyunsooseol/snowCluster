@@ -10,10 +10,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             nd = 2,
             eigen = TRUE,
-            rowvar = "coordinates",
-            loadingind = FALSE,
-            colvar = "coordinates",
-            loadingvar = FALSE,
+            type = "coordinates",
+            type1 = "coordinates",
+            cat = FALSE,
+            ind = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
             plot3 = FALSE,
@@ -63,29 +63,29 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "eigen",
                 eigen,
                 default=TRUE)
-            private$..rowvar <- jmvcore::OptionList$new(
-                "rowvar",
-                rowvar,
+            private$..type <- jmvcore::OptionList$new(
+                "type",
+                type,
                 options=list(
                     "coordinates",
                     "cos2",
                     "contribution"),
                 default="coordinates")
-            private$..loadingind <- jmvcore::OptionBool$new(
-                "loadingind",
-                loadingind,
+            private$..type1 <- jmvcore::OptionList$new(
+                "type1",
+                type1,
+                options=list(
+                    "coordinates",
+                    "cos2",
+                    "contribution"),
+                default="coordinates")
+            private$..cat <- jmvcore::OptionBool$new(
+                "cat",
+                cat,
                 default=FALSE)
-            private$..colvar <- jmvcore::OptionList$new(
-                "colvar",
-                colvar,
-                options=list(
-                    "coordinates",
-                    "cos2",
-                    "contribution"),
-                default="coordinates")
-            private$..loadingvar <- jmvcore::OptionBool$new(
-                "loadingvar",
-                loadingvar,
+            private$..ind <- jmvcore::OptionBool$new(
+                "ind",
+                ind,
                 default=FALSE)
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
@@ -164,10 +164,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..vars)
             self$.addOption(private$..nd)
             self$.addOption(private$..eigen)
-            self$.addOption(private$..rowvar)
-            self$.addOption(private$..loadingind)
-            self$.addOption(private$..colvar)
-            self$.addOption(private$..loadingvar)
+            self$.addOption(private$..type)
+            self$.addOption(private$..type1)
+            self$.addOption(private$..cat)
+            self$.addOption(private$..ind)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
@@ -192,10 +192,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars = function() private$..vars$value,
         nd = function() private$..nd$value,
         eigen = function() private$..eigen$value,
-        rowvar = function() private$..rowvar$value,
-        loadingind = function() private$..loadingind$value,
-        colvar = function() private$..colvar$value,
-        loadingvar = function() private$..loadingvar$value,
+        type = function() private$..type$value,
+        type1 = function() private$..type1$value,
+        cat = function() private$..cat$value,
+        ind = function() private$..ind$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
@@ -219,10 +219,10 @@ mcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars = NA,
         ..nd = NA,
         ..eigen = NA,
-        ..rowvar = NA,
-        ..loadingind = NA,
-        ..colvar = NA,
-        ..loadingvar = NA,
+        ..type = NA,
+        ..type1 = NA,
+        ..cat = NA,
+        ..ind = NA,
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
@@ -248,9 +248,10 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
+        text = function() private$.items[["text"]],
         eigen = function() private$.items[["eigen"]],
-        loadingvar = function() private$.items[["loadingvar"]],
-        loadingind = function() private$.items[["loadingind"]],
+        cat = function() private$.items[["cat"]],
+        ind = function() private$.items[["ind"]],
         plot5 = function() private$.items[["plot5"]],
         plot6 = function() private$.items[["plot6"]],
         plot1 = function() private$.items[["plot1"]],
@@ -270,6 +271,10 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="text",
+                title=""))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="eigen",
@@ -278,8 +283,6 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
                     "nd"),
                 columns=list(
                     list(
@@ -300,15 +303,14 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="loadingvar",
-                title="`Variable categories across dimensions - ${colvar}`",
-                visible="(loadingvar)",
+                name="cat",
+                title="`Variable categories across dimensions - ${type}`",
+                visible="(cat)",
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
-                    "nd"),
+                    "nd",
+                    "type"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -322,15 +324,14 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `superTitle`="Dimension"))))
             self$add(jmvcore::Table$new(
                 options=options,
-                name="loadingind",
-                title="`Individuals across dimensions - ${rowvar}`",
-                visible="(loadingind)",
+                name="ind",
+                title="`Individuals across dimensions - ${type1}`",
+                visible="(ind)",
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
-                    "nd"),
+                    "nd",
+                    "type1"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -353,8 +354,6 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
                     "width5",
                     "height5",
                     "nd")))
@@ -368,8 +367,6 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
                     "width6",
                     "height6",
                     "nd")))
@@ -384,8 +381,6 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
                     "width1",
                     "height1",
                     "nd")))
@@ -400,8 +395,6 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
                     "width2",
                     "height2",
                     "nd")))
@@ -416,8 +409,6 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
                     "width3",
                     "height3",
                     "nd")))
@@ -432,8 +423,6 @@ mcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "facs",
-                    "rowvar",
-                    "colvar",
                     "width4",
                     "height4",
                     "nd")))}))
@@ -467,10 +456,10 @@ mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars .
 #' @param nd .
 #' @param eigen .
-#' @param rowvar .
-#' @param loadingind .
-#' @param colvar .
-#' @param loadingvar .
+#' @param type .
+#' @param type1 .
+#' @param cat .
+#' @param ind .
 #' @param plot1 .
 #' @param plot2 .
 #' @param plot3 .
@@ -492,9 +481,10 @@ mcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$loadingvar} \tab \tab \tab \tab \tab a table \cr
-#'   \code{results$loadingind} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$cat} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$ind} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
@@ -516,10 +506,10 @@ mca <- function(
     vars,
     nd = 2,
     eigen = TRUE,
-    rowvar = "coordinates",
-    loadingind = FALSE,
-    colvar = "coordinates",
-    loadingvar = FALSE,
+    type = "coordinates",
+    type1 = "coordinates",
+    cat = FALSE,
+    ind = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
     plot3 = FALSE,
@@ -558,10 +548,10 @@ mca <- function(
         vars = vars,
         nd = nd,
         eigen = eigen,
-        rowvar = rowvar,
-        loadingind = loadingind,
-        colvar = colvar,
-        loadingvar = loadingvar,
+        type = type,
+        type1 = type1,
+        cat = cat,
+        ind = ind,
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3,

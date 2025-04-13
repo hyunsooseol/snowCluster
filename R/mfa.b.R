@@ -1,6 +1,4 @@
 
-
-
 mfaClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "mfaClass",
@@ -10,7 +8,6 @@ mfaClass <- if (requireNamespace('jmvcore'))
       .htmlwidget = NULL,
       
       #------------------------------------
-      
       .init = function() {
         private$.htmlwidget <- HTMLWidget$new()
         
@@ -92,36 +89,25 @@ mfaClass <- if (requireNamespace('jmvcore'))
       
       #---------------------------------------------
       .run = function() {
-        if (length(self$options$vars) < 3)
-          return()
-        
+        if (length(self$options$vars) < 3) return()
         vars <- self$options$vars
-        
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeRES()
         }
-        
         mfa <- private$.allCache
-        
-        data <- mfa$data
-        mfa <- mfa$res
-        
+
         #Tables---
         
         if (isTRUE(self$options$eigen)) {
           table <- self$results$eigen
-          
           eigen <- as.vector(mfa$eig[, 1])
-          
           lapply(seq_along(eigen), function(i) {
             table$addRow(rowKey = i,
                          values = list(comp = as.character(i)))
           })
-          
           eigenTotal <- sum(abs(eigen))
           varProp <- (abs(eigen) / eigenTotal) * 100
           varCum <- cumsum(varProp)
-          
           lapply(seq_along(eigen), function(i) {
             row <- list(eigen = eigen[i],
                         varProp = varProp[i],
@@ -131,7 +117,7 @@ mfaClass <- if (requireNamespace('jmvcore'))
         }
         #----
         
-        if (isTRUE(self$options$cg)) {
+        if (isTRUE(self$options$vari)) {
           # contribution for group of variables---------------
           
           # gn <- self$options$gn
@@ -139,16 +125,16 @@ mfaClass <- if (requireNamespace('jmvcore'))
           #
           grouping <- factoextra::get_mfa_var(mfa, "group")
           #  res<- grouping$contrib
-          colvar <- self$options$colvar
-          if (colvar == "coordinates") {
-            res <- grouping$coord
-          } else if (colvar == "cos2") {
-            res <- grouping$cos2
-          } else {
-            res <- grouping$contrib
-          }
-          names <- dimnames(res)[[1]]
-          table <- self$results$cg
+          type1 <- self$options$type1
+          data_map <- list(
+            "coordinates" = grouping$coord,
+            "cos2"        = grouping$cos2,
+            "contribution" = grouping$contrib
+          )
+          vari <- data_map[[type1]]
+          
+          names <- dimnames(vari)[[1]]
+          table <- self$results$vari
           for (i in 1:5)
             table$addColumn(
               name = paste0("pc", i),
@@ -156,31 +142,27 @@ mfaClass <- if (requireNamespace('jmvcore'))
               type = 'number',
               superTitle = 'Dimension'
             )
-          
           for (name in names) {
             row <- list()
             for (j in seq_along(1:5)) {
-              row[[paste0("pc", j)]] <- res[name, j]
+              row[[paste0("pc", j)]] <- vari[name, j]
             }
             table$addRow(rowKey = name, values = row)
           }
         }
         
-        if (isTRUE(self$options$ci)) {
+        if (isTRUE(self$options$ind)) {
           # contribution of  individuals-----------
           #    ind<-mfa$ind$contrib
-          
-          rowvar <- self$options$rowvar
-          if (rowvar == "coordinates") {
-            ind <- mfa$ind$coord
-          } else if (rowvar == "cos2") {
-            ind <- mfa$ind$cos2
-          } else {
-            ind <- mfa$ind$contrib
-          }
-          
+          type2 <- self$options$type2
+          data_map <- list(
+            "coordinates" =  mfa$ind$coord,
+            "cos2"        = mfa$ind$cos2,
+            "contribution" = mfa$ind$contrib
+          )
+          ind <- data_map[[type2]]
           names <- dimnames(ind)[[1]]
-          table <- self$results$ci
+          table <- self$results$ind
           for (i in 1:5)
             table$addColumn(
               name = paste0("pc", i),
@@ -197,20 +179,19 @@ mfaClass <- if (requireNamespace('jmvcore'))
           }
         }
         
-        if (isTRUE(self$options$quanti)) {
+        if (isTRUE(self$options$quan)) {
           # Contribution of quantitative variables--------------
           quanti <- factoextra::get_mfa_var(mfa, "quanti.var")
           #  res.quanti<- quanti$contrib
-          quanvar <- self$options$quanvar
-          if (quanvar == "coordinates") {
-            res.quanti <- quanti$coord
-          } else if (quanvar == "cos2") {
-            res.quanti <- quanti$cos2
-          } else {
-            res.quanti <- quanti$contrib
-          }
-          names <- dimnames(res.quanti)[[1]]
-          table <- self$results$quanti
+          type3 <- self$options$type3
+          data_map <- list(
+            "coordinates" = quanti$coord,
+            "cos2"        = quanti$cos2,
+            "contribution" = quanti$contrib
+          )
+          quan <- data_map[[type3]]
+          names <- dimnames(quan)[[1]]
+          table <- self$results$quan
           for (i in 1:5)
             table$addColumn(
               name = paste0("pc", i),
@@ -221,7 +202,7 @@ mfaClass <- if (requireNamespace('jmvcore'))
           for (name in names) {
             row <- list()
             for (j in seq_along(1:5)) {
-              row[[paste0("pc", j)]] <- res.quanti[name, j]
+              row[[paste0("pc", j)]] <- quan[name, j]
             }
             table$addRow(rowKey = name, values = row)
           }
@@ -445,14 +426,14 @@ mfaClass <- if (requireNamespace('jmvcore'))
         #                #num.group.sup =c(1, 4),
         #                graph = FALSE)
         #
-        res <- FactoMineR::MFA(
+        mfa <- FactoMineR::MFA(
           data,
           group = group,
           type = type1,
           name.group = gn1,
           graph = FALSE
         )
-        mfa <- list(data = data, res = res)
+        #mfa <- list(data = data, res = res)
         return(mfa)
       }
     )

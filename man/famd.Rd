@@ -13,7 +13,7 @@ famd(
   colvar = "coordinates",
   quanvar = "coordinates",
   qualvar = "coordinates",
-  ci = FALSE,
+  ci = "coordinates",
   cg = FALSE,
   quanti = FALSE,
   qual = FALSE,
@@ -35,7 +35,7 @@ famd(
 )
 }
 \arguments{
-\item{data}{The data as a data frame.}
+\item{data}{.}
 
 \item{vars}{.}
 

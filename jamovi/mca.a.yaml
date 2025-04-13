@@ -41,8 +41,8 @@ options:
       type: Bool
       default: TRUE  
 
-    - name: rowvar
-      title: Type
+    - name: type
+      title: 'Type'
       type: List
       options:
         - coordinates
@@ -50,22 +50,22 @@ options:
         - contribution
       default: coordinates
 
-    - name: loadingind
-      title: 'Individuals' 
+    - name: type1
+      title: 'Type'
+      type: List
+      options:
+        - coordinates
+        - cos2
+        - contribution
+      default: coordinates
+
+    - name: cat
+      title: 'Variable categories' 
       type: Bool
       default: FALSE  
 
-    - name: colvar
-      title: Type
-      type: List
-      options:
-        - coordinates
-        - cos2
-        - contribution
-      default: coordinates
-
-    - name: loadingvar
-      title: 'Variable categories' 
+    - name: ind
+      title: 'Individuals' 
       type: Bool
       default: FALSE  
 
