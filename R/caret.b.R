@@ -149,7 +149,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         res <- summary(results)
         
         # Accuracy Table---------
-        if (self$options$accu == TRUE) {
+        if (isTRUE(self$options$accu)) {
           table <- self$results$mf$accu
           accu <- as.data.frame(res$statistics$Accuracy)
           
@@ -169,7 +169,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # kappa Table---------
         
-        if (self$options$kapp == TRUE) {
+        if (isTRUE(self$options$kapp)) {
           table <- self$results$mf$kapp
           kapp <- as.data.frame(res$statistics$Kappa)
           lapply(rownames(kapp), function(name) {
@@ -194,14 +194,14 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # box plots for model comparison----
         
-        if (self$options$plot7 == TRUE) {
+        if (isTRUE(self$options$plot7)) {
           image7 <- self$results$plot7
           image7$setState(results)
           
         }
         # Variable importance plot----------
         
-        if (self$options$plot1 == TRUE) {
+        if (isTRUE(self$options$plot1)) {
           vi <- caret::varImp(all$fit)
           
           image1 <- self$results$plot1
@@ -212,7 +212,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # Save: Prediction with train model -----------
         
-        if (self$options$pred == TRUE) {
+        if (isTRUE(self$options$pred)) {
           # Example in R-------
           
           # # View the predictions
@@ -251,7 +251,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           #                     tuneLength = tune,
           #                     trControl =  ctrl)
           
-          all <- private$.computeFIT()
+          #all <- private$.computeFIT()
           
           covs <- self$options$covs
           facs <- self$options$facs
@@ -417,8 +417,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # Feature plot-----------
         
-        if (self$options$plot5 == TRUE ||
-            self$options$plot6 == TRUE) {
+        if (isTRUE(self$options$plot5) ||
+            isTRUE(self$options$plot6)) {
           data <- self$data
           dep <- self$options$dep
           covs <- self$options$covs
@@ -452,8 +452,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         # caret::featurePlot(x = iris[,1:4],
         #                    y = iris$Species,
         #                    plot = "box")
-        
-        
         plot5 <- caret::featurePlot(
           x = data[, covs],
           y = data[[dep]],
@@ -496,7 +494,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot)
           return(FALSE)
         
-        all <- private$.computeFIT()
+        #all <- private$.computeFIT()
+        all <- private$.allCache
         res <- MLeval::evalm(list(all$fit, all$comp),
                              gnames = c(self$options$method, self$options$cm1))
         
@@ -509,8 +508,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot4)
           return(FALSE)
         
-        all <- private$.computeFIT()
-        
+        #all <- private$.computeFIT()
+        all <- private$.allCache
         res <- MLeval::evalm(list(all$fit, all$comp),
                              gnames = c(self$options$method, self$options$cm1))
         
@@ -524,7 +523,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot2)
           return(FALSE)
         
-        all <- private$.computeFIT()
+        #all <- private$.computeFIT()
+        all <- private$.allCache
         plot2 <- ggplot2::ggplot(all$fit)
         plot2 <- plot2 + ggtheme
         print(plot2)
@@ -576,7 +576,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot8)
           return(FALSE)
         # ROC with traing set-----
-        all <- private$.computeFIT()
+        #all <- private$.computeFIT()
+        all <- private$.allCache
         res1 <- MLeval::evalm(all$fit)
         # get ROC---
         plot8 <- res1$roc
