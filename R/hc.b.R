@@ -55,57 +55,57 @@ hcClass <- if (requireNamespace('jmvcore'))
         if (self$options$mode == "simple") {
           
           if(length(self$options$vars) < 3) return() 
-            
-            vars <- self$options$vars
-            data <- self$data
-            data <- jmvcore::naOmit(data)
-            
-            # Handling id----------
-            
-            #  Assuming your data frame is named 'data'
-            # row.names(data) <- data$City
-            # data <- data[, -1]
-            if (!is.null(self$options$labels)) {
-              rownames(data) <- data[[self$options$labels]]
-              data[[self$options$labels]] <- NULL
+          
+          vars <- self$options$vars
+          data <- self$data
+          data <- jmvcore::naOmit(data)
+          
+          # Handling id----------
+          
+          #  Assuming your data frame is named 'data'
+          # row.names(data) <- data$City
+          # data <- data[, -1]
+          if (!is.null(self$options$labels)) {
+            rownames(data) <- data[[self$options$labels]]
+            data[[self$options$labels]] <- NULL
+          }
+          for (i in seq_along(vars))
+            data[[i]] <- jmvcore::toNumeric(data[[i]])
+          
+          ### Hierarchical Clustering---------
+          hc <- try(factoextra::hcut(
+            data,
+            k = self$options$k,
+            stand = self$options$stand,
+            hc_metric = self$options$metric,
+            hc_method = self$options$method
+          ))
+          #### Cluster number for the output variable--------------------
+          
+          # if(jmvcore::isError(hc)){
+          #    err_string <- stringr::str_interp(
+          #      "Please remove the variable from the Label box to get cluster numbers in datasheet."
+          #    )
+          #    stop(err_string)
+          #
+          #  }
+          #
+          #  if (! jmvcore::isError(hc) ){
+          if (!is.null(self$options$labels)) {
+            cluster <- as.data.frame(hc$cluster)
+            #self$results$text$setContent(cluster)
+            for (i in 1:length(self$options$labels)) {
+              scores <- as.numeric(cluster[, i])
+              self$results$clust$setValues(index = i, scores)
             }
-            for (i in seq_along(vars))
-              data[[i]] <- jmvcore::toNumeric(data[[i]])
-
-            ### Hierarchical Clustering---------
-            hc <- try(factoextra::hcut(
-              data,
-              k = self$options$k,
-              stand = self$options$stand,
-              hc_metric = self$options$metric,
-              hc_method = self$options$method
-            ))
-            #### Cluster number for the output variable--------------------
-            
-            # if(jmvcore::isError(hc)){
-            #    err_string <- stringr::str_interp(
-            #      "Please remove the variable from the Label box to get cluster numbers in datasheet."
-            #    )
-            #    stop(err_string)
-            #
-            #  }
-            #
-            #  if (! jmvcore::isError(hc) ){
-            if (!is.null(self$options$labels)) {
-              cluster <- as.data.frame(hc$cluster)
-              #self$results$text$setContent(cluster)
-              for (i in 1:length(self$options$labels)) {
-                scores <- as.numeric(cluster[, i])
-                self$results$clust$setValues(index = i, scores)
-              }
-            } else{
-              cluster <- hc$cluster
-              self$results$clust$setValues(cluster)
-              self$results$clust$setRowNums(rownames(data))
-            }
-            ##### plot-------------------
-            image <- self$results$plot
-            image$setState(hc)
+          } else{
+            cluster <- hc$cluster
+            self$results$clust$setValues(cluster)
+            self$results$clust$setRowNums(rownames(data))
+          }
+          ##### plot-------------------
+          image <- self$results$plot
+          image$setState(hc)
         }
         
         if (self$options$mode == "complex") {
@@ -126,29 +126,29 @@ hcClass <- if (requireNamespace('jmvcore'))
           data <- self$data
           data <- jmvcore::naOmit(data)
           data <- as.data.frame(data)
-
-            nb <- self$options$nb
-            method1 <-  self$options$method1
-            dm <- self$options$dm
-            # para <- as.logical(self$options$para)
-            
-            # analysis----------------------------
-            res <- pvclust::pvclust(
-              data,
-              method.dist = dm,
-              method.hclust = method1,
-              nboot = nb,
-              parallel = FALSE
-            )
-            # parallel=TRUE does not working in this analysis.
-            image <- self$results$plot1
-            image$setState(res)
-            
-            # List of clusters-------
-            if (isTRUE(self$options$plot1)) {
-              list <- pvclust::pvpick(res)
-              self$results$text$setContent(list)
-            }
+          
+          nb <- self$options$nb
+          method1 <-  self$options$method1
+          dm <- self$options$dm
+          # para <- as.logical(self$options$para)
+          
+          # analysis----------------------------
+          res <- pvclust::pvclust(
+            data,
+            method.dist = dm,
+            method.hclust = method1,
+            nboot = nb,
+            parallel = FALSE
+          )
+          # parallel=TRUE does not working in this analysis.
+          image <- self$results$plot1
+          image$setState(res)
+          
+          # List of clusters-------
+          if (isTRUE(self$options$plot1)) {
+            list <- pvclust::pvpick(res)
+            self$results$text$setContent(list)
+          }
         }
       },
       

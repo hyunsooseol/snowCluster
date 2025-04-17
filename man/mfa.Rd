@@ -13,12 +13,12 @@ mfa(
   type = "n,s,s,s,s,s",
   gn = "a,b,c,d,e,f",
   eigen = TRUE,
-  colvar = "coordinates",
-  rowvar = "coordinates",
-  cg = FALSE,
-  ci = FALSE,
-  quanti = FALSE,
-  quanvar = "coordinates",
+  type1 = "coordinates",
+  type2 = "coordinates",
+  type3 = "coordinates",
+  vari = FALSE,
+  ind = FALSE,
+  quan = FALSE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -66,17 +66,17 @@ mfa(
 
 \item{eigen}{.}
 
-\item{colvar}{.}
+\item{type1}{.}
 
-\item{rowvar}{.}
+\item{type2}{.}
 
-\item{cg}{.}
+\item{type3}{.}
 
-\item{ci}{.}
+\item{vari}{.}
 
-\item{quanti}{.}
+\item{ind}{.}
 
-\item{quanvar}{.}
+\item{quan}{.}
 
 \item{plot}{.}
 
@@ -139,9 +139,9 @@ A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
-  \code{results$cg} \tab \tab \tab \tab \tab a table \cr
-  \code{results$ci} \tab \tab \tab \tab \tab a table \cr
-  \code{results$quanti} \tab \tab \tab \tab \tab a table \cr
+  \code{results$vari} \tab \tab \tab \tab \tab a table \cr
+  \code{results$ind} \tab \tab \tab \tab \tab a table \cr
+  \code{results$quan} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot8} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr

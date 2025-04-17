@@ -9,13 +9,13 @@ famd(
   vars,
   labels,
   eigen = TRUE,
-  rowvar = "coordinates",
-  colvar = "coordinates",
-  quanvar = "coordinates",
-  qualvar = "coordinates",
-  ci = "coordinates",
-  cg = FALSE,
-  quanti = FALSE,
+  type1 = "coordinates",
+  type2 = "coordinates",
+  type3 = "coordinates",
+  type4 = "coordinates",
+  ind = FALSE,
+  vari = FALSE,
+  quan = FALSE,
   qual = FALSE,
   plot = TRUE,
   plot1 = FALSE,
@@ -43,19 +43,19 @@ famd(
 
 \item{eigen}{.}
 
-\item{rowvar}{.}
+\item{type1}{.}
 
-\item{colvar}{.}
+\item{type2}{.}
 
-\item{quanvar}{.}
+\item{type3}{.}
 
-\item{qualvar}{.}
+\item{type4}{.}
 
-\item{ci}{.}
+\item{ind}{.}
 
-\item{cg}{.}
+\item{vari}{.}
 
-\item{quanti}{.}
+\item{quan}{.}
 
 \item{qual}{.}
 
@@ -94,9 +94,9 @@ A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$eigen} \tab \tab \tab \tab \tab a table \cr
-  \code{results$ci} \tab \tab \tab \tab \tab a table \cr
-  \code{results$cg} \tab \tab \tab \tab \tab a table \cr
-  \code{results$quanti} \tab \tab \tab \tab \tab a table \cr
+  \code{results$ind} \tab \tab \tab \tab \tab a table \cr
+  \code{results$vari} \tab \tab \tab \tab \tab a table \cr
+  \code{results$quan} \tab \tab \tab \tab \tab a table \cr
   \code{results$qual} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
