@@ -21,96 +21,112 @@ analyses:
     menuGroup: snowCluster
     menuTitle: K-means Clustering
     menuSubgroup: Cluster Analysis
+    ribbon: analyses
   - title: Hierarchical Clustering
     name: hcm
     ns: snowCluster
     menuGroup: snowCluster
     menuSubgroup: Cluster Analysis
     menuTitle: Hierarchical Clustering
+    ribbon: analyses
   - title: Time Series Clustering
     name: timeclust
     ns: snowCluster
     menuGroup: snowCluster
     menuSubgroup: Cluster Analysis
     menuTitle: Time Series Clustering
+    ribbon: analyses
   - title: Clustering Dendrogram
     name: hc
     ns: snowCluster
     menuGroup: snowCluster
     menuSubgroup: Cluster Plot
     menuTitle: Clustering Dendrogram
+    ribbon: analyses
   - title: Multidimensional Scaling Plot
     name: mds
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Multidimensional Scaling Plot
     menuSubgroup: Cluster Plot
+    ribbon: analyses
   - title: PCA & Group plot
     name: pca
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: PCA & Group plot
     menuSubgroup: Cluster Plot
+    ribbon: analyses
   - title: Correspondence Analysis
     name: correspondence
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Correspondence Analysis
     menuSubgroup: Correspondence & Factor
+    ribbon: analyses
   - title: Multiple Correspondence Analysis
     name: mca
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Multiple Correspondence Analysis
     menuSubgroup: Correspondence & Factor
+    ribbon: analyses
   - title: Multiple Factor Analysis
     name: mfa
     ns: snowCluster
     menuGroup: snowCluster
     menuSubgroup: Correspondence & Factor
     menuTitle: Multiple Factor Analysis
+    ribbon: analyses
   - title: Factor analysis of mixed data
     name: famd
     ns: snowCluster
     menuGroup: snowCluster
     menuSubgroup: Correspondence & Factor
     menuTitle: Factor analysis of mixed data
+    ribbon: analyses
   - title: Linear Discriminant Analysis
     name: disc
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Linear Discriminant Analysis
     menuSubgroup: Classification
+    ribbon: analyses
   - title: Decision Tree
     name: tree
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Decision Tree
     menuSubgroup: Classification
+    ribbon: analyses
   - title: Machine Learning
     name: caret
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Machine Learning
     menuSubgroup: Classification
+    ribbon: analyses
   - title: ROC Analysis
     name: roc
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: ROC Analysis
     menuSubgroup: Classification
+    ribbon: analyses
   - title: Univariate time series
     name: arima
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Univariate time series
     menuSubgroup: Time series
+    ribbon: analyses
   - title: Prophet with Multiple Variables
     name: prophet
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: Prophet with Multiple Variables
     menuSubgroup: Time series
+    ribbon: analyses
 datasets:
   - name: iris
     path: iris.omv

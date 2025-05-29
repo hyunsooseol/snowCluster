@@ -61,5 +61,10 @@ Imports:
     mclust,
     clustMixType,
     cluster,
+    stringr,
+    graphics,
+    grDevices,
+    data.table,
+    scales,
 Remotes: cardiomoon/multipleROC    
 
