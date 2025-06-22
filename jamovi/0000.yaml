@@ -22,6 +22,7 @@ analyses:
     menuTitle: K-means Clustering
     menuSubgroup: Cluster Analysis
     ribbon: analyses
+    category: analyses
   - title: Hierarchical Clustering
     name: hcm
     ns: snowCluster
@@ -29,6 +30,7 @@ analyses:
     menuSubgroup: Cluster Analysis
     menuTitle: Hierarchical Clustering
     ribbon: analyses
+    category: analyses
   - title: Time Series Clustering
     name: timeclust
     ns: snowCluster
@@ -36,6 +38,7 @@ analyses:
     menuSubgroup: Cluster Analysis
     menuTitle: Time Series Clustering
     ribbon: analyses
+    category: analyses
   - title: Clustering Dendrogram
     name: hc
     ns: snowCluster
@@ -43,6 +46,7 @@ analyses:
     menuSubgroup: Cluster Plot
     menuTitle: Clustering Dendrogram
     ribbon: analyses
+    category: analyses
   - title: Multidimensional Scaling Plot
     name: mds
     ns: snowCluster
@@ -50,6 +54,7 @@ analyses:
     menuTitle: Multidimensional Scaling Plot
     menuSubgroup: Cluster Plot
     ribbon: analyses
+    category: analyses
   - title: PCA & Group plot
     name: pca
     ns: snowCluster
@@ -57,6 +62,7 @@ analyses:
     menuTitle: PCA & Group plot
     menuSubgroup: Cluster Plot
     ribbon: analyses
+    category: analyses
   - title: Correspondence Analysis
     name: correspondence
     ns: snowCluster
@@ -64,6 +70,7 @@ analyses:
     menuTitle: Correspondence Analysis
     menuSubgroup: Correspondence & Factor
     ribbon: analyses
+    category: analyses
   - title: Multiple Correspondence Analysis
     name: mca
     ns: snowCluster
@@ -71,6 +78,7 @@ analyses:
     menuTitle: Multiple Correspondence Analysis
     menuSubgroup: Correspondence & Factor
     ribbon: analyses
+    category: analyses
   - title: Multiple Factor Analysis
     name: mfa
     ns: snowCluster
@@ -78,6 +86,7 @@ analyses:
     menuSubgroup: Correspondence & Factor
     menuTitle: Multiple Factor Analysis
     ribbon: analyses
+    category: analyses
   - title: Factor analysis of mixed data
     name: famd
     ns: snowCluster
@@ -85,6 +94,7 @@ analyses:
     menuSubgroup: Correspondence & Factor
     menuTitle: Factor analysis of mixed data
     ribbon: analyses
+    category: analyses
   - title: Linear Discriminant Analysis
     name: disc
     ns: snowCluster
@@ -92,6 +102,7 @@ analyses:
     menuTitle: Linear Discriminant Analysis
     menuSubgroup: Classification
     ribbon: analyses
+    category: analyses
   - title: Decision Tree
     name: tree
     ns: snowCluster
@@ -99,6 +110,7 @@ analyses:
     menuTitle: Decision Tree
     menuSubgroup: Classification
     ribbon: analyses
+    category: analyses
   - title: Machine Learning
     name: caret
     ns: snowCluster
@@ -106,6 +118,7 @@ analyses:
     menuTitle: Machine Learning
     menuSubgroup: Classification
     ribbon: analyses
+    category: analyses
   - title: ROC Analysis
     name: roc
     ns: snowCluster
@@ -113,6 +126,7 @@ analyses:
     menuTitle: ROC Analysis
     menuSubgroup: Classification
     ribbon: analyses
+    category: analyses
   - title: Univariate time series
     name: arima
     ns: snowCluster
@@ -120,6 +134,7 @@ analyses:
     menuTitle: Univariate time series
     menuSubgroup: Time series
     ribbon: analyses
+    category: analyses
   - title: Prophet with Multiple Variables
     name: prophet
     ns: snowCluster
@@ -127,6 +142,7 @@ analyses:
     menuTitle: Prophet with Multiple Variables
     menuSubgroup: Time series
     ribbon: analyses
+    category: analyses
 datasets:
   - name: iris
     path: iris.omv

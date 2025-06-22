@@ -58,7 +58,7 @@ children:
         stretchFactor: 1
         children:
           - type: Label
-            label: Decide on clusters
+            label: 'Decide on clusters'
             margin: small
             children:
               - type: RadioButton
@@ -78,6 +78,12 @@ children:
                     name: group
                     format: number
                     enable: (grp_number)
+          - type: Label
+            label: 'Save'
+            margin: small
+            children:
+              - type: Output
+                name: clust
   - type: CollapseBox
     label: 'Plots'
     margin: normal
@@ -136,16 +142,5 @@ children:
                 name: height2
                 format: number
                 enable: (!case)
-  - type: CollapseBox
-    label: Save
-    collapsed: true
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
-        children:
-          - type: Output
-            name: clust
-      
+
   
