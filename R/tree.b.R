@@ -30,6 +30,10 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '</ul></div></div>'
           )
         ))
+        
+        if (self$options$cla)
+          self$results$cla$setNote("Note", "By default, confusion matrix statistics treat the first factor level, based on alphabetical or numeric order, as the positive class.")
+        
         if (isTRUE(self$options$plot)) {
           width <- self$options$width
           height <- self$options$height
@@ -62,8 +66,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         # ---- Train Data ------------------------- #
         if (self$options$over1 || self$options$tab1) {
           pred <- predict(resdc$mtrain, resdc$train)
-          eval1 <- caret::confusionMatrix(pred, resdc$train[[self$options$dep]])
-          
+          eval1 <- caret::confusionMatrix(pred, 
+                                          resdc$train[[self$options$dep]])
+
           # Overall statistics
           if (isTRUE(self$options$over1)) {
             table <- self$results$over1
@@ -102,8 +107,9 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (self$options$over2 ||
             self$options$tab2 || self$options$cla) {
           pred2 <- predict(resdc$mtrain, resdc$test)
-          eval2 <- caret::confusionMatrix(pred2, resdc$test[[self$options$dep]])
-          
+          eval2 <- caret::confusionMatrix(pred2, 
+                                          resdc$test[[self$options$dep]])
+
           # Overall statistics
           if (isTRUE(self$options$over2)) {
             table <- self$results$over2
