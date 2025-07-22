@@ -401,4 +401,15 @@ options:
       type: Integer
       title: "X"
       default: 500
+
+    - name: positive        
+      title: Positive label
+      type: String
+      default: 'no'
+
+    - name: positive1        
+      title: Positive label
+      type: String
+      default: 'no'      
+
 ...

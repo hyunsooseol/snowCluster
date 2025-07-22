@@ -90,7 +90,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       #---------------------------------------------
-      
       .run = function() {
         if (is.null(self$options$dep) ||
             length(self$options$covs) < 2)
@@ -112,7 +111,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         dep <- self$options$dep
         covs <- self$options$covs
         facs <- self$options$facs
-        #all <- private$.computeFIT()
         
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeFIT()
@@ -122,10 +120,8 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # Model information-----------
         self$results$text$setContent(all$fit)
-        # Compare models--------------
-        # https://www.machinelearningplus.com/machine-learning/caret-package/
-        # Stacking Algorithms - Run multiple algos in one call.
         
+        # Compare models--------------
         ctrl.comp <- caret::trainControl (
           method = me,
           number = num,
@@ -168,7 +164,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         # kappa Table---------
-        
         if (isTRUE(self$options$kapp)) {
           table <- self$results$mf$kapp
           kapp <- as.data.frame(res$statistics$Kappa)
@@ -186,24 +181,15 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           })
         }
         
-        # # ROC with training set-----------
-        # if(self$options$plot8==TRUE){
-        # image8 <- self$results$plot8
-        # image8$setState(fit)
-        # }
-        
         # box plots for model comparison----
-        
         if (isTRUE(self$options$plot7)) {
           image7 <- self$results$plot7
           image7$setState(results)
-          
         }
-        # Variable importance plot----------
         
+        # Variable importance plot----------
         if (isTRUE(self$options$plot1)) {
           vi <- caret::varImp(all$fit)
-          
           image1 <- self$results$plot1
           image1$setState(vi)
         }
@@ -211,52 +197,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         #TRAINING SET#############################
         
         # Save: Prediction with train model -----------
-        
         if (isTRUE(self$options$pred)) {
-          # Example in R-------
-          
-          # # View the predictions
-          # print(predictions)
-          # ######################################################
-          # # Load the necessary libraries
-          # library(caret)
-          # # Load the iris dataset
-          # data(iris)
-          # # Train the model using the caret package
-          # fitControl <- trainControl(method = "cv", number = 5)
-          # model <- train(Species ~ ., data = iris, method = "rpart", trControl = fitControl)
-          #
-          # # Load the new data
-          # new <- data.frame(Sepal.Length = c(6, 5.5, 5,2),
-          #                   Sepal.Width = c(3, 2.5, 2,1.2),
-          #                   Petal.Length = c(4, 3.5, 3,2.2),
-          #                   Petal.Width = c(1, 3.5, 0,1))
-          #
-          # # Use the selected model to make predictions on the new data
-          # pred <- predict(model, newdata = new)
-          
-          # # trainControl function-----------
-          #
-          # ctrl <- caret::trainControl(method = mecon,
-          #                                   number =number ,
-          #                                   repeats = repeats,
-          #                                   classProbs=T,
-          #                                   savePredictions = T)
-          #
-          # # Training dataset---------------
-          #
-          # fit <- caret::train(formula,
-          #                     data=data,
-          #                     method = method,
-          #                     tuneLength = tune,
-          #                     trControl =  ctrl)
-          
-          #all <- private$.computeFIT()
-          
           covs <- self$options$covs
           facs <- self$options$facs
-          # new data-----------
-          #dataset to predict dep. with train model------------
           new_data <- jmvcore::select(self$data, c(covs, facs))
           new_data <- jmvcore::naOmit(new_data)
           
@@ -264,17 +207,62 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
           self$results$pred$setValues(pred)
           self$results$pred$setRowNums(rownames(new_data))
-          
         }
         
         # Predict with train set-----------------
-        
         pred.tr <- predict(all$fit, all$train)
         
-        # Confusion matrix(train set)---------------------------
+        # # Confusion matrix(train set)---------------------------
+        # # Use positive parameter only if it's specified and valid
+        # if (!is.null(self$options$positive1) && 
+        #     self$options$positive1 != "" && 
+        #     self$options$positive1 %in% levels(all$train[[dep]])) {
+        #   eval.tr <- caret::confusionMatrix(pred.tr, 
+        #                                     all$train[[dep]],
+        #                                     positive = self$options$positive1)
+        # } else {
+        #   eval.tr <- caret::confusionMatrix(pred.tr, all$train[[dep]])
+        # }
+        # 
+        # if (isTRUE(self$options$tra)) {
+        #   table <- self$results$tra
+        #   tab.tr <- eval.tr$table
+        #   res1.tr <- as.matrix(tab.tr)
+        #   names <- dimnames(res1.tr)[[1]]
+        #   for (name in names) {
+        #     table$addColumn(name = paste0(name),
+        #                     type = 'Integer',
+        #                     superTitle = 'Predicted')
+        #   }
+        #   for (name in names) {
+        #     row <- list()
+        #     for (j in seq_along(names)) {
+        #       row[[names[j]]] <- res1.tr[name, j]
+        #     }
+        #     table$addRow(rowKey = name, values = row)
+        #   }
+        # }
+        # Confusion matrix (train set) ---------------------------
         
-        eval.tr <- caret::confusionMatrix(pred.tr, all$train[[dep]])
+        # 1. 실제/예측값 factor 변환 및 levels 통일
+        actual <- as.factor(all$train[[dep]])
+        predicted <- as.factor(pred.tr)
+        common_levels <- union(levels(actual), levels(predicted))
+        actual <- factor(actual, levels = common_levels)
+        predicted <- factor(predicted, levels = common_levels)
         
+        # 2. positive 값이 실제 존재하는지 확인
+        positive1 <- self$options$positive1
+        use_positive <- !is.null(positive1) && positive1 != "" && positive1 %in% common_levels
+        
+        # 3. confusionMatrix 실행 (positive 옵션 자동 적용)
+        if (use_positive) {
+          eval.tr <- caret::confusionMatrix(predicted, actual, positive = positive1)
+        } else {
+          eval.tr <- caret::confusionMatrix(predicted, actual)
+        }
+        
+        # 4. 결과 테이블 생성
         if (isTRUE(self$options$tra)) {
           table <- self$results$tra
           tab.tr <- eval.tr$table
@@ -303,22 +291,22 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             upper = eval.tr[["overall"]][4],
             kappa = eval.tr[["overall"]][2]
           )
-          
           table$setRow(rowNo = 1, values = row)
         }
         
         # Statistics by class WITH TRAINing set-----------
-        
         if (isTRUE(self$options$cla1)) {
           table <- self$results$cla1
           
           cla1 <- eval.tr[["byClass"]]
-          cla1 <- t(cla1)
-          cla1 <- as.data.frame(cla1)
+          if (is.vector(cla1)) {
+            cla1 <- as.data.frame(t(cla1))
+          } else {
+            cla1 <- as.data.frame(cla1)
+          }
           
           names <- dimnames(cla1)[[1]]
           dims <- dimnames(cla1)[[2]]
-          covs <- self$options$covs
           
           for (dim in dims) {
             table$addColumn(name = paste0(dim), type = 'number')
@@ -328,32 +316,48 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             for (j in seq_along(dims)) {
               row[[dims[j]]] <- cla1[name, j]
             }
-            table$addRow(rowKey = name, values = row)
+            table$addRow(rowKey = NULL, values = row)
           }
         }
         
         #TEST SET---
         
         # Predict with test set-----------------
-        
         pred <- predict(all$fit, all$test)
         
         # ROC curve with test set------
-        # Binary dependent required!
         if (self$options$plot3 == TRUE) {
-                  pro <- predict(all$fit, all$test, type = 'prob') 
-                  roct<-  data.frame(pro, 
-                                   all$test[[dep]], 
-                                   Group = self$options$method)
-         #self$results$text2$setContent(roct)
-                  
+          pro <- predict(all$fit, all$test, type = 'prob') 
+          roct <- data.frame(pro, 
+                             all$test[[dep]], 
+                             Group = self$options$method)
+          
           image3 <- self$results$plot3
           image3$setState(roct)
         }
         
         # Confusion matrix(test set)---------------------------
+        # Predict with test set-----------------
+        pred <- predict(all$fit, all$test)
         
-        eval <- caret::confusionMatrix(pred, all$test[[dep]])
+        # 1. 실제/예측값 factor 변환 및 levels 통일 (train과 동일)
+        actual.test <- as.factor(all$test[[dep]])
+        predicted.test <- as.factor(pred)
+        common_levels.test <- union(levels(actual.test), levels(predicted.test))
+        actual.test <- factor(actual.test, levels = common_levels.test)
+        predicted.test <- factor(predicted.test, levels = common_levels.test)
+        
+        # 2. positive 값이 실제 존재하는지 확인 (train과 동일)
+        positive2 <- self$options$positive
+        use_positive2 <- !is.null(positive2) && positive2 != "" && positive2 %in% common_levels.test
+        
+        # 3. confusionMatrix 실행 (positive 옵션 자동 적용)
+        if (use_positive2) {
+          eval <- caret::confusionMatrix(predicted.test, actual.test, positive = positive2)
+        } else {
+          eval <- caret::confusionMatrix(predicted.test, actual.test)
+        }
+        
         
         if (isTRUE(self$options$tes)) {
           table <- self$results$tes
@@ -389,19 +393,19 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           table$setRow(rowNo = 1, values = row)
         }
         
-        
         # Statistics by class-----------
-        
         if (isTRUE(self$options$cla)) {
           table <- self$results$cla
           
           cla <- eval[["byClass"]]
-          cla <- t(cla)
-          cla <- as.data.frame(cla)
+          if (is.vector(cla)) {
+            cla <- as.data.frame(t(cla))
+          } else {
+            cla <- as.data.frame(cla)
+          }
           
           names <- dimnames(cla)[[1]]
           dims <- dimnames(cla)[[2]]
-          covs <- self$options$covs
           
           for (dim in dims) {
             table$addColumn(name = paste0(dim), type = 'number')
@@ -411,19 +415,15 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             for (j in seq_along(dims)) {
               row[[dims[j]]] <- cla[name, j]
             }
-            table$addRow(rowKey = name, values = row)
+            table$addRow(rowKey = NULL, values = row)
           }
-        }
+        } 
         
         # Feature plot-----------
-        
-        if (isTRUE(self$options$plot5) ||
-            isTRUE(self$options$plot6)) {
+        if (isTRUE(self$options$plot5) || isTRUE(self$options$plot6)) {
           data <- self$data
           dep <- self$options$dep
           covs <- self$options$covs
-          
-          # data cleaning---------------
           
           for (cov in covs)
             data[[cov]] <- jmvcore::toNumeric(data[[cov]])
@@ -439,7 +439,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
       },
       
-      #Plot---
+      #Plot functions---
       
       .plot5 = function(image5, ...) {
         if (is.null(image5$state))
@@ -449,15 +449,11 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         covs <- self$options$covs
         dep <- self$options$dep
         
-        # caret::featurePlot(x = iris[,1:4],
-        #                    y = iris$Species,
-        #                    plot = "box")
         plot5 <- caret::featurePlot(
           x = data[, covs],
           y = data[[dep]],
           plot = "box",
-          strip = lattice::strip.custom(par.strip.text =
-                                          list(cex = .7)),
+          strip = lattice::strip.custom(par.strip.text = list(cex = .7)),
           scales = list(
             x = list(relation = "free"),
             y = list(relation = "free")
@@ -479,8 +475,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           x = data[, covs],
           y = data[[dep]],
           plot = "density",
-          strip = lattice::strip.custom(par.strip.text =
-                                          list(cex = .7)),
+          strip = lattice::strip.custom(par.strip.text = list(cex = .7)),
           scales = list(
             x = list(relation = "free"),
             y = list(relation = "free")
@@ -494,7 +489,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot)
           return(FALSE)
         
-        #all <- private$.computeFIT()
         all <- private$.allCache
         res <- MLeval::evalm(list(all$fit, all$comp),
                              gnames = c(self$options$method, self$options$cm1))
@@ -508,12 +502,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot4)
           return(FALSE)
         
-        #all <- private$.computeFIT()
         all <- private$.allCache
         res <- MLeval::evalm(list(all$fit, all$comp),
                              gnames = c(self$options$method, self$options$cm1))
         
-        # Calibration curve
         plot4 <- res$cc
         print(plot4)
         TRUE
@@ -523,7 +515,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot2)
           return(FALSE)
         
-        #all <- private$.computeFIT()
         all <- private$.allCache
         plot2 <- ggplot2::ggplot(all$fit)
         plot2 <- plot2 + ggtheme
@@ -542,12 +533,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .plot3 = function(image3, ...) {
-        # ROC with test set-----
-        # Binary only !
-        
         if (is.null(image3$state))
           return(FALSE)
-
+        
         roct <- image3$state
         res <- MLeval::evalm(roct)
         plot3 <- res$roc
@@ -556,14 +544,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .plot7 = function(image7, ...) {
-        # ROC with test set-----
-        
         if (is.null(image7$state))
           return(FALSE)
         
         res <- image7$state
-        
-        # Box plots to compare models
         scales <- list(x = list(relation = "free"),
                        y = list(relation = "free"))
         
@@ -575,11 +559,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot8 = function(image8, ...) {
         if (!self$options$plot8)
           return(FALSE)
-        # ROC with traing set-----
-        #all <- private$.computeFIT()
+        
         all <- private$.allCache
         res1 <- MLeval::evalm(all$fit)
-        # get ROC---
         plot8 <- res1$roc
         print(plot8)
         TRUE
@@ -594,10 +576,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         per <- self$options$per
         method <- self$options$method
         cm1 <- self$options$cm1
-        ml <- self$options$ml
-        me <- self$options$me
-        rep <- self$options$rep
-        num <- self$options$num
         
         data <- self$data
         dep <- self$options$dep
@@ -605,7 +583,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         facs <- self$options$facs
         
         # data cleaning---------------
-        
         for (fac in facs)
           data[[fac]] <- as.factor(data[[fac]])
         
@@ -613,67 +590,48 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           data[[cov]] <- jmvcore::toNumeric(data[[cov]])
         
         data[[dep]] <- as.factor(data[[dep]])
-        
         data <- na.omit(data)
-        
-        # To speed up the function------
         
         formula <- as.formula(paste0(self$options$dep, " ~ ."))
         
         # Create Train/test dataset using caret package-----------------
-        
         set.seed(1234)
         split1 <- caret::createDataPartition(data[[dep]], p = per, list = F)
         train1 <- data[split1, ]
         test1 <- data[-split1, ]
         
         # Transformed dataset-----------------
-        # Create the bagImpute model on the training data
-        # for missing values with continuous variables..
-        
         preProcValues <- caret::preProcess(train1, method = trans)
-        
         self$results$text1$setContent(preProcValues)
         
         train <- predict(preProcValues, train1)
         test <- predict(preProcValues, test1)
         
         # Dummy coding for factors vars.-------------------
-        
         if (isTRUE(self$options$facs == TRUE)) {
-          # To speed up the function------
-          
           formula <- as.formula(paste0(self$options$dep, " ~ ."))
-          
-          # One-Hot Encoding
-          # Creating dummy variables is converting a categorical variable to as many binary variables as here are categories.
           dummies_model <- caret::dummyVars(formula, data = train1)
-          
-          # Create the dummy variables using predict. The Y variable (Purchase) will not be present in trainData_mat.
           trainData_mat <- predict(dummies_model, newdata = test1)
-          
-          # Convert to dataframe
           train <- data.frame(trainData_mat)
-          
         }
         
         # trainControl function-----------
-        
         ctrl <- caret::trainControl(
           method = mecon,
-          number = number ,
+          number = number,
           repeats = repeats,
           p = per,
           classProbs = T,
           savePredictions = T
         )
+        
         # Training dataset---------------
         fit <- caret::train(
           formula,
           data = train,
           method = method,
           tuneLength = tune,
-          trControl =  ctrl
+          trControl = ctrl
         )
         
         # Compare ROC curves------------------
@@ -682,7 +640,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           data = train,
           method = cm1,
           tuneLength = tune,
-          trControl =  ctrl
+          trControl = ctrl
         )
         
         retlist <- list(
@@ -693,10 +651,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           comp = comp
         )
         return(retlist)
-      }
-    )
-  )
-
+      }      
+)
+)
 # # iris example in R-----------
 # library(caret)
 # data(iris)

@@ -166,7 +166,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               for (j in seq_along(dims))
                 row[[dims[j]]] <- cla[name, j]
               
-              table$addRow(rowKey = name, values = row)
+              table$addRow(rowKey = NULL, values = row)
             }
           }
         }
