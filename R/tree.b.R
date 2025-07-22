@@ -64,11 +64,17 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
 
         # ---- Train Data ------------------------- #
         if (self$options$over1 || self$options$tab1) {
-          pred <- predict(resdc$mtrain, resdc$train)
-          eval1 <- caret::confusionMatrix(pred, 
-                                          resdc$train[[self$options$dep]],
-                                          positive=self$options$positive)
-
+          # 1. 예측값 및 실제값 factor 변환 및 levels 통일 (test set과 동일하게)
+          actual.train <- as.factor(resdc$train[[self$options$dep]])
+          predicted.train <- as.factor(predict(resdc$mtrain, resdc$train))
+          common_levels.train <- union(levels(actual.train), levels(predicted.train))
+          actual.train <- factor(actual.train, levels = common_levels.train)
+          predicted.train <- factor(predicted.train, levels = common_levels.train)
+          
+          # 3. confusionMatrix 실행
+          
+          eval1 <- caret::confusionMatrix(predicted.train, actual.train)
+          
           # Overall statistics
           if (isTRUE(self$options$over1)) {
             table <- self$results$over1
@@ -78,80 +84,98 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               upper = eval1[["overall"]][4],
               kappa = eval1[["overall"]][2]
             )
-            
             table$setRow(rowNo = 1, values = row)
           }
           
-          # Confusion matrix
+          # Confusion matrix (행=Prediction, 열=Reference)
           if (self$options$tab1) {
             table <- self$results$tab1
             tab1  <- eval1$table
             res2 <- as.matrix(tab1)
-            names <- dimnames(res2)[[1]]
+            pred_names <- dimnames(res2)[[1]]    # Prediction (행)
+            actual_names <- dimnames(res2)[[2]]  # Reference (열)
             
-            for (name in names) {
-              table$addColumn(name = paste0(name),
-                              type = 'Integer',
-                              superTitle = 'Predicted')
+            # 열 생성: Reference(실제값) 명확히 표기
+            for (name in actual_names) {
+              table$addColumn(
+                name = paste0(name),
+                type = 'Integer',
+                superTitle = 'Reference'
+              )
             }
-            for (name in names) {
+            # 행 추가: Prediction(예측값)
+            for (i in seq_along(pred_names)) {
               row <- list()
-              for (j in seq_along(names)) {
-                row[[names[j]]] <- res2[name, j]
+              for (j in seq_along(actual_names)) {
+                row[[actual_names[j]]] <- res2[pred_names[i], actual_names[j]]
               }
-              table$addRow(rowKey = name, values = row)
+              table$addRow(rowKey = pred_names[i], values = row)
             }
           }
         }
+
         # ---- Test model --------------------------------------------- #
         if (self$options$over2 ||
             self$options$tab2 || self$options$cla) {
-          pred2 <- predict(resdc$mtrain, resdc$test)
-          eval2 <- caret::confusionMatrix(pred2,
-                                          resdc$test[[self$options$dep]],
-                                          positive=self$options$positive)
-
+          
+          # 1. 예측값 및 실제값 factor 변환 및 levels 통일
+          actual2 <- as.factor(resdc$test[[self$options$dep]])
+          predicted2 <- as.factor(predict(resdc$mtrain, resdc$test))
+          common_levels2 <- union(levels(actual2), levels(predicted2))
+          actual2 <- factor(actual2, levels = common_levels2)
+          predicted2 <- factor(predicted2, levels = common_levels2)
+          
+          # 2. positive 값 존재 확인
+          positive2 <- self$options$positive
+          use_positive2 <- !is.null(positive2) && positive2 != "" && positive2 %in% common_levels2
+          
+          # 3. confusionMatrix 실행
+          if (use_positive2) {
+            eval2 <- caret::confusionMatrix(predicted2, actual2, positive = positive2)
+          } else {
+            eval2 <- caret::confusionMatrix(predicted2, actual2)
+          }
+          
           # Overall statistics
           if (isTRUE(self$options$over2)) {
             table <- self$results$over2
-            
             row <- list(
               accu = eval2[["overall"]][1],
               lower = eval2[["overall"]][3],
               upper = eval2[["overall"]][4],
               kappa = eval2[["overall"]][2]
             )
-            
             table$setRow(rowNo = 1, values = row)
           }
           
-          # Confusion matrix
+          # Confusion matrix (행=Prediction, 열=Reference)
           if (self$options$tab2) {
             table <- self$results$tab2
             tab2  <- eval2$table
             res1  <- as.matrix(tab2)
-            names <- dimnames(res1)[[1]]
+            pred_names <- dimnames(res1)[[1]]    # Prediction(행)
+            actual_names <- dimnames(res1)[[2]]  # Reference(열)
             
-            for (name in names)
-              table$addColumn(name = paste0(name),
-                              type = 'Integer',
-                              superTitle = 'Predicted')
-            
-            for (name in names) {
+            # 열 생성: Reference(실제값) 명확히 표기
+            for (name in actual_names)
+              table$addColumn(
+                name = paste0(name),
+                type = 'Integer',
+                superTitle = 'Reference'
+              )
+            # 행 추가: Prediction(예측값)
+            for (i in seq_along(pred_names)) {
               row <- list()
-              for (j in seq_along(names))
-                row[[names[j]]] <- res1[name, j]
-              
-              table$addRow(rowKey = name, values = row)
+              for (j in seq_along(actual_names))
+                row[[actual_names[j]]] <- res1[pred_names[i], actual_names[j]]
+              table$addRow(rowKey = pred_names[i], values = row)
             }
           }
           
-          # Statistics by class
+          # Statistics by class (caret 기준 그대로)
           if (self$options$cla) {
             table <- self$results$cla
-            
             cla <- eval2[["byClass"]]
-            #self$results$text$setContent(cla)
             if (is.vector(cla)) {
               cla <- as.data.frame(t(cla))
             } else {
@@ -165,13 +189,11 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               row <- list()
               for (j in seq_along(dims))
                 row[[dims[j]]] <- cla[name, j]
-              
-              table$addRow(rowKey = NULL, values = row)
+              table$addRow(rowKey = NULL, values = row) # 왼쪽 불필요한 인덱스 숨김
             }
           }
         }
       },
-      
       .plot = function(image, ...) {
         if (!self$options$plot)
           return(FALSE)

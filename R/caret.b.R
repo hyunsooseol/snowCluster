@@ -262,26 +262,32 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           eval.tr <- caret::confusionMatrix(predicted, actual)
         }
         
-        # 4. 결과 테이블 생성
+
+        # 결과 테이블 생성 (행=Prediction, 열=Reference(Actual))
         if (isTRUE(self$options$tra)) {
           table <- self$results$tra
           tab.tr <- eval.tr$table
           res1.tr <- as.matrix(tab.tr)
-          names <- dimnames(res1.tr)[[1]]
-          for (name in names) {
-            table$addColumn(name = paste0(name),
-                            type = 'Integer',
-                            superTitle = 'Predicted')
+          pred_names <- dimnames(res1.tr)[[1]]     # Prediction(행)
+          actual_names <- dimnames(res1.tr)[[2]]   # Reference(열)
+          
+          # 열 생성: Reference(실제값) 명확히 표기
+          for (name in actual_names) {
+            table$addColumn(
+              name = paste0(name),
+              type = 'Integer',
+              superTitle = 'Reference'
+            )
           }
-          for (name in names) {
+          # 행 추가: Prediction(예측값) 명확히 표기
+          for (i in seq_along(pred_names)) {
             row <- list()
-            for (j in seq_along(names)) {
-              row[[names[j]]] <- res1.tr[name, j]
+            for (j in seq_along(actual_names)) {
+              row[[actual_names[j]]] <- res1.tr[pred_names[i], actual_names[j]]
             }
-            table$addRow(rowKey = name, values = row)
+            table$addRow(rowKey = pred_names[i], values = row)
           }
-        }
-        
+        }        
         # Overall statistics with training set-----------
         if (isTRUE(self$options$over1)) {
           table <- self$results$over1
@@ -336,7 +342,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           image3$setState(roct)
         }
         
-        # Confusion matrix(test set)---------------------------
+        # Confusion matrix (test set) ---------------------------
         # Predict with test set-----------------
         pred <- predict(all$fit, all$test)
         
@@ -358,24 +364,29 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           eval <- caret::confusionMatrix(predicted.test, actual.test)
         }
         
-        
+        # 4. caret 구조(행=Prediction, 열=Reference)로 표 생성
         if (isTRUE(self$options$tes)) {
           table <- self$results$tes
           tab <- eval$table
           res1 <- as.matrix(tab)
-          names <- dimnames(res1)[[1]]
+          pred_names <- dimnames(res1)[[1]]    # Prediction (행)
+          actual_names <- dimnames(res1)[[2]]  # Reference (열)
           
-          for (name in names) {
-            table$addColumn(name = paste0(name),
-                            type = 'Integer',
-                            superTitle = 'Predicted')
+          # 열 생성: Reference(실제값) 명확히 표기
+          for (name in actual_names) {
+            table$addColumn(
+              name = paste0(name),
+              type = 'Integer',
+              superTitle = 'Reference'
+            )
           }
-          for (name in names) {
+          # 행 추가: Prediction(예측값) 명확히 표기
+          for (i in seq_along(pred_names)) {
             row <- list()
-            for (j in seq_along(names)) {
-              row[[names[j]]] <- res1[name, j]
+            for (j in seq_along(actual_names)) {
+              row[[actual_names[j]]] <- res1[pred_names[i], actual_names[j]]
             }
-            table$addRow(rowKey = name, values = row)
+            table$addRow(rowKey = pred_names[i], values = row)
           }
         }
         
