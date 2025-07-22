@@ -102,3 +102,12 @@ children:
                 name: tab2
               - type: CheckBox
                 name: cla
+                children:
+                  - type: TextBox
+                    name: positive
+                    enable: (cla)
+                    format: string
+  
+                    
+                    
+                    

@@ -23,7 +23,8 @@ tree(
   height1 = 500,
   plot2 = FALSE,
   width2 = 500,
-  height2 = 500
+  height2 = 500,
+  positive = "no"
 )
 }
 \arguments{
@@ -64,6 +65,8 @@ tree(
 \item{width2}{.}
 
 \item{height2}{.}
+
+\item{positive}{.}
 }
 \value{
 A results object containing:

@@ -31,8 +31,8 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           )
         ))
         
-        if (self$options$cla)
-          self$results$cla$setNote("Note", "By default, confusion matrix statistics treat the first factor level, based on alphabetical or numeric order, as the positive class.")
+        # if (self$options$cla)
+        #   self$results$cla$setNote("Note", "By default, confusion matrix statistics treat the first factor level, based on alphabetical or numeric order, as the positive class.")
         
         if (isTRUE(self$options$plot)) {
           width <- self$options$width
@@ -56,18 +56,18 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(self$options$dep) || length(self$options$covs) == 0)
           return()
         
-        #resdc <- private$.dataClear()
-        
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.dataClear()
         }
         
         resdc <- private$.allCache
+
         # ---- Train Data ------------------------- #
         if (self$options$over1 || self$options$tab1) {
           pred <- predict(resdc$mtrain, resdc$train)
           eval1 <- caret::confusionMatrix(pred, 
-                                          resdc$train[[self$options$dep]])
+                                          resdc$train[[self$options$dep]],
+                                          positive=self$options$positive)
 
           # Overall statistics
           if (isTRUE(self$options$over1)) {
@@ -107,14 +107,14 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (self$options$over2 ||
             self$options$tab2 || self$options$cla) {
           pred2 <- predict(resdc$mtrain, resdc$test)
-          eval2 <- caret::confusionMatrix(pred2, 
-                                          resdc$test[[self$options$dep]])
+          eval2 <- caret::confusionMatrix(pred2,
+                                          resdc$test[[self$options$dep]],
+                                          positive=self$options$positive)
 
           # Overall statistics
           if (isTRUE(self$options$over2)) {
             table <- self$results$over2
             
-            # 직접 값을 추출하여 리스트 생성
             row <- list(
               accu = eval2[["overall"]][1],
               lower = eval2[["overall"]][3],
@@ -151,16 +151,16 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             table <- self$results$cla
             
             cla <- eval2[["byClass"]]
-            cla <- t(cla)
-            cla <- as.data.frame(cla)
-            
-            names <- dimnames(cla)[[1]]
-            dims  <- dimnames(cla)[[2]]
-            covs  <- self$options$covs
-            
+            #self$results$text$setContent(cla)
+            if (is.vector(cla)) {
+              cla <- as.data.frame(t(cla))
+            } else {
+              cla <- as.data.frame(cla)
+            }
+            names <- rownames(cla)
+            dims  <- colnames(cla)
             for (dim in dims)
               table$addColumn(name = paste0(dim), type = 'number')
-            
             for (name in names) {
               row <- list()
               for (j in seq_along(dims))

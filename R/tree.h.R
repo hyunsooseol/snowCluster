@@ -23,7 +23,8 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             height1 = 500,
             plot2 = FALSE,
             width2 = 500,
-            height2 = 500, ...) {
+            height2 = 500,
+            positive = "no", ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -111,6 +112,10 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "height2",
                 height2,
                 default=500)
+            private$..positive <- jmvcore::OptionString$new(
+                "positive",
+                positive,
+                default="no")
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -130,6 +135,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot2)
             self$.addOption(private$..width2)
             self$.addOption(private$..height2)
+            self$.addOption(private$..positive)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -149,7 +155,8 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         height1 = function() private$..height1$value,
         plot2 = function() private$..plot2$value,
         width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value),
+        height2 = function() private$..height2$value,
+        positive = function() private$..positive$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -168,7 +175,8 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..height1 = NA,
         ..plot2 = NA,
         ..width2 = NA,
-        ..height2 = NA)
+        ..height2 = NA,
+        ..positive = NA)
 )
 
 treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -212,7 +220,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs"),
+                    "facs",
+                    "positive"),
                 refs="caret",
                 columns=list(
                     list(
@@ -243,7 +252,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs"),
+                    "facs",
+                    "positive"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -260,7 +270,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs"),
+                    "facs",
+                    "positive"),
                 refs="caret",
                 columns=list(
                     list(
@@ -291,7 +302,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs"),
+                    "facs",
+                    "positive"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -308,7 +320,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs"),
+                    "facs",
+                    "positive"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -329,7 +342,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "facs",
                     "per",
                     "width",
-                    "height")))
+                    "height",
+                    "positive")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -344,7 +358,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "facs",
                     "per",
                     "width1",
-                    "height1")))
+                    "height1",
+                    "positive")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -359,7 +374,8 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "per",
                     "facs",
                     "width2",
-                    "height2")))}))
+                    "height2",
+                    "positive")))}))
 
 treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "treeBase",
@@ -404,6 +420,7 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot2 .
 #' @param width2 .
 #' @param height2 .
+#' @param positive .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -444,7 +461,8 @@ tree <- function(
     height1 = 500,
     plot2 = FALSE,
     width2 = 500,
-    height2 = 500) {
+    height2 = 500,
+    positive = "no") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("tree requires jmvcore to be installed (restart may be required)")
@@ -479,7 +497,8 @@ tree <- function(
         height1 = height1,
         plot2 = plot2,
         width2 = width2,
-        height2 = height2)
+        height2 = height2,
+        positive = positive)
 
     analysis <- treeClass$new(
         options = options,
