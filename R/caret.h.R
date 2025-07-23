@@ -593,9 +593,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "num",
                     "rep",
                     "tune1",
-                    "trans",
-                    "positive",
-                    "positive1"),
+                    "trans"),
                 columns=list(
                     list(
                         `name`="accu", 
@@ -637,9 +635,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "num",
                     "rep",
                     "tune1",
-                    "trans",
-                    "positive",
-                    "positive1"),
+                    "trans"),
                 columns=list(
                     list(
                         `name`="accu", 
@@ -681,7 +677,6 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rep",
                     "tune1",
                     "trans",
-                    "positive",
                     "positive1"),
                 columns=list(
                     list(
@@ -710,8 +705,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rep",
                     "tune1",
                     "trans",
-                    "positive",
-                    "positive1"),
+                    "positive"),
                 refs="caret",
                 columns=list(
                     list(
@@ -741,7 +735,6 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rep",
                     "tune1",
                     "trans",
-                    "positive",
                     "positive1"),
                 columns=list(
                     list(
@@ -771,8 +764,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rep",
                     "tune1",
                     "trans",
-                    "positive",
-                    "positive1"),
+                    "positive"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -804,9 +796,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width2",
-                    "height2",
-                    "positive",
-                    "positive1")))
+                    "height2")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot8",
@@ -833,9 +823,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width8",
-                    "height8",
-                    "positive",
-                    "positive1")))
+                    "height8")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -862,9 +850,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width",
-                    "height",
-                    "positive",
-                    "positive1")))
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -891,9 +877,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width4",
-                    "height4",
-                    "positive",
-                    "positive1")))
+                    "height4")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -919,9 +903,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width1",
-                    "height1",
-                    "positive",
-                    "positive1")))
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -946,9 +928,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width3",
-                    "height3",
-                    "positive",
-                    "positive1")))
+                    "height3")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
@@ -974,9 +954,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width5",
-                    "height5",
-                    "positive",
-                    "positive1")))
+                    "height5")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
@@ -1002,9 +980,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width6",
-                    "height6",
-                    "positive",
-                    "positive1")))
+                    "height6")))
             self$add(R6::R6Class(
                 inherit = jmvcore::Group,
                 active = list(
@@ -1035,9 +1011,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 "num",
                                 "rep",
                                 "tune1",
-                                "trans",
-                                "positive",
-                                "positive1"),
+                                "trans"),
                             columns=list(
                                 list(
                                     `name`="name", 
@@ -1090,9 +1064,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 "num",
                                 "rep",
                                 "tune1",
-                                "trans",
-                                "positive",
-                                "positive1"),
+                                "trans"),
                             columns=list(
                                 list(
                                     `name`="name", 
@@ -1149,9 +1121,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "tune1",
                     "trans",
                     "width7",
-                    "height7",
-                    "positive",
-                    "positive1")))
+                    "height7")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="pred",
@@ -1171,9 +1141,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm1",
                     "ml",
                     "me",
-                    "trans",
-                    "positive",
-                    "positive1")))}))
+                    "trans")))}))
 
 caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "caretBase",

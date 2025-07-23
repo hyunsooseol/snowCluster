@@ -23,7 +23,6 @@ items:
         - dep
         - per
         - facs
-        - positive
       refs: caret    
 
       columns:
@@ -52,8 +51,7 @@ items:
         - dep
         - per
         - facs
-        - positive
-        
+
       columns:
         - name: name
           title: ''
@@ -70,7 +68,6 @@ items:
         - dep
         - per
         - facs
-        - positive
       refs: caret    
 
       columns:
@@ -139,7 +136,6 @@ items:
         - per
         - width
         - height
-        - positive
 
     - name:  plot1
       title: 'rpart plot with train set'
@@ -155,7 +151,6 @@ items:
         - per
         - width1
         - height1
-        - positive
 
     - name:  plot2
       title: 'Regression tree'
@@ -171,5 +166,4 @@ items:
         - facs
         - width2
         - height2
-        - positive
 ...

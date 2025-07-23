@@ -39,8 +39,6 @@ items:
         - rep
         - tune1        
         - trans
-        - positive
-        - positive1
 
       columns:
         - name: accu
@@ -80,8 +78,6 @@ items:
         - rep
         - tune1
         - trans
-        - positive
-        - positive1
 
       columns:
         - name: accu
@@ -120,7 +116,6 @@ items:
         - rep
         - tune1        
         - trans
-        - positive
         - positive1
         
       columns:
@@ -150,7 +145,6 @@ items:
         - tune1        
         - trans
         - positive
-        - positive1
       refs: caret    
 
       columns:
@@ -180,7 +174,6 @@ items:
         - rep
         - tune1
         - trans
-        - positive
         - positive1
         
       columns:
@@ -211,8 +204,7 @@ items:
         - tune1        
         - trans
         - positive
-        - positive1
-        
+
       columns:
         - name: name
           title: ''
@@ -244,8 +236,6 @@ items:
         - trans
         - width2
         - height2
-        - positive
-        - positive1
 
     - name:  plot8
       title: 'ROC plot with training set'            
@@ -273,9 +263,7 @@ items:
         - trans
         - width8
         - height8        
-        - positive
-        - positive1
- 
+
     - name:  plot
       title:  'Comparison of ROC curves'                
       type:  Image
@@ -302,8 +290,6 @@ items:
         - trans
         - width
         - height
-        - positive
-        - positive1
 
     - name:  plot4
       title: 'Calibration curve with training set'
@@ -331,8 +317,6 @@ items:
         - trans
         - width4
         - height4
-        - positive
-        - positive1
 
     - name:  plot1
       title: Variable importance plot
@@ -359,8 +343,6 @@ items:
         - trans
         - width1
         - height1
-        - positive
-        - positive1
 
     - name:  plot3
       title: 'ROC plot with test set'               
@@ -386,8 +368,6 @@ items:
         - trans
         - width3
         - height3
-        - positive
-        - positive1
 
     - name:  plot5
       title: Box plot              
@@ -414,9 +394,7 @@ items:
         - trans
         - width5
         - height5
-        - positive
-        - positive1
-        
+
     - name:  plot6
       title: Density plot              
       type:  Image
@@ -442,8 +420,6 @@ items:
         - trans
         - width6
         - height6
-        - positive
-        - positive1
 
     - name: mf
       title: 'Model Comparison'
@@ -467,8 +443,6 @@ items:
             - rep
             - tune1
             - trans
-            - positive
-            - positive1
 
           columns:
             - name: name
@@ -515,8 +489,6 @@ items:
             - rep
             - tune1
             - trans
-            - positive
-            - positive1
 
           columns:
             - name: name
@@ -567,9 +539,7 @@ items:
         - trans
         - width7
         - height7
-        - positive
-        - positive1
-        
+
     - name: pred
       title: Prediction
       type: Output
@@ -589,7 +559,5 @@ items:
         - ml
         - me
         - trans
-        - positive
-        - positive1
-        
+
 ...

@@ -220,8 +220,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs",
-                    "positive"),
+                    "facs"),
                 refs="caret",
                 columns=list(
                     list(
@@ -252,8 +251,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs",
-                    "positive"),
+                    "facs"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -270,8 +268,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs",
-                    "positive"),
+                    "facs"),
                 refs="caret",
                 columns=list(
                     list(
@@ -342,8 +339,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "facs",
                     "per",
                     "width",
-                    "height",
-                    "positive")))
+                    "height")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -358,8 +354,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "facs",
                     "per",
                     "width1",
-                    "height1",
-                    "positive")))
+                    "height1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -374,8 +369,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "per",
                     "facs",
                     "width2",
-                    "height2",
-                    "positive")))}))
+                    "height2")))}))
 
 treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "treeBase",
