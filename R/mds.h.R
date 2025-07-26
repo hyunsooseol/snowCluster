@@ -237,7 +237,7 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
-                title="Cluster number"))
+                title=""))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="clust",

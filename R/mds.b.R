@@ -13,7 +13,6 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(self$options$vars) |
             is.null(self$options$labels)) {
           self$results$instructions$setVisible(visible = TRUE)
-          
         }
         self$results$instructions$setContent(private$.htmlwidget$generate_accordion(
           title = "Instructions",
@@ -24,7 +23,6 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<li>The rationale of Classical Multidimensional Scaling is described in the <a href="http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/122-multidimensional-scaling-essentials-algorithms-and-r-code/" target = "_blank">page</a>.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
-            
           )
         ))
         if (self$options$mode == "simple") {
@@ -33,15 +31,12 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             height <- self$options$height
             self$results$plot$setSize(width, height)
           }
-          
           if (isTRUE(self$options$plot1)) {
             width <- self$options$width1
             height <- self$options$height1
             self$results$plot1$setSize(width, height)
           }
-          
         }
-        
         if (self$options$mode == "complex") {
           if (isTRUE(self$options$plot2)) {
             width <- self$options$width2
@@ -52,98 +47,85 @@ mdsClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       #---------------------------------------------
-      
       .run = function() {
         if (is.null(self$options$vars))
           return()
         
-        #res <- private$.dataClear()
-        
         vars <- self$options$vars
         labels <- self$options$labels
         k <- self$options$k
-        
         data <- self$data
-        data <- jmvcore::naOmit(data)
+        
+        # 1. 결측 없는 행 인덱스 추출
+        complete_idx <- which(stats::complete.cases(data[, vars, drop=FALSE]))
+        data_noNA <- data[complete_idx, , drop=FALSE]
         
         # Handling id----------
-        
         if (!is.null(self$options$labels)) {
-          rownames(data) <- data[[self$options$labels]]
-          data[[self$options$labels]] <- NULL
+          rownames(data_noNA) <- data_noNA[[self$options$labels]]
+          data_noNA[[self$options$labels]] <- NULL
         }
-        
         for (i in seq_along(vars))
-          data[[i]] <- jmvcore::toNumeric(data[[i]])
-        
-        # if(length(labels) > 0) {
-        #   ime <- as.character(self$data[,which(names(self$data) == labels)])
-        #   pod0 <- self$data[,which(names(self$data) != labels)]
-        #
-        #   data <- na.omit(pod0)
-        #   rownames(data) <- ime
-        # }
-        #
-        #   self$results$text$setContent(data)
-        
+          data_noNA[[i]] <- jmvcore::toNumeric(data_noNA[[i]])
         
         # MDS analysis---------
-        d <- stats::dist(data)
+        d <- stats::dist(data_noNA)
         mds <- stats::cmdscale(d)
-        # kmeans clustering--------
-        # clust <- kmeans(mds, 3)$cluster %>%
-        #     as.factor()
-        # mds <- mds %>%
-        #     mutate(groups = clust)
         
+        # kmeans clustering--------
         model <- stats::kmeans(mds, k)
         mc <- model$cluster
         
+        # 결측 포함한 전체 행 수만큼 NA로 초기화, 결측 없는 행에만 cluster 번호 입력
+        cluster_full <- rep(NA, nrow(data))
+        cluster_full[complete_idx] <- mc
+        
+        # rowname/label 복원
+        orig_rownames <- rownames(data)
+        mds_full <- matrix(NA, nrow = nrow(data), ncol = ncol(mds))
+        mds_full[complete_idx, ] <- mds
+        colnames(mds_full) <- c("Dim.1", "Dim.2")
+        
+        # plot용 라벨 (결측 포함 전체 행)
+        if (!is.null(orig_rownames)) {
+          rownames(mds_full) <- orig_rownames
+        }
+        
         if (self$options$mode == "simple") {
           if (isTRUE(self$options$plot)) {
-            colnames(mds) <- c("Dim.1", "Dim.2")
-            mds <- as.data.frame(mds)
-            name <- rownames(mds)
-            state <- list(mds, name)
-            #  MDS plot----------
+            mds_df <- as.data.frame(mds_full)
+            name <- rownames(mds_df)
+            state <- list(mds_df, name)
             image <- self$results$plot
             image$setState(state)
           }
           
           if (isTRUE(self$options$plot1)) {
-            clust <- as.factor(mc)
-            mds1 <- dplyr::mutate(mds, Clusters = clust)
+            clust <- as.factor(cluster_full)
+            mds1 <- as.data.frame(mds_full)
+            mds1$Clusters <- clust
             name1 <- rownames(data)
             state <- list(mds1, name1)
-            #  kmeans plot----------
             image1 <- self$results$plot1
             image1$setState(state)
-            
           }
           
           if (isTRUE(self$options$clust)) {
-            self$results$text$setContent(mc)
-            
-            clust1 <- as.data.frame(mc)
-            clust2 <- clust1$mc
-            
-            self$results$clust$setValues(clust2)
-            self$results$clust$setRowNums(data$clust2)
+            self$results$clust$setValues(cluster_full)
+            self$results$clust$setRowNums(rownames(data))
           }
-          
         }
         
         if (self$options$mode == "complex") {
           if (is.null(self$options$xlab)) return()
           
-          d <- stats::dist(data)
+          d <- stats::dist(data_noNA)
           three <- stats::cmdscale(dist(d), k = 3)
-          
           image2 <- self$results$plot2
           image2$setState(three)
         }
       },
-
+      
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)

@@ -48,7 +48,7 @@ items:
         - height2
        
     - name:  text
-      title: 'Cluster number' 
+      title: '' 
       type:  Preformatted     
 
     - name: clust
