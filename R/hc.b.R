@@ -15,7 +15,6 @@ hcClass <- if (requireNamespace('jmvcore'))
         
         if (is.null(self$data) | is.null(self$options$vars)) {
           self$results$instructions$setVisible(visible = TRUE)
-          
         }
         
         self$results$instructions$setContent(private$.htmlwidget$generate_accordion(
@@ -26,9 +25,7 @@ hcClass <- if (requireNamespace('jmvcore'))
             '<ul>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
-            
           )
-          
         ))
         
         if (self$options$mode == "simple") {
@@ -58,50 +55,36 @@ hcClass <- if (requireNamespace('jmvcore'))
           
           vars <- self$options$vars
           data <- self$data
-          data <- jmvcore::naOmit(data)
+          
+          # 1. 결측 제거 인덱스 저장
+          complete_idx <- which(stats::complete.cases(data[, vars, drop=FALSE]))
+          data_noNA <- data[complete_idx, , drop=FALSE]
           
           # Handling id----------
-          
-          #  Assuming your data frame is named 'data'
-          # row.names(data) <- data$City
-          # data <- data[, -1]
           if (!is.null(self$options$labels)) {
-            rownames(data) <- data[[self$options$labels]]
-            data[[self$options$labels]] <- NULL
+            rownames(data_noNA) <- data_noNA[[self$options$labels]]
+            data_noNA[[self$options$labels]] <- NULL
           }
           for (i in seq_along(vars))
-            data[[i]] <- jmvcore::toNumeric(data[[i]])
+            data_noNA[[i]] <- jmvcore::toNumeric(data_noNA[[i]])
           
           ### Hierarchical Clustering---------
           hc <- try(factoextra::hcut(
-            data,
+            data_noNA,
             k = self$options$k,
             stand = self$options$stand,
             hc_metric = self$options$metric,
             hc_method = self$options$method
           ))
           #### Cluster number for the output variable--------------------
-          
-          # if(jmvcore::isError(hc)){
-          #    err_string <- stringr::str_interp(
-          #      "Please remove the variable from the Label box to get cluster numbers in datasheet."
-          #    )
-          #    stop(err_string)
-          #
-          #  }
-          #
-          #  if (! jmvcore::isError(hc) ){
-          if (!is.null(self$options$labels)) {
-            cluster <- as.data.frame(hc$cluster)
-            #self$results$text$setContent(cluster)
-            for (i in 1:length(self$options$labels)) {
-              scores <- as.numeric(cluster[, i])
-              self$results$clust$setValues(index = i, scores)
-            }
-          } else{
+          if (!jmvcore::isError(hc)) {
             cluster <- hc$cluster
-            self$results$clust$setValues(cluster)
-            self$results$clust$setRowNums(rownames(data))
+            # 2. 원본 행 수만큼 NA로 초기화 후, 결측 없는 행에만 cluster 결과 입력
+            cluster_full <- rep(NA, nrow(self$data))
+            cluster_full[complete_idx] <- cluster
+            
+            self$results$clust$setValues(cluster_full)
+            self$results$clust$setRowNums(rownames(self$data))
           }
           ##### plot-------------------
           image <- self$results$plot
@@ -109,17 +92,6 @@ hcClass <- if (requireNamespace('jmvcore'))
         }
         
         if (self$options$mode == "complex") {
-          # Clustering dendrogram with p-values-------------
-          # https://github.com/shimo-lab/pvclust
-          
-          # Example
-          # library(pvclust)
-          # data(lung)
-          # res <- pvclust::pvclust(lung,
-          #                         method.dist="cor",
-          #                         method.hclust="average",
-          #                         nboot=1000,
-          #                         parallel=TRUE)
           if (length(self$options$vars1) < 3) return()
           
           vars1 <- self$options$vars1
@@ -130,9 +102,7 @@ hcClass <- if (requireNamespace('jmvcore'))
           nb <- self$options$nb
           method1 <-  self$options$method1
           dm <- self$options$dm
-          # para <- as.logical(self$options$para)
           
-          # analysis----------------------------
           res <- pvclust::pvclust(
             data,
             method.dist = dm,
@@ -140,11 +110,9 @@ hcClass <- if (requireNamespace('jmvcore'))
             nboot = nb,
             parallel = FALSE
           )
-          # parallel=TRUE does not working in this analysis.
           image <- self$results$plot1
           image$setState(res)
           
-          # List of clusters-------
           if (isTRUE(self$options$plot1)) {
             list <- pvclust::pvpick(res)
             self$results$text$setContent(list)
@@ -172,7 +140,6 @@ hcClass <- if (requireNamespace('jmvcore'))
             cex = 0.9,
             color_labels_by_k = TRUE
           )
-          
         } else{
           plot <- factoextra::fviz_dend(
             hc,
@@ -183,7 +150,6 @@ hcClass <- if (requireNamespace('jmvcore'))
             cex = 0.9,
             color_labels_by_k = TRUE
           )
-          
         }
         plot <- plot + ggtheme
         print(plot)
@@ -197,11 +163,9 @@ hcClass <- if (requireNamespace('jmvcore'))
           return(FALSE)
         
         res <- image$state
-        #plot1<- plot(res)
         plot(res)
         ask.bak <- par()$ask
         par(ask = TRUE)
-        ## highlight clusters with high au p-values
         plot1 <- pvclust::pvrect(res)
         print(plot1)
         TRUE
