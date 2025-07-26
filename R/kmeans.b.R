@@ -1,4 +1,3 @@
-
 kmeansClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "kmeansClass",
@@ -17,7 +16,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       
       .optionsChanged = function() {
         if (is.null(private$.allCache$cachedOptions)) return(TRUE)
-        
         currentOptions <- list(
           vars = self$options$vars,
           k = self$options$k,
@@ -27,7 +25,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           factors = self$options$factors,
           k1 = self$options$k1
         )
-        
         return(!identical(currentOptions, private$.allCache$cachedOptions))
       },
       
@@ -45,11 +42,9 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       
       .init = function() {
         private$.htmlwidget <- HTMLWidget$new()
-        
         if (is.null(self$data) | is.null(self$options$vars)) {
           self$results$instructions$setVisible(visible = TRUE)
         }
-        
         self$results$instructions$setContent(private$.htmlwidget$generate_accordion(
           title = "Instructions",
           content = paste(
@@ -62,7 +57,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             '</ul></div></div>'
           )
         ))
-        
         if (isTRUE(self$options$plot)) {
           width <- self$options$width
           height <- self$options$height
@@ -93,87 +87,67 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           height <- self$options$height5
           self$results$plot5$setSize(width, height)
         }
-        
         if (self$options$oc)
           self$results$oc$setNote(
             "Note",
             "The highest silhouette score can generally be interpreted as the optimal number of cluster."
           )
-        
-        ##initialize the centroids of cluster table-------------
         tab2 <- self$results$centroids
         vars <- self$options$vars
         vars <- factor(vars, levels = vars)
         nVars <- length(vars)
         k <- self$options$k
-        
         for (i in seq_along(vars)) {
           var <- vars[[i]]
           tab2$addColumn(name = paste0(var),
                          type = 'number',
                          format = 'zto')
         }
-        
         values <- list(cluster = 1)
         for (i in seq_len(nVars)) {
           values[[paste0(vars[[i]])]]  <- '\u2014'
         }
-        
-        ##add dummy values to table----------
         for (j in 1:k) {
           values[["cluster"]] <- j
           tab2$setRow(rowNo = j, values)
         }
-        
         ss <- self$results$ss
         for (j in seq_len(k))
           ss$addRow(rowKey = j, values = list(source = paste('Cluster', j)))
-        
         ss$addRow(rowKey = 'between',
                   values = list(source = 'Between clusters'))
-        
         ss$addFormat(rowKey = 'between',
                      col = 1,
                      jmvcore::Cell.BEGIN_END_GROUP)
-        
         ss$addRow(rowKey = 'total', values = list(source = 'Total'))
-        
         ss$addFormat(rowKey = 'total',
                      col = 1,
                      jmvcore::Cell.BEGIN_END_GROUP)
       },
       
-      #---
       .run = function() {
         if (length(self$options$vars) < 3) return()
-        
         optionsChanged <- private$.optionsChanged()
         
+        # === 1. 결측치 없는 행 인덱스 저장 (반드시 원본 데이터에서!)
+        n_row <- nrow(self$data)
+        not_na_idx <- which(stats::complete.cases(self$data[, self$options$vars, drop=FALSE]))
+        
         if (optionsChanged || is.null(private$.allCache$model)) {
-
-          # Solved Problem that does not change plot using set.seed()
           set.seed(1234)
-          
           k <- self$options$k
           vars <- self$options$vars
           facs <- self$options$factors
-          data <- self$data
-          data <- jmvcore::naOmit(data)
-          
+          data_nomiss <- self$data[not_na_idx, , drop=FALSE]
           for (i in seq_along(vars))
-            data[[i]] <- jmvcore::toNumeric(data[[i]])
-          
-          dat2 <- jmvcore::select(data, self$options$vars)
-          
-          #standardize variables-------------
+            data_nomiss[[i]] <- jmvcore::toNumeric(data_nomiss[[i]])
+          dat2 <- jmvcore::select(data_nomiss, self$options$vars)
           if (self$options$stand) {
             for (var in 1:ncol(dat2)) {
               tmp <- dat2[, var]
-              dat2[, var] <-
-                (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
+              dat2[, var] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
             }
           }
-          
           if (dim(dat2)[2] > 0) {
             model <- stats::kmeans(
               dat2,
@@ -181,9 +155,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
               nstart = self$options$nstart,
               algorithm = self$options$algo
             )
-            
             private$.allCache$model <- model
-            
             private$.saveOptions()
           }
         } else {
@@ -191,47 +163,46 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         }
         
         if (!is.null(model)) {
+          # === 2. cluster 번호를 전체 row와 매칭 (NA는 NA로)
           cluster <- model$cluster
+          cluster_vec <- rep(NA, n_row)
+          cluster_vec[not_na_idx] <- as.numeric(cluster)
+          
+          # === 3. 클러스터 요약 표 생성
+          tab <- self$results$clustering
+          tab$deleteRows()
+          clusters <- table(cluster_vec)
+          for (i in seq_along(clusters)) {
+            if (!is.na(names(clusters)[i])) {
+              tab$addRow(
+                rowKey = paste("Cluster", names(clusters)[i]),
+                values = list(cluster = as.integer(names(clusters)[i]), count = clusters[i])
+              )
+            }
+          }
+          
+          # === 4. clust(군집 번호) 결과 할당
+          self$results$clust$setRowNums(rownames(self$data))
+          self$results$clust$setValues(cluster_vec)
+          
+          # 이하 기존 코드 동일
           SSW <- model$withinss
           SSB <- model$betweenss
           SST <- model$totss
-          
-          tab <- self$results$clustering
-          tab$deleteRows()
-          
-          clusters <- table(model$cluster)
-          rowno <- 1
-          for (i in 1:dim(clusters)) {
-            tab$addRow(
-              rowKey = paste("Cluster", i),
-              values = list(cluster = i, count = clusters[i])
-            )
-          }
-          
-          ## The centroids of clusters table------------
           tab2 <- self$results$centroids
           vars <- self$options$vars
           vars <- factor(vars, levels = vars)
-          
           nVars <- length(vars)
           k <- self$options$k
-          
           for (i in 1:k) {
             values <- unlist(list(cluster = i, model$centers[i, ]))
             tab2$setRow(rowNo = i, values)
           }
-          
-          self$results$clust$setValues(cluster)
-          self$results$clust$setRowNums(rownames(self$data))
-          
-          ### Sum of squares Table----------
           ss <- self$results$ss
           ss$setRow(rowKey = 'between', values = list(value = SSB))
           ss$setRow(rowKey = 'total', values = list(value = SST))
           for (i in seq_len(k))
             ss$setRow(rowKey = i, values = list(value = SSW[i]))
-          
-          # plot data function---------
           if (is.null(private$.allCache$plotData) || optionsChanged) {
             plotData <- data.frame(
               cluster = as.factor(rep(1:k, nVars)),
@@ -242,31 +213,28 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           } else {
             plotData <- private$.allCache$plotData
           }
-          
           image <- self$results$plot
           image$setState(plotData)
         }
         
-        ##### Prepare Data For Plot1(optimal number of clusters) -------
+        ##### Plot1(optimal number of clusters)
         if (isTRUE(self$options$plot1)) {
           plotData1 <- self$data
           image1 <- self$results$plot1
           image1$setState(plotData1)
         }
-        
-        ###### Prepare data for plot2(cluster plot)-----------
+        ##### Plot2(cluster plot)
         if (isTRUE(self$options$plot2) && !is.null(model)) {
           image2 <- self$results$plot2
           image2$setState(model)
         }
-        
+        ##### Plot3
         if (isTRUE(self$options$plot3) && !is.null(model)) {
           if (is.null(private$.allCache$clusterData) || optionsChanged) {
             data <- jmvcore::select(self$data, self$options$vars)
             data <- jmvcore::naOmit(data)
             for (i in seq_along(self$options$vars))
               data[[i]] <- jmvcore::toNumeric(data[[i]])
-            
             res.pca <- FactoMineR::PCA(data, graph = FALSE)
             var <- factoextra::get_pca_var(res.pca)
             set.seed(1234)
@@ -277,15 +245,12 @@ kmeansClass <- if (requireNamespace('jmvcore'))
               algorithm = self$options$algo
             )
             grp <- as.factor(res.km$cluster)
-            
             state <- list(res.pca, grp)
             private$.allCache$clusterData <- state
           }
-          
           image3 <- self$results$plot3
           image3$setState(private$.allCache$clusterData)
         }
-        
         # Scree plot (plot5)
         if (isTRUE(self$options$plot5)) {
           if (is.null(private$.allCache$elbowData) || optionsChanged) {
@@ -293,9 +258,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             data <- jmvcore::naOmit(data)
             for (i in seq_along(self$options$vars))
               data[[i]] <- jmvcore::toNumeric(data[[i]])
-            
             inertia <- numeric(self$options$max)
-            
             for (k in 1:self$options$max) {
               set.seed(1234)
               km.res <- stats::kmeans(
@@ -309,11 +272,9 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             elbow_data <- data.frame(K = 1:self$options$max, Inertia = inertia)
             private$.allCache$elbowData <- elbow_data
           }
-          
           image5 <- self$results$plot5
           image5$setState(private$.allCache$elbowData)
         }
-        
         #---------------------------------------
         if (length(self$options$factors) >= 1) {
           if (is.null(private$.allCache$gowerData) || optionsChanged) {
@@ -321,7 +282,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             vars <- self$options$vars
             facs <- self$options$factors
             data <- self$data
-            
             # continuous vars---
             if (length(vars) > 0) {
               for (i in seq_along(vars))
@@ -332,28 +292,22 @@ kmeansClass <- if (requireNamespace('jmvcore'))
               for (fac in facs)
                 data[[fac]] <- as.factor(data[[fac]])
             }
-            
             # combine dataset---
             selected_vars <- c(vars, facs)
             dat <- jmvcore::select(data, selected_vars)
-            
             # Gower 거리 계산 및 캐싱
             if (isTRUE(self$options$oc)) {
               set.seed(1234)
               oc <- clustMixType::validation_kproto(data = dat, type = 'gower')
               private$.allCache$gowerData <- list(indices = oc$indices)
             }
-            
             if (isTRUE(self$options$kp)) {
               set.seed(1234)
-              # Gower distance---
               proto <- clustMixType::kproto(dat, k = k1, type = 'gower')
-              
               if (is.null(private$.allCache$gowerData)) {
                 private$.allCache$gowerData <- list()
               }
               private$.allCache$gowerData$proto <- proto
-              
               if (isTRUE(self$options$plot4)) {
                 gn <- proto$cluster
                 gower_dist <- stats::as.dist(proto$dists)
@@ -363,12 +317,10 @@ kmeansClass <- if (requireNamespace('jmvcore'))
                 agg_sil <- stats::aggregate(silhouette_width ~ cluster, data = sil_data, mean)
                 agg_sil$cluster_num <- as.integer(as.character(agg_sil$cluster))
                 agg_sil <- agg_sil[order(agg_sil$cluster_num), ]
-                
                 private$.allCache$silhouetteData <- agg_sil
               }
             }
           }
-          
           if (isTRUE(self$options$oc) && !is.null(private$.allCache$gowerData$indices)) {
             table <- self$results$oc
             oc <- data.frame(private$.allCache$gowerData$indices)
@@ -379,22 +331,18 @@ kmeansClass <- if (requireNamespace('jmvcore'))
               table$addRow(rowKey = name, values = row)
             }
           }
-          
           if (isTRUE(self$options$kp) && !is.null(private$.allCache$gowerData$proto)) {
             proto <- private$.allCache$gowerData$proto
-            
             table <- self$results$kp
             mat <- data.frame(proto$dists)
             colnames(mat) <- paste0("Cluster", seq_along(colnames(mat)))
             names <- dimnames(mat)[[1]]
             dims <- colnames(mat)
-            
             for (dim in dims) {
               table$addColumn(name = paste0(dim),
                               type = 'text',
                               combineBelow = TRUE)
             }
-            
             for (name in names) {
               row <- list()
               for (j in seq_along(dims)) {
@@ -402,13 +350,16 @@ kmeansClass <- if (requireNamespace('jmvcore'))
               }
               table$addRow(rowKey = name, values = row)
             }
-            
-            # cluster number
+            # cluster number: clust1
             gn <- proto$cluster
-            self$results$clust1$setValues(gn)
+            # 결측치 매칭 (clust1용)
+            n_row <- nrow(self$data)
+            not_na_idx <- which(stats::complete.cases(self$data[, c(vars, facs), drop=FALSE]))
+            gn_vec <- rep(NA, n_row)
+            gn_vec[not_na_idx] <- as.numeric(gn)
             self$results$clust1$setRowNums(rownames(self$data))
+            self$results$clust1$setValues(gn_vec)
           }
-          
           if (isTRUE(self$options$plot4) && !is.null(private$.allCache$silhouetteData)) {
             image4 <- self$results$plot4
             image4$setState(private$.allCache$silhouetteData)
@@ -450,16 +401,21 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       .plot1 = function(image1, ggtheme, theme, ...) {
         if (is.null(image1$state))
           return(FALSE)
-        # read data ----
         vars <- self$options$vars
-        data <- self$data
-        data <- jmvcore::naOmit(data)
+        data <- image1$state
         
+        # 1. naOmit 적용
+        data <- jmvcore::naOmit(data)
+        if (nrow(data) < 2 || ncol(data) < 1) {
+          stop("There is no variable left after removing missing values.")
+        }
+        
+        # 2. numeric 변환
         for (i in seq_along(vars))
           data[[i]] <- jmvcore::toNumeric(data[[i]])
-        plotData1 <- image1$state
-        plot1 <-
-          factoextra::fviz_nbclust(plotData1, stats::kmeans, method = "gap_stat")
+        
+        # 3. gap_stat 분석
+        plot1 <- factoextra::fviz_nbclust(data, stats::kmeans, method = "gap_stat")
         plot1 <- plot1 + ggtheme
         print(plot1)
         TRUE
