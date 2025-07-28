@@ -66,8 +66,7 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               # 
               '<div style="margin-top:20px; padding:12px; border:2px solid #f08c7e; background:#ffe8e2; border-radius:10px;">',
               '<b>⚠️ Missing values detected in your data.</b><br>',
-              'Please locate the row(s) with missing values and enter a value.<br>',
-              'If you do not know the value, enter <b>0</b> to proceed with the analysis.',
+              'Please locate the row(s) with missing values in any variable (time, item, or value)—including character (text), numeric, or date types—and enter a valid value.',
               '</div>'
             )
           )
