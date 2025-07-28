@@ -11,10 +11,9 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       
       .init = function() {
         private$.htmlwidget <- HTMLWidget$new()
-        if (is.null(self$data) | is.null(self$options$item)) {
-          self$results$instructions$setVisible(visible = TRUE)
-        }
-        self$results$instructions$setContent(private$.htmlwidget$generate_accordion(
+        
+        # Set default instruction message
+        instruction_html <- private$.htmlwidget$generate_accordion(
           title = "Instructions",
           content = paste(
             '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
@@ -22,10 +21,14 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<ul>',
             '<li>Perform time series clustering based on <a href="https://www.r-bloggers.com/2024/07/time-series-clustering-in-r/" target = "_blank">Widyr R package</a>.</li>',
             '<li>The variables must be named <b>time, item, and value</b> respectively.</li>',
+            '<li>All <b>item</b> and <b>time</b> combinations must be present in your data, and <b>time</b> values must be consistent and regular for all items (e.g., every year or every five years). Otherwise, the analysis may fail or results may be incorrect.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
           )
-        ))
+        )
+        self$results$instructions$setContent(instruction_html)
+        
+        # Set plot sizes if the options are TRUE
         if (isTRUE(self$options$plot)) {
           width <- self$options$width
           height <- self$options$height
@@ -39,28 +42,56 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .run = function() {
+        # Check for basic required options
         if (is.null(self$data) |
             is.null(self$options$item) |
             is.null(self$options$feature) | is.null(self$options$value))
           return()
         
-        # 결과 캐시
+        data <- self$data
+        
+        # Show missing value warning and stop analysis if any missing values exist
+        if (any(is.na(data))) {
+          instruction_html <- private$.htmlwidget$generate_accordion(
+            title = "Instructions",
+            content = paste(
+              '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+              '<div style="text-align:justify;">',
+              '<ul>',
+              '<li>Perform time series clustering based on <a href="https://www.r-bloggers.com/2024/07/time-series-clustering-in-r/" target = "_blank">Widyr R package</a>.</li>',
+              '<li>The variables must be named <b>time, item, and value</b> respectively.</li>',
+              '<li>All <b>item</b> and <b>time</b> combinations must be present in your data, and <b>time</b> values must be consistent and regular for all items (e.g., every year or every five years). Otherwise, the analysis may fail or results may be incorrect.</li>',
+              '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+              '</ul></div></div>',
+              # 
+              '<div style="margin-top:20px; padding:12px; border:2px solid #f08c7e; background:#ffe8e2; border-radius:10px;">',
+              '<b>⚠️ Missing values detected in your data.</b><br>',
+              'Please locate the row(s) with missing values and enter a value.<br>',
+              'If you do not know the value, enter <b>0</b> to proceed with the analysis.',
+              '</div>'
+            )
+          )
+          self$results$instructions$setContent(instruction_html)
+          return()
+        }
+        
+        # Run actual clustering only if no missing values are present
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeRES()
         }
         all <- private$.allCache
         
+        # Set plot contents if required
         if (isTRUE(self$options$plot1)) {
           image <- self$results$plot1
           image$setState(all$bic)
         }
         
-        # 군집 결과값 (결측 매칭)
         if (isTRUE(self$options$clust)) {
-          m <- all$cluster_vec
+          m <- as.factor(all$df$cluster)
           if (self$options$clust && self$results$clust$isNotFilled()) {
             self$results$clust$setValues(m)
-            self$results$clust$setRowNums(rownames(self$data))
+            self$results$clust$setRowNums(rownames(data))
           }
         }
         
@@ -70,8 +101,8 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
       },
       
-      # plot---
       .plot1 = function(image, ...) {
+        # Plot BIC selection
         if (is.null(image$state))
           return(FALSE)
         bic <- image$state
@@ -81,6 +112,7 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .plot = function(image, ggtheme, theme, ...) {
+        # Plot time series clustering results
         if (is.null(image$state))
           return(FALSE)
         df <- image$state
@@ -101,56 +133,42 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .computeRES = function() {
+        # Compute results for time series clustering analysis
         item <- self$options$item
         feature <- self$options$feature
         value <- self$options$value
         k <- self$options$k
         
         data <- self$data
-        na_vars <- c(item, feature, value)
-        complete_idx <- which(stats::complete.cases(data[, na_vars, drop=FALSE]))
-        data_noNA <- data[complete_idx, , drop=FALSE]
+        data <- jmvcore::naOmit(data)
+        data <- as.data.frame(data)
         
-        is.Date <- function(x) inherits(x, "Date")
-        if (!is.Date(data_noNA[, feature])) {
-          data_noNA[, feature] <- as.Date(paste(data_noNA[, feature], 1, 1, sep = "-"), format = "%Y-%m-%d")
+        # Convert to Date if needed
+        is.Date <- function(x) { inherits(x, "Date") }
+        if (!is.Date(data[, feature])) {
+          data[, feature] <- as.Date(paste(data[, feature], 1, 1, sep = "-"), format = "%Y-%m-%d")
+        } else {
+          data[, feature] <- data[, feature]
         }
-        data_tbl <- tibble::as_tibble(data_noNA)
         
-        # --- [여기서 k가 distinct item 개수보다 크면 에러!] ---
-        n_items <- length(unique(data_noNA[[item]]))
-        if (k > n_items) {
-          stop(paste0(
-            "Number of clusters (k=", k, ") must be less than or equal to number of distinct items (", n_items, ") after removing missing values."
-          ))
-        }
-        # -----------------------------------------------------
+        data <- tibble::as_tibble(data)
         
-        # BIC 계산
-        bic <- mclust::mclustBIC(data_noNA[[value]])
+        # Find optimal number of clusters using BIC (univariate)
+        bic <- mclust::mclustBIC(data$value)
         self$results$text$setContent(bic)
         
-        # kmeans clustering (여기가 핵심)
+        # Perform k-means clustering using widely_kmeans
         set.seed(1234)
-        res <- widyr::widely_kmeans(
-          tbl = data_tbl,
-          item = item,        # 변수명 문자열!
-          feature = feature,
-          value = value,
-          k = k
-        )
-        
-        df <- dplyr::left_join(data_tbl, res)
-        cluster_vec <- rep(NA, nrow(data))
-        cluster_vec[complete_idx] <- as.character(res$cluster)
-        
-        retlist = list(
-          res = res,
-          df = df,
-          bic = bic,
-          cluster_vec = cluster_vec,
-          complete_idx = complete_idx
-        )
+        res <- data %>%
+          widyr::widely_kmeans(
+            tbl = data,
+            item = item,
+            feature = time,
+            value = value,
+            k = k
+          )
+        df <- dplyr::left_join(data, res)
+        retlist = list(res = res, df = df, bic = bic)
         return(retlist)
       }
     )
