@@ -24,21 +24,16 @@ items:
       visible: (over1)
       refs: caret 
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
         - method
+        - trans
         - mecon
         - number
         - repeats
         - tune
-        - ml
-        - me
-        - num
-        - rep
-        - tune1        
-        - trans
 
       columns:
         - name: accu
@@ -63,21 +58,16 @@ items:
       visible: (over)
       refs: caret  
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
 
       columns:
         - name: accu
@@ -101,23 +91,18 @@ items:
       visible: (tra)
       refs: caret  
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - ml
-        - me
-        - num
-        - rep
-        - tune1        
-        - trans
         - positive1
-        
+
       columns:
         - name: name
           title: ''
@@ -129,22 +114,18 @@ items:
       type: Table
       visible: (tes)
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - ml
-        - me
-        - num
-        - rep
-        - tune1        
-        - trans
         - positive
+
       refs: caret    
 
       columns:
@@ -159,23 +140,18 @@ items:
       visible: (cla1)
       refs: caret 
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
         - positive1
-        
+
       columns:
         - name: name
           title: ''
@@ -188,21 +164,16 @@ items:
       visible: (cla)
       refs: caret 
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - ml
-        - me
-        - num
-        - rep
-        - tune1        
-        - trans
         - positive
 
       columns:
@@ -219,21 +190,16 @@ items:
       refs: caret
       requiresData: true
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - ml
-        - me
-        - num
-        - rep
-        - tune1        
-        - trans
         - width2
         - height2
 
@@ -245,24 +211,18 @@ items:
       refs: MLeval
       requiresData: true
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - facs
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
         - width8
-        - height8        
+        - height8
 
     - name:  plot
       title:  'Comparison of ROC curves'                
@@ -272,22 +232,17 @@ items:
       refs: MLeval
       requiresData: true
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
         - cm1
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
         - width
         - height
 
@@ -299,22 +254,17 @@ items:
       refs: MLeval
       requiresData: true
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
         - cm1
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
         - width4
         - height4
 
@@ -325,24 +275,19 @@ items:
       renderFun: .plot1
       refs: caret
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - facs
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
         - width1
         - height1
+
 
     - name:  plot3
       title: 'ROC plot with test set'               
@@ -351,23 +296,19 @@ items:
       renderFun: .plot3
       refs: MLeval
       clearWith:
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - facs
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
         - width3
         - height3
+
 
     - name:  plot5
       title: Box plot              
@@ -376,24 +317,19 @@ items:
       renderFun: .plot5
       refs: caret
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - cm1
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
         - width5
         - height5
+
 
     - name:  plot6
       title: Density plot              
@@ -402,22 +338,16 @@ items:
       renderFun: .plot6
       refs: caret
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
+        - method
+        - trans
         - mecon
         - number
         - repeats
-        - method
         - tune
-        - cm1 
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
-        - trans
         - width6
         - height6
 
@@ -430,19 +360,14 @@ items:
           visible: (accu)
           type: Table
           clearWith:
-            - facs
-            - covs 
             - dep
+            - covs
+            - facs
             - per
-            - mecon
             - method
-            - cm1 
-            - ml
-            - me
-            - num
-            - rep
-            - tune1
             - trans
+            - mecon
+            - cm1
 
           columns:
             - name: name
@@ -476,19 +401,14 @@ items:
           visible: (kapp)
           type: Table
           clearWith:
-            - facs
-            - covs 
             - dep
+            - covs
+            - facs
             - per
-            - mecon
             - method
-            - cm1 
-            - ml
-            - me
-            - num
-            - rep
-            - tune1
             - trans
+            - mecon
+            - cm1
 
           columns:
             - name: name
@@ -524,19 +444,14 @@ items:
       renderFun: .plot7
       refs: caret
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
-        - mecon
         - method
-        - cm1 
-        - ml
-        - me
-        - num
-        - rep
-        - tune1
         - trans
+        - mecon
+        - cm1
         - width7
         - height7
 
@@ -546,18 +461,15 @@ items:
       varTitle: Prediction
       measureType: nominal
       clearWith:
-        - facs
-        - covs 
         - dep
+        - covs
+        - facs
         - per
-        - mecon
         - method
+        - trans
+        - mecon
         - number
         - repeats
         - tune
-        - cm1
-        - ml
-        - me
-        - trans
 
 ...
