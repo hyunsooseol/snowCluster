@@ -82,6 +82,8 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "gc",
                 gc,
                 default=TRUE)
+            private$..scores <- jmvcore::OptionOutput$new(
+                "scores")
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -118,6 +120,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..tra)
             self$.addOption(private$..tes)
             self$.addOption(private$..gc)
+            self$.addOption(private$..scores)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
             self$.addOption(private$..width)
@@ -137,6 +140,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         tra = function() private$..tra$value,
         tes = function() private$..tes$value,
         gc = function() private$..gc$value,
+        scores = function() private$..scores$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
         width = function() private$..width$value,
@@ -155,6 +159,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..tra = NA,
         ..tes = NA,
         ..gc = NA,
+        ..scores = NA,
         ..plot = NA,
         ..plot1 = NA,
         ..width = NA,
@@ -178,7 +183,8 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         tes = function() private$.items[["tes"]],
         plot = function() private$.items[["plot"]],
         gc = function() private$.items[["gc"]],
-        plot1 = function() private$.items[["plot1"]]),
+        plot1 = function() private$.items[["plot1"]],
+        scores = function() private$.items[["scores"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -363,7 +369,15 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep",
                     "per",
                     "width1",
-                    "height1")))}))
+                    "height1")))
+            self$add(jmvcore::Output$new(
+                options=options,
+                name="scores",
+                title="Discriminant scores",
+                clearWith=list(
+                    "covs",
+                    "dep",
+                    "per")))}))
 
 discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "discBase",
@@ -383,7 +397,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 pause = NULL,
                 completeWhenFilled = FALSE,
                 requiresMissings = FALSE,
-                weightsSupport = 'auto')
+                weightsSupport = 'none')
         }))
 
 #' Linear Discriminant Analysis
@@ -421,6 +435,7 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$gc} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$scores} \tab \tab \tab \tab \tab an output \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

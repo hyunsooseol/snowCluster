@@ -179,4 +179,12 @@ items:
         - width1
         - height1
 
+    - name: scores
+      title: 'Discriminant scores'
+      type: Output
+      clearWith:
+        - covs
+        - dep
+        - per
+
 ...

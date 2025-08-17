@@ -63,6 +63,11 @@ children:
                     format: number
               - type: CheckBox
                 name: tes
+          - type: Label
+            label: Save
+            children: 
+              - type: Output
+                name: scores
   - type: LayoutBox
     margin: large
     stretchFactor: 1
@@ -104,5 +109,4 @@ children:
                     name: height1
                     format: number
                     enable: (plot1)
- 
-   
+

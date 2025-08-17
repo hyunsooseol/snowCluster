@@ -73,6 +73,10 @@ options:
       type: Bool 
       default: TRUE   
 
+    - name: scores
+      title: 'Discriminant scores' 
+      type: Output        
+
     - name: plot
       title: 'Linear discriminant' 
       type: Bool
@@ -102,5 +106,6 @@ options:
       type: Integer
       title: "X"
       default: 500  
+ 
       
 ...

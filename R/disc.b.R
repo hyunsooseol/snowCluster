@@ -26,7 +26,7 @@ discClass <- if (requireNamespace('jmvcore'))
             '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
             '<div style="text-align:justify;">',
             '<ul>',
-            '<li>If you set <b>Split set</b> to less than 1, uncheck the linear discriminant plot. Otherwise, you will get an error.</li>',
+            '<li>If you set <b>Split set</b> to less than 1, uncheck the linear discriminant plot and discriminant scores. Otherwise, you will get an error.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
             
@@ -51,7 +51,8 @@ discClass <- if (requireNamespace('jmvcore'))
       #---------------------------------------------
       
       .run = function() {
-        if (is.null(self$options$dep) || length(self$options$covs) < 2)
+
+          if (is.null(self$options$dep) || length(self$options$covs) < 2)
           return()
         
         dep <- self$options$dep
@@ -65,29 +66,6 @@ discClass <- if (requireNamespace('jmvcore'))
           data[[cov]] <- jmvcore::toNumeric(data[[cov]])
         
         data[[dep]] <- as.factor(data[[dep]])
-        #
-        #  # dividing two datasets------------------------
-        #
-        #  set.seed(1234) # Set seed for reproducibility
-        #
-        #  # training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.7,0.3))
-        #  # train <- data[training_sample, ]
-        #  # test <- data[!training_sample, ]
-        #
-        #  split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
-        #  train <-data[split1,]
-        #  test <- data[-split1,]
-        #
-        #  formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
-        #  formula <- as.formula(formula)
-        #
-        #  ####LDA ANALYSIS##############################################
-        #
-        #  lda.train <- MASS::lda(formula, data=train)
-        #
-        # ###################################################
-        
-        #res <- private$.computeRES()
         
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeRES()
@@ -179,6 +157,7 @@ discClass <- if (requireNamespace('jmvcore'))
         # table(train$lda,train$Species)
         
         if (isTRUE(self$options$tra)) {
+          
           pred = predict(res$lda.train)
           #self$results$text$setContent(pred)
           
@@ -313,40 +292,42 @@ discClass <- if (requireNamespace('jmvcore'))
             }
           }
         }
-        
-        # Histogram---------------------
-        # if(length(self$options$covs) >2){
-        #
-        # image1 <- self$results$plot1
-        # image1$setState(lda.train)
-        # }
+
+
+        if (isTRUE(self$options$scores)) {
+          pred <- as.data.frame(predict(res$lda.train)$x)
+          
+          keys <- 1:2
+          titles <- c("LD1", "LD2")
+          descriptions <- c("LD1", "LD2")
+          measureTypes <- rep("continuous", 2)
+          
+          self$results$scores$set(
+            keys = keys,
+            titles = titles,
+            descriptions = descriptions,
+            measureTypes = measureTypes
+          )
+          
+          self$results$scores$setRowNums(rownames(self$data))
+          
+          # 전체 데이터 크기에 맞는 NA 벡터 생성
+          full_scores <- matrix(NA, nrow = nrow(self$data), ncol = 2)
+          
+          # 결측값이 없는 행의 인덱스 찾기
+          complete_rows <- complete.cases(self$data)
+          
+          # 완전한 행에만 판별점수 할당
+          full_scores[complete_rows, ] <- as.matrix(pred)
+          
+          for (i in 1:2) {
+            values <- as.numeric(full_scores[, i])
+            self$results$scores$setValues(index = i, values)
+          }
+        }
         
       },
-      #Plot---
-      
-      # .plot = function(image, ggtheme, theme, ...) {
-      #   if (is.null(image$state))
-      #     return(FALSE)
-      #   
-      #   df <- image$state[[1]]
-      #   cent <- image$state[[2]]
-      #   library(ggplot2)
-      #   plot <- ggplot(df, ggplot2::aes(x = LD1, y = LD2, color = Groups)) +
-      #     geom_point(alpha = 0.6) +
-      #     geom_point(
-      #       data = cent,
-      #       ggplot2::aes(x = LD1, y = LD2, color = Groups),
-      #       size = 7,
-      #       shape = 17,
-      #       alpha = 1
-      #     ) +
-      #     labs(title = "", x = "LD1", y = "LD2")
-      #   
-      #   plot <- plot + ggtheme
-      #   print(plot)
-      #   TRUE
-      # },
-
+        
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)
@@ -432,3 +413,26 @@ discClass <- if (requireNamespace('jmvcore'))
       }
     )
   )
+#
+#  # dividing two datasets------------------------
+#
+#  set.seed(1234) # Set seed for reproducibility
+#
+#  # training_sample <- sample(c(TRUE, FALSE), nrow(data), replace = T, prob = c(0.7,0.3))
+#  # train <- data[training_sample, ]
+#  # test <- data[!training_sample, ]
+#
+#  split1<- caret::createDataPartition(data[[self$options$dep]], p=per,list = F)
+#  train <-data[split1,]
+#  test <- data[-split1,]
+#
+#  formula <- jmvcore::constructFormula(self$options$dep, self$options$covs)
+#  formula <- as.formula(formula)
+#
+#  ####LDA ANALYSIS##############################################
+#
+#  lda.train <- MASS::lda(formula, data=train)
+#
+# ###################################################
+
+#res <- private$.computeRES()
