@@ -22,68 +22,71 @@ children:
             isTarget: true
   - type: LayoutBox
     margin: large
-    stretchFactor: 1
     children:
-      - type: LayoutBox
-        margin: large
-        cell:
-          column: 0
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: Label
-            label: Algorithm
-            children:
-              - type: RadioButton
-                name: algo_Hartigan-Wong
-                optionName: algo
-                optionPart: Hartigan-Wong
-              - name: algo_Lloyd
-                type: RadioButton
-                optionName: algo
-                optionPart: Lloyd
-              - name: algo_Forgy
-                type: RadioButton
-                optionName: algo
-                optionPart: Forgy
-              - name: algo_MacQueen
-                type: RadioButton
-                optionName: algo
-                optionPart: MacQueen
-      - type: LayoutBox
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: Label
-            label: Options
-            children:
-              - name: stand
-                type: CheckBox
-              - name: k
-                type: TextBox
-                format: number
-              - name: nstart
-                type: TextBox
-                format: number
-          - type: Label
-            label: Save
-            children:
-              - type: Output
-                name: clust
+      - name: stand
+        type: CheckBox
   - type: CollapseBox
-    label: Plots
+    label: 'K-means Clustering'
     margin: normal
     collapsed: true
     children:
       - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: Label
+                label: Algorithm
+                children:
+                  - type: RadioButton
+                    name: algo_Hartigan-Wong
+                    optionName: algo
+                    optionPart: Hartigan-Wong
+                  - name: algo_Lloyd
+                    type: RadioButton
+                    optionName: algo
+                    optionPart: Lloyd
+                  - name: algo_Forgy
+                    type: RadioButton
+                    optionName: algo
+                    optionPart: Forgy
+                  - name: algo_MacQueen
+                    type: RadioButton
+                    optionName: algo
+                    optionPart: MacQueen
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: Label
+                label: 'Options'
+                children:
+                  - name: k
+                    type: TextBox
+                    format: number
+                  - name: nstart
+                    type: TextBox
+                    format: number
+              - type: Label
+                label: 'Save'
+                children:
+                  - type: Output
+                    name: clust
+      - type: LayoutBox
         stretchFactor: 1
         margin: large
         children:
           - type: Label
-            label: ''
+            label: 'Plots'
             fitToGrid: true
             cell:
               column: 0
@@ -91,7 +94,6 @@ children:
             children:
               - type: CheckBox
                 name: plot
-                style: list-inline
                 children:
                   - type: TextBox
                     name: width
@@ -101,26 +103,14 @@ children:
                     name: height
                     format: number
                     enable: (plot)
-              - type: TextBox
-                name: angle
-                format: number
-                enable: (plot)
-                suggestedValues:
-                  - value: 0
-                  - value: 45
-                  - value: 90
-              - type: CheckBox
-                name: plot1
-                style: list-inline
-                children:
                   - type: TextBox
-                    name: width1
+                    name: angle
                     format: number
-                    enable: (plot1)
-                  - type: TextBox
-                    name: height1
-                    format: number
-                    enable: (plot1)
+                    enable: (plot)
+                    suggestedValues:
+                      - value: 0
+                      - value: 45
+                      - value: 90
               - type: CheckBox
                 name: plot5
                 children:
@@ -136,16 +126,6 @@ children:
                     name: height5
                     format: number
                     enable: (plot5)
-      - type: LayoutBox
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: Label
-            label: ''
-            children:
               - type: CheckBox
                 name: plot2
                 style: list-inline
@@ -170,6 +150,18 @@ children:
                     name: height3
                     format: number
                     enable: (plot3)
+              - type: CheckBox
+                name: plot1
+                style: list-inline
+                children:
+                  - type: TextBox
+                    name: width1
+                    format: number
+                    enable: (plot1)
+                  - type: TextBox
+                    name: height1
+                    format: number
+                    enable: (plot1)
   - type: CollapseBox
     label: 'Gower Distance'
     collapsed: true

@@ -235,6 +235,15 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             data <- jmvcore::naOmit(data)
             for (i in seq_along(self$options$vars))
               data[[i]] <- jmvcore::toNumeric(data[[i]])
+            
+            # 표준화 옵션 적용
+            if (self$options$stand) {
+              for (var in 1:ncol(data)) {
+                tmp <- data[, var]
+                data[, var] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
+              }
+            }
+            
             res.pca <- FactoMineR::PCA(data, graph = FALSE)
             var <- factoextra::get_pca_var(res.pca)
             set.seed(1234)
@@ -251,13 +260,22 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           image3 <- self$results$plot3
           image3$setState(private$.allCache$clusterData)
         }
-        # Scree plot (plot5)
+        # Scree plot (plot5) - 표준화 옵션 반영
         if (isTRUE(self$options$plot5)) {
           if (is.null(private$.allCache$elbowData) || optionsChanged) {
             data <- jmvcore::select(self$data, self$options$vars)
             data <- jmvcore::naOmit(data)
             for (i in seq_along(self$options$vars))
               data[[i]] <- jmvcore::toNumeric(data[[i]])
+            
+            # 표준화 옵션 적용
+            if (self$options$stand) {
+              for (var in 1:ncol(data)) {
+                tmp <- data[, var]
+                data[, var] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
+              }
+            }
+            
             inertia <- numeric(self$options$max)
             for (k in 1:self$options$max) {
               set.seed(1234)
@@ -282,11 +300,21 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             vars <- self$options$vars
             facs <- self$options$factors
             data <- self$data
-            # continuous vars---
+            
+            # continuous vars 처리
             if (length(vars) > 0) {
               for (i in seq_along(vars))
                 data[[vars[i]]] <- jmvcore::toNumeric(data[[vars[i]]])
+              
+              # 표준화 옵션 적용 (연속변수에만)
+              if (self$options$stand && length(vars) > 0) {
+                for (var in vars) {
+                  tmp <- data[[var]]
+                  data[[var]] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
+                }
+              }
             }
+            
             # factor vars---
             if (length(facs) > 0) {
               for (fac in facs)
@@ -397,7 +425,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         }
       },
       
-      # Optimal number of clusters------
+      # Optimal number of clusters - 표준화 옵션 반영
       .plot1 = function(image1, ggtheme, theme, ...) {
         if (is.null(image1$state))
           return(FALSE)
@@ -410,12 +438,21 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           stop("There is no variable left after removing missing values.")
         }
         
-        # 2. numeric 변환
+        # 2. 변수들을 선택하고 numeric 변환
+        dat <- jmvcore::select(data, vars)
         for (i in seq_along(vars))
-          data[[i]] <- jmvcore::toNumeric(data[[i]])
+          dat[[i]] <- jmvcore::toNumeric(dat[[i]])
         
-        # 3. gap_stat 분석
-        plot1 <- factoextra::fviz_nbclust(data, stats::kmeans, method = "gap_stat")
+        # 3. 표준화 옵션 적용 (.run() 함수와 동일한 로직)
+        if (self$options$stand) {
+          for (var in 1:ncol(dat)) {
+            tmp <- dat[, var]
+            dat[, var] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
+          }
+        }
+        
+        # 4. gap_stat 분석 (표준화된 데이터 또는 원본 데이터 사용)
+        plot1 <- factoextra::fviz_nbclust(dat, stats::kmeans, method = "gap_stat")
         plot1 <- plot1 + ggtheme
         print(plot1)
         TRUE
@@ -437,20 +474,32 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         TRUE
       },
       
-      # cluster plot------
+      # cluster plot - 표준화 옵션 반영
       .plot2 = function(image2, ggtheme, theme, ...) {
         if (is.null(image2$state))
           return(FALSE)
         vars <- self$options$vars
         data <- self$data
         data <- jmvcore::naOmit(data)
+        
+        # 변수 선택 및 numeric 변환
+        dat <- jmvcore::select(data, vars)
         for (i in seq_along(vars))
-          data[[i]] <- jmvcore::toNumeric(data[[i]])
+          dat[[i]] <- jmvcore::toNumeric(dat[[i]])
+        
+        # 표준화 옵션 적용
+        if (self$options$stand) {
+          for (var in 1:ncol(dat)) {
+            tmp <- dat[, var]
+            dat[, var] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
+          }
+        }
+        
         km.res <- image2$state
         plot2 <-
           factoextra::fviz_cluster(
             km.res,
-            data = data,
+            data = dat, # 표준화 옵션에 따른 데이터 사용
             ellipse.type = "convex",
             palette = "jco",
             ggtheme = theme_minimal()

@@ -15,7 +15,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             oc = FALSE,
             algo = "Hartigan-Wong",
             nstart = 10,
-            stand = FALSE,
+            stand = TRUE,
             plot = FALSE,
             angle = 0,
             plot1 = FALSE,
@@ -97,7 +97,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..stand <- jmvcore::OptionBool$new(
                 "stand",
                 stand,
-                default=FALSE)
+                default=TRUE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -374,7 +374,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Plot of means across clusters",
+                title="Cluster profiles plot",
                 visible="(plot)",
                 renderFun=".plot",
                 clearWith=list(
@@ -389,7 +389,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
-                title="Optimal number of clusters",
+                title="Gap statistic plot",
                 refs="factoextra",
                 visible="(plot1)",
                 renderFun=".plot1",
@@ -404,7 +404,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
-                title="Scree plot",
+                title="Elbow plot",
                 refs="snowCluster",
                 visible="(plot5)",
                 renderFun=".plot5",
@@ -420,7 +420,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
-                title="Cluster plot",
+                title="Cluster scatter plot",
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot2)",
@@ -436,7 +436,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
-                title="Variables-PCA",
+                title="Variable clustering(PCA)",
                 requiresData=TRUE,
                 refs="factoextra",
                 visible="(plot3)",
@@ -609,7 +609,7 @@ kmeans <- function(
     oc = FALSE,
     algo = "Hartigan-Wong",
     nstart = 10,
-    stand = FALSE,
+    stand = TRUE,
     plot = FALSE,
     angle = 0,
     plot1 = FALSE,
