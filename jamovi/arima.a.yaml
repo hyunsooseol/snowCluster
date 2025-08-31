@@ -225,5 +225,67 @@ options:
       title: "X"
       default: 500      
 
+    - name: resid
+      title: 'Residual Diagnostics'
+      type: Bool
+      default: false
+
+    - name: plot9
+      title: "Residuals ACF plot"
+      type: Bool
+      default: false
+
+    - name: plot10
+      title: "Residuals PACF plot"
+      type: Bool
+      default: false      
+
+    - name: width9
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height9
+      type: Integer
+      title: "X"
+      default: 500      
+
+    - name: width10
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height10
+      type: Integer
+      title: "X"
+      default: 500      
+
+    - name: level
+      title: Prediction interval (%)
+      type: Integer
+      default: 95
+      min: 50
+      max: 99
+
+    - name: lbLag
+      title: Ljung-Box lag (0 = auto)
+      type: Integer
+      default: 0
+      min: 0
+
+    - name: clean
+      title: 'Clean outliers & missing'
+      type: List
+      options:
+        - title: 'TRUE'
+          name:  'TRUE'
+        - title: 'FALSE'
+          name: 'FALSE'
+      default: 'FALSE'
+
+    - name: showAcc
+      title: 'Accuracy metrics'
+      type: Bool
+      default: false
 
 ...

@@ -40,7 +40,18 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             width7 = 500,
             height7 = 500,
             width8 = 500,
-            height8 = 500, ...) {
+            height8 = 500,
+            resid = FALSE,
+            plot9 = FALSE,
+            plot10 = FALSE,
+            width9 = 500,
+            height9 = 500,
+            width10 = 500,
+            height10 = 500,
+            level = 95,
+            lbLag = 0,
+            clean = "FALSE",
+            showAcc = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -210,6 +221,56 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "height8",
                 height8,
                 default=500)
+            private$..resid <- jmvcore::OptionBool$new(
+                "resid",
+                resid,
+                default=FALSE)
+            private$..plot9 <- jmvcore::OptionBool$new(
+                "plot9",
+                plot9,
+                default=FALSE)
+            private$..plot10 <- jmvcore::OptionBool$new(
+                "plot10",
+                plot10,
+                default=FALSE)
+            private$..width9 <- jmvcore::OptionInteger$new(
+                "width9",
+                width9,
+                default=500)
+            private$..height9 <- jmvcore::OptionInteger$new(
+                "height9",
+                height9,
+                default=500)
+            private$..width10 <- jmvcore::OptionInteger$new(
+                "width10",
+                width10,
+                default=500)
+            private$..height10 <- jmvcore::OptionInteger$new(
+                "height10",
+                height10,
+                default=500)
+            private$..level <- jmvcore::OptionInteger$new(
+                "level",
+                level,
+                default=95,
+                min=50,
+                max=99)
+            private$..lbLag <- jmvcore::OptionInteger$new(
+                "lbLag",
+                lbLag,
+                default=0,
+                min=0)
+            private$..clean <- jmvcore::OptionList$new(
+                "clean",
+                clean,
+                options=list(
+                    "TRUE",
+                    "FALSE"),
+                default="FALSE")
+            private$..showAcc <- jmvcore::OptionBool$new(
+                "showAcc",
+                showAcc,
+                default=FALSE)
 
             self$.addOption(private$..mode)
             self$.addOption(private$..dep)
@@ -246,6 +307,17 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..height7)
             self$.addOption(private$..width8)
             self$.addOption(private$..height8)
+            self$.addOption(private$..resid)
+            self$.addOption(private$..plot9)
+            self$.addOption(private$..plot10)
+            self$.addOption(private$..width9)
+            self$.addOption(private$..height9)
+            self$.addOption(private$..width10)
+            self$.addOption(private$..height10)
+            self$.addOption(private$..level)
+            self$.addOption(private$..lbLag)
+            self$.addOption(private$..clean)
+            self$.addOption(private$..showAcc)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -282,7 +354,18 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         width7 = function() private$..width7$value,
         height7 = function() private$..height7$value,
         width8 = function() private$..width8$value,
-        height8 = function() private$..height8$value),
+        height8 = function() private$..height8$value,
+        resid = function() private$..resid$value,
+        plot9 = function() private$..plot9$value,
+        plot10 = function() private$..plot10$value,
+        width9 = function() private$..width9$value,
+        height9 = function() private$..height9$value,
+        width10 = function() private$..width10$value,
+        height10 = function() private$..height10$value,
+        level = function() private$..level$value,
+        lbLag = function() private$..lbLag$value,
+        clean = function() private$..clean$value,
+        showAcc = function() private$..showAcc$value),
     private = list(
         ..mode = NA,
         ..dep = NA,
@@ -318,7 +401,18 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..width7 = NA,
         ..height7 = NA,
         ..width8 = NA,
-        ..height8 = NA)
+        ..height8 = NA,
+        ..resid = NA,
+        ..plot9 = NA,
+        ..plot10 = NA,
+        ..width9 = NA,
+        ..height9 = NA,
+        ..width10 = NA,
+        ..height10 = NA,
+        ..level = NA,
+        ..lbLag = NA,
+        ..clean = NA,
+        ..showAcc = NA)
 )
 
 arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -330,6 +424,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         coef = function() private$.items[["coef"]],
         fit = function() private$.items[["fit"]],
         point = function() private$.items[["point"]],
+        accTrain = function() private$.items[["accTrain"]],
+        accCV = function() private$.items[["accCV"]],
+        resid = function() private$.items[["resid"]],
         plot = function() private$.items[["plot"]],
         box = function() private$.items[["box"]],
         plot1 = function() private$.items[["plot1"]],
@@ -337,7 +434,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot3 = function() private$.items[["plot3"]],
         plot4 = function() private$.items[["plot4"]],
         plot5 = function() private$.items[["plot5"]],
-        plot6 = function() private$.items[["plot6"]]),
+        plot6 = function() private$.items[["plot6"]],
+        plot9 = function() private$.items[["plot9"]],
+        plot10 = function() private$.items[["plot10"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -363,7 +462,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred"),
+                    "clean"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -386,7 +485,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred"),
+                    "clean"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -405,7 +504,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred"),
+                    "pred",
+                    "level",
+                    "clean"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -426,6 +527,83 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `title`="Upper", 
                         `type`="number", 
                         `superTitle`="95% CI"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="accTrain",
+                title="Accuracy (in-sample)",
+                visible="(showAcc)",
+                clearWith=list(
+                    "dep",
+                    "freq",
+                    "pred",
+                    "level",
+                    "clean"),
+                columns=list(
+                    list(
+                        `name`="Metric", 
+                        `title`="Metric", 
+                        `type`="text"),
+                    list(
+                        `name`="Value", 
+                        `title`="Value", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="accCV",
+                title="Accuracy (tsCV, h=1)",
+                visible="(showAcc)",
+                clearWith=list(
+                    "dep",
+                    "freq",
+                    "clean"),
+                columns=list(
+                    list(
+                        `name`="Metric", 
+                        `title`="Metric", 
+                        `type`="text"),
+                    list(
+                        `name`="Value", 
+                        `title`="Value", 
+                        `type`="number"))))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(
+                    diagTable = function() private$.items[["diagTable"]]),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="resid",
+                            title="Residual Diagnostics",
+                            refs="forecast",
+                            clearWith=list(
+                    "dep",
+                    "freq",
+                    "clean",
+                    "lbLag"))
+                        self$add(jmvcore::Table$new(
+                            options=options,
+                            name="diagTable",
+                            title="Diagnostic tests",
+                            rows=4,
+                            columns=list(
+                                list(
+                                    `name`="Metric", 
+                                    `title`="Metric", 
+                                    `type`="text"),
+                                list(
+                                    `name`="Statistic", 
+                                    `title`="Statistic", 
+                                    `type`="number"),
+                                list(
+                                    `name`="df", 
+                                    `title`="df", 
+                                    `type`="number"),
+                                list(
+                                    `name`="p_value", 
+                                    `title`="p-value", 
+                                    `type`="number"))))}))$new(options=options))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -435,7 +613,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred",
+                    "clean",
                     "width7",
                     "height7")))
             self$add(jmvcore::Image$new(
@@ -448,7 +626,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred",
+                    "clean",
                     "width8",
                     "height8")))
             self$add(jmvcore::Image$new(
@@ -463,6 +641,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep",
                     "freq",
                     "pred",
+                    "level",
+                    "clean",
                     "width1",
                     "height1")))
             self$add(jmvcore::Image$new(
@@ -474,7 +654,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "pred",
+                    "clean",
                     "width2",
                     "height2")))
             self$add(jmvcore::Image$new(
@@ -488,6 +668,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep",
                     "freq",
                     "pred",
+                    "level",
+                    "clean",
                     "width3",
                     "height3")))
             self$add(jmvcore::Image$new(
@@ -531,7 +713,31 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "period",
                     "unit",
                     "width6",
-                    "height6")))}))
+                    "height6")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot9",
+                title="Residuals ACF",
+                visible="(plot9)",
+                renderFun=".plot9",
+                clearWith=list(
+                    "dep",
+                    "freq",
+                    "clean",
+                    "width9",
+                    "height9")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot10",
+                title="Residuals PACF",
+                visible="(plot10)",
+                renderFun=".plot10",
+                clearWith=list(
+                    "dep",
+                    "freq",
+                    "clean",
+                    "width10",
+                    "height10")))}))
 
 arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "arimaBase",
@@ -595,6 +801,17 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param height7 .
 #' @param width8 .
 #' @param height8 .
+#' @param resid .
+#' @param plot9 .
+#' @param plot10 .
+#' @param width9 .
+#' @param height9 .
+#' @param width10 .
+#' @param height10 .
+#' @param level .
+#' @param lbLag .
+#' @param clean .
+#' @param showAcc .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -602,6 +819,9 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$fit} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$point} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$accTrain} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$accCV} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$resid$diagTable} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$box} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
@@ -610,6 +830,8 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot9} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot10} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -655,7 +877,18 @@ arima <- function(
     width7 = 500,
     height7 = 500,
     width8 = 500,
-    height8 = 500) {
+    height8 = 500,
+    resid = FALSE,
+    plot9 = FALSE,
+    plot10 = FALSE,
+    width9 = 500,
+    height9 = 500,
+    width10 = 500,
+    height10 = 500,
+    level = 95,
+    lbLag = 0,
+    clean = "FALSE",
+    showAcc = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("arima requires jmvcore to be installed (restart may be required)")
@@ -706,7 +939,18 @@ arima <- function(
         width7 = width7,
         height7 = height7,
         width8 = width8,
-        height8 = height8)
+        height8 = height8,
+        resid = resid,
+        plot9 = plot9,
+        plot10 = plot10,
+        width9 = width9,
+        height9 = height9,
+        width10 = width10,
+        height10 = height10,
+        level = level,
+        lbLag = lbLag,
+        clean = clean,
+        showAcc = showAcc)
 
     analysis <- arimaClass$new(
         options = options,

@@ -20,7 +20,7 @@ items:
       clearWith:
         - dep
         - freq
-        - pred
+        - clean
 
       columns:
         - name: name
@@ -41,7 +41,7 @@ items:
       clearWith:
         - dep
         - freq
-        - pred
+        - clean
 
 
       columns:
@@ -62,6 +62,8 @@ items:
         - dep
         - freq
         - pred
+        - level
+        - clean
 
       columns:
         - name: name
@@ -80,6 +82,69 @@ items:
           type: number
           superTitle: '95% CI'    
 
+    - name: accTrain
+      title: Accuracy (in-sample)
+      type: Table
+      visible: (showAcc)
+      clearWith:
+        - dep
+        - freq
+        - pred
+        - level
+        - clean
+      columns:
+        - name: Metric
+          title: 'Metric'
+          type: 'text'
+        - name: Value
+          title: 'Value'
+          type: number
+
+    - name: accCV
+      title: Accuracy (tsCV, h=1)
+      type: Table
+      visible: (showAcc)
+      clearWith:
+        - dep
+        - freq
+        - clean
+      columns:
+        - name: Metric
+          title: 'Metric'
+          type: 'text'
+        - name: Value
+          title: 'Value'
+          type: number
+
+    - name: resid
+      title: 'Residual Diagnostics'
+      type: Group
+      visible: (resid)
+      refs: forecast
+      clearWith:
+        - dep
+        - freq
+        - clean
+        - lbLag
+      items:
+        - name: diagTable
+          title: Diagnostic tests
+          type: Table
+          rows: 4
+          columns:
+            - name: Metric
+              title: Metric
+              type: text
+            - name: Statistic
+              title: Statistic
+              type: number
+            - name: df
+              title: df
+              type: number
+            - name: p_value
+              title: p-value
+              type: number
+
     - name:  plot
       title: "Decomposition"
       type:  Image
@@ -88,7 +153,7 @@ items:
       clearWith:
         - dep
         - freq
-        - pred
+        - clean
         - width7
         - height7
 
@@ -102,7 +167,7 @@ items:
       clearWith:
         - dep
         - freq
-        - pred
+        - clean
         - width8
         - height8
 
@@ -118,6 +183,8 @@ items:
         - dep
         - freq
         - pred
+        - level
+        - clean
         - width1
         - height1
 
@@ -129,7 +196,7 @@ items:
       clearWith:
         - dep
         - freq
-        - pred
+        - clean
         - width2
         - height2
 
@@ -143,9 +210,10 @@ items:
         - dep
         - freq
         - pred
+        - level
+        - clean
         - width3
         - height3
-
 
     - name:  plot4
       title:  'Forcast for Prophet' 
@@ -188,5 +256,28 @@ items:
         - unit
         - width6
         - height6
- 
+
+    - name: plot9
+      title: Residuals ACF
+      type: Image
+      visible: (plot9)
+      renderFun: .plot9
+      clearWith:
+        - dep
+        - freq
+        - clean
+        - width9
+        - height9
+
+    - name: plot10
+      title: Residuals PACF
+      type: Image
+      visible: (plot10)
+      renderFun: .plot10
+      clearWith:
+        - dep
+        - freq
+        - clean
+        - width10
+        - height10
 ...

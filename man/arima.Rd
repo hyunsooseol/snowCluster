@@ -40,7 +40,18 @@ arima(
   width7 = 500,
   height7 = 500,
   width8 = 500,
-  height8 = 500
+  height8 = 500,
+  resid = FALSE,
+  plot9 = FALSE,
+  plot10 = FALSE,
+  width9 = 500,
+  height9 = 500,
+  width10 = 500,
+  height10 = 500,
+  level = 95,
+  lbLag = 0,
+  clean = "FALSE",
+  showAcc = FALSE
 )
 }
 \arguments{
@@ -117,6 +128,28 @@ numeric}
 \item{width8}{.}
 
 \item{height8}{.}
+
+\item{resid}{.}
+
+\item{plot9}{.}
+
+\item{plot10}{.}
+
+\item{width9}{.}
+
+\item{height9}{.}
+
+\item{width10}{.}
+
+\item{height10}{.}
+
+\item{level}{.}
+
+\item{lbLag}{.}
+
+\item{clean}{.}
+
+\item{showAcc}{.}
 }
 \value{
 A results object containing:
@@ -126,6 +159,9 @@ A results object containing:
   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
   \code{results$fit} \tab \tab \tab \tab \tab a table \cr
   \code{results$point} \tab \tab \tab \tab \tab a table \cr
+  \code{results$accTrain} \tab \tab \tab \tab \tab a table \cr
+  \code{results$accCV} \tab \tab \tab \tab \tab a table \cr
+  \code{results$resid$diagTable} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$box} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
@@ -134,6 +170,8 @@ A results object containing:
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot6} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot9} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot10} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
