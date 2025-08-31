@@ -83,7 +83,7 @@ items:
           superTitle: '95% CI'    
 
     - name: accTrain
-      title: Accuracy (in-sample)
+      title: 'Accuracy (in-sample, includes Naive/S-Naive)'
       type: Table
       visible: (showAcc)
       clearWith:
@@ -101,7 +101,7 @@ items:
           type: number
 
     - name: accCV
-      title: Accuracy (tsCV, h=1)
+      title: 'Accuracy (tsCV, h=1 — rolling one-step)'
       type: Table
       visible: (showAcc)
       clearWith:

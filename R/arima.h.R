@@ -530,7 +530,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="accTrain",
-                title="Accuracy (in-sample)",
+                title="Accuracy (in-sample, includes Naive/S-Naive)",
                 visible="(showAcc)",
                 clearWith=list(
                     "dep",
@@ -550,7 +550,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="accCV",
-                title="Accuracy (tsCV, h=1)",
+                title="Accuracy (tsCV, h=1 \u2014 rolling one-step)",
                 visible="(showAcc)",
                 clearWith=list(
                     "dep",

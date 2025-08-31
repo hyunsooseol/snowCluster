@@ -327,6 +327,65 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           }
           # -----------------------------------------
           
+          # Accuracy 표시가 켜졌을 때만 실행
+          if (isTRUE(self$options$showAcc)) {
+            
+            # --- ts 준비 ---
+            y  <- self$data[[ self$options$dep ]]
+            y  <- stats::na.omit(as.numeric(y))
+            fr <- self$options$freq
+            if (is.null(fr) || is.na(fr) || fr < 1) fr <- stats::frequency(y)
+            if (is.null(fr) || is.na(fr) || fr < 1) fr <- 1
+            yts <- stats::ts(y, frequency = fr)
+            
+            # --- 도우미: 행 추가 ---
+            .addMetric <- function(tbl, label, value, key) {
+              # key가 겹치면 기존 행을 덮어쓰기 원하면 deleteRow로 지우고 추가
+              try(tbl$deleteRow(key), silent = TRUE)
+              tbl$addRow(rowKey = key, values = list(Metric = label, Value = as.numeric(value)))
+            }
+            
+            # ---------- In-sample (accTrain 표) ----------
+            tblT <- self$results$accTrain
+            
+            # Naive
+            accN <- suppressWarnings(forecast::accuracy(forecast::naive(yts)))[1, ]
+            .addMetric(tblT, "RMSE [Naive]" , accN[["RMSE"]], "naive_rmse")
+            .addMetric(tblT, "MAE  [Naive]" , accN[["MAE"]] , "naive_mae")
+            if (!any(y == 0, na.rm = TRUE) && "MAPE" %in% colnames(accN))
+              .addMetric(tblT, "MAPE [Naive]", accN[["MAPE"]], "naive_mape")
+            if ("MASE" %in% colnames(accN))
+              .addMetric(tblT, "MASE [Naive]", accN[["MASE"]], "naive_mase")
+            
+            # Seasonal-Naive (주기>1일 때만)
+            if (fr > 1) {
+              accSN <- suppressWarnings(forecast::accuracy(forecast::snaive(yts)))[1, ]
+              .addMetric(tblT, "RMSE [S-Naive]" , accSN[["RMSE"]], "snaive_rmse")
+              .addMetric(tblT, "MAE  [S-Naive]" , accSN[["MAE"]] , "snaive_mae")
+              if (!any(y == 0, na.rm = TRUE) && "MAPE" %in% colnames(accSN))
+                .addMetric(tblT, "MAPE [S-Naive]", accSN[["MAPE"]], "snaive_mape")
+              if ("MASE" %in% colnames(accSN))
+                .addMetric(tblT, "MASE [S-Naive]", accSN[["MASE"]], "snaive_mase")
+            }
+            
+            # ---------- tsCV(h=1) (accCV 표) ----------
+            tblC <- self$results$accCV
+            
+            # Naive
+            eN <- forecast::tsCV(yts, forecastfunction = function(z, h) forecast::naive(z, h = h), h = 1)
+            .addMetric(tblC, "RMSE(tsCV) [Naive]", sqrt(mean(eN^2,   na.rm = TRUE)), "naive_cv_rmse")
+            .addMetric(tblC, "MAE(tsCV)  [Naive]", mean(abs(eN),     na.rm = TRUE) , "naive_cv_mae")
+            
+            # Seasonal-Naive
+            if (fr > 1) {
+              eSN <- forecast::tsCV(yts, forecastfunction = function(z, h) forecast::snaive(z, h = h), h = 1)
+              .addMetric(tblC, "RMSE(tsCV) [S-Naive]", sqrt(mean(eSN^2,  na.rm = TRUE)), "snaive_cv_rmse")
+              .addMetric(tblC, "MAE(tsCV)  [S-Naive]", mean(abs(eSN),    na.rm = TRUE) , "snaive_cv_mae")
+            }
+          }
+          
+          
+          
         }          
         
         if (self$options$mode == 'complex') {
