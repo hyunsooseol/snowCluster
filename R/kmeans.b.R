@@ -84,6 +84,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             '<li>If the variables consist solely of <b>continuous variables</b>, apply K-means clustering analysis.</li>',
             '<li>If the variables are <b>categorical or mixed-type variables</b>, apply Gower distance analysis.</li>',
             '<li><b>Variable clustering(PCA) plot</b> is always computed on standardized (z-scored) variables; the "Standardize variables" option does not affect this plot.</li>',
+            '<li><b>Variable clustering(PCA) plot</b> is not available when only two variables are used.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
           )
@@ -153,7 +154,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       },
       
       .run = function() {
-        if (length(self$options$vars) < 3) return()
+        if (length(self$options$vars) < 2) return()
         optionsChanged <- private$.optionsChanged()
         
         # Store indices of complete cases from original data
