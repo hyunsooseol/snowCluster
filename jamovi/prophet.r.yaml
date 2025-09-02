@@ -14,6 +14,70 @@ items:
       title: ''
       type:  Preformatted
 
+    - name: accuracy
+      title: Model Accuracy (by Variable)
+      type: Table
+      rows: 0 
+      clearWith:
+          - dep
+          - covs
+          - periods
+          - unit
+          - growth
+          - cp_scale
+          - n_chgpts
+          - cp_range
+          - daily
+          - weekly
+          - yearly
+          - season_mode
+          - interval_width
+          - mcmc_samples
+          - regressors
+          - reg_prior_scale
+          - reg_future_fill      
+
+      columns:
+        - name: variable
+          title: Variable
+          type: Text
+        - name: MAE
+          title: MAE
+          type: Number
+        - name: RMSE
+          title: RMSE
+          type: Number
+        - name: MAPE
+          title: MAPE
+          type: Number
+        
+    - name: plotAcc
+      title: 'Accuracy comparison (MAPE: no reg vs +reg)'
+      type: Image
+      refs: prophet
+      renderFun: .plotAcc
+      visible: (accuracy) 
+      clearWith:
+          - dep
+          - covs
+          - periods
+          - unit
+          - growth
+          - cp_scale
+          - n_chgpts
+          - cp_range
+          - daily
+          - weekly
+          - yearly
+          - season_mode
+          - interval_width
+          - mcmc_samples
+          - regressors
+          - reg_prior_scale
+          - reg_future_fill
+          - width2
+          - height2
+
     - name:  plot1
       title:  'Forecast of multiple variables' 
       type:  Image
@@ -27,6 +91,19 @@ items:
         - unit
         - width
         - height
+        - growth
+        - cp_scale
+        - n_chgpts
+        - cp_range
+        - daily
+        - weekly
+        - yearly
+        - season_mode
+        - interval_width
+        - mcmc_samples
+        - regressors
+        - reg_prior_scale
+        - reg_future_fill        
     
     - name:  plot2
       title:  'Smooth line plot' 
@@ -42,5 +119,18 @@ items:
         - unit
         - width1
         - height1
-     
+        - growth
+        - cp_scale
+        - n_chgpts
+        - cp_range
+        - daily
+        - weekly
+        - yearly
+        - season_mode
+        - interval_width
+        - mcmc_samples
+        - regressors
+        - reg_prior_scale
+        - reg_future_fill     
+
 ...

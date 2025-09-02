@@ -40,14 +40,33 @@ children:
                 format: number
               - type: ComboBox
                 name: unit
+              - type: ComboBox
+                name: growth
+              - type: TextBox
+                name: cp_scale
+                label: Changepoint Prior Scale
+                format: number
+              - type: TextBox
+                name: n_chgpts
+                label: Number of Changepoints
+                format: number
+              - type: TextBox
+                name: cp_range
+                label: Changepoint Range (0-1)
+                format: number
       - type: LayoutBox
-        stretchFactor: 1
         margin: large
         cell:
           column: 1
           row: 0
         fitToGrid: true
+        stretchFactor: 1
         children:
+          - type: Label
+            label: Table
+            children:
+              - type: CheckBox
+                name: accuracy
           - type: Label
             label: Plots
             children:
@@ -65,8 +84,10 @@ children:
                     enable: (plot1)
               - type: CheckBox
                 name: plot2
-                style: list-inline
-                children: 
+                children:
+                  - type: ComboBox
+                    name: method
+                    enable: (plot2)
                   - type: TextBox
                     name: width1
                     format: number
@@ -74,7 +95,42 @@ children:
                   - type: TextBox
                     name: height1
                     format: number
-                    enable: (plot2)     
-              - type: ComboBox
-                name: method
-                enable: (plot2)
+                    enable: (plot2)
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Extra Regressors (exogenous vars)
+        children:
+          - type: VariablesListBox
+            name: regressors
+            isTarget: true
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: Label
+        label: Regressor Options
+        children:
+          - type: TextBox
+            name: reg_prior_scale
+            format: number
+            enable: (regressors)
+          - type: ComboBox
+            name: reg_future_fill
+            enable: (regressors)
+      - type: Label
+        label: Plot
+        children:
+          - type: CheckBox
+            name: plotAcc
+            style: list-inline
+            children:
+              - type: TextBox
+                name: width2
+                format: number
+                enable: (plotAcc)
+              - type: TextBox
+                name: height2
+                format: number
+                enable: (plotAcc)

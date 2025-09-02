@@ -84,10 +84,80 @@ options:
       
     - name: width1
       type: Integer
-      title: "Size: "
+      title: "Width "
       default: 500
       
     - name: height1
+      type: Integer
+      title: "Height"
+      default: 500        
+
+    - name: accuracy
+      title:  'Model Accuracy'
+      type: Bool
+      default: TRUE
+
+
+    - name: regressors
+      title: Extra Regressors (exogenous vars)
+      type: Variables
+      suggested: 
+        - continuous
+    
+    - name: reg_prior_scale
+      title: Regressor Prior Scale
+      type: Number
+      default: 10
+      min: 0.01
+      max: 100
+
+    - name: reg_future_fill
+      title: Future Values for Regressors
+      type: List
+      options:
+            - name: last
+              title:  "Carry last observed value"
+            - name: zero
+              title: "Use zero"      
+      default: last
+
+    - name: growth
+      title: Growth
+      type: List
+      options:
+            - name: linear
+              title:  "Linear"
+            - name: logistic
+              title: "Logistic"      
+      default: linear
+
+
+    - name: cp_scale
+      title: Changepoint Prior Scale
+      type: Number
+      default: 0.05
+    
+    - name: n_chgpts
+      title: Number of Changepoints
+      type: Integer
+      default: 25
+    
+    - name: cp_range
+      title: Changepoint Range
+      type: Number
+      default: 0.8
+
+    - name: plotAcc
+      title: 'Accuracy comparison (MAPE: no reg vs +reg)'
+      type: Bool
+      default: false
+
+    - name: width2
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height2
       type: Integer
       title: "X"
       default: 500

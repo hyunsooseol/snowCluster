@@ -16,7 +16,18 @@ prophet(
   width = 500,
   height = 500,
   width1 = 500,
-  height1 = 500
+  height1 = 500,
+  accuracy = TRUE,
+  regressors,
+  reg_prior_scale = 10,
+  reg_future_fill = "last",
+  growth = "linear",
+  cp_scale = 0.05,
+  n_chgpts = 25,
+  cp_range = 0.8,
+  plotAcc = FALSE,
+  width2 = 500,
+  height2 = 500
 )
 }
 \arguments{
@@ -43,15 +54,45 @@ prophet(
 \item{width1}{.}
 
 \item{height1}{.}
+
+\item{accuracy}{.}
+
+\item{regressors}{.}
+
+\item{reg_prior_scale}{.}
+
+\item{reg_future_fill}{.}
+
+\item{growth}{.}
+
+\item{cp_scale}{.}
+
+\item{n_chgpts}{.}
+
+\item{cp_range}{.}
+
+\item{plotAcc}{.}
+
+\item{width2}{.}
+
+\item{height2}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$accuracy} \tab \tab \tab \tab \tab a table \cr
+  \code{results$plotAcc} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 }
+
+Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+
+\code{results$accuracy$asDF}
+
+\code{as.data.frame(results$accuracy)}
 }
 \description{
 Prophet with Multiple Variables
