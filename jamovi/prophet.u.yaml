@@ -112,7 +112,7 @@ children:
     margin: large
     children:
       - type: Label
-        label: Regressor Options
+        label: Regressor options
         children:
           - type: TextBox
             name: reg_prior_scale

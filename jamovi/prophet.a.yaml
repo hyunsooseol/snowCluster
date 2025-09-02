@@ -107,7 +107,7 @@ options:
       default: 500        
 
     - name: accuracy
-      title:  'Model Accuracy'
+      title:  'Model accuracy'
       type: Bool
       default: TRUE
 
