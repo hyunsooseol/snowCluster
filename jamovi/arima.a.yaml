@@ -131,19 +131,19 @@ options:
       title: Unit
       type: List
       options:
-        - title: hour
-          name:  'hour'
-        - title: day
-          name:  'day'
-        - title: week
-          name:  'week'
-        - title: month
-          name:  'month'
-        - title: quarter
-          name:  'quarter'
-        - title: year
-          name:  'year'           
-      default: 'day'
+        - name: hour
+          title: "hour"
+        - name: day
+          title: "day"
+        - name: week
+          title: "week"
+        - name: month
+          title: "month"
+        - name: quarter
+          title: "quarter"
+        - name: year
+          title: "year"
+      default: day
 
     - name: width1
       type: Integer

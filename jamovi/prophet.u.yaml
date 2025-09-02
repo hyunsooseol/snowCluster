@@ -42,6 +42,8 @@ children:
                 name: unit
               - type: ComboBox
                 name: growth
+              - type: ComboBox
+                name: seasonality               
               - type: TextBox
                 name: cp_scale
                 label: Changepoint Prior Scale

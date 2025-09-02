@@ -35,7 +35,8 @@ items:
           - mcmc_samples
           - regressors
           - reg_prior_scale
-          - reg_future_fill      
+          - reg_future_fill
+          - seasonality
 
       columns:
         - name: variable
@@ -77,6 +78,7 @@ items:
           - reg_future_fill
           - width2
           - height2
+          - seasonality
 
     - name:  plot1
       title:  'Forecast of multiple variables' 
@@ -103,7 +105,8 @@ items:
         - mcmc_samples
         - regressors
         - reg_prior_scale
-        - reg_future_fill        
+        - reg_future_fill
+        - seasonality
     
     - name:  plot2
       title:  'Smooth line plot' 
@@ -131,6 +134,7 @@ items:
         - mcmc_samples
         - regressors
         - reg_prior_scale
-        - reg_future_fill     
+        - reg_future_fill
+        - seasonality
 
 ...

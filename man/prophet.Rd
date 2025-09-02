@@ -9,6 +9,7 @@ prophet(
   dep,
   covs,
   method = "loess",
+  seasonality = "none",
   plot1 = TRUE,
   plot2 = FALSE,
   periods = 365,
@@ -38,6 +39,8 @@ prophet(
 \item{covs}{.}
 
 \item{method}{.}
+
+\item{seasonality}{.}
 
 \item{plot1}{.}
 

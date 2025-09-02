@@ -9,6 +9,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             dep = NULL,
             covs = NULL,
             method = "loess",
+            seasonality = "none",
             plot1 = TRUE,
             plot2 = FALSE,
             periods = 365,
@@ -57,6 +58,15 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "glm",
                     "loess"),
                 default="loess")
+            private$..seasonality <- jmvcore::OptionList$new(
+                "seasonality",
+                seasonality,
+                options=list(
+                    "none",
+                    "weekly",
+                    "yearly",
+                    "weekly_yearly"),
+                default="none")
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
@@ -154,6 +164,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
             self$.addOption(private$..method)
+            self$.addOption(private$..seasonality)
             self$.addOption(private$..plot1)
             self$.addOption(private$..plot2)
             self$.addOption(private$..periods)
@@ -178,6 +189,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
         method = function() private$..method$value,
+        seasonality = function() private$..seasonality$value,
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         periods = function() private$..periods$value,
@@ -201,6 +213,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..dep = NA,
         ..covs = NA,
         ..method = NA,
+        ..seasonality = NA,
         ..plot1 = NA,
         ..plot2 = NA,
         ..periods = NA,
@@ -271,7 +284,8 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mcmc_samples",
                     "regressors",
                     "reg_prior_scale",
-                    "reg_future_fill"),
+                    "reg_future_fill",
+                    "seasonality"),
                 columns=list(
                     list(
                         `name`="variable", 
@@ -315,7 +329,8 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "reg_prior_scale",
                     "reg_future_fill",
                     "width2",
-                    "height2")))
+                    "height2",
+                    "seasonality")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -342,7 +357,8 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mcmc_samples",
                     "regressors",
                     "reg_prior_scale",
-                    "reg_future_fill")))
+                    "reg_future_fill",
+                    "seasonality")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -370,7 +386,8 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mcmc_samples",
                     "regressors",
                     "reg_prior_scale",
-                    "reg_future_fill")))}))
+                    "reg_future_fill",
+                    "seasonality")))}))
 
 prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "prophetBase",
@@ -400,6 +417,7 @@ prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param dep .
 #' @param covs .
 #' @param method .
+#' @param seasonality .
 #' @param plot1 .
 #' @param plot2 .
 #' @param periods .
@@ -441,6 +459,7 @@ prophet <- function(
     dep,
     covs,
     method = "loess",
+    seasonality = "none",
     plot1 = TRUE,
     plot2 = FALSE,
     periods = 365,
@@ -480,6 +499,7 @@ prophet <- function(
         dep = dep,
         covs = covs,
         method = method,
+        seasonality = seasonality,
         plot1 = plot1,
         plot2 = plot2,
         periods = periods,

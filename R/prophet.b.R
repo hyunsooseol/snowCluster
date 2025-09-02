@@ -39,14 +39,14 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           height <- self$options$height1
           self$results$plot2$setSize(width, height)
         }
-
+        
         if (isTRUE(self$options$plotAcc)) {
           width <- self$options$width2
           height <- self$options$height2
           self$results$plotAcc$setSize(width, height)
         }
         
-    },
+      },
       
       #############################################################
       .run = function() {
@@ -79,6 +79,20 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             )
           }
         }
+        
+        # --- (선택) Seasonality 요약 노트 ---
+        .getOpt <- function(name, default) {
+          tryCatch({
+            v <- self$options[[name]]
+            if (is.null(v)) default else v
+          }, error = function(e) default)
+        }
+        seas_txt <- switch(.getOpt("seasonality", "none"),
+                           "weekly" = "Weekly",
+                           "yearly" = "Yearly",
+                           "weekly_yearly" = "Weekly + Yearly",
+                           "None")
+        self$results$accuracy$setNote("seasonality", paste("Seasonality:", seas_txt))
         
         # ★ 정확도 비교 플롯(MAPE barplot)용 상태 전달
         self$results$plotAcc$setState(acc_df)
@@ -180,10 +194,14 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         cp_scale    <- .getOpt("cp_scale", 0.05)
         n_chgpts    <- .getOpt("n_chgpts", 25)
         cp_range    <- .getOpt("cp_range", 0.8)
-        daily_on    <- .getOpt("daily",  TRUE)
-        weekly_on   <- .getOpt("weekly", TRUE)
-        yearly_on   <- .getOpt("yearly", TRUE)
-        season_mode <- .getOpt("season_mode", "additive")
+        
+        # --- Seasonality: 단일 콤보박스 매핑 ---
+        seas <- .getOpt("seasonality", "none")
+        wk <- FALSE; yr <- FALSE
+        if (identical(seas, "weekly"))         wk <- TRUE
+        if (identical(seas, "yearly"))         yr <- TRUE
+        if (identical(seas, "weekly_yearly")) { wk <- TRUE; yr <- TRUE }
+        
         interval_w  <- .getOpt("interval_width", 0.80)
         mcmc_samps  <- .getOpt("mcmc_samples", 0)
         
@@ -221,16 +239,16 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           }
           
           m <- prophet::prophet(
-            growth                 = growth,
-            changepoint.prior.scale= cp_scale,
-            n.changepoints         = n_chgpts,
-            changepoint.range      = cp_range,
-            daily.seasonality      = daily_on,
-            weekly.seasonality     = weekly_on,
-            yearly.seasonality     = yearly_on,
-            seasonality.mode       = season_mode,
-            interval.width         = interval_w,
-            mcmc.samples           = mcmc_samps
+            growth                  = growth,
+            changepoint.prior.scale = cp_scale,
+            n.changepoints          = n_chgpts,
+            changepoint.range       = cp_range,
+            yearly.seasonality      = yr,       # <- seasonality 매핑
+            weekly.seasonality      = wk,       # <- seasonality 매핑
+            daily.seasonality       = FALSE,    # 단순화를 위해 항상 끔
+            seasonality.mode        = "additive",
+            interval.width          = interval_w,
+            mcmc.samples            = mcmc_samps
           )
           
           if (length(regs_now) > 0) {

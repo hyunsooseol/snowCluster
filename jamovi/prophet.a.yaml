@@ -30,13 +30,27 @@ options:
       title: Method
       type: List
       options:
-        - title: lm
-          name:  'lm'
-        - title: glm
-          name:  'glm'
-        - title: loess
-          name:  'loess'
-      default: 'loess'
+        - name: lm
+          title: "lm"
+        - name: glm
+          title: "glm"
+        - name: loess
+          title: "loess"
+      default: loess
+
+    - name: seasonality
+      title: Seasonality
+      type: List
+      options:
+        - name: none
+          title: "None"
+        - name: weekly
+          title: "Weekly"
+        - name: yearly
+          title: "Yearly"
+        - name: weekly_yearly
+          title: "Weekly + Yearly"
+      default: none
 
     - name: plot1
       title: 'Forecast' 
@@ -58,19 +72,19 @@ options:
       title: Unit
       type: List
       options:
-        - title: hour
-          name:  'hour'
-        - title: day
-          name:  'day'
-        - title: week
-          name:  'week'
-        - title: month
-          name:  'month'
-        - title: quarter
-          name:  'quarter'
-        - title: year
-          name:  'year'           
-      default: 'day'      
+        - name: hour
+          title: "hour"
+        - name: day
+          title: "day"
+        - name: week
+          title: "week"
+        - name: month
+          title: "month"
+        - name: quarter
+          title: "quarter"
+        - name: year
+          title: "year"
+      default: day
 
     - name: width
       type: Integer
