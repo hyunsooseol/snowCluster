@@ -420,6 +420,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
+        progressBarHTML = function() private$.items[["progressBarHTML"]],
         text = function() private$.items[["text"]],
         coef = function() private$.items[["coef"]],
         fit = function() private$.items[["fit"]],
@@ -450,6 +451,11 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="progressBarHTML",
+                title=" ",
+                visible=FALSE))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
@@ -586,7 +592,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                             options=options,
                             name="diagTable",
                             title="Diagnostic tests",
-                            rows=4,
+                            visible=FALSE,
                             columns=list(
                                 list(
                                     `name`="Metric", 
@@ -815,6 +821,7 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$progressBarHTML} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$coef} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$fit} \tab \tab \tab \tab \tab a table \cr

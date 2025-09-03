@@ -9,6 +9,11 @@ items:
       type: Html
       visible: True
 
+    - name: progressBarHTML
+      title: ' '
+      type: Html
+      visible: false
+
     - name:  text
       title: ''
       type:  Preformatted
@@ -130,7 +135,7 @@ items:
         - name: diagTable
           title: Diagnostic tests
           type: Table
-          rows: 4
+          visible: false
           columns:
             - name: Metric
               title: Metric

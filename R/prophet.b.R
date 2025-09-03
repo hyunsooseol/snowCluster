@@ -2,6 +2,23 @@
 
 #' @importFrom magrittr %>%
 
+# -------------------------------
+# Lightweight Progress Bar (HTML)
+# -------------------------------
+progressBarH <- function(progress = 0, total = 100, message = '') {
+  percentage <- round(progress / total * 100)
+  width <- 400 * percentage / 100
+  paste0(
+    '<div style="text-align:center; padding:16px 0;">',
+    '<div style="width:400px; height:20px; border:1px solid #ddd;',
+    ' background:#f8f9fa; margin:0 auto; border-radius:6px;">',
+    '<div style="width:', width, 'px; height:18px; background:#999;',
+    ' border-radius:5px; transition:width 0.2s ease;"></div></div>',
+    '<div style="margin-top:6px; font-size:12px; color:#666;">',
+    message, ' (', percentage, '%)</div></div>'
+  )
+}
+
 prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
   R6::R6Class(
     "prophetClass",
@@ -45,7 +62,6 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           height <- self$options$height2
           self$results$plotAcc$setSize(width, height)
         }
-        
       },
       
       #############################################################
@@ -53,7 +69,12 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(self$options$dep) || length(self$options$covs) == 0)
           return()
         
-        # 캐시 또는 계산
+        # Progress bar: show only around the heaviest section
+        self$results$progressBarHTML$setVisible(TRUE)
+        self$results$progressBarHTML$setContent(progressBarH(5, 100, 'Fitting Prophet models...'))
+        on.exit(self$results$progressBarHTML$setVisible(FALSE), add = TRUE)
+        
+        # 캐시 또는 계산 (루프 내부에서만 가볍게 퍼센트 갱신)
         private$.allCache <- private$.computeSIMPLE()
         res <- private$.allCache
         
@@ -61,7 +82,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         self$results$plot1$setState(res$forecast)
         self$results$plot2$setState(res$forecast)
         
-        # === Accuracy 테이블 채우기 (변수별 + 평균행 두 개) ===
+        # === Accuracy 테이블 채우기 ===
         tbl <- self$results$accuracy
         acc_df <- res$accuracy
         
@@ -80,7 +101,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           }
         }
         
-        # --- (선택) Seasonality 요약 노트 ---
+        # Seasonality 요약 노트
         .getOpt <- function(name, default) {
           tryCatch({
             v <- self$options[[name]]
@@ -94,8 +115,11 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
                            "None")
         self$results$accuracy$setNote("seasonality", paste("Seasonality:", seas_txt))
         
-        # ★ 정확도 비교 플롯(MAPE barplot)용 상태 전달
+        # 정확도 비교 플롯 상태
         self$results$plotAcc$setState(acc_df)
+        
+        # 완료 메시지
+        self$results$progressBarHTML$setContent(progressBarH(100, 100, 'Done'))
       },
       
       #############################################################
@@ -178,7 +202,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       #############################################################
       .computeSIMPLE = function() {
         
-        # ---- 안전 접근 유틸 (옵션 미정의 시 기본값) ----
+        # ---- 안전 접근 유틸 ----
         .getOpt <- function(name, default) {
           tryCatch({
             v <- self$options[[name]]
@@ -226,7 +250,12 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         forecast_df_list <- list()  # 플롯용(최종 모델만)
         acc_list <- list()          # 표용(두 모델 모두)
         
-        # 공통 러너: use_regs=FALSE/TRUE 로 한 번씩 실행
+        # 총 진행 스텝: 변수 개수 기준(가볍고 충분)
+        n <- length(covs)
+        # 루프 진입 직전 한 번 표시
+        self$results$progressBarHTML$setContent(progressBarH(10, 100, 'Fitting Prophet models...'))
+        private$.checkpoint()
+        
         run_one <- function(varname, use_regs) {
           regs_now <- if (isTRUE(use_regs)) intersect(names(data), regs) else character(0)
           
@@ -243,8 +272,8 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             changepoint.prior.scale = cp_scale,
             n.changepoints          = n_chgpts,
             changepoint.range       = cp_range,
-            yearly.seasonality      = yr,       # <- seasonality 매핑
-            weekly.seasonality      = wk,       # <- seasonality 매핑
+            yearly.seasonality      = yr,       # seasonality 매핑
+            weekly.seasonality      = wk,       # seasonality 매핑
             daily.seasonality       = FALSE,    # 단순화를 위해 항상 끔
             seasonality.mode        = "additive",
             interval.width          = interval_w,
@@ -329,7 +358,9 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         # 변수별로 두 모델 수행
-        for (v in covs) {
+        for (i in seq_along(covs)) {
+          v <- covs[i]
+          
           # 1) 베이스라인
           res0 <- run_one(v, use_regs = FALSE)
           acc_list[[length(acc_list)+1]] <- res0$acc
@@ -345,7 +376,17 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             # 회귀자가 없으면 베이스라인 예측으로 그림
             forecast_df_list[[length(forecast_df_list)+1]] <- res0$forecast
           }
+          
+          # 🔹 진행바: 변수 단위로만 아주 가볍게 갱신 (한 군데)
+          pct <- 10 + round(80 * i / n)  # 10%→90% 구간 사용
+          msg <- paste0('Fitting Prophet models (', i, '/', n, ')...')
+          self$results$progressBarHTML$setContent(progressBarH(pct, 100, msg))
+          private$.checkpoint()
         }
+        
+        # 루프 종료 후 거의 완료 상태로 한 번 표시
+        self$results$progressBarHTML$setContent(progressBarH(95, 100, 'Rendering results...'))
+        private$.checkpoint()
         
         forecast_combined <- data.table::rbindlist(forecast_df_list)
         acc_df <- data.table::rbindlist(acc_list)
