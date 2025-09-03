@@ -10,7 +10,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             covs = NULL,
             method = "loess",
             seasonality = "none",
-            plot1 = TRUE,
+            plot1 = FALSE,
             plot2 = FALSE,
             periods = 365,
             unit = "day",
@@ -70,7 +70,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
-                default=TRUE)
+                default=FALSE)
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
@@ -467,7 +467,7 @@ prophet <- function(
     covs,
     method = "loess",
     seasonality = "none",
-    plot1 = TRUE,
+    plot1 = FALSE,
     plot2 = FALSE,
     periods = 365,
     unit = "day",

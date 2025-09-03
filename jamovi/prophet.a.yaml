@@ -55,7 +55,7 @@ options:
     - name: plot1
       title: 'Forecast' 
       type: Bool
-      default: TRUE
+      default: false
 
     - name: plot2
       title: 'Smooth' 
