@@ -10,7 +10,7 @@ prophet(
   covs,
   method = "loess",
   seasonality = "none",
-  plot1 = TRUE,
+  plot1 = FALSE,
   plot2 = FALSE,
   periods = 365,
   unit = "day",

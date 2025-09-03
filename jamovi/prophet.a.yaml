@@ -113,10 +113,12 @@ options:
 
 
     - name: regressors
-      title: Extra Regressors (exogenous vars)
+      title: Extra Regressors 
       type: Variables
-      suggested: 
+      suggested:
         - continuous
+      permitted:
+        - numeric
     
     - name: reg_prior_scale
       title: Regressor Prior Scale

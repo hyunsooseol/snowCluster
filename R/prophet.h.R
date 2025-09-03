@@ -115,7 +115,9 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "regressors",
                 regressors,
                 suggested=list(
-                    "continuous"))
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
             private$..reg_prior_scale <- jmvcore::OptionNumber$new(
                 "reg_prior_scale",
                 reg_prior_scale,
