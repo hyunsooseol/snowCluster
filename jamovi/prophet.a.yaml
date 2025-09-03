@@ -162,7 +162,7 @@ options:
       default: 0.8
 
     - name: plotAcc
-      title: 'Accuracy comparison (MAPE: no reg vs +reg)'
+      title: 'MAPE comparison'
       type: Bool
       default: false
 

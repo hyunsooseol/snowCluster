@@ -265,7 +265,7 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="accuracy",
-                title="Model Accuracy (by Variable)",
+                title="Model Accuracy",
                 rows=0,
                 clearWith=list(
                     "dep",
@@ -306,7 +306,7 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plotAcc",
-                title="Accuracy comparison (MAPE: no reg vs +reg)",
+                title="MAPE comparison",
                 refs="prophet",
                 renderFun=".plotAcc",
                 visible="(accuracy)",

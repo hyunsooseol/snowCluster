@@ -15,7 +15,7 @@ items:
       type:  Preformatted
 
     - name: accuracy
-      title: Model Accuracy (by Variable)
+      title: 'Model Accuracy'
       type: Table
       rows: 0 
       clearWith:
@@ -53,7 +53,7 @@ items:
           type: Number
         
     - name: plotAcc
-      title: 'Accuracy comparison (MAPE: no reg vs +reg)'
+      title: 'MAPE comparison'
       type: Image
       refs: prophet
       renderFun: .plotAcc

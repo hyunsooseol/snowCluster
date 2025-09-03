@@ -103,7 +103,7 @@ children:
     stretchFactor: 1
     children:
       - type: TargetLayoutBox
-        label: Extra Regressors (exogenous vars)
+        label: Extra Regressors
         children:
           - type: VariablesListBox
             name: regressors
