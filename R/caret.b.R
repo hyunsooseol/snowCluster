@@ -322,7 +322,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             for (j in seq_along(dims)) {
               row[[dims[j]]] <- cla1[name, j]
             }
-            table$addRow(rowKey = NULL, values = row)
+            table$addRow(rowKey = "Training", values = row)
           }
         }
         
@@ -426,7 +426,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             for (j in seq_along(dims)) {
               row[[dims[j]]] <- cla[name, j]
             }
-            table$addRow(rowKey = NULL, values = row)
+            table$addRow(rowKey = "Test", values = row)
           }
         } 
         
