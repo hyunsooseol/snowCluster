@@ -35,6 +35,10 @@ hcmOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..podatki <- jmvcore::OptionVariables$new(
                 "podatki",
                 podatki,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"),
                 rejectInf=TRUE)
             private$..imena <- jmvcore::OptionVariable$new(
                 "imena",

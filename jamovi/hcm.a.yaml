@@ -13,6 +13,10 @@ options:
     - name: podatki
       title: Variables to cluster
       type: Variables
+      suggested:
+         - continuous
+      permitted:
+        - numeric      
       rejectInf: TRUE
       
     - name: imena
