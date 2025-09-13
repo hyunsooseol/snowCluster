@@ -354,7 +354,7 @@ dbscanResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Quality Indices",
                 rows=0,
                 visible="(quality)",
-                refs="dbscan",
+                refs="snowCluster",
                 clearWith=list(
                     "vars",
                     "eps",
