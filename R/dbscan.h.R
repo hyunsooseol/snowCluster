@@ -299,7 +299,7 @@ dbscanResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="knnPlot",
-                title="kNN-distance plot",
+                title="kNN-distance Plot",
                 width=520,
                 height=360,
                 visible="(knnPlot)",

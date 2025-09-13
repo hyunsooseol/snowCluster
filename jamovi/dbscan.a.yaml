@@ -54,11 +54,11 @@ options:
       default: euclidean
 
     - name: cm
-      title: "Cluster Membership"
+      title: "Cluster membership"
       type: Output   
 
     - name: sizeTable
-      title: "Cluster Sizes"
+      title: "Cluster sizes"
       type: Bool
       default: false
 
