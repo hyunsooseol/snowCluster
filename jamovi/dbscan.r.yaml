@@ -157,7 +157,7 @@ items:
       type: Table
       rows: 0
       visible: (quality)
-      refs: dbscan
+      refs: snowCluster
       clearWith: 
         - vars
         - eps
