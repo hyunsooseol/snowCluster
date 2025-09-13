@@ -1,0 +1,135 @@
+---
+name:  dbscan
+title: Density-based Clustering
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+
+    - name: vars
+      title: "Variables"
+      type: Variables
+      suggested:
+        - continuous
+        - ordinal
+        - nominal
+      permitted:
+        - numeric
+        - factor
+
+    - name: eps
+      title: "Epsilon (Neighborhood size)"
+      type: Number
+      default: 0.5
+      min: 0.01
+
+    - name: minPts
+      title: "MinPts (Minimum points)"
+      type: Integer
+      default: 5
+      min: 2
+
+    - name: standardize
+      title: "Standardize variables"
+      type: Bool
+      default: false
+
+    - name: dist
+      title: "Distance measure"
+      type: List
+      options:
+          - title: "Euclidean"
+            name: euclidean
+          - title: "Manhattan"
+            name: manhattan
+          - title: "Maximum"
+            name: maximum
+          - title: "Hamming"
+            name: binary
+          - title: "Gower"
+            name: gower            
+      default: euclidean
+
+    - name: cm
+      title: "Cluster Membership"
+      type: Output   
+
+    - name: sizeTable
+      title: "Cluster Sizes"
+      type: Bool
+      default: false
+
+    - name: plot
+      title: "Cluster plot"
+      type: Bool
+      default: false
+
+    - name: profileTable
+      title: "Cluster profiles"
+      type: Bool
+      default: false
+
+    - name: prostat
+      title: "Profile statistic"
+      type: List
+      default: mean
+      options:
+          - title: "Mean"
+            name: mean
+          - title: "Median"
+            name: median
+
+    - name: knnPlot
+      title: "kNN-distance plot"
+      type: Bool
+      default: false
+    
+    - name: autoEps
+      title: "Auto ε from kNN-distance"
+      type: Bool
+      default: false
+    
+    - name: epsQuantile
+      title: "Auto ε: quantile"
+      type: Number
+      min: 0.50
+      max: 0.999
+      default: 0.95
+
+    - name: quality
+      title: "Quality indices"
+      type: Bool
+      default: false
+
+    - name: qoption
+      title: "Quality indices"
+      type: List
+      default: none
+      options:
+        - { title: "None",              name: none }
+        - { title: "Silhouette (mean)", name: sil }
+        - { title: "Davies–Bouldin",    name: dbi }
+
+    - name: width
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height
+      type: Integer
+      title: "X"
+      default: 500
+
+    - name: width1
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height1
+      type: Integer
+      title: "X"
+      default: 500      
+...

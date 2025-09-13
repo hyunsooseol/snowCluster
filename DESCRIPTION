@@ -4,7 +4,7 @@ Title: Multivariate Analysis
 Version: 7.5.5
 Author: Hyunsoo Seol
 Maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-Description: This module allows users to analyze k-means and hierarchical
+Description: This module allows users to analyze k-means, Density based clustering, and hierarchical
   clustering, Time series clustering, Correspondence Analysis, Multiple Factor Analysis, Factor analysis of mixed data, Discriminant
   Analysis, Multidimensional Scaling, Univariate time series, Prophet analysis, Decision Tree, Machine Learning, and various visualization results.
 License: GPL (>= 2)
@@ -14,7 +14,6 @@ RoxygenNote: 7.3.2
 Imports:
     jmvcore (>= 0.8), 
     R6,
-    stats,
     factoextra,
     FactoMineR,
     qgraph,
@@ -66,5 +65,6 @@ Imports:
     grDevices,
     data.table,
     scales,
+    dbscan,
 Remotes: cardiomoon/multipleROC    
 

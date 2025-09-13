@@ -1,0 +1,115 @@
+title: Density-based Clustering
+name: dbscan
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Variables
+        children:
+          - type: VariablesListBox
+            name: vars
+            isTarget: true
+  - type: LayoutBox
+    margin: large
+    children:
+      - name: standardize
+        type: CheckBox
+  - type: CollapseBox
+    label: Analysis
+    margin: normal
+    collapsed: true
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: Label
+                label: Options
+                children:
+                  - type: TextBox
+                    name: eps
+                    format: number
+                  - type: TextBox
+                    name: minPts
+                    format: number
+                  - type: ComboBox
+                    name: dist
+              - type: Label
+                label: Tables
+                children:
+                  - type: CheckBox
+                    name: sizeTable
+                  - type: CheckBox
+                    name: profileTable
+                    children:
+                      - type: ComboBox
+                        name: prostat
+                        enable: (profileTable)
+                  - type: CheckBox
+                    name: quality
+                    children:
+                      - type: ComboBox
+                        name: qoption
+                        enable: (quality)
+                  - type: CheckBox
+                    name: autoEps
+                    children:
+                      - type: TextBox
+                        name: epsQuantile
+                        format: number
+                        enable: (autoEps)
+              - type: LayoutBox
+                margin: large
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: Label
+                    label: 'Plots'
+                    children:
+                      - type: CheckBox
+                        name: plot
+                        style: list-inline
+                        children:
+                          - type: TextBox
+                            name: width
+                            format: number
+                            enable: (plot)
+                          - type: TextBox
+                            name: height
+                            format: number
+                            enable: (plot)
+                      - type: CheckBox
+                        name: knnPlot
+                        style: list-inline
+                        children:
+                          - type: TextBox
+                            name: width1
+                            format: number
+                            enable: (knnPlot)
+                          - type: TextBox
+                            name: height1
+                            format: number
+                            enable: (knnPlot)                        
+                  - type: Label
+                    label: Save
+                    children:
+                      - type: Output
+                        name: cm

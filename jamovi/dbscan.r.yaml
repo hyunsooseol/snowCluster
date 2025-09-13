@@ -1,0 +1,178 @@
+---
+name:  dbscan
+title: Density-based Clustering
+jrs:   '1.1'
+refs: snowCluster
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: True
+      
+    - name:  text
+      title: ''
+      type:  Preformatted
+
+    - name: cm
+      title: Cluster membership
+      type: Output
+      varTitle: Membership
+      measureType: nominal
+      clearWith:
+        - vars
+        - eps
+        - minPts
+        - dist
+        - standardize
+
+    # - name: clusterTable
+    #   title: "Cluster Membership"
+    #   type: Table
+    #   rows: 0
+    #   clearWith:
+    #     - vars
+    #     - eps
+    #     - minPts
+    #     - dist
+    #     - standardize
+    #   columns:
+    #     - name: case
+    #       title: "Case"
+    #       type: text
+    #     - name: cluster
+    #       title: "Cluster"
+    #       type: integer
+    #     - name: outlier
+    #       title: "Outlier"
+    #       type: text
+
+    - name: sizeTable
+      title: "Cluster Sizes"
+      type: Table
+      rows: 0
+      visible: (sizeTable)
+      refs: dbscan
+      clearWith:
+        - vars
+        - eps
+        - minPts
+        - dist
+        - standardize
+      columns:
+        - name: cluster
+          title: "Cluster"
+          type: integer
+        - name: n
+          title: "N"
+          type: integer
+        - name: proportion
+          title: "Proportion"
+          type: number
+          format: zto.pct 
+
+    - name: profileTable
+      title: "Cluster Profiles"
+      type: Table
+      rows: 0
+      visible: (profileTable)
+      refs: dbscan
+      clearWith:
+        - vars
+        - eps
+        - minPts
+        - dist
+        - standardize
+        - prostat
+      columns:
+        - name: cluster
+          title: "Cluster"
+          type: integer
+
+    - name: plot
+      title: "Cluster Plot"
+      type: Image
+      visible: (plot)
+      renderFun: .plot
+      refs: dbscan
+      clearWith: 
+        - vars
+        - eps
+        - minPts
+        - dist
+        - standardize
+        - autoEps
+        - epsQuantile
+        - width
+        - height
+    - name: knnPlot
+      title: "kNN-distance plot"
+      type: Image
+      width: 520
+      height: 360
+      visible: (knnPlot)
+      renderFun: .plotKNN
+      refs: dbscan
+      clearWith: 
+        - vars
+        - eps
+        - minPts
+        - dist
+        - standardize
+        - autoEps
+        - epsQuantile
+        - width1
+        - height1
+
+    - name: autoTable
+      title: "Auto ε details"
+      type: Table
+      rows: 0
+      visible: (autoEps)
+      refs: dbscan
+      clearWith: 
+        - vars
+        - eps
+        - minPts
+        - dist
+        - standardize
+        - autoEps
+        - epsQuantile
+      columns:
+        - name: eps_used
+          title: "ε used"
+          type: number
+        - name: quantile
+          title: "Quantile"
+          type: number
+          format: zto.pct
+        - name: k
+          title: "k (minPts)"
+          type: integer
+        - name: n
+          title: "N"
+          type: integer
+          
+    - name: qualityTable
+      title: "Quality Indices"
+      type: Table
+      rows: 0
+      visible: (quality)
+      refs: dbscan
+      clearWith: 
+        - vars
+        - eps
+        - minPts
+        - dist
+        - standardize
+        - autoEps
+        - epsQuantile
+        - qoption
+      columns:
+        - name: metric
+          title: "Metric"
+          type: text
+        - name: value
+          title: "Value"
+          type: number
+
+...

@@ -38,7 +38,7 @@
         `author`="Kuhn, M., et.al.", 
         `year`=2022, 
         `title`="caret: Classification and Regression Training", 
-        `publisher`="(Version 6.0-93)[R package]. URL https://CRAN.R-project.org/package=caret"), 
+        `publisher`="(Version 6.0.93)[R package]. URL https://CRAN.R-project.org/package=caret"), 
     `MLeval`=list(
         `type`="software", 
         `author`="John, C.", 
@@ -86,4 +86,10 @@
         `author`="Szepannek, G. & Aschenbruck, R.", 
         `year`=2024, 
         `title`="clustMixType: k-Prototypes Clustering for Mixed Variable-Type Data", 
-        `publisher`="(Version 0.4-2)[R package]. URL https://CRAN.R-project.org/package=clustMixType"))
+        `publisher`="(Version 0.4.2)[R package]. URL https://CRAN.R-project.org/package=clustMixType"), 
+    `dbscan`=list(
+        `type`="software", 
+        `author`="Hahsler, M., et.al.", 
+        `year`=2025, 
+        `title`="dbscan: Density-Based Spatial Clustering of Applications with Noise (DBSCAN) and Related Algorithms", 
+        `publisher`="(Version 1.2.3)[R package]. URL https://CRAN.R-project.org/package=dbscan"))
