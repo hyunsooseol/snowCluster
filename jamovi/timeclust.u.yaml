@@ -55,6 +55,16 @@ children:
                     name: height1
                     format: number
                     enable: (plot1)
+          - type: Label
+            label: 'Tests'
+            children:
+              - type: TextBox
+                name: k
+                format: number
+              - type: Output
+                name: clust
+              - type: CheckBox
+                name: summary
       - type: LayoutBox
         stretchFactor: 1
         margin: large
@@ -64,13 +74,8 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: 'Tests'
+            label: 'Plots'
             children:
-              - type: TextBox
-                name: k
-                format: number
-              - type: Output
-                name: clust
               - type: CheckBox
                 name: plot
                 style: list-inline
@@ -83,4 +88,16 @@ children:
                     name: height
                     format: number
                     enable: (plot)
+              - type: CheckBox
+                name: plot3
+                style: list-inline
+                children:
+                  - type: TextBox
+                    name: width3
+                    format: number
+                    enable: (plot3)
+                  - type: TextBox
+                    name: height3
+                    format: number
+                    enable: (plot3)
 

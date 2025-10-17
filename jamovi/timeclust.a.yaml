@@ -43,7 +43,7 @@ options:
         - numeric  
 
     - name: plot
-      title: 'Cluster plot'
+      title: 'Time series clustering'
       type: Bool
       default: FALSE
 
@@ -75,6 +75,33 @@ options:
       type: Integer
       title: "X"
       default: 500  
+
+    - name: summary
+      title: 'Cluster summary'
+      type: Bool
+      default: false
+
+    - name: plot3
+      title: 'Cluster Mean Time Series'
+      type: Bool
+      default: FALSE
+
+    - name: width3
+      type: Integer
+      title: "Size: "
+      default: 500
+      
+    - name: height3
+      type: Integer
+      title: "X"
+      default: 500  
+
+
+
+
+
+
+
 
     # - name: angle
     #   title: Angle of x-axis labels

@@ -1,7 +1,7 @@
 Package: snowCluster
 Type: Package
 Title: Multivariate Analysis
-Version: 7.5.5
+Version: 7.5.6
 Author: Hyunsoo Seol
 Maintainer: Hyunsoo Seol <snow@cau.ac.kr>
 Description: This module allows users to analyze k-means, Density based clustering, and hierarchical
@@ -10,7 +10,7 @@ Description: This module allows users to analyze k-means, Density based clusteri
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports:
     jmvcore (>= 0.8), 
     R6,
@@ -67,4 +67,3 @@ Imports:
     scales,
     dbscan,
 Remotes: cardiomoon/multipleROC    
-

@@ -24,6 +24,35 @@ items:
         - value
         - k
 
+    - name: clusterTable
+      title: 'Cluster summary'
+      type: Table
+      rows: (k)
+      clearWith:
+        - item
+        - feature
+        - value
+        - k
+      columns:
+        - name: cluster
+          title: 'Cluster'
+          type: integer
+        - name: n_items
+          title: 'Items'
+          type: integer
+        - name: mean_value
+          title: 'Mean'
+          type: number
+        - name: sd_value
+          title: 'SD'
+          type: number
+        - name: min_value
+          title: 'Minimum'
+          type: number
+        - name: max_value
+          title: 'Maximum'
+          type: number
+
     - name:  plot1
       title: 'BIC plot'
       type:  Image
@@ -54,6 +83,18 @@ items:
         - width
         - height
  
- 
+    - name:  plot3
+      title: 'Cluster mean time series'
+      type:  Image
+      requiresData: true
+      visible: (plot3)
+      renderFun: .plot3
+      clearWith:
+        - item
+        - feature
+        - value
+        - k 
+        - width3
+        - height3
 
 ...

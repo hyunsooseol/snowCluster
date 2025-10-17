@@ -15,7 +15,11 @@ timeclust(
   height = 500,
   plot1 = FALSE,
   width1 = 500,
-  height1 = 500
+  height1 = 500,
+  summary = FALSE,
+  plot3 = FALSE,
+  width3 = 500,
+  height3 = 500
 )
 }
 \arguments{
@@ -40,6 +44,14 @@ timeclust(
 \item{width1}{.}
 
 \item{height1}{.}
+
+\item{summary}{.}
+
+\item{plot3}{.}
+
+\item{width3}{.}
+
+\item{height3}{.}
 }
 \value{
 A results object containing:
@@ -47,9 +59,17 @@ A results object containing:
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
+  \code{results$clusterTable} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 }
+
+Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+
+\code{results$clusterTable$asDF}
+
+\code{as.data.frame(results$clusterTable)}
 }
 \description{
 Time Series Clustering
