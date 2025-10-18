@@ -82,7 +82,7 @@ options:
       default: false
 
     - name: plot3
-      title: 'Cluster Mean Time Series'
+      title: 'Cluster mean time series'
       type: Bool
       default: FALSE
 
@@ -96,22 +96,5 @@ options:
       title: "X"
       default: 500  
 
-
-
-
-
-
-
-
-    # - name: angle
-    #   title: Angle of x-axis labels
-    #   type: Number
-    #   min: 0
-    #   max: 90
-    #   default: 0
-    #   description:
-    #       R: >
-    #         a number from 0 to 90 defining the angle of the x-axis labels, 
-    #         where 0 degrees represents completely horizontal labels.
 
 ...
