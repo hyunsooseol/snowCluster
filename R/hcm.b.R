@@ -162,29 +162,51 @@ hcmClass <- if (requireNamespace('jmvcore'))
       },
       
       .plot = function(image, ...) {
-        if ((length(self$options$podatki) < 3) ||
-            (self$options$dend == FALSE))
+        if ((length(self$options$podatki) < 3) || (self$options$dend == FALSE))
           return()
+        
         plotData <- image$state[[1]]
-        razrez <- image$state[[2]]
-        if (self$options$horiz == TRUE) {
-          plott <- plot(stats::as.dendrogram(plotData),
-                        type = "rectangle",
-                        horiz = TRUE)
+        razrez   <- image$state[[2]]
+        
+        # 라벨 추출
+        labs <- tryCatch({
+          if (!is.null(plotData$labels)) plotData$labels else {
+            d <- stats::as.dendrogram(plotData)
+            unlist(stats::dendrapply(d, function(n)
+              if (identical(attr(n, "leaf"), TRUE)) attr(n, "label") else NULL))
+          }
+        }, error = function(e) character(0))
+        
+        # 기본값 고정
+        lab_cex <- 0.7
+        lab_mar <- 0.35
+        wlen    <- if (length(labs)) max(nchar(labs, type = "width")) else 8
+        
+        oldpar <- graphics::par(no.readonly = TRUE)
+        on.exit(graphics::par(oldpar), add = TRUE)
+        graphics::par(xpd = NA)
+        
+        dnd <- stats::as.dendrogram(plotData)
+        
+        if (isTRUE(self$options$horiz)) {
+          # 가로형: 라벨 마진 조정만, 빨간선 없음
+          rmar <- max(6, ceiling(lab_mar * wlen * lab_cex))
+          graphics::par(mar = c(5, 4, 4, rmar))
+          graphics::plot(dnd, type = "rectangle", horiz = TRUE, cex = lab_cex)
+          
         } else {
-          plott <- plot(stats::as.dendrogram(plotData),
-                        hang = -1,
-                        cex = 0.6)
+          # 세로형: 기존 빨간 사각형 표시
+          bmar <- max(6, ceiling(lab_mar * wlen * lab_cex))
+          graphics::par(mar = c(bmar, 4, 4, 2))
+          graphics::plot(dnd, hang = -1, cex = lab_cex)
+          
           if (self$options$grp == "height") {
-            stats::rect.hclust(plotData,
-                               h = self$options$hght,
-                               cluster = razrez)
+            stats::rect.hclust(plotData, h = self$options$hght, border = "red")
           } else {
-            stats::rect.hclust(plotData,
-                               k = self$options$group,
-                               cluster = razrez)
+            stats::rect.hclust(plotData, k = self$options$group, border = "red")
           }
         }
+        
         TRUE
       },
       
