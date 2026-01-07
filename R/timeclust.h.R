@@ -11,15 +11,9 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             item = NULL,
             value = NULL,
             plot = FALSE,
-            width = 500,
-            height = 500,
             plot1 = FALSE,
-            width1 = 500,
-            height1 = 500,
             summary = FALSE,
-            plot3 = FALSE,
-            width3 = 500,
-            height3 = 500, ...) {
+            plot3 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -57,28 +51,12 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot",
                 plot,
                 default=FALSE)
-            private$..width <- jmvcore::OptionInteger$new(
-                "width",
-                width,
-                default=500)
-            private$..height <- jmvcore::OptionInteger$new(
-                "height",
-                height,
-                default=500)
             private$..clust <- jmvcore::OptionOutput$new(
                 "clust")
             private$..plot1 <- jmvcore::OptionBool$new(
                 "plot1",
                 plot1,
                 default=FALSE)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
             private$..summary <- jmvcore::OptionBool$new(
                 "summary",
                 summary,
@@ -87,30 +65,16 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot3",
                 plot3,
                 default=FALSE)
-            private$..width3 <- jmvcore::OptionInteger$new(
-                "width3",
-                width3,
-                default=500)
-            private$..height3 <- jmvcore::OptionInteger$new(
-                "height3",
-                height3,
-                default=500)
 
             self$.addOption(private$..k)
             self$.addOption(private$..feature)
             self$.addOption(private$..item)
             self$.addOption(private$..value)
             self$.addOption(private$..plot)
-            self$.addOption(private$..width)
-            self$.addOption(private$..height)
             self$.addOption(private$..clust)
             self$.addOption(private$..plot1)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
             self$.addOption(private$..summary)
             self$.addOption(private$..plot3)
-            self$.addOption(private$..width3)
-            self$.addOption(private$..height3)
         }),
     active = list(
         k = function() private$..k$value,
@@ -118,32 +82,20 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         item = function() private$..item$value,
         value = function() private$..value$value,
         plot = function() private$..plot$value,
-        width = function() private$..width$value,
-        height = function() private$..height$value,
         clust = function() private$..clust$value,
         plot1 = function() private$..plot1$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value,
         summary = function() private$..summary$value,
-        plot3 = function() private$..plot3$value,
-        width3 = function() private$..width3$value,
-        height3 = function() private$..height3$value),
+        plot3 = function() private$..plot3$value),
     private = list(
         ..k = NA,
         ..feature = NA,
         ..item = NA,
         ..value = NA,
         ..plot = NA,
-        ..width = NA,
-        ..height = NA,
         ..clust = NA,
         ..plot1 = NA,
-        ..width1 = NA,
-        ..height1 = NA,
         ..summary = NA,
-        ..plot3 = NA,
-        ..width3 = NA,
-        ..height3 = NA)
+        ..plot3 = NA)
 )
 
 timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -232,9 +184,7 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "item",
                     "feature",
                     "value",
-                    "k",
-                    "width1",
-                    "height1")))
+                    "k")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -247,9 +197,7 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "item",
                     "feature",
                     "value",
-                    "k",
-                    "width",
-                    "height")))
+                    "k")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -261,9 +209,7 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "item",
                     "feature",
                     "value",
-                    "k",
-                    "width3",
-                    "height3")))}))
+                    "k")))}))
 
 timeclustBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "timeclustBase",
@@ -295,15 +241,9 @@ timeclustBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param item .
 #' @param value .
 #' @param plot .
-#' @param width .
-#' @param height .
 #' @param plot1 .
-#' @param width1 .
-#' @param height1 .
 #' @param summary .
 #' @param plot3 .
-#' @param width3 .
-#' @param height3 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -329,15 +269,9 @@ timeclust <- function(
     item,
     value,
     plot = FALSE,
-    width = 500,
-    height = 500,
     plot1 = FALSE,
-    width1 = 500,
-    height1 = 500,
     summary = FALSE,
-    plot3 = FALSE,
-    width3 = 500,
-    height3 = 500) {
+    plot3 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("timeclust requires jmvcore to be installed (restart may be required)")
@@ -361,15 +295,9 @@ timeclust <- function(
         item = item,
         value = value,
         plot = plot,
-        width = width,
-        height = height,
         plot1 = plot1,
-        width1 = width1,
-        height1 = height1,
         summary = summary,
-        plot3 = plot3,
-        width3 = width3,
-        height3 = height3)
+        plot3 = plot3)
 
     analysis <- timeclustClass$new(
         options = options,

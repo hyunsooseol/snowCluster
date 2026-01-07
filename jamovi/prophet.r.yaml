@@ -81,8 +81,6 @@ items:
           - regressors
           - reg_prior_scale
           - reg_future_fill
-          - width2
-          - height2
           - seasonality
 
     - name:  plot1
@@ -96,8 +94,6 @@ items:
         - covs
         - periods
         - unit
-        - width
-        - height
         - growth
         - cp_scale
         - n_chgpts
@@ -125,8 +121,6 @@ items:
         - method
         - periods
         - unit
-        - width1
-        - height1
         - growth
         - cp_scale
         - n_chgpts

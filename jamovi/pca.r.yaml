@@ -43,9 +43,6 @@ items:
         - mode
         - vars
         - labels
-        - width
-        - height
-
 
     - name:  plot1
       title: Individual Plot
@@ -58,9 +55,7 @@ items:
         - mode
         - vars
         - labels
-        - width1
-        - height1
-        
+
     - name:  plot2
       title: Biplot
       type:  Image
@@ -72,9 +67,7 @@ items:
         - mode
         - vars
         - labels
-        - width2
-        - height2
- 
+
     - name:  plot3
       title: Individuals by groups
       type:  Image
@@ -86,9 +79,7 @@ items:
         - mode
         - vars1
         - labels
-        - width3
-        - height3
-        
+
     - name:  plot4
       title: PCA-Biplot
       type:  Image
@@ -100,6 +91,4 @@ items:
         - mode
         - vars1
         - labels
-        - width4
-        - height4
 ...

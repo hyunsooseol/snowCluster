@@ -17,13 +17,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             cla = FALSE,
             plot = FALSE,
             plot1 = FALSE,
-            width = 500,
-            height = 500,
-            width1 = 500,
-            height1 = 500,
             plot2 = FALSE,
-            width2 = 500,
-            height2 = 500,
             positive = "no", ...) {
 
             super$initialize(
@@ -84,34 +78,10 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot1",
                 plot1,
                 default=FALSE)
-            private$..width <- jmvcore::OptionInteger$new(
-                "width",
-                width,
-                default=500)
-            private$..height <- jmvcore::OptionInteger$new(
-                "height",
-                height,
-                default=500)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
                 default=FALSE)
-            private$..width2 <- jmvcore::OptionInteger$new(
-                "width2",
-                width2,
-                default=500)
-            private$..height2 <- jmvcore::OptionInteger$new(
-                "height2",
-                height2,
-                default=500)
             private$..positive <- jmvcore::OptionString$new(
                 "positive",
                 positive,
@@ -128,13 +98,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..cla)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
-            self$.addOption(private$..width)
-            self$.addOption(private$..height)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
             self$.addOption(private$..plot2)
-            self$.addOption(private$..width2)
-            self$.addOption(private$..height2)
             self$.addOption(private$..positive)
         }),
     active = list(
@@ -149,13 +113,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         cla = function() private$..cla$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
-        width = function() private$..width$value,
-        height = function() private$..height$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value,
         plot2 = function() private$..plot2$value,
-        width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value,
         positive = function() private$..positive$value),
     private = list(
         ..dep = NA,
@@ -169,13 +127,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..cla = NA,
         ..plot = NA,
         ..plot1 = NA,
-        ..width = NA,
-        ..height = NA,
-        ..width1 = NA,
-        ..height1 = NA,
         ..plot2 = NA,
-        ..width2 = NA,
-        ..height2 = NA,
         ..positive = NA)
 )
 
@@ -337,9 +289,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "facs",
-                    "per",
-                    "width",
-                    "height")))
+                    "per")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -352,9 +302,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "facs",
-                    "per",
-                    "width1",
-                    "height1")))
+                    "per")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -367,9 +315,7 @@ treeResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "facs",
-                    "width2",
-                    "height2")))}))
+                    "facs")))}))
 
 treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "treeBase",
@@ -407,13 +353,7 @@ treeBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param cla .
 #' @param plot .
 #' @param plot1 .
-#' @param width .
-#' @param height .
-#' @param width1 .
-#' @param height1 .
 #' @param plot2 .
-#' @param width2 .
-#' @param height2 .
 #' @param positive .
 #' @return A results object containing:
 #' \tabular{llllll}{
@@ -449,13 +389,7 @@ tree <- function(
     cla = FALSE,
     plot = FALSE,
     plot1 = FALSE,
-    width = 500,
-    height = 500,
-    width1 = 500,
-    height1 = 500,
     plot2 = FALSE,
-    width2 = 500,
-    height2 = 500,
     positive = "no") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
@@ -485,13 +419,7 @@ tree <- function(
         cla = cla,
         plot = plot,
         plot1 = plot1,
-        width = width,
-        height = height,
-        width1 = width1,
-        height1 = height1,
         plot2 = plot2,
-        width2 = width2,
-        height2 = height2,
         positive = positive)
 
     analysis <- treeClass$new(

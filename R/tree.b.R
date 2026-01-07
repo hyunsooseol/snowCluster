@@ -34,22 +34,6 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         # if (self$options$cla)
         #   self$results$cla$setNote("Note", "By default, confusion matrix statistics treat the first factor level, based on alphabetical or numeric order, as the positive class.")
         
-        if (isTRUE(self$options$plot)) {
-          width <- self$options$width
-          height <- self$options$height
-          self$results$plot$setSize(width, height)
-        }
-        
-        if (isTRUE(self$options$plot1)) {
-          width <- self$options$width1
-          height <- self$options$height1
-          self$results$plot1$setSize(width, height)
-        }
-        if (isTRUE(self$options$plot2)) {
-          width <- self$options$width2
-          height <- self$options$height2
-          self$results$plot2$setSize(width, height)
-        }
       },
       
       .run = function() {

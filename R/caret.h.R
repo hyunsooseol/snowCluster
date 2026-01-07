@@ -38,25 +38,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             tune1 = 10,
             accu = FALSE,
             kapp = FALSE,
-            width = 500,
-            height = 500,
-            width1 = 500,
-            height1 = 500,
-            width2 = 500,
-            height2 = 500,
-            width3 = 500,
-            height3 = 500,
-            width4 = 500,
-            height4 = 500,
-            width5 = 500,
-            height5 = 500,
-            width6 = 500,
-            height6 = 500,
-            width7 = 500,
-            height7 = 500,
             plot8 = FALSE,
-            width8 = 500,
-            height8 = 500,
             positive = "no",
             positive1 = "no", ...) {
 
@@ -274,82 +256,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "kapp",
                 kapp,
                 default=FALSE)
-            private$..width <- jmvcore::OptionInteger$new(
-                "width",
-                width,
-                default=500)
-            private$..height <- jmvcore::OptionInteger$new(
-                "height",
-                height,
-                default=500)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
-            private$..width2 <- jmvcore::OptionInteger$new(
-                "width2",
-                width2,
-                default=500)
-            private$..height2 <- jmvcore::OptionInteger$new(
-                "height2",
-                height2,
-                default=500)
-            private$..width3 <- jmvcore::OptionInteger$new(
-                "width3",
-                width3,
-                default=500)
-            private$..height3 <- jmvcore::OptionInteger$new(
-                "height3",
-                height3,
-                default=500)
-            private$..width4 <- jmvcore::OptionInteger$new(
-                "width4",
-                width4,
-                default=500)
-            private$..height4 <- jmvcore::OptionInteger$new(
-                "height4",
-                height4,
-                default=500)
-            private$..width5 <- jmvcore::OptionInteger$new(
-                "width5",
-                width5,
-                default=500)
-            private$..height5 <- jmvcore::OptionInteger$new(
-                "height5",
-                height5,
-                default=500)
-            private$..width6 <- jmvcore::OptionInteger$new(
-                "width6",
-                width6,
-                default=500)
-            private$..height6 <- jmvcore::OptionInteger$new(
-                "height6",
-                height6,
-                default=500)
-            private$..width7 <- jmvcore::OptionInteger$new(
-                "width7",
-                width7,
-                default=500)
-            private$..height7 <- jmvcore::OptionInteger$new(
-                "height7",
-                height7,
-                default=500)
             private$..plot8 <- jmvcore::OptionBool$new(
                 "plot8",
                 plot8,
                 default=FALSE)
-            private$..width8 <- jmvcore::OptionInteger$new(
-                "width8",
-                width8,
-                default=500)
-            private$..height8 <- jmvcore::OptionInteger$new(
-                "height8",
-                height8,
-                default=500)
             private$..positive <- jmvcore::OptionString$new(
                 "positive",
                 positive,
@@ -392,25 +302,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..tune1)
             self$.addOption(private$..accu)
             self$.addOption(private$..kapp)
-            self$.addOption(private$..width)
-            self$.addOption(private$..height)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
-            self$.addOption(private$..width2)
-            self$.addOption(private$..height2)
-            self$.addOption(private$..width3)
-            self$.addOption(private$..height3)
-            self$.addOption(private$..width4)
-            self$.addOption(private$..height4)
-            self$.addOption(private$..width5)
-            self$.addOption(private$..height5)
-            self$.addOption(private$..width6)
-            self$.addOption(private$..height6)
-            self$.addOption(private$..width7)
-            self$.addOption(private$..height7)
             self$.addOption(private$..plot8)
-            self$.addOption(private$..width8)
-            self$.addOption(private$..height8)
             self$.addOption(private$..positive)
             self$.addOption(private$..positive1)
         }),
@@ -448,25 +340,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         tune1 = function() private$..tune1$value,
         accu = function() private$..accu$value,
         kapp = function() private$..kapp$value,
-        width = function() private$..width$value,
-        height = function() private$..height$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value,
-        width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value,
-        width3 = function() private$..width3$value,
-        height3 = function() private$..height3$value,
-        width4 = function() private$..width4$value,
-        height4 = function() private$..height4$value,
-        width5 = function() private$..width5$value,
-        height5 = function() private$..height5$value,
-        width6 = function() private$..width6$value,
-        height6 = function() private$..height6$value,
-        width7 = function() private$..width7$value,
-        height7 = function() private$..height7$value,
         plot8 = function() private$..plot8$value,
-        width8 = function() private$..width8$value,
-        height8 = function() private$..height8$value,
         positive = function() private$..positive$value,
         positive1 = function() private$..positive1$value),
     private = list(
@@ -503,25 +377,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..tune1 = NA,
         ..accu = NA,
         ..kapp = NA,
-        ..width = NA,
-        ..height = NA,
-        ..width1 = NA,
-        ..height1 = NA,
-        ..width2 = NA,
-        ..height2 = NA,
-        ..width3 = NA,
-        ..height3 = NA,
-        ..width4 = NA,
-        ..height4 = NA,
-        ..width5 = NA,
-        ..height5 = NA,
-        ..width6 = NA,
-        ..height6 = NA,
-        ..width7 = NA,
-        ..height7 = NA,
         ..plot8 = NA,
-        ..width8 = NA,
-        ..height8 = NA,
         ..positive = NA,
         ..positive1 = NA)
 )
@@ -759,9 +615,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "tune",
-                    "width2",
-                    "height2")))
+                    "tune")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot8",
@@ -780,9 +634,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "tune",
-                    "width8",
-                    "height8")))
+                    "tune")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -802,9 +654,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "number",
                     "repeats",
                     "tune",
-                    "cm1",
-                    "width",
-                    "height")))
+                    "cm1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -824,9 +674,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "number",
                     "repeats",
                     "tune",
-                    "cm1",
-                    "width4",
-                    "height4")))
+                    "cm1")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -844,9 +692,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "tune",
-                    "width1",
-                    "height1")))
+                    "tune")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -864,9 +710,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "tune",
-                    "width3",
-                    "height3")))
+                    "tune")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
@@ -884,9 +728,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "tune",
-                    "width5",
-                    "height5")))
+                    "tune")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
@@ -904,9 +746,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "tune",
-                    "width6",
-                    "height6")))
+                    "tune")))
             self$add(R6::R6Class(
                 inherit = jmvcore::Group,
                 active = list(
@@ -1030,9 +870,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "trans",
                     "mecon",
-                    "cm1",
-                    "width7",
-                    "height7")))
+                    "cm1")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="pred",
@@ -1108,25 +946,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param tune1 .
 #' @param accu .
 #' @param kapp .
-#' @param width .
-#' @param height .
-#' @param width1 .
-#' @param height1 .
-#' @param width2 .
-#' @param height2 .
-#' @param width3 .
-#' @param height3 .
-#' @param width4 .
-#' @param height4 .
-#' @param width5 .
-#' @param height5 .
-#' @param width6 .
-#' @param height6 .
-#' @param width7 .
-#' @param height7 .
 #' @param plot8 .
-#' @param width8 .
-#' @param height8 .
 #' @param positive .
 #' @param positive1 .
 #' @return A results object containing:
@@ -1195,25 +1015,7 @@ caret <- function(
     tune1 = 10,
     accu = FALSE,
     kapp = FALSE,
-    width = 500,
-    height = 500,
-    width1 = 500,
-    height1 = 500,
-    width2 = 500,
-    height2 = 500,
-    width3 = 500,
-    height3 = 500,
-    width4 = 500,
-    height4 = 500,
-    width5 = 500,
-    height5 = 500,
-    width6 = 500,
-    height6 = 500,
-    width7 = 500,
-    height7 = 500,
     plot8 = FALSE,
-    width8 = 500,
-    height8 = 500,
     positive = "no",
     positive1 = "no") {
 
@@ -1266,25 +1068,7 @@ caret <- function(
         tune1 = tune1,
         accu = accu,
         kapp = kapp,
-        width = width,
-        height = height,
-        width1 = width1,
-        height1 = height1,
-        width2 = width2,
-        height2 = height2,
-        width3 = width3,
-        height3 = height3,
-        width4 = width4,
-        height4 = height4,
-        width5 = width5,
-        height5 = height5,
-        width6 = width6,
-        height6 = height6,
-        width7 = width7,
-        height7 = height7,
         plot8 = plot8,
-        width8 = width8,
-        height8 = height8,
         positive = positive,
         positive1 = positive1)
 

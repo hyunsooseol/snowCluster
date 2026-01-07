@@ -18,15 +18,7 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             plot1 = TRUE,
             plot2 = FALSE,
             plot3 = FALSE,
-            plot4 = FALSE,
-            width4 = 500,
-            height4 = 500,
-            width3 = 500,
-            height3 = 500,
-            width2 = 500,
-            height2 = 500,
-            width1 = 500,
-            height1 = 500, ...) {
+            plot4 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -104,38 +96,6 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 "plot4",
                 plot4,
                 default=FALSE)
-            private$..width4 <- jmvcore::OptionInteger$new(
-                "width4",
-                width4,
-                default=500)
-            private$..height4 <- jmvcore::OptionInteger$new(
-                "height4",
-                height4,
-                default=500)
-            private$..width3 <- jmvcore::OptionInteger$new(
-                "width3",
-                width3,
-                default=500)
-            private$..height3 <- jmvcore::OptionInteger$new(
-                "height3",
-                height3,
-                default=500)
-            private$..width2 <- jmvcore::OptionInteger$new(
-                "width2",
-                width2,
-                default=500)
-            private$..height2 <- jmvcore::OptionInteger$new(
-                "height2",
-                height2,
-                default=500)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
 
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
@@ -150,14 +110,6 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
             self$.addOption(private$..plot2)
             self$.addOption(private$..plot3)
             self$.addOption(private$..plot4)
-            self$.addOption(private$..width4)
-            self$.addOption(private$..height4)
-            self$.addOption(private$..width3)
-            self$.addOption(private$..height3)
-            self$.addOption(private$..width2)
-            self$.addOption(private$..height2)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
         }),
     active = list(
         labels = function() private$..labels$value,
@@ -172,15 +124,7 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
         plot1 = function() private$..plot1$value,
         plot2 = function() private$..plot2$value,
         plot3 = function() private$..plot3$value,
-        plot4 = function() private$..plot4$value,
-        width4 = function() private$..width4$value,
-        height4 = function() private$..height4$value,
-        width3 = function() private$..width3$value,
-        height3 = function() private$..height3$value,
-        width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value),
+        plot4 = function() private$..plot4$value),
     private = list(
         ..labels = NA,
         ..vars = NA,
@@ -194,15 +138,7 @@ correspondenceOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
         ..plot1 = NA,
         ..plot2 = NA,
         ..plot3 = NA,
-        ..plot4 = NA,
-        ..width4 = NA,
-        ..height4 = NA,
-        ..width3 = NA,
-        ..height3 = NA,
-        ..width2 = NA,
-        ..height2 = NA,
-        ..width1 = NA,
-        ..height1 = NA)
+        ..plot4 = NA)
 )
 
 correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -335,8 +271,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "width4",
-                    "height4",
                     "nd")))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -349,8 +283,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "width1",
-                    "height1",
                     "nd")))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -363,8 +295,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "width2",
-                    "height2",
                     "nd")))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -377,8 +307,6 @@ correspondenceResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cl
                 clearWith=list(
                     "vars",
                     "labels",
-                    "width3",
-                    "height3",
                     "nd")))}))
 
 correspondenceBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -419,14 +347,6 @@ correspondenceBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class
 #' @param plot2 .
 #' @param plot3 .
 #' @param plot4 .
-#' @param width4 .
-#' @param height4 .
-#' @param width3 .
-#' @param height3 .
-#' @param width2 .
-#' @param height2 .
-#' @param width1 .
-#' @param height1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -461,15 +381,7 @@ correspondence <- function(
     plot1 = TRUE,
     plot2 = FALSE,
     plot3 = FALSE,
-    plot4 = FALSE,
-    width4 = 500,
-    height4 = 500,
-    width3 = 500,
-    height3 = 500,
-    width2 = 500,
-    height2 = 500,
-    width1 = 500,
-    height1 = 500) {
+    plot4 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("correspondence requires jmvcore to be installed (restart may be required)")
@@ -497,15 +409,7 @@ correspondence <- function(
         plot1 = plot1,
         plot2 = plot2,
         plot3 = plot3,
-        plot4 = plot4,
-        width4 = width4,
-        height4 = height4,
-        width3 = width3,
-        height3 = height3,
-        width2 = width2,
-        height2 = height2,
-        width1 = width1,
-        height1 = height1)
+        plot4 = plot4)
 
     analysis <- correspondenceClass$new(
         options = options,

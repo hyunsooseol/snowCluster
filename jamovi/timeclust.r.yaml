@@ -65,9 +65,7 @@ items:
         - feature
         - value
         - k 
-        - width1
-        - height1
-        
+
     - name:  plot
       title: 'Time series clustering'
       type:  Image
@@ -80,9 +78,7 @@ items:
         - feature
         - value
         - k 
-        - width
-        - height
- 
+
     - name:  plot3
       title: 'Cluster mean time series'
       type:  Image
@@ -94,7 +90,5 @@ items:
         - feature
         - value
         - k 
-        - width3
-        - height3
 
 ...

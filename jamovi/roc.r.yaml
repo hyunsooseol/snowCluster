@@ -23,8 +23,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - width1
-        - height1
 
     - name:  plot2
       title: 'Multiple ROC curves'
@@ -36,8 +34,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - width2
-        - height2
 
     - name:  plot3
       title: 'Faceted ROC plots'
@@ -49,8 +45,6 @@ items:
       clearWith:
         - covs 
         - dep
-        - width3
-        - height3
 
     - name: auc
       title: 'A nonparametric test for AUC'

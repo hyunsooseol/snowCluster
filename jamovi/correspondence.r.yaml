@@ -104,8 +104,6 @@ items:
       clearWith:
             - vars
             - labels
-            - width4
-            - height4
             - nd
  
     - name:  plot1
@@ -118,8 +116,6 @@ items:
       clearWith:
             - vars
             - labels
-            - width1
-            - height1
             - nd
  
     - name:  plot2
@@ -132,8 +128,6 @@ items:
       clearWith:
             - vars
             - labels
-            - width2
-            - height2
             - nd
  
     - name:  plot3
@@ -146,7 +140,5 @@ items:
       clearWith:
             - vars
             - labels
-            - width3
-            - height3
             - nd
 ...

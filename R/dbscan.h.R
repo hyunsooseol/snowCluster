@@ -19,11 +19,7 @@ dbscanOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             autoEps = FALSE,
             epsQuantile = 0.95,
             quality = FALSE,
-            qoption = "none",
-            width = 500,
-            height = 500,
-            width1 = 500,
-            height1 = 500, ...) {
+            qoption = "none", ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -112,22 +108,6 @@ dbscanOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "none",
                     "sil",
                     "dbi"))
-            private$..width <- jmvcore::OptionInteger$new(
-                "width",
-                width,
-                default=500)
-            private$..height <- jmvcore::OptionInteger$new(
-                "height",
-                height,
-                default=500)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..eps)
@@ -144,10 +124,6 @@ dbscanOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..epsQuantile)
             self$.addOption(private$..quality)
             self$.addOption(private$..qoption)
-            self$.addOption(private$..width)
-            self$.addOption(private$..height)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
         }),
     active = list(
         vars = function() private$..vars$value,
@@ -164,11 +140,7 @@ dbscanOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         autoEps = function() private$..autoEps$value,
         epsQuantile = function() private$..epsQuantile$value,
         quality = function() private$..quality$value,
-        qoption = function() private$..qoption$value,
-        width = function() private$..width$value,
-        height = function() private$..height$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value),
+        qoption = function() private$..qoption$value),
     private = list(
         ..vars = NA,
         ..eps = NA,
@@ -184,11 +156,7 @@ dbscanOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..autoEps = NA,
         ..epsQuantile = NA,
         ..quality = NA,
-        ..qoption = NA,
-        ..width = NA,
-        ..height = NA,
-        ..width1 = NA,
-        ..height1 = NA)
+        ..qoption = NA)
 )
 
 dbscanResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -293,9 +261,7 @@ dbscanResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dist",
                     "standardize",
                     "autoEps",
-                    "epsQuantile",
-                    "width",
-                    "height")))
+                    "epsQuantile")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="knnPlot",
@@ -312,9 +278,7 @@ dbscanResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dist",
                     "standardize",
                     "autoEps",
-                    "epsQuantile",
-                    "width1",
-                    "height1")))
+                    "epsQuantile")))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="autoTable",
@@ -413,10 +377,6 @@ dbscanBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param epsQuantile .
 #' @param quality .
 #' @param qoption .
-#' @param width .
-#' @param height .
-#' @param width1 .
-#' @param height1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -452,11 +412,7 @@ dbscan <- function(
     autoEps = FALSE,
     epsQuantile = 0.95,
     quality = FALSE,
-    qoption = "none",
-    width = 500,
-    height = 500,
-    width1 = 500,
-    height1 = 500) {
+    qoption = "none") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("dbscan requires jmvcore to be installed (restart may be required)")
@@ -482,11 +438,7 @@ dbscan <- function(
         autoEps = autoEps,
         epsQuantile = epsQuantile,
         quality = quality,
-        qoption = qoption,
-        width = width,
-        height = height,
-        width1 = width1,
-        height1 = height1)
+        qoption = qoption)
 
     analysis <- dbscanClass$new(
         options = options,

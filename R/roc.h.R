@@ -9,14 +9,8 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             dep = NULL,
             covs = NULL,
             plot1 = FALSE,
-            width1 = 500,
-            height1 = 500,
             plot2 = FALSE,
-            width2 = 500,
-            height2 = 500,
             plot3 = FALSE,
-            width3 = 500,
-            height3 = 500,
             auc = FALSE,
             dif = FALSE,
             overall = FALSE, ...) {
@@ -41,38 +35,14 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot1",
                 plot1,
                 default=FALSE)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
             private$..plot2 <- jmvcore::OptionBool$new(
                 "plot2",
                 plot2,
                 default=FALSE)
-            private$..width2 <- jmvcore::OptionInteger$new(
-                "width2",
-                width2,
-                default=500)
-            private$..height2 <- jmvcore::OptionInteger$new(
-                "height2",
-                height2,
-                default=500)
             private$..plot3 <- jmvcore::OptionBool$new(
                 "plot3",
                 plot3,
                 default=FALSE)
-            private$..width3 <- jmvcore::OptionInteger$new(
-                "width3",
-                width3,
-                default=500)
-            private$..height3 <- jmvcore::OptionInteger$new(
-                "height3",
-                height3,
-                default=500)
             private$..auc <- jmvcore::OptionBool$new(
                 "auc",
                 auc,
@@ -89,14 +59,8 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
             self$.addOption(private$..plot1)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
             self$.addOption(private$..plot2)
-            self$.addOption(private$..width2)
-            self$.addOption(private$..height2)
             self$.addOption(private$..plot3)
-            self$.addOption(private$..width3)
-            self$.addOption(private$..height3)
             self$.addOption(private$..auc)
             self$.addOption(private$..dif)
             self$.addOption(private$..overall)
@@ -105,14 +69,8 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
         plot1 = function() private$..plot1$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value,
         plot2 = function() private$..plot2$value,
-        width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value,
         plot3 = function() private$..plot3$value,
-        width3 = function() private$..width3$value,
-        height3 = function() private$..height3$value,
         auc = function() private$..auc$value,
         dif = function() private$..dif$value,
         overall = function() private$..overall$value),
@@ -120,14 +78,8 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..dep = NA,
         ..covs = NA,
         ..plot1 = NA,
-        ..width1 = NA,
-        ..height1 = NA,
         ..plot2 = NA,
-        ..width2 = NA,
-        ..height2 = NA,
         ..plot3 = NA,
-        ..width3 = NA,
-        ..height3 = NA,
         ..auc = NA,
         ..dif = NA,
         ..overall = NA)
@@ -172,9 +124,7 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="multipleROC",
                 clearWith=list(
                     "covs",
-                    "dep",
-                    "width1",
-                    "height1")))
+                    "dep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -185,9 +135,7 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="multipleROC",
                 clearWith=list(
                     "covs",
-                    "dep",
-                    "width2",
-                    "height2")))
+                    "dep")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -198,9 +146,7 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="multipleROC",
                 clearWith=list(
                     "covs",
-                    "dep",
-                    "width3",
-                    "height3")))
+                    "dep")))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="auc",
@@ -308,14 +254,8 @@ rocBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param dep .
 #' @param covs .
 #' @param plot1 .
-#' @param width1 .
-#' @param height1 .
 #' @param plot2 .
-#' @param width2 .
-#' @param height2 .
 #' @param plot3 .
-#' @param width3 .
-#' @param height3 .
 #' @param auc .
 #' @param dif .
 #' @param overall .
@@ -343,14 +283,8 @@ roc <- function(
     dep,
     covs,
     plot1 = FALSE,
-    width1 = 500,
-    height1 = 500,
     plot2 = FALSE,
-    width2 = 500,
-    height2 = 500,
     plot3 = FALSE,
-    width3 = 500,
-    height3 = 500,
     auc = FALSE,
     dif = FALSE,
     overall = FALSE) {
@@ -372,14 +306,8 @@ roc <- function(
         dep = dep,
         covs = covs,
         plot1 = plot1,
-        width1 = width1,
-        height1 = height1,
         plot2 = plot2,
-        width2 = width2,
-        height2 = height2,
         plot3 = plot3,
-        width3 = width3,
-        height3 = height3,
         auc = auc,
         dif = dif,
         overall = overall)

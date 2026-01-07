@@ -117,8 +117,6 @@ items:
       clearWith:
         - vars
         - labels
-        - width
-        - height
 
     - name:  plot1
       title: Graph of variables
@@ -130,8 +128,6 @@ items:
         - vars
         - labels
         - type2
-        - width1
-        - height1
 
     - name: plot2
       title: Quantitative variables
@@ -143,8 +139,6 @@ items:
         - vars
         - labels
         - type3
-        - width2
-        - height2
 
     - name: plot3
       title:  Qualitative variables
@@ -156,8 +150,6 @@ items:
         - vars
         - labels
         - type4
-        - width3
-        - height3
 
     - name: plot4
       title: 'Graph of individuals' 
@@ -169,7 +161,5 @@ items:
         - vars
         - labels
         - type1
-        - width4
-        - height4
 
 ...

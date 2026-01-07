@@ -25,29 +25,9 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot6 = FALSE,
             periods = 365,
             unit = "day",
-            width1 = 500,
-            height1 = 500,
-            width2 = 500,
-            height2 = 500,
-            width3 = 500,
-            height3 = 500,
-            width4 = 500,
-            height4 = 500,
-            width5 = 500,
-            height5 = 500,
-            width6 = 500,
-            height6 = 500,
-            width7 = 500,
-            height7 = 500,
-            width8 = 500,
-            height8 = 500,
             resid = FALSE,
             plot9 = FALSE,
             plot10 = FALSE,
-            width9 = 500,
-            height9 = 500,
-            width10 = 500,
-            height10 = 500,
             level = 95,
             lbLag = 0,
             clean = "FALSE",
@@ -157,70 +137,6 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "quarter",
                     "year"),
                 default="day")
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
-            private$..width2 <- jmvcore::OptionInteger$new(
-                "width2",
-                width2,
-                default=500)
-            private$..height2 <- jmvcore::OptionInteger$new(
-                "height2",
-                height2,
-                default=500)
-            private$..width3 <- jmvcore::OptionInteger$new(
-                "width3",
-                width3,
-                default=500)
-            private$..height3 <- jmvcore::OptionInteger$new(
-                "height3",
-                height3,
-                default=500)
-            private$..width4 <- jmvcore::OptionInteger$new(
-                "width4",
-                width4,
-                default=500)
-            private$..height4 <- jmvcore::OptionInteger$new(
-                "height4",
-                height4,
-                default=500)
-            private$..width5 <- jmvcore::OptionInteger$new(
-                "width5",
-                width5,
-                default=500)
-            private$..height5 <- jmvcore::OptionInteger$new(
-                "height5",
-                height5,
-                default=500)
-            private$..width6 <- jmvcore::OptionInteger$new(
-                "width6",
-                width6,
-                default=500)
-            private$..height6 <- jmvcore::OptionInteger$new(
-                "height6",
-                height6,
-                default=500)
-            private$..width7 <- jmvcore::OptionInteger$new(
-                "width7",
-                width7,
-                default=500)
-            private$..height7 <- jmvcore::OptionInteger$new(
-                "height7",
-                height7,
-                default=500)
-            private$..width8 <- jmvcore::OptionInteger$new(
-                "width8",
-                width8,
-                default=500)
-            private$..height8 <- jmvcore::OptionInteger$new(
-                "height8",
-                height8,
-                default=500)
             private$..resid <- jmvcore::OptionBool$new(
                 "resid",
                 resid,
@@ -233,22 +149,6 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot10",
                 plot10,
                 default=FALSE)
-            private$..width9 <- jmvcore::OptionInteger$new(
-                "width9",
-                width9,
-                default=500)
-            private$..height9 <- jmvcore::OptionInteger$new(
-                "height9",
-                height9,
-                default=500)
-            private$..width10 <- jmvcore::OptionInteger$new(
-                "width10",
-                width10,
-                default=500)
-            private$..height10 <- jmvcore::OptionInteger$new(
-                "height10",
-                height10,
-                default=500)
             private$..level <- jmvcore::OptionInteger$new(
                 "level",
                 level,
@@ -291,29 +191,9 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot6)
             self$.addOption(private$..periods)
             self$.addOption(private$..unit)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
-            self$.addOption(private$..width2)
-            self$.addOption(private$..height2)
-            self$.addOption(private$..width3)
-            self$.addOption(private$..height3)
-            self$.addOption(private$..width4)
-            self$.addOption(private$..height4)
-            self$.addOption(private$..width5)
-            self$.addOption(private$..height5)
-            self$.addOption(private$..width6)
-            self$.addOption(private$..height6)
-            self$.addOption(private$..width7)
-            self$.addOption(private$..height7)
-            self$.addOption(private$..width8)
-            self$.addOption(private$..height8)
             self$.addOption(private$..resid)
             self$.addOption(private$..plot9)
             self$.addOption(private$..plot10)
-            self$.addOption(private$..width9)
-            self$.addOption(private$..height9)
-            self$.addOption(private$..width10)
-            self$.addOption(private$..height10)
             self$.addOption(private$..level)
             self$.addOption(private$..lbLag)
             self$.addOption(private$..clean)
@@ -339,29 +219,9 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot6 = function() private$..plot6$value,
         periods = function() private$..periods$value,
         unit = function() private$..unit$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value,
-        width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value,
-        width3 = function() private$..width3$value,
-        height3 = function() private$..height3$value,
-        width4 = function() private$..width4$value,
-        height4 = function() private$..height4$value,
-        width5 = function() private$..width5$value,
-        height5 = function() private$..height5$value,
-        width6 = function() private$..width6$value,
-        height6 = function() private$..height6$value,
-        width7 = function() private$..width7$value,
-        height7 = function() private$..height7$value,
-        width8 = function() private$..width8$value,
-        height8 = function() private$..height8$value,
         resid = function() private$..resid$value,
         plot9 = function() private$..plot9$value,
         plot10 = function() private$..plot10$value,
-        width9 = function() private$..width9$value,
-        height9 = function() private$..height9$value,
-        width10 = function() private$..width10$value,
-        height10 = function() private$..height10$value,
         level = function() private$..level$value,
         lbLag = function() private$..lbLag$value,
         clean = function() private$..clean$value,
@@ -386,29 +246,9 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot6 = NA,
         ..periods = NA,
         ..unit = NA,
-        ..width1 = NA,
-        ..height1 = NA,
-        ..width2 = NA,
-        ..height2 = NA,
-        ..width3 = NA,
-        ..height3 = NA,
-        ..width4 = NA,
-        ..height4 = NA,
-        ..width5 = NA,
-        ..height5 = NA,
-        ..width6 = NA,
-        ..height6 = NA,
-        ..width7 = NA,
-        ..height7 = NA,
-        ..width8 = NA,
-        ..height8 = NA,
         ..resid = NA,
         ..plot9 = NA,
         ..plot10 = NA,
-        ..width9 = NA,
-        ..height9 = NA,
-        ..width10 = NA,
-        ..height10 = NA,
         ..level = NA,
         ..lbLag = NA,
         ..clean = NA,
@@ -619,9 +459,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean",
-                    "width7",
-                    "height7")))
+                    "clean")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="box",
@@ -632,9 +470,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean",
-                    "width8",
-                    "height8")))
+                    "clean")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -648,9 +484,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "freq",
                     "pred",
                     "level",
-                    "clean",
-                    "width1",
-                    "height1")))
+                    "clean")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -660,9 +494,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean",
-                    "width2",
-                    "height2")))
+                    "clean")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -675,9 +507,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "freq",
                     "pred",
                     "level",
-                    "clean",
-                    "width3",
-                    "height3")))
+                    "clean")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -689,9 +519,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep1",
                     "time1",
                     "period",
-                    "unit",
-                    "width4",
-                    "height4")))
+                    "unit")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
@@ -703,9 +531,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep1",
                     "time1",
                     "period",
-                    "unit",
-                    "width5",
-                    "height5")))
+                    "unit")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
@@ -717,9 +543,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep1",
                     "time1",
                     "period",
-                    "unit",
-                    "width6",
-                    "height6")))
+                    "unit")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot9",
@@ -729,9 +553,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean",
-                    "width9",
-                    "height9")))
+                    "clean")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot10",
@@ -741,9 +563,7 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean",
-                    "width10",
-                    "height10")))}))
+                    "clean")))}))
 
 arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "arimaBase",
@@ -791,29 +611,9 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot6 .
 #' @param periods .
 #' @param unit .
-#' @param width1 .
-#' @param height1 .
-#' @param width2 .
-#' @param height2 .
-#' @param width3 .
-#' @param height3 .
-#' @param width4 .
-#' @param height4 .
-#' @param width5 .
-#' @param height5 .
-#' @param width6 .
-#' @param height6 .
-#' @param width7 .
-#' @param height7 .
-#' @param width8 .
-#' @param height8 .
 #' @param resid .
 #' @param plot9 .
 #' @param plot10 .
-#' @param width9 .
-#' @param height9 .
-#' @param width10 .
-#' @param height10 .
 #' @param level .
 #' @param lbLag .
 #' @param clean .
@@ -869,29 +669,9 @@ arima <- function(
     plot6 = FALSE,
     periods = 365,
     unit = "day",
-    width1 = 500,
-    height1 = 500,
-    width2 = 500,
-    height2 = 500,
-    width3 = 500,
-    height3 = 500,
-    width4 = 500,
-    height4 = 500,
-    width5 = 500,
-    height5 = 500,
-    width6 = 500,
-    height6 = 500,
-    width7 = 500,
-    height7 = 500,
-    width8 = 500,
-    height8 = 500,
     resid = FALSE,
     plot9 = FALSE,
     plot10 = FALSE,
-    width9 = 500,
-    height9 = 500,
-    width10 = 500,
-    height10 = 500,
     level = 95,
     lbLag = 0,
     clean = "FALSE",
@@ -931,29 +711,9 @@ arima <- function(
         plot6 = plot6,
         periods = periods,
         unit = unit,
-        width1 = width1,
-        height1 = height1,
-        width2 = width2,
-        height2 = height2,
-        width3 = width3,
-        height3 = height3,
-        width4 = width4,
-        height4 = height4,
-        width5 = width5,
-        height5 = height5,
-        width6 = width6,
-        height6 = height6,
-        width7 = width7,
-        height7 = height7,
-        width8 = width8,
-        height8 = height8,
         resid = resid,
         plot9 = plot9,
         plot10 = plot10,
-        width9 = width9,
-        height9 = height9,
-        width10 = width10,
-        height10 = height10,
         level = level,
         lbLag = lbLag,
         clean = clean,

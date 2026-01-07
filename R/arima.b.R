@@ -82,16 +82,6 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           )
         ))
         
-        if (isTRUE(self$options$plot))  { self$results$plot$setSize(self$options$width7,  self$options$height7) }
-        if (isTRUE(self$options$box))   { self$results$box$setSize(self$options$width8,  self$options$height8) }
-        if (isTRUE(self$options$plot1)) { self$results$plot1$setSize(self$options$width1, self$options$height1) }
-        if (isTRUE(self$options$plot2)) { self$results$plot2$setSize(self$options$width2, self$options$height2) }
-        if (isTRUE(self$options$plot3)) { self$results$plot3$setSize(self$options$width3, self$options$height3) }
-        if (isTRUE(self$options$plot4)) { self$results$plot4$setSize(self$options$width4, self$options$height4) }
-        if (isTRUE(self$options$plot5)) { self$results$plot5$setSize(self$options$width5, self$options$height5) }
-        if (isTRUE(self$options$plot6)) { self$results$plot6$setSize(self$options$width6, self$options$height6) }
-        if (isTRUE(self$options$plot9)) { self$results$plot9$setSize(self$options$width9, self$options$height9) }
-        if (isTRUE(self$options$plot10)){ self$results$plot10$setSize(self$options$width10,self$options$height10) }
       },
       
       #---

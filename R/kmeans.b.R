@@ -90,24 +90,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           )
         ))
         
-        # Set plot sizes
-        plot_configs <- list(
-          list(option = "plot", width = "width", height = "height", result = "plot"),
-          list(option = "plot1", width = "width1", height = "height1", result = "plot1"),
-          list(option = "plot2", width = "width2", height = "height2", result = "plot2"),
-          list(option = "plot3", width = "width3", height = "height3", result = "plot3"),
-          list(option = "plot4", width = "width4", height = "height4", result = "plot4"),
-          list(option = "plot5", width = "width5", height = "height5", result = "plot5")
-        )
-        
-        for (config in plot_configs) {
-          if (isTRUE(self$options[[config$option]])) {
-            width <- self$options[[config$width]]
-            height <- self$options[[config$height]]
-            self$results[[config$result]]$setSize(width, height)
-          }
-        }
-        
+
         if (self$options$oc)
           self$results$oc$setNote(
             "Note",

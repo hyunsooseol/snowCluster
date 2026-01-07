@@ -25,27 +25,6 @@ items:
         - dist
         - standardize
 
-    # - name: clusterTable
-    #   title: "Cluster Membership"
-    #   type: Table
-    #   rows: 0
-    #   clearWith:
-    #     - vars
-    #     - eps
-    #     - minPts
-    #     - dist
-    #     - standardize
-    #   columns:
-    #     - name: case
-    #       title: "Case"
-    #       type: text
-    #     - name: cluster
-    #       title: "Cluster"
-    #       type: integer
-    #     - name: outlier
-    #       title: "Outlier"
-    #       type: text
-
     - name: sizeTable
       title: "Cluster Sizes"
       type: Table
@@ -102,8 +81,7 @@ items:
         - standardize
         - autoEps
         - epsQuantile
-        - width
-        - height
+
     - name: knnPlot
       title: "kNN-distance Plot"
       type: Image
@@ -120,8 +98,6 @@ items:
         - standardize
         - autoEps
         - epsQuantile
-        - width1
-        - height1
 
     - name: autoTable
       title: "Auto ε details"

@@ -26,45 +26,15 @@ options:
       type: Bool
       default: FALSE    
 
-    - name: width1
-      type: Integer
-      title: "Size: "
-      default: 500
-      
-    - name: height1
-      type: Integer
-      title: "X"
-      default: 500   
-
     - name: plot2
       title: 'Multiple ROC curves'
       type: Bool
       default: FALSE    
 
-    - name: width2
-      type: Integer
-      title: "Size: "
-      default: 500
-      
-    - name: height2
-      type: Integer
-      title: "X"
-      default: 500   
-
     - name: plot3
       title: 'Faceted ROC plots'
       type: Bool
       default: FALSE    
-
-    - name: width3
-      type: Integer
-      title: "Size: "
-      default: 500
-      
-    - name: height3
-      type: Integer
-      title: "X"
-      default: 500   
 
     - name: auc
       title: 'AUC test'

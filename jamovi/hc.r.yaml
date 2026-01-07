@@ -38,8 +38,6 @@ items:
         - metric
         - type
         - method
-        - width
-        - height
         - horiz
 
     - name:  plot1
@@ -54,8 +52,6 @@ items:
         - nb
         - method1
         - dm
-        - width1
-        - height1
 
     - name:  text
       title: 'Cluster Information' 

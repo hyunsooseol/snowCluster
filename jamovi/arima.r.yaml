@@ -159,9 +159,6 @@ items:
         - dep
         - freq
         - clean
-        - width7
-        - height7
-
 
     - name:  box
       title: "Box plot"
@@ -173,9 +170,6 @@ items:
         - dep
         - freq
         - clean
-        - width8
-        - height8
-
 
     - name:  plot1
       title:  'Automatic ARIMA forecasts' 
@@ -190,8 +184,6 @@ items:
         - pred
         - level
         - clean
-        - width1
-        - height1
 
     - name:  plot2
       title:  'Residual plot' 
@@ -202,8 +194,6 @@ items:
         - dep
         - freq
         - clean
-        - width2
-        - height2
 
     - name:  plot3
       title:  'Prediction' 
@@ -217,8 +207,6 @@ items:
         - pred
         - level
         - clean
-        - width3
-        - height3
 
     - name:  plot4
       title:  'Forcast for Prophet' 
@@ -231,9 +219,7 @@ items:
         - time1
         - period
         - unit
-        - width4
-        - height4
-        
+
     - name:  plot5
       title:  'Model components for Prophet' 
       type:  Image
@@ -245,9 +231,7 @@ items:
         - time1
         - period
         - unit
-        - width5
-        - height5
-        
+
     - name:  plot6
       title:  "Actual vs. Forecasted Values for Variable y for Prophet"
       type:  Image
@@ -259,8 +243,6 @@ items:
         - time1
         - period
         - unit
-        - width6
-        - height6
 
     - name: plot9
       title: Residuals ACF
@@ -271,8 +253,6 @@ items:
         - dep
         - freq
         - clean
-        - width9
-        - height9
 
     - name: plot10
       title: Residuals PACF
@@ -283,6 +263,4 @@ items:
         - dep
         - freq
         - clean
-        - width10
-        - height10
 ...

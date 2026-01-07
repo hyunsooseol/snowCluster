@@ -18,8 +18,6 @@ items:
       clearWith:
         - vars
         - labels
-        - width
-        - height
 
     - name:  plot1
       title: K-means Plot
@@ -31,8 +29,6 @@ items:
         - vars
         - labels
         - k
-        - width1
-        - height1
 
     - name:  plot2
       title: '3D Scatter Plot'
@@ -44,9 +40,7 @@ items:
         - xlab
         - ylab
         - zlab
-        - width2
-        - height2
-       
+
     - name:  text
       title: '' 
       type:  Preformatted     

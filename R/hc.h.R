@@ -16,15 +16,11 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             type = "rectangle",
             plot = FALSE,
             horiz = FALSE,
-            width = 500,
-            height = 500,
             vars1 = NULL,
             method1 = "average",
             nb = 100,
             dm = "correlation",
-            plot1 = FALSE,
-            width1 = 500,
-            height1 = 500, ...) {
+            plot1 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -97,14 +93,6 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "horiz",
                 horiz,
                 default=FALSE)
-            private$..width <- jmvcore::OptionInteger$new(
-                "width",
-                width,
-                default=500)
-            private$..height <- jmvcore::OptionInteger$new(
-                "height",
-                height,
-                default=500)
             private$..vars1 <- jmvcore::OptionVariables$new(
                 "vars1",
                 vars1)
@@ -138,14 +126,6 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot1",
                 plot1,
                 default=FALSE)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
 
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
@@ -158,15 +138,11 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot)
             self$.addOption(private$..clust)
             self$.addOption(private$..horiz)
-            self$.addOption(private$..width)
-            self$.addOption(private$..height)
             self$.addOption(private$..vars1)
             self$.addOption(private$..method1)
             self$.addOption(private$..nb)
             self$.addOption(private$..dm)
             self$.addOption(private$..plot1)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -180,15 +156,11 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot = function() private$..plot$value,
         clust = function() private$..clust$value,
         horiz = function() private$..horiz$value,
-        width = function() private$..width$value,
-        height = function() private$..height$value,
         vars1 = function() private$..vars1$value,
         method1 = function() private$..method1$value,
         nb = function() private$..nb$value,
         dm = function() private$..dm$value,
-        plot1 = function() private$..plot1$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value),
+        plot1 = function() private$..plot1$value),
     private = list(
         ..mode = NA,
         ..labels = NA,
@@ -201,15 +173,11 @@ hcOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot = NA,
         ..clust = NA,
         ..horiz = NA,
-        ..width = NA,
-        ..height = NA,
         ..vars1 = NA,
         ..method1 = NA,
         ..nb = NA,
         ..dm = NA,
-        ..plot1 = NA,
-        ..width1 = NA,
-        ..height1 = NA)
+        ..plot1 = NA)
 )
 
 hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -264,8 +232,6 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metric",
                     "type",
                     "method",
-                    "width",
-                    "height",
                     "horiz")))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -279,9 +245,7 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars1",
                     "nb",
                     "method1",
-                    "dm",
-                    "width1",
-                    "height1")))
+                    "dm")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
@@ -323,15 +287,11 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param type .
 #' @param plot .
 #' @param horiz .
-#' @param width .
-#' @param height .
 #' @param vars1 .
 #' @param method1 .
 #' @param nb .
 #' @param dm .
 #' @param plot1 .
-#' @param width1 .
-#' @param height1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -354,15 +314,11 @@ hc <- function(
     type = "rectangle",
     plot = FALSE,
     horiz = FALSE,
-    width = 500,
-    height = 500,
     vars1,
     method1 = "average",
     nb = 100,
     dm = "correlation",
-    plot1 = FALSE,
-    width1 = 500,
-    height1 = 500) {
+    plot1 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("hc requires jmvcore to be installed (restart may be required)")
@@ -389,15 +345,11 @@ hc <- function(
         type = type,
         plot = plot,
         horiz = horiz,
-        width = width,
-        height = height,
         vars1 = vars1,
         method1 = method1,
         nb = nb,
         dm = dm,
-        plot1 = plot1,
-        width1 = width1,
-        height1 = height1)
+        plot1 = plot1)
 
     analysis <- hcClass$new(
         options = options,

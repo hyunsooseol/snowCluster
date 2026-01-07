@@ -46,11 +46,6 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         )
         self$results$instructions$setContent(instruction_html)
         
-        # Output sizes (plot2 removed)
-        if (isTRUE(self$options$plot))   self$results$plot$setSize(self$options$width,  self$options$height)
-        if (isTRUE(self$options$plot1))  self$results$plot1$setSize(self$options$width1, self$options$height1)
-        if (isTRUE(self$options$plot3))  self$results$plot3$setSize(self$options$width3,  self$options$height3)
-        
         # Hide summary table initially
         if (!isTRUE(self$options$summary))
           self$results$clusterTable$setVisible(FALSE)

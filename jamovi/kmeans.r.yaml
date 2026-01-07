@@ -83,8 +83,6 @@ items:
         - nstart
         - stand
         - angle
-        - width
-        - height
 
     - name:  plot1
       title: 'Gap statistic plot'
@@ -98,8 +96,6 @@ items:
         - algo
         - nstart
         - stand
-        - width1
-        - height1
 
     - name:  plot5
       title: 'Elbow plot'
@@ -113,8 +109,6 @@ items:
         - algo
         - nstart
         - stand
-        - width5
-        - height5
         - max
 
     - name:  plot2
@@ -130,9 +124,7 @@ items:
         - algo
         - nstart
         - stand
-        - width2
-        - height2  
-      
+
     - name:  plot3
       title: 'Variable clustering(PCA)'
       type:  Image
@@ -146,9 +138,7 @@ items:
         - algo
         - nstart
         - stand
-        - width3
-        - height3
-   
+
     - name: clust
       title: Clustering
       type: Output

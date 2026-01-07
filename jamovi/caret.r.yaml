@@ -200,8 +200,6 @@ items:
         - number
         - repeats
         - tune
-        - width2
-        - height2
 
     - name:  plot8
       title: 'ROC plot with training set'            
@@ -221,8 +219,6 @@ items:
         - number
         - repeats
         - tune
-        - width8
-        - height8
 
     - name:  plot
       title:  'Comparison of ROC curves'                
@@ -243,8 +239,6 @@ items:
         - repeats
         - tune
         - cm1
-        - width
-        - height
 
     - name:  plot4
       title: 'Calibration curve with training set'
@@ -265,8 +259,6 @@ items:
         - repeats
         - tune
         - cm1
-        - width4
-        - height4
 
     - name:  plot1
       title: Variable importance plot
@@ -285,8 +277,6 @@ items:
         - number
         - repeats
         - tune
-        - width1
-        - height1
 
 
     - name:  plot3
@@ -306,8 +296,6 @@ items:
         - number
         - repeats
         - tune
-        - width3
-        - height3
 
 
     - name:  plot5
@@ -327,9 +315,6 @@ items:
         - number
         - repeats
         - tune
-        - width5
-        - height5
-
 
     - name:  plot6
       title: Density plot              
@@ -348,8 +333,6 @@ items:
         - number
         - repeats
         - tune
-        - width6
-        - height6
 
     - name: mf
       title: 'Model Comparison'
@@ -452,8 +435,6 @@ items:
         - trans
         - mecon
         - cm1
-        - width7
-        - height7
 
     - name: pred
       title: Prediction

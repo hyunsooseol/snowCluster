@@ -14,10 +14,6 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot2 = FALSE,
             periods = 365,
             unit = "day",
-            width = 500,
-            height = 500,
-            width1 = 500,
-            height1 = 500,
             accuracy = TRUE,
             regressors = NULL,
             reg_prior_scale = 10,
@@ -26,9 +22,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             cp_scale = 0.05,
             n_chgpts = 25,
             cp_range = 0.8,
-            plotAcc = FALSE,
-            width2 = 500,
-            height2 = 500, ...) {
+            plotAcc = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -91,22 +85,6 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "quarter",
                     "year"),
                 default="day")
-            private$..width <- jmvcore::OptionInteger$new(
-                "width",
-                width,
-                default=500)
-            private$..height <- jmvcore::OptionInteger$new(
-                "height",
-                height,
-                default=500)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
             private$..accuracy <- jmvcore::OptionBool$new(
                 "accuracy",
                 accuracy,
@@ -154,14 +132,6 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plotAcc",
                 plotAcc,
                 default=FALSE)
-            private$..width2 <- jmvcore::OptionInteger$new(
-                "width2",
-                width2,
-                default=500)
-            private$..height2 <- jmvcore::OptionInteger$new(
-                "height2",
-                height2,
-                default=500)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -171,10 +141,6 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot2)
             self$.addOption(private$..periods)
             self$.addOption(private$..unit)
-            self$.addOption(private$..width)
-            self$.addOption(private$..height)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
             self$.addOption(private$..accuracy)
             self$.addOption(private$..regressors)
             self$.addOption(private$..reg_prior_scale)
@@ -184,8 +150,6 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..n_chgpts)
             self$.addOption(private$..cp_range)
             self$.addOption(private$..plotAcc)
-            self$.addOption(private$..width2)
-            self$.addOption(private$..height2)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -196,10 +160,6 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot2 = function() private$..plot2$value,
         periods = function() private$..periods$value,
         unit = function() private$..unit$value,
-        width = function() private$..width$value,
-        height = function() private$..height$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value,
         accuracy = function() private$..accuracy$value,
         regressors = function() private$..regressors$value,
         reg_prior_scale = function() private$..reg_prior_scale$value,
@@ -208,9 +168,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         cp_scale = function() private$..cp_scale$value,
         n_chgpts = function() private$..n_chgpts$value,
         cp_range = function() private$..cp_range$value,
-        plotAcc = function() private$..plotAcc$value,
-        width2 = function() private$..width2$value,
-        height2 = function() private$..height2$value),
+        plotAcc = function() private$..plotAcc$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -220,10 +178,6 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot2 = NA,
         ..periods = NA,
         ..unit = NA,
-        ..width = NA,
-        ..height = NA,
-        ..width1 = NA,
-        ..height1 = NA,
         ..accuracy = NA,
         ..regressors = NA,
         ..reg_prior_scale = NA,
@@ -232,9 +186,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..cp_scale = NA,
         ..n_chgpts = NA,
         ..cp_range = NA,
-        ..plotAcc = NA,
-        ..width2 = NA,
-        ..height2 = NA)
+        ..plotAcc = NA)
 )
 
 prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -336,8 +288,6 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "regressors",
                     "reg_prior_scale",
                     "reg_future_fill",
-                    "width2",
-                    "height2",
                     "seasonality")))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -351,8 +301,6 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "periods",
                     "unit",
-                    "width",
-                    "height",
                     "growth",
                     "cp_scale",
                     "n_chgpts",
@@ -380,8 +328,6 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method",
                     "periods",
                     "unit",
-                    "width1",
-                    "height1",
                     "growth",
                     "cp_scale",
                     "n_chgpts",
@@ -430,10 +376,6 @@ prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot2 .
 #' @param periods .
 #' @param unit .
-#' @param width .
-#' @param height .
-#' @param width1 .
-#' @param height1 .
 #' @param accuracy .
 #' @param regressors .
 #' @param reg_prior_scale .
@@ -443,8 +385,6 @@ prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param n_chgpts .
 #' @param cp_range .
 #' @param plotAcc .
-#' @param width2 .
-#' @param height2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -473,10 +413,6 @@ prophet <- function(
     plot2 = FALSE,
     periods = 365,
     unit = "day",
-    width = 500,
-    height = 500,
-    width1 = 500,
-    height1 = 500,
     accuracy = TRUE,
     regressors,
     reg_prior_scale = 10,
@@ -485,9 +421,7 @@ prophet <- function(
     cp_scale = 0.05,
     n_chgpts = 25,
     cp_range = 0.8,
-    plotAcc = FALSE,
-    width2 = 500,
-    height2 = 500) {
+    plotAcc = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("prophet requires jmvcore to be installed (restart may be required)")
@@ -513,10 +447,6 @@ prophet <- function(
         plot2 = plot2,
         periods = periods,
         unit = unit,
-        width = width,
-        height = height,
-        width1 = width1,
-        height1 = height1,
         accuracy = accuracy,
         regressors = regressors,
         reg_prior_scale = reg_prior_scale,
@@ -525,9 +455,7 @@ prophet <- function(
         cp_scale = cp_scale,
         n_chgpts = n_chgpts,
         cp_range = cp_range,
-        plotAcc = plotAcc,
-        width2 = width2,
-        height2 = height2)
+        plotAcc = plotAcc)
 
     analysis <- prophetClass$new(
         options = options,

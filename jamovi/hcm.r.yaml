@@ -64,8 +64,6 @@ items:
         - grp
         - hght
         - case
-        - width
-        - height
         - horiz
       
     - name: heat
@@ -74,18 +72,26 @@ items:
       type: Image
       renderFun: .heat
       clearWith:
-        - width1
-        - height1
-     
+        - dis
+        - method
+        - group
+        - grp
+        - hght
+        - case
+
     - name: pairs
       title: Pairs plot
       visible: FALSE
       type: Image
       renderFun: .pairs       
       clearWith:
-        - width2
-        - height2
-    
+        - dis
+        - method
+        - group
+        - grp
+        - hght
+        - case
+
     - name: clust
       title: Clustering
       type: Output

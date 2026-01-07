@@ -118,8 +118,6 @@ items:
         - group
         - type
         - gn        
-        - width8
-        - height8
 
     - name:  plot
       title: Variable groups
@@ -136,8 +134,6 @@ items:
         - type
         - gn
         - type1
-        - width
-        - height
 
     - name:  plot6
       title: Contribution of groups to dimension 1
@@ -153,8 +149,6 @@ items:
         - group
         - type
         - gn
-        - width6
-        - height6
         - angle
         
     - name:  plot7
@@ -171,8 +165,6 @@ items:
         - group
         - type
         - gn
-        - width7
-        - height7
         - angle
         
     - name:  plot1
@@ -190,8 +182,6 @@ items:
         - type
         - gn
         - type3
-        - width1
-        - height1
 
     - name:  plot2
       title: Contribution to dimension 1
@@ -207,8 +197,6 @@ items:
         - group
         - type
         - gn
-        - width2
-        - height2
         - angle
         
     - name:  plot3
@@ -225,8 +213,6 @@ items:
         - group
         - type
         - gn
-        - width3
-        - height3
         - angle
         
     - name:  plot4
@@ -244,8 +230,6 @@ items:
         - type
         - type2
         - gn
-        - width4
-        - height4
 
     - name:  plot5
       title: Individuals by group
@@ -262,7 +246,5 @@ items:
         - type
         - gn
         - type2
-        - width5
-        - height5
 
 ...

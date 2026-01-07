@@ -18,11 +18,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             tes = FALSE,
             gc = TRUE,
             plot = FALSE,
-            plot1 = FALSE,
-            width = 500,
-            height = 500,
-            width1 = 500,
-            height1 = 500, ...) {
+            plot1 = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -92,22 +88,6 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot1",
                 plot1,
                 default=FALSE)
-            private$..width <- jmvcore::OptionInteger$new(
-                "width",
-                width,
-                default=500)
-            private$..height <- jmvcore::OptionInteger$new(
-                "height",
-                height,
-                default=500)
-            private$..width1 <- jmvcore::OptionInteger$new(
-                "width1",
-                width1,
-                default=500)
-            private$..height1 <- jmvcore::OptionInteger$new(
-                "height1",
-                height1,
-                default=500)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -123,10 +103,6 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..scores)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
-            self$.addOption(private$..width)
-            self$.addOption(private$..height)
-            self$.addOption(private$..width1)
-            self$.addOption(private$..height1)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -142,11 +118,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         gc = function() private$..gc$value,
         scores = function() private$..scores$value,
         plot = function() private$..plot$value,
-        plot1 = function() private$..plot1$value,
-        width = function() private$..width$value,
-        height = function() private$..height$value,
-        width1 = function() private$..width1$value,
-        height1 = function() private$..height1$value),
+        plot1 = function() private$..plot1$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -161,11 +133,7 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..gc = NA,
         ..scores = NA,
         ..plot = NA,
-        ..plot1 = NA,
-        ..width = NA,
-        ..height = NA,
-        ..width1 = NA,
-        ..height1 = NA)
+        ..plot1 = NA)
 )
 
 discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -330,8 +298,6 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "dep",
                     "per",
-                    "width",
-                    "height",
                     "gc")))
             self$add(jmvcore::Table$new(
                 options=options,
@@ -367,9 +333,7 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "per",
-                    "width1",
-                    "height1")))
+                    "per")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="scores",
@@ -417,10 +381,6 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param gc .
 #' @param plot .
 #' @param plot1 .
-#' @param width .
-#' @param height .
-#' @param width1 .
-#' @param height1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -459,11 +419,7 @@ disc <- function(
     tes = FALSE,
     gc = TRUE,
     plot = FALSE,
-    plot1 = FALSE,
-    width = 500,
-    height = 500,
-    width1 = 500,
-    height1 = 500) {
+    plot1 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("disc requires jmvcore to be installed (restart may be required)")
@@ -491,11 +447,7 @@ disc <- function(
         tes = tes,
         gc = gc,
         plot = plot,
-        plot1 = plot1,
-        width = width,
-        height = height,
-        width1 = width1,
-        height1 = height1)
+        plot1 = plot1)
 
     analysis <- discClass$new(
         options = options,
