@@ -12,10 +12,13 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             k = 2,
             plot = FALSE,
             plot1 = FALSE,
+            stress = FALSE,
+            plot3 = FALSE,
             xlab = NULL,
             ylab = NULL,
             zlab = NULL,
-            plot2 = FALSE, ...) {
+            plot2 = FALSE,
+            metric = "euclidean", ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -59,6 +62,14 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot1",
                 plot1,
                 default=FALSE)
+            private$..stress <- jmvcore::OptionBool$new(
+                "stress",
+                stress,
+                default=FALSE)
+            private$..plot3 <- jmvcore::OptionBool$new(
+                "plot3",
+                plot3,
+                default=FALSE)
             private$..xlab <- jmvcore::OptionVariable$new(
                 "xlab",
                 xlab,
@@ -86,6 +97,14 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=FALSE)
             private$..clust <- jmvcore::OptionOutput$new(
                 "clust")
+            private$..metric <- jmvcore::OptionList$new(
+                "metric",
+                metric,
+                options=list(
+                    "euclidean",
+                    "manhattan",
+                    "maximum"),
+                default="euclidean")
 
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
@@ -93,11 +112,14 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..k)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
+            self$.addOption(private$..stress)
+            self$.addOption(private$..plot3)
             self$.addOption(private$..xlab)
             self$.addOption(private$..ylab)
             self$.addOption(private$..zlab)
             self$.addOption(private$..plot2)
             self$.addOption(private$..clust)
+            self$.addOption(private$..metric)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -106,11 +128,14 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         k = function() private$..k$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
+        stress = function() private$..stress$value,
+        plot3 = function() private$..plot3$value,
         xlab = function() private$..xlab$value,
         ylab = function() private$..ylab$value,
         zlab = function() private$..zlab$value,
         plot2 = function() private$..plot2$value,
-        clust = function() private$..clust$value),
+        clust = function() private$..clust$value,
+        metric = function() private$..metric$value),
     private = list(
         ..mode = NA,
         ..labels = NA,
@@ -118,11 +143,14 @@ mdsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..k = NA,
         ..plot = NA,
         ..plot1 = NA,
+        ..stress = NA,
+        ..plot3 = NA,
         ..xlab = NA,
         ..ylab = NA,
         ..zlab = NA,
         ..plot2 = NA,
-        ..clust = NA)
+        ..clust = NA,
+        ..metric = NA)
 )
 
 mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -130,9 +158,11 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
+        stressNote = function() private$.items[["stressNote"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
+        plot3 = function() private$.items[["plot3"]],
         text = function() private$.items[["text"]],
         clust = function() private$.items[["clust"]]),
     private = list(),
@@ -148,6 +178,11 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="stressNote",
+                title="Stress value",
+                visible=FALSE))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -157,7 +192,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot",
                 clearWith=list(
                     "vars",
-                    "labels")))
+                    "labels",
+                    "metric")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -179,7 +215,19 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "xlab",
                     "ylab",
-                    "zlab")))
+                    "zlab",
+                    "metric")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot3",
+                title="Shepard Diagram",
+                requiresData=TRUE,
+                visible="(plot3)",
+                renderFun=".plot3",
+                clearWith=list(
+                    "vars",
+                    "labels",
+                    "metric")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
@@ -193,7 +241,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "k")))}))
+                    "k",
+                    "metric")))}))
 
 mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mdsBase",
@@ -226,16 +275,21 @@ mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param k .
 #' @param plot .
 #' @param plot1 .
+#' @param stress .
+#' @param plot3 .
 #' @param xlab .
 #' @param ylab .
 #' @param zlab .
 #' @param plot2 .
+#' @param metric .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$stressNote} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #' }
@@ -249,10 +303,13 @@ mds <- function(
     k = 2,
     plot = FALSE,
     plot1 = FALSE,
+    stress = FALSE,
+    plot3 = FALSE,
     xlab,
     ylab,
     zlab,
-    plot2 = FALSE) {
+    plot2 = FALSE,
+    metric = "euclidean") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("mds requires jmvcore to be installed (restart may be required)")
@@ -279,10 +336,13 @@ mds <- function(
         k = k,
         plot = plot,
         plot1 = plot1,
+        stress = stress,
+        plot3 = plot3,
         xlab = xlab,
         ylab = ylab,
         zlab = zlab,
-        plot2 = plot2)
+        plot2 = plot2,
+        metric = metric)
 
     analysis <- mdsClass$new(
         options = options,

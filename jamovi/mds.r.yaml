@@ -9,6 +9,11 @@ items:
       type: Html
       visible: True
 
+    - name: stressNote
+      title: Stress value
+      type: Preformatted
+      visible: false
+
     - name:  plot
       title: MDS Plot
       type:  Image
@@ -18,9 +23,10 @@ items:
       clearWith:
         - vars
         - labels
+        - metric
 
     - name:  plot1
-      title: K-means Plot
+      title: 'K-means Plot'
       type:  Image
       requiresData: true
       visible: (plot1)
@@ -40,10 +46,22 @@ items:
         - xlab
         - ylab
         - zlab
+        - metric
+
+    - name:  plot3
+      title: 'Shepard Diagram'
+      type:  Image
+      requiresData: true
+      visible: (plot3)
+      renderFun: .plot3
+      clearWith:
+        - vars
+        - labels
+        - metric
 
     - name:  text
-      title: '' 
-      type:  Preformatted     
+      title: ''
+      type:  Preformatted
 
     - name: clust
       title: Clustering
@@ -54,5 +72,6 @@ items:
         - vars
         - labels
         - k
+        - metric
 
 ...

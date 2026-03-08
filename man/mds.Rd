@@ -12,16 +12,13 @@ mds(
   k = 2,
   plot = FALSE,
   plot1 = FALSE,
+  stress = FALSE,
+  plot3 = FALSE,
   xlab,
   ylab,
   zlab,
   plot2 = FALSE,
-  width = 500,
-  height = 500,
-  width1 = 500,
-  height1 = 500,
-  width2 = 500,
-  height2 = 500
+  metric = "euclidean"
 )
 }
 \arguments{
@@ -39,6 +36,10 @@ mds(
 
 \item{plot1}{.}
 
+\item{stress}{.}
+
+\item{plot3}{.}
+
 \item{xlab}{.}
 
 \item{ylab}{.}
@@ -47,25 +48,17 @@ mds(
 
 \item{plot2}{.}
 
-\item{width}{.}
-
-\item{height}{.}
-
-\item{width1}{.}
-
-\item{height1}{.}
-
-\item{width2}{.}
-
-\item{height2}{.}
+\item{metric}{.}
 }
 \value{
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+  \code{results$stressNote} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 }

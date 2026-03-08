@@ -14,10 +14,6 @@ prophet(
   plot2 = FALSE,
   periods = 365,
   unit = "day",
-  width = 500,
-  height = 500,
-  width1 = 500,
-  height1 = 500,
   accuracy = TRUE,
   regressors,
   reg_prior_scale = 10,
@@ -26,9 +22,7 @@ prophet(
   cp_scale = 0.05,
   n_chgpts = 25,
   cp_range = 0.8,
-  plotAcc = FALSE,
-  width2 = 500,
-  height2 = 500
+  plotAcc = FALSE
 )
 }
 \arguments{
@@ -50,14 +44,6 @@ prophet(
 
 \item{unit}{.}
 
-\item{width}{.}
-
-\item{height}{.}
-
-\item{width1}{.}
-
-\item{height1}{.}
-
 \item{accuracy}{.}
 
 \item{regressors}{.}
@@ -75,10 +61,6 @@ prophet(
 \item{cp_range}{.}
 
 \item{plotAcc}{.}
-
-\item{width2}{.}
-
-\item{height2}{.}
 }
 \value{
 A results object containing:

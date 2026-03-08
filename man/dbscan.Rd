@@ -19,11 +19,7 @@ dbscan(
   autoEps = FALSE,
   epsQuantile = 0.95,
   quality = FALSE,
-  qoption = "none",
-  width = 500,
-  height = 500,
-  width1 = 500,
-  height1 = 500
+  qoption = "none"
 )
 }
 \arguments{
@@ -56,14 +52,6 @@ dbscan(
 \item{quality}{.}
 
 \item{qoption}{.}
-
-\item{width}{.}
-
-\item{height}{.}
-
-\item{width1}{.}
-
-\item{height1}{.}
 }
 \value{
 A results object containing:

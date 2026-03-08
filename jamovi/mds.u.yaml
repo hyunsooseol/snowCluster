@@ -49,8 +49,14 @@ children:
                       - type: Label
                         label: 'MDS'
                         children:
+                          - type: ComboBox
+                            name: metric
                           - type: CheckBox
                             name: plot
+                          - type: CheckBox
+                            name: stress
+                          - type: CheckBox
+                            name: plot3
                   - type: LayoutBox
                     margin: large
                     cell:

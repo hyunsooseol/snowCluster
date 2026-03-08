@@ -18,11 +18,7 @@ disc(
   tes = FALSE,
   gc = TRUE,
   plot = FALSE,
-  plot1 = FALSE,
-  width = 500,
-  height = 500,
-  width1 = 500,
-  height1 = 500
+  plot1 = FALSE
 )
 }
 \arguments{
@@ -53,14 +49,6 @@ disc(
 \item{plot}{.}
 
 \item{plot1}{.}
-
-\item{width}{.}
-
-\item{height}{.}
-
-\item{width1}{.}
-
-\item{height1}{.}
 }
 \value{
 A results object containing:

@@ -9,14 +9,8 @@ roc(
   dep,
   covs,
   plot1 = FALSE,
-  width1 = 500,
-  height1 = 500,
   plot2 = FALSE,
-  width2 = 500,
-  height2 = 500,
   plot3 = FALSE,
-  width3 = 500,
-  height3 = 500,
   auc = FALSE,
   dif = FALSE,
   overall = FALSE
@@ -31,21 +25,9 @@ roc(
 
 \item{plot1}{.}
 
-\item{width1}{.}
-
-\item{height1}{.}
-
 \item{plot2}{.}
 
-\item{width2}{.}
-
-\item{height2}{.}
-
 \item{plot3}{.}
-
-\item{width3}{.}
-
-\item{height3}{.}
 
 \item{auc}{.}
 

@@ -32,7 +32,7 @@ options:
       permitted:
         - id
         - factor
-  
+
     - name: vars
       title: Variables
       type: Variables
@@ -48,22 +48,33 @@ options:
       min: 1
 
     - name: plot
-      title: MDS Plot 
+      title: MDS Plot
       type: Bool
       default: FALSE
-      
+
     - name: plot1
       title: K-means Plot
       type: Bool
       default: FALSE
-  
+
+    - name: stress
+      title: 'Show stress value'
+      type: Bool
+      default: FALSE
+
+    - name: plot3
+      title: 'Shepard diagram'
+      type: Bool
+      default: FALSE
+
+
     - name: xlab
       title: 'x axis'
       type: Variable
       suggested:
          - continuous
       permitted:
-        - numeric  
+        - numeric
 
     - name: ylab
       title: 'y axis'
@@ -71,7 +82,7 @@ options:
       suggested:
          - continuous
       permitted:
-        - numeric  
+        - numeric
 
     - name: zlab
       title: 'z axis'
@@ -79,7 +90,7 @@ options:
       suggested:
          - continuous
       permitted:
-        - numeric  
+        - numeric
 
     - name: plot2
       title: Three dimensional plot
@@ -89,4 +100,13 @@ options:
     - name: clust
       title: Cluster number
       type: Output
+
+    - name: metric
+      title: Distance measure
+      type: List
+      options:
+        - euclidean
+        - manhattan
+        - maximum
+      default: euclidean
 ...

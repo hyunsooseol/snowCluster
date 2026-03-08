@@ -18,13 +18,7 @@ hcm(
   dend = FALSE,
   horiz = FALSE,
   heat = FALSE,
-  pair = FALSE,
-  width = 500,
-  height = 500,
-  width1 = 500,
-  height1 = 500,
-  width2 = 500,
-  height2 = 500
+  pair = FALSE
 )
 }
 \arguments{
@@ -55,18 +49,6 @@ hcm(
 \item{heat}{.}
 
 \item{pair}{.}
-
-\item{width}{.}
-
-\item{height}{.}
-
-\item{width1}{.}
-
-\item{height1}{.}
-
-\item{width2}{.}
-
-\item{height2}{.}
 }
 \value{
 A results object containing:

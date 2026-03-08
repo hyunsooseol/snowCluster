@@ -16,15 +16,11 @@ hc(
   type = "rectangle",
   plot = FALSE,
   horiz = FALSE,
-  width = 500,
-  height = 500,
   vars1,
   method1 = "average",
   nb = 100,
   dm = "correlation",
-  plot1 = FALSE,
-  width1 = 500,
-  height1 = 500
+  plot1 = FALSE
 )
 }
 \arguments{
@@ -50,10 +46,6 @@ hc(
 
 \item{horiz}{.}
 
-\item{width}{.}
-
-\item{height}{.}
-
 \item{vars1}{.}
 
 \item{method1}{.}
@@ -63,10 +55,6 @@ hc(
 \item{dm}{.}
 
 \item{plot1}{.}
-
-\item{width1}{.}
-
-\item{height1}{.}
 }
 \value{
 A results object containing:

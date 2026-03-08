@@ -17,13 +17,7 @@ tree(
   cla = FALSE,
   plot = FALSE,
   plot1 = FALSE,
-  width = 500,
-  height = 500,
-  width1 = 500,
-  height1 = 500,
   plot2 = FALSE,
-  width2 = 500,
-  height2 = 500,
   positive = "no"
 )
 }
@@ -52,19 +46,7 @@ tree(
 
 \item{plot1}{.}
 
-\item{width}{.}
-
-\item{height}{.}
-
-\item{width1}{.}
-
-\item{height1}{.}
-
 \item{plot2}{.}
-
-\item{width2}{.}
-
-\item{height2}{.}
 
 \item{positive}{.}
 }

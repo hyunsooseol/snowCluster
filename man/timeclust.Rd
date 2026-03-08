@@ -11,15 +11,9 @@ timeclust(
   item,
   value,
   plot = FALSE,
-  width = 500,
-  height = 500,
   plot1 = FALSE,
-  width1 = 500,
-  height1 = 500,
   summary = FALSE,
-  plot3 = FALSE,
-  width3 = 500,
-  height3 = 500
+  plot3 = FALSE
 )
 }
 \arguments{
@@ -35,23 +29,11 @@ timeclust(
 
 \item{plot}{.}
 
-\item{width}{.}
-
-\item{height}{.}
-
 \item{plot1}{.}
-
-\item{width1}{.}
-
-\item{height1}{.}
 
 \item{summary}{.}
 
 \item{plot3}{.}
-
-\item{width3}{.}
-
-\item{height3}{.}
 }
 \value{
 A results object containing:

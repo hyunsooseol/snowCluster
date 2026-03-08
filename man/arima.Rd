@@ -25,29 +25,9 @@ arima(
   plot6 = FALSE,
   periods = 365,
   unit = "day",
-  width1 = 500,
-  height1 = 500,
-  width2 = 500,
-  height2 = 500,
-  width3 = 500,
-  height3 = 500,
-  width4 = 500,
-  height4 = 500,
-  width5 = 500,
-  height5 = 500,
-  width6 = 500,
-  height6 = 500,
-  width7 = 500,
-  height7 = 500,
-  width8 = 500,
-  height8 = 500,
   resid = FALSE,
   plot9 = FALSE,
   plot10 = FALSE,
-  width9 = 500,
-  height9 = 500,
-  width10 = 500,
-  height10 = 500,
   level = 95,
   lbLag = 0,
   clean = "FALSE",
@@ -97,51 +77,11 @@ numeric}
 
 \item{unit}{.}
 
-\item{width1}{.}
-
-\item{height1}{.}
-
-\item{width2}{.}
-
-\item{height2}{.}
-
-\item{width3}{.}
-
-\item{height3}{.}
-
-\item{width4}{.}
-
-\item{height4}{.}
-
-\item{width5}{.}
-
-\item{height5}{.}
-
-\item{width6}{.}
-
-\item{height6}{.}
-
-\item{width7}{.}
-
-\item{height7}{.}
-
-\item{width8}{.}
-
-\item{height8}{.}
-
 \item{resid}{.}
 
 \item{plot9}{.}
 
 \item{plot10}{.}
-
-\item{width9}{.}
-
-\item{height9}{.}
-
-\item{width10}{.}
-
-\item{height10}{.}
 
 \item{level}{.}
 
