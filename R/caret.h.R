@@ -17,6 +17,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             repeats = 5,
             tune = 10,
             per = 0.7,
+            run = FALSE,
             over1 = TRUE,
             over = FALSE,
             cla = FALSE,
@@ -162,6 +163,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0.1,
                 max=1,
                 default=0.7)
+            private$..run <- jmvcore::OptionBool$new(
+                "run",
+                run,
+                default=FALSE)
             private$..over1 <- jmvcore::OptionBool$new(
                 "over1",
                 over1,
@@ -280,6 +285,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..repeats)
             self$.addOption(private$..tune)
             self$.addOption(private$..per)
+            self$.addOption(private$..run)
             self$.addOption(private$..over1)
             self$.addOption(private$..over)
             self$.addOption(private$..cla)
@@ -318,6 +324,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         repeats = function() private$..repeats$value,
         tune = function() private$..tune$value,
         per = function() private$..per$value,
+        run = function() private$..run$value,
         over1 = function() private$..over1$value,
         over = function() private$..over$value,
         cla = function() private$..cla$value,
@@ -355,6 +362,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..repeats = NA,
         ..tune = NA,
         ..per = NA,
+        ..run = NA,
         ..over1 = NA,
         ..over = NA,
         ..cla = NA,
@@ -925,6 +933,7 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param repeats .
 #' @param tune .
 #' @param per .
+#' @param run .
 #' @param over1 .
 #' @param over .
 #' @param cla .
@@ -994,6 +1003,7 @@ caret <- function(
     repeats = 5,
     tune = 10,
     per = 0.7,
+    run = FALSE,
     over1 = TRUE,
     over = FALSE,
     cla = FALSE,
@@ -1047,6 +1057,7 @@ caret <- function(
         repeats = repeats,
         tune = tune,
         per = per,
+        run = run,
         over1 = over1,
         over = over,
         cla = cla,

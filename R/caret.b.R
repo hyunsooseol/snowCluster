@@ -26,7 +26,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<div style="text-align:justify;">',
             '<ul>',
             '<li>Machine learning based on  <a href="https://topepo.github.io/caret/" target = "_blank">caret R package</a>.</li>',
-            '<li>The values for the target variable cannot be a number.</li>',
+            '<li>The target variable must be categorical (non-numeric).</li>',
             '<li>If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection</b> in Plots.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
@@ -39,6 +39,11 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       
       #---------------------------------------------
       .run = function() {
+        
+        if (!isTRUE(self$options$run))
+          return()
+        
+
         if (is.null(self$options$dep) ||
             length(self$options$covs) < 2)
           return()
@@ -50,7 +55,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         per <- self$options$per
         method <- self$options$method
         cm1 <- self$options$cm1
-        ml <- self$options$ml
+        #ml <- self$options$ml
         me <- self$options$me
         rep <- self$options$rep
         num <- self$options$num
@@ -60,9 +65,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         covs <- self$options$covs
         facs <- self$options$facs
         
-        if (is.null(private$.allCache)) {
-          private$.allCache <- private$.computeFIT()
-        }
+        private$.allCache <- private$.computeFIT()
         
         all <- private$.allCache
         
@@ -70,70 +73,76 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         self$results$text$setContent(all$fit)
         
         # Compare models--------------
-        ctrl.comp <- caret::trainControl (
-          method = me,
-          number = num,
-          repeats = rep,
-          p = per,
-          classProbs = T,
-          savePredictions = T
-        )
-        
-        ml <- self$options$ml
-        ml <- strsplit(self$options$ml, ',')[[1]]
-        algorithmList <- ml
-        
-        models <- caretEnsemble::caretList(
-          all$formula,
-          data = all$train,
-          trControl = ctrl.comp,
-          methodList = algorithmList
-        )
-        results <- caret::resamples(models)
-        res <- summary(results)
-        
-        # Accuracy Table---------
-        if (isTRUE(self$options$accu)) {
-          table <- self$results$mf$accu
-          accu <- as.data.frame(res$statistics$Accuracy)
+        if (isTRUE(self$options$accu) ||
+            isTRUE(self$options$kapp) ||
+            isTRUE(self$options$plot7)) {
           
-          lapply(rownames(accu), function(name) {
-            row <- list(
-              min = accu[name, 1],
-              q1 = accu[name, 2],
-              med = accu[name, 3],
-              me = accu[name, 4],
-              q3 = accu[name, 5],
-              max = accu[name, 6],
-              na = accu[name, 7]
-            )
-            table$addRow(rowKey = name, values = row)
-          })
+          ctrl.comp <- caret::trainControl(
+            method = me,
+            number = num,
+            repeats = rep,
+            p = per,
+            classProbs = TRUE,
+            savePredictions = TRUE
+          )
+          
+          algorithmList <- strsplit(self$options$ml, ',')[[1]]
+          
+          models <- caretEnsemble::caretList(
+            all$formula,
+            data = all$train,
+            trControl = ctrl.comp,
+            methodList = algorithmList
+          )
+          
+          results <- caret::resamples(models)
+          res <- summary(results)
+          
+          # Accuracy Table---------
+          if (isTRUE(self$options$accu)) {
+            table <- self$results$mf$accu
+            accu <- as.data.frame(res$statistics$Accuracy)
+            
+            lapply(rownames(accu), function(name) {
+              row <- list(
+                min = accu[name, 1],
+                q1  = accu[name, 2],
+                med = accu[name, 3],
+                me  = accu[name, 4],
+                q3  = accu[name, 5],
+                max = accu[name, 6],
+                na  = accu[name, 7]
+              )
+              table$addRow(rowKey = name, values = row)
+            })
+          }
+          
+          # kappa Table---------
+          if (isTRUE(self$options$kapp)) {
+            table <- self$results$mf$kapp
+            kapp <- as.data.frame(res$statistics$Kappa)
+            
+            lapply(rownames(kapp), function(name) {
+              row <- list(
+                min = kapp[name, 1],
+                q1  = kapp[name, 2],
+                med = kapp[name, 3],
+                me  = kapp[name, 4],
+                q3  = kapp[name, 5],
+                max = kapp[name, 6],
+                na  = kapp[name, 7]
+              )
+              table$addRow(rowKey = name, values = row)
+            })
+          }
+          
+          # box plots for model comparison----
+          if (isTRUE(self$options$plot7)) {
+            image7 <- self$results$plot7
+            image7$setState(results)
+          }
         }
         
-        # kappa Table---------
-        if (isTRUE(self$options$kapp)) {
-          table <- self$results$mf$kapp
-          kapp <- as.data.frame(res$statistics$Kappa)
-          lapply(rownames(kapp), function(name) {
-            row <- list(
-              min = kapp[name, 1],
-              q1 = kapp[name, 2],
-              med = kapp[name, 3],
-              me = kapp[name, 4],
-              q3 = kapp[name, 5],
-              max = kapp[name, 6],
-              na = kapp[name, 7]
-            )
-            table$addRow(rowKey = name, values = row)
-          })
-        }
-        
-        # box plots for model comparison----
-        if (isTRUE(self$options$plot7)) {
-          image7 <- self$results$plot7
-          image7$setState(results)
-        }
         
         # Variable importance plot----------
         if (isTRUE(self$options$plot1)) {
@@ -567,10 +576,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         test <- predict(preProcValues, test1)
         
         # Dummy coding for factors vars.-------------------
-        if (isTRUE(self$options$facs == TRUE)) {
+        if (isTRUE(self$options$facs)) {
           formula <- as.formula(paste0(self$options$dep, " ~ ."))
           dummies_model <- caret::dummyVars(formula, data = train1)
-          trainData_mat <- predict(dummies_model, newdata = test1)
+          trainData_mat <- predict(dummies_model, newdata = train1)
           train <- data.frame(trainData_mat)
         }
         
@@ -613,6 +622,12 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       }      
 )
 )
+
+
+
+
+
+
 # # iris example in R-----------
 # library(caret)
 # data(iris)

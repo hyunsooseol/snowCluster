@@ -25,58 +25,73 @@ children:
           - type: VariablesListBox
             name: facs
             isTarget: true
+
+  - type: LayoutBox
+    children:
+      - name: run
+        type: CheckBox
   - type: CollapseBox
-    label: Analysis
+    label: 'Training model options'
+    collapsed: false
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: small
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: LayoutBox
+                stretchFactor: 1
+                margin: large
+                children:
+                  - type: Label
+                    label: Data
+                    children:
+                      - type: TextBox
+                        name: per
+                        format: number
+                      - type: ComboBox
+                        name: trans
+                  - type: Label
+                    label: Training Model
+                    children:
+                      - type: ComboBox
+                        name: method
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: Label
+                label: Tuning parameters
+                children:
+                  - type: ComboBox
+                    name: mecon
+                  - type: TextBox
+                    name: number
+                    format: number
+                  - type: TextBox
+                    name: repeats
+                    format: number
+                  - type: TextBox
+                    name: tune
+                    format: number
+  - type: CollapseBox
+    label: 'Evaluation'
     margin: normal
     collapsed: true
     children:
       - type: LayoutBox
         stretchFactor: 1
         margin: large
-        children:
-          - type: Label
-            label: Data
-            children:
-              - type: TextBox
-                name: per
-                format: number
-              - type: ComboBox
-                name: trans
-          - type: Label
-            label: Training Model
-            children:
-              - type: ComboBox
-                name: method
-          - type: Label
-            label: Tuning parameters
-            children:
-              - type: ComboBox
-                name: mecon
-              - type: TextBox
-                name: number
-                format: number
-              - type: TextBox
-                name: repeats
-                format: number
-              - type: TextBox
-                name: tune
-                format: number
-          - type: Label
-            label: Plots
-            children:
-              - type: CheckBox
-                name: plot5
-              - type: CheckBox
-                name: plot6
-              - type: CheckBox
-                name: plot2
-              - type: CheckBox
-                name: plot1
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
         cell:
-          column: 1
+          column: 0
           row: 0
         fitToGrid: true
         children:
@@ -106,7 +121,7 @@ children:
                     name: plot4
                     enable: (plot)
           - type: Label
-            label: Test set
+            label: 'Test set'
             children:
               - type: CheckBox
                 name: over
@@ -126,6 +141,25 @@ children:
             children:
               - type: Output
                 name: pred
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Plots
+            children:
+              - type: CheckBox
+                name: plot5
+              - type: CheckBox
+                name: plot6
+              - type: CheckBox
+                name: plot2
+              - type: CheckBox
+                name: plot1
   - type: CollapseBox
     label: 'Model comparison'
     margin: normal

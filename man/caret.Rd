@@ -17,6 +17,7 @@ caret(
   repeats = 5,
   tune = 10,
   per = 0.7,
+  run = FALSE,
   over1 = TRUE,
   over = FALSE,
   cla = FALSE,
@@ -67,6 +68,8 @@ caret(
 \item{tune}{.}
 
 \item{per}{.}
+
+\item{run}{.}
 
 \item{over1}{.}
 
