@@ -65,8 +65,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         covs <- self$options$covs
         facs <- self$options$facs
         
-        private$.allCache <- private$.computeFIT()
-        
+        if (is.null(private$.allCache)) {
+          private$.allCache <- private$.computeFIT()
+        }
         all <- private$.allCache
         
         # Model information-----------

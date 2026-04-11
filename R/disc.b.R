@@ -59,8 +59,10 @@ discClass <- if (requireNamespace('jmvcore'))
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeRES()
         }
-        
         res <- private$.allCache
+        
+        # private$.allCache <- private$.computeRES()
+        # res <- private$.allCache
         
         # Prior probabilities of groups table----
         
@@ -183,7 +185,8 @@ discClass <- if (requireNamespace('jmvcore'))
           lda.test = predict(res$lda.train, res$test)
           te <- lda.test$class
           
-          res2 <- table(te, res$test[[self$options$dep]])
+          #res2 <- table(te, res$test[[self$options$dep]])
+          res2 <- table(res$test[[self$options$dep]], te)
           res2 <- as.matrix(res2)
           
           names <- dimnames(res2)[[1]]
@@ -241,8 +244,11 @@ discClass <- if (requireNamespace('jmvcore'))
           }
           
           if (length(levels(data[[self$options$dep]])) > 2) {
+            # df <- cbind(res$train, predict(res$lda.train)$x)
+            # Groups <- data[[self$options$dep]]
+            # df <- cbind(df, Groups)
             df <- cbind(res$train, predict(res$lda.train)$x)
-            Groups <- data[[self$options$dep]]
+            Groups <- res$train[[self$options$dep]]
             df <- cbind(df, Groups)
             df$Groups <- as.factor(df$Groups)
             
@@ -349,7 +355,9 @@ discClass <- if (requireNamespace('jmvcore'))
         if (length(self$options$covs) <= 2)
           return()
         
-        res <- private$.computeRES()
+        res <- private$.allCache
+        if (is.null(res))
+          return(FALSE)
         
         plot1 <- plot(res$lda.train, dimen = 1, type = "both")
         

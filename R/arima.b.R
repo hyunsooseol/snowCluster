@@ -146,7 +146,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           if (isTRUE(self$options$point)) {
             table <- self$results$point
             pre <- as.data.frame(sim$predict)
-
+            
             for (i in seq_len(nrow(pre))) {
               table$addRow(
                 rowKey = paste0("t+", i),
@@ -157,6 +157,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
                 )
               )
             }
+            
+            table$setNote("Interval", sprintf("%d%% prediction interval", self$options$level))
           }
 
           # Residual Diagnostics (동적 행, 초기 숨김)

@@ -57,9 +57,14 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         self$results$progressBarHTML$setContent(progressBarH(5, 100, 'Fitting Prophet models...'))
         on.exit(self$results$progressBarHTML$setVisible(FALSE), add = TRUE)
         
-        # 캐시 또는 계산 (루프 내부에서만 가볍게 퍼센트 갱신)
-        private$.allCache <- private$.computeSIMPLE()
+        if (is.null(private$.allCache)) {
+          private$.allCache <- private$.computeSIMPLE()
+        }
         res <- private$.allCache
+        
+        # # 캐시 또는 계산 (루프 내부에서만 가볍게 퍼센트 갱신)
+        # private$.allCache <- private$.computeSIMPLE()
+        # res <- private$.allCache
         
         # 플롯 상태 전달
         self$results$plot1$setState(res$forecast)

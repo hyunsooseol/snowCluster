@@ -26,6 +26,7 @@ items:
         - dep
         - freq
         - clean
+        - mode
 
       columns:
         - name: name
@@ -47,6 +48,7 @@ items:
         - dep
         - freq
         - clean
+        - mode
 
 
       columns:
@@ -69,6 +71,7 @@ items:
         - pred
         - level
         - clean
+        - mode
 
       columns:
         - name: name
@@ -81,11 +84,9 @@ items:
         - name: lower
           title: Lower
           type: number
-          superTitle: '95% CI'
         - name: upper
           title: Upper
           type: number
-          superTitle: '95% CI'    
 
     - name: accTrain
       title: 'Accuracy (in-sample, includes Naive/S-Naive)'
@@ -97,6 +98,7 @@ items:
         - pred
         - level
         - clean
+        - mode
       columns:
         - name: Metric
           title: 'Metric'
@@ -113,6 +115,7 @@ items:
         - dep
         - freq
         - clean
+        - mode
       columns:
         - name: Metric
           title: 'Metric'
@@ -131,6 +134,7 @@ items:
         - freq
         - clean
         - lbLag
+        - mode
       items:
         - name: diagTable
           title: Diagnostic tests
@@ -159,6 +163,7 @@ items:
         - dep
         - freq
         - clean
+        - mode
 
     - name:  box
       title: "Box plot"
@@ -170,6 +175,7 @@ items:
         - dep
         - freq
         - clean
+        - mode
 
     - name:  plot1
       title:  'Automatic ARIMA forecasts' 
@@ -184,6 +190,7 @@ items:
         - pred
         - level
         - clean
+        - mode
 
     - name:  plot2
       title:  'Residual plot' 
@@ -194,6 +201,7 @@ items:
         - dep
         - freq
         - clean
+        - mode
 
     - name:  plot3
       title:  'Prediction' 
@@ -207,6 +215,7 @@ items:
         - pred
         - level
         - clean
+        - mode
 
     - name:  plot4
       title:  'Forcast for Prophet' 
@@ -217,8 +226,9 @@ items:
       clearWith:
         - dep1
         - time1
-        - period
+        - periods
         - unit
+        - mode
 
     - name:  plot5
       title:  'Model components for Prophet' 
@@ -229,8 +239,9 @@ items:
       clearWith:
         - dep1
         - time1
-        - period
+        - periods
         - unit
+        - mode
 
     - name:  plot6
       title:  "Actual vs. Forecasted Values for Variable y for Prophet"
@@ -241,8 +252,9 @@ items:
       clearWith:
         - dep1
         - time1
-        - period
+        - periods
         - unit
+        - mode
 
     - name: plot9
       title: Residuals ACF
@@ -253,6 +265,7 @@ items:
         - dep
         - freq
         - clean
+        - mode
 
     - name: plot10
       title: Residuals PACF
@@ -263,4 +276,5 @@ items:
         - dep
         - freq
         - clean
+        - mode
 ...

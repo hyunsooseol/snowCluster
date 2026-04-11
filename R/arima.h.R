@@ -308,7 +308,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean"),
+                    "clean",
+                    "mode"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -331,7 +332,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean"),
+                    "clean",
+                    "mode"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -352,7 +354,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "freq",
                     "pred",
                     "level",
-                    "clean"),
+                    "clean",
+                    "mode"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -366,13 +369,11 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     list(
                         `name`="lower", 
                         `title`="Lower", 
-                        `type`="number", 
-                        `superTitle`="95% CI"),
+                        `type`="number"),
                     list(
                         `name`="upper", 
                         `title`="Upper", 
-                        `type`="number", 
-                        `superTitle`="95% CI"))))
+                        `type`="number"))))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="accTrain",
@@ -383,7 +384,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "freq",
                     "pred",
                     "level",
-                    "clean"),
+                    "clean",
+                    "mode"),
                 columns=list(
                     list(
                         `name`="Metric", 
@@ -401,7 +403,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean"),
+                    "clean",
+                    "mode"),
                 columns=list(
                     list(
                         `name`="Metric", 
@@ -427,7 +430,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "dep",
                     "freq",
                     "clean",
-                    "lbLag"))
+                    "lbLag",
+                    "mode"))
                         self$add(jmvcore::Table$new(
                             options=options,
                             name="diagTable",
@@ -459,7 +463,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean")))
+                    "clean",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="box",
@@ -470,7 +475,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean")))
+                    "clean",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -484,7 +490,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "freq",
                     "pred",
                     "level",
-                    "clean")))
+                    "clean",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -494,7 +501,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean")))
+                    "clean",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -507,7 +515,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "freq",
                     "pred",
                     "level",
-                    "clean")))
+                    "clean",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -518,8 +527,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep1",
                     "time1",
-                    "period",
-                    "unit")))
+                    "periods",
+                    "unit",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot5",
@@ -530,8 +540,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep1",
                     "time1",
-                    "period",
-                    "unit")))
+                    "periods",
+                    "unit",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot6",
@@ -542,8 +553,9 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep1",
                     "time1",
-                    "period",
-                    "unit")))
+                    "periods",
+                    "unit",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot9",
@@ -553,7 +565,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean")))
+                    "clean",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot10",
@@ -563,7 +576,8 @@ arimaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "dep",
                     "freq",
-                    "clean")))}))
+                    "clean",
+                    "mode")))}))
 
 arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "arimaBase",

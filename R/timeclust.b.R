@@ -76,10 +76,14 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return()
         }
         
-        # Compute only once
-        if (is.null(private$.allCache))
+        if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeRES()
+        }
         all <- private$.allCache
+      # # Compute only once
+      #   if (is.null(private$.allCache))
+      #     private$.allCache <- private$.computeRES()
+      #   all <- private$.allCache
         
         # States
         if (isTRUE(self$options$plot1))
