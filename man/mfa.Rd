@@ -6,6 +6,7 @@
 \usage{
 mfa(
   data,
+  run,
   vars,
   facs,
   labels,
@@ -33,6 +34,8 @@ mfa(
 }
 \arguments{
 \item{data}{The data as a data frame.}
+
+\item{run}{.}
 
 \item{vars}{.}
 

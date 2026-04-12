@@ -185,10 +185,14 @@ options:
       max: 1.0
       default: 0.7    
 
+    # - name: run
+    #   title: 'Run when ready'
+    #   type: Bool
+    #   default: FALSE
+
     - name: run
-      title: 'Run when ready'
-      type: Bool
-      default: FALSE
+      type: Action
+      title: Run
 
     - name: over1
       title: Overall statistics 

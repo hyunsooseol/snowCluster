@@ -7,6 +7,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             mode = "simple",
+            run = NULL,
+            run1 = NULL,
             dep = NULL,
             dep1 = NULL,
             time1 = NULL,
@@ -46,6 +48,12 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "simple",
                     "complex"),
                 default="simple")
+            private$..run <- jmvcore::OptionAction$new(
+                "run",
+                run)
+            private$..run1 <- jmvcore::OptionAction$new(
+                "run1",
+                run1)
             private$..dep <- jmvcore::OptionVariable$new(
                 "dep",
                 dep,
@@ -173,6 +181,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=FALSE)
 
             self$.addOption(private$..mode)
+            self$.addOption(private$..run)
+            self$.addOption(private$..run1)
             self$.addOption(private$..dep)
             self$.addOption(private$..dep1)
             self$.addOption(private$..time1)
@@ -201,6 +211,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         }),
     active = list(
         mode = function() private$..mode$value,
+        run = function() private$..run$value,
+        run1 = function() private$..run1$value,
         dep = function() private$..dep$value,
         dep1 = function() private$..dep1$value,
         time1 = function() private$..time1$value,
@@ -228,6 +240,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         showAcc = function() private$..showAcc$value),
     private = list(
         ..mode = NA,
+        ..run = NA,
+        ..run1 = NA,
         ..dep = NA,
         ..dep1 = NA,
         ..time1 = NA,
@@ -605,6 +619,8 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data timeseries data format
 #' @param mode .
+#' @param run .
+#' @param run1 .
 #' @param dep the dependent variable from \code{data}, variable must be
 #'   numeric
 #' @param dep1 the dependent variable from \code{data}, variable must be
@@ -665,6 +681,8 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 arima <- function(
     data,
     mode = "simple",
+    run,
+    run1,
     dep,
     dep1,
     time1 = NULL,
@@ -707,6 +725,8 @@ arima <- function(
 
     options <- arimaOptions$new(
         mode = mode,
+        run = run,
+        run1 = run1,
         dep = dep,
         dep1 = dep1,
         time1 = time1,

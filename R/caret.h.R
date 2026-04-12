@@ -17,7 +17,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             repeats = 5,
             tune = 10,
             per = 0.7,
-            run = FALSE,
+            run = NULL,
             over1 = TRUE,
             over = FALSE,
             cla = FALSE,
@@ -163,10 +163,9 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0.1,
                 max=1,
                 default=0.7)
-            private$..run <- jmvcore::OptionBool$new(
+            private$..run <- jmvcore::OptionAction$new(
                 "run",
-                run,
-                default=FALSE)
+                run)
             private$..over1 <- jmvcore::OptionBool$new(
                 "over1",
                 over1,
@@ -1003,7 +1002,7 @@ caret <- function(
     repeats = 5,
     tune = 10,
     per = 0.7,
-    run = FALSE,
+    run,
     over1 = TRUE,
     over = FALSE,
     cla = FALSE,

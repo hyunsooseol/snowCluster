@@ -22,6 +22,14 @@ options:
               title: 'Prophet'
       default: simple
 
+    - name: run
+      type: Action
+      title: Run
+
+    - name: run1
+      type: Action
+      title: Run
+
     - name: dep
       type: Variable
       title: Variable named y

@@ -12,6 +12,10 @@ options:
           R: >
             The data as a data frame.
 
+    - name: run
+      type: Action
+      title: Run
+
     - name: vars
       title: Variables
       type: Variables

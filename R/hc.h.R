@@ -215,7 +215,8 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "stand",
                     "metric",
                     "type",
-                    "method")))
+                    "method",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -232,7 +233,8 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metric",
                     "type",
                     "method",
-                    "horiz")))
+                    "horiz",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -245,7 +247,8 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars1",
                     "nb",
                     "method1",
-                    "dm")))
+                    "dm",
+                    "mode")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",

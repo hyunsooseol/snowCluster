@@ -26,18 +26,26 @@ children:
                         name: dep
                         maxItemCount: 1
                         isTarget: true
+              - type: LayoutBox
+                margin: none
+                style: inline
+                children:
+                  - type: ActionButton
+                    name: run
               - type: CollapseBox
-                label: ARIMA Analysis
-                margin: normal
-                collapsed: true
+                label: 'ARIMA options'
+                collapsed: false
+                stretchFactor: 1
                 children:
                   - type: LayoutBox
+                    margin: small
                     stretchFactor: 1
-                    margin: large
                     children:
-                      - type: Label
-                        label: ARIMA options
-                        margin: large
+                      - type: LayoutBox
+                        cell:
+                          column: 0
+                          row: 0
+                        stretchFactor: 1
                         children:
                           - type: ComboBox
                             name: clean
@@ -47,12 +55,27 @@ children:
                           - type: TextBox
                             name: pred
                             format: number
+                      - type: LayoutBox
+                        cell:
+                          column: 1
+                          row: 0
+                        stretchFactor: 1
+                        children:
                           - type: TextBox
                             name: level
                             format: number
                           - type: TextBox
                             name: lbLag
                             format: number
+              - type: CollapseBox
+                label: 'Analysis'
+                margin: normal
+                collapsed: true
+                children:
+                  - type: LayoutBox
+                    stretchFactor: 1
+                    margin: large
+                    children:
                       - type: Label
                         label: 'Statistics'
                         children:
@@ -114,6 +137,12 @@ children:
                   - type: VariablesListBox
                     name: time1
                     isTarget: true
+          - type: LayoutBox
+            margin: none
+            style: inline
+            children:
+              - type: ActionButton
+                name: run1
           - type: CollapseBox
             label: Prophet Analysis
             margin: normal

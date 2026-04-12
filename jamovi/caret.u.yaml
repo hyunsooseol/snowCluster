@@ -25,11 +25,12 @@ children:
           - type: VariablesListBox
             name: facs
             isTarget: true
-
   - type: LayoutBox
+    margin: none
+    style: inline
     children:
-      - name: run
-        type: CheckBox
+      - type: ActionButton
+        name: run
   - type: CollapseBox
     label: 'Training model options'
     collapsed: false

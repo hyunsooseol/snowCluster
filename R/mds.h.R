@@ -193,7 +193,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "metric")))
+                    "metric",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -204,7 +205,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "k")))
+                    "k",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -216,7 +218,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "xlab",
                     "ylab",
                     "zlab",
-                    "metric")))
+                    "metric",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -227,7 +230,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "labels",
-                    "metric")))
+                    "metric",
+                    "mode")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
@@ -242,7 +246,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "labels",
                     "k",
-                    "metric")))}))
+                    "metric",
+                    "mode")))}))
 
 mdsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mdsBase",

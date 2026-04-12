@@ -37,6 +37,11 @@ mfaClass <- if (requireNamespace('jmvcore'))
       
       #---------------------------------------------
       .run = function() {
+        
+        if (!isTRUE(self$options$run))
+          return()
+        
+        
         if (length(self$options$vars) < 3) return()
         vars <- self$options$vars
         if (is.null(private$.allCache)) {

@@ -25,65 +25,70 @@ children:
             name: imena
             maxItemCount: 1
             isTarget: true
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
+  - type: CollapseBox
+    label: 'Analysis'
+    margin: normal
+    collapsed: true
     children:
       - type: LayoutBox
         margin: large
-        cell:
-          column: 0
-          row: 0
         stretchFactor: 1
         children:
-          - type: Label
-            label: 'Options'
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
             children:
-              - type: CheckBox
-                name: stand
-              - type: CheckBox
-                name: case
-              - type: LayoutBox
+              - type: Label
+                label: 'Options'
+                children:
+                  - type: CheckBox
+                    name: stand
+                  - type: CheckBox
+                    name: case
+                  - type: LayoutBox
+                    margin: small
+                    children:
+                      - type: ComboBox
+                        name: dis
+                      - type: ComboBox
+                        name: method
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: Label
+                label: 'Decide on clusters'
                 margin: small
                 children:
-                  - type: ComboBox
-                    name: dis
-                  - type: ComboBox
-                    name: method
-      - type: LayoutBox
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: Label
-            label: 'Decide on clusters'
-            margin: small
-            children:
-              - type: RadioButton
-                name: grp_height
-                optionName: grp
-                optionPart: height
-              - type: TextBox
-                name: hght
-                format: number
-                enable: (grp_height)
-              - type: RadioButton
-                name: grp_number
-                optionName: grp
-                optionPart: number
-                children:
+                  - type: RadioButton
+                    name: grp_height
+                    optionName: grp
+                    optionPart: height
                   - type: TextBox
-                    name: group
+                    name: hght
                     format: number
-                    enable: (grp_number)
-          - type: Label
-            label: 'Save'
-            margin: small
-            children:
-              - type: Output
-                name: clust
+                    enable: (grp_height)
+                  - type: RadioButton
+                    name: grp_number
+                    optionName: grp
+                    optionPart: number
+                    children:
+                      - type: TextBox
+                        name: group
+                        format: number
+                        enable: (grp_number)
+              - type: Label
+                label: 'Save'
+                margin: small
+                children:
+                  - type: Output
+                    name: clust
   - type: CollapseBox
     label: 'Plots'
     margin: normal

@@ -17,6 +17,7 @@ items:
         - mode
         - vars
         - labels
+        - mode
 
       columns:
         - name: comp
@@ -43,6 +44,7 @@ items:
         - mode
         - vars
         - labels
+        - mode
 
     - name:  plot1
       title: Individual Plot
@@ -55,6 +57,7 @@ items:
         - mode
         - vars
         - labels
+        - mode
 
     - name:  plot2
       title: Biplot
@@ -67,6 +70,7 @@ items:
         - mode
         - vars
         - labels
+        - mode
 
     - name:  plot3
       title: Individuals by groups
@@ -79,6 +83,7 @@ items:
         - mode
         - vars1
         - labels
+        - mode
 
     - name:  plot4
       title: PCA-Biplot
@@ -91,4 +96,5 @@ items:
         - mode
         - vars1
         - labels
+        - mode
 ...

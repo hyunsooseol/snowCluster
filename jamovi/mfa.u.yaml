@@ -30,6 +30,12 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1
+  - type: LayoutBox
+    margin: none
+    style: inline
+    children:
+      - type: ActionButton
+        name: run
   - type: CollapseBox
     label: Model Components
     margin: large

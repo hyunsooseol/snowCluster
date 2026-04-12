@@ -20,64 +20,70 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1
-  - type: LayoutBox
+  - type: CollapseBox
+    label: 'Analysis'
     margin: large
+    collapsed: true
     stretchFactor: 1
     children:
       - type: LayoutBox
         margin: large
-        cell:
-          column: 0
-          row: 0
         stretchFactor: 1
         children:
-          - type: Label
-            label: 'Tables'
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
             children:
-              - type: CheckBox
-                name: eigen
-              - type: CheckBox
-                name: ind  
+              - type: Label
+                label: 'Tables'
                 children:
-                  - type: ComboBox
-                    name: type1
-                    enable: (ind)
-              - type: CheckBox
-                name: vari
-                children:
-                  - type: ComboBox
-                    name: type2
-                    enable: (vari)
-              - type: CheckBox
-                name: quan
-                children:
-                  - type: ComboBox
-                    name: type3
-                    enable: (quan)
-              - type: CheckBox
-                name: qual
-                children:
-                  - type: ComboBox
-                    name: type4
-                    enable: (qual)
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        fitToGrid: true
-        children:
-          - type: Label
-            label: Plots
+                  - type: CheckBox
+                    name: eigen
+                  - type: CheckBox
+                    name: ind  
+                    children:
+                      - type: ComboBox
+                        name: type1
+                        enable: (ind)
+                  - type: CheckBox
+                    name: vari
+                    children:
+                      - type: ComboBox
+                        name: type2
+                        enable: (vari)
+                  - type: CheckBox
+                    name: quan
+                    children:
+                      - type: ComboBox
+                        name: type3
+                        enable: (quan)
+                  - type: CheckBox
+                    name: qual
+                    children:
+                      - type: ComboBox
+                        name: type4
+                        enable: (qual)
+          - type: LayoutBox
+            stretchFactor: 1
+            margin: large
+            cell:
+              column: 1
+              row: 0
+            fitToGrid: true
             children:
-              - type: CheckBox
-                name: plot
-              - type: CheckBox
-                name: plot1
-              - type: CheckBox
-                name: plot2
-              - type: CheckBox
-                name: plot3
-              - type: CheckBox
-                name: plot4
+              - type: Label
+                label: Plots
+                children:
+                  - type: CheckBox
+                    name: plot
+                  - type: CheckBox
+                    name: plot1
+                  - type: CheckBox
+                    name: plot2
+                  - type: CheckBox
+                    name: plot3
+                  - type: CheckBox
+                    name: plot4

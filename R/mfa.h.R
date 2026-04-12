@@ -6,6 +6,7 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
+            run = NULL,
             vars = NULL,
             facs = NULL,
             labels = NULL,
@@ -36,6 +37,9 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 ...)
 
+            private$..run <- jmvcore::OptionAction$new(
+                "run",
+                run)
             private$..vars <- jmvcore::OptionVariables$new(
                 "vars",
                 vars)
@@ -149,6 +153,7 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 max=90,
                 default=0)
 
+            self$.addOption(private$..run)
             self$.addOption(private$..vars)
             self$.addOption(private$..facs)
             self$.addOption(private$..labels)
@@ -174,6 +179,7 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..angle)
         }),
     active = list(
+        run = function() private$..run$value,
         vars = function() private$..vars$value,
         facs = function() private$..facs$value,
         labels = function() private$..labels$value,
@@ -198,6 +204,7 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot8 = function() private$..plot8$value,
         angle = function() private$..angle$value),
     private = list(
+        ..run = NA,
         ..vars = NA,
         ..facs = NA,
         ..labels = NA,
@@ -524,6 +531,7 @@ mfaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' 
 #' @param data The data as a data frame.
+#' @param run .
 #' @param vars .
 #' @param facs .
 #' @param labels .
@@ -574,6 +582,7 @@ mfaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @export
 mfa <- function(
     data,
+    run,
     vars,
     facs,
     labels,
@@ -614,6 +623,7 @@ mfa <- function(
     for (v in facs) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- mfaOptions$new(
+        run = run,
         vars = vars,
         facs = facs,
         labels = labels,

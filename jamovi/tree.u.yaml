@@ -25,58 +25,64 @@ children:
           - type: VariablesListBox
             name: facs
             isTarget: true
-  - type: LayoutBox
+  - type: CollapseBox
+    label: 'Analysis'
     margin: large
+    collapsed: true
     stretchFactor: 1
     children:
       - type: LayoutBox
         margin: large
-        cell:
-          column: 0
-          row: 0
         stretchFactor: 1
         children:
-          - type: Label
-            label: 'Training set'
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
             children:
-              - type: TextBox
-                name: per
-                format: number
-              - type: CheckBox
-                name: over1
-              - type: CheckBox
-                name: tab1
-          - type: Label
-            label: 'Plots with train set'
-            children:
-              - type: CheckBox
-                name: plot
-              - type: CheckBox
-                name: plot1
-              - type: CheckBox
-                name: plot2
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        fitToGrid: true
-        children:
-          - type: Label
-            label: 'Test set(Split set<1)'
-            children:
-              - type: CheckBox
-                name: over2
-              - type: CheckBox
-                name: tab2
-              - type: CheckBox
-                name: cla
+              - type: Label
+                label: 'Training set'
                 children:
                   - type: TextBox
-                    name: positive
-                    enable: (cla)
-                    format: string
+                    name: per
+                    format: number
+                  - type: CheckBox
+                    name: over1
+                  - type: CheckBox
+                    name: tab1
+              - type: Label
+                label: 'Plots with train set'
+                children:
+                  - type: CheckBox
+                    name: plot
+                  - type: CheckBox
+                    name: plot1
+                  - type: CheckBox
+                    name: plot2
+          - type: LayoutBox
+            stretchFactor: 1
+            margin: large
+            cell:
+              column: 1
+              row: 0
+            fitToGrid: true
+            children:
+              - type: Label
+                label: 'Test set(Split set<1)'
+                children:
+                  - type: CheckBox
+                    name: over2
+                  - type: CheckBox
+                    name: tab2
+                  - type: CheckBox
+                    name: cla
+                    children:
+                      - type: TextBox
+                        name: positive
+                        enable: (cla)
+                        format: string
   
                     
                     

@@ -24,6 +24,7 @@ items:
         - vars
         - labels
         - metric
+        - mode
 
     - name:  plot1
       title: 'K-means Plot'
@@ -35,6 +36,7 @@ items:
         - vars
         - labels
         - k
+        - mode
 
     - name:  plot2
       title: '3D Scatter Plot'
@@ -47,6 +49,7 @@ items:
         - ylab
         - zlab
         - metric
+        - mode
 
     - name:  plot3
       title: 'Shepard Diagram'
@@ -58,6 +61,7 @@ items:
         - vars
         - labels
         - metric
+        - mode
 
     - name:  text
       title: ''
@@ -73,5 +77,6 @@ items:
         - labels
         - k
         - metric
+        - mode
 
 ...

@@ -24,58 +24,67 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
+  - type: CollapseBox
+    label: 'Analysis'
+    margin: normal
+    collapsed: true
     children:
       - type: LayoutBox
         margin: large
-        cell:
-          column: 0
-          row: 0
         stretchFactor: 1
         children:
-          - type: Label
-            label: "Option"
+          - type: LayoutBox
+            margin: large
+            stretchFactor: 1
             children:
-              - type: TextBox
-                name: nd
-                format: number            
-          - type: Label
-            label: "Tables"
-            children:
-              - name: chi
-                type: CheckBox
-              - name: eigen
-                type: CheckBox
-              - name: col
-                type: CheckBox
+              - type: LayoutBox
+                margin: large
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
                 children:
-                  - type: ComboBox
-                    name: type
-                    enable: (col) 
-              - name: row
-                type: CheckBox  
+                  - type: Label
+                    label: "Option"
+                    children:
+                      - type: TextBox
+                        name: nd
+                        format: number            
+                  - type: Label
+                    label: "Tables"
+                    children:
+                      - name: chi
+                        type: CheckBox
+                      - name: eigen
+                        type: CheckBox
+                      - name: col
+                        type: CheckBox
+                        children:
+                          - type: ComboBox
+                            name: type
+                            enable: (col) 
+                      - name: row
+                        type: CheckBox  
+                        children:
+                          - type: ComboBox
+                            name: type1
+                            enable: (row) 
+              - type: LayoutBox
+                margin: large
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
                 children:
-                  - type: ComboBox
-                    name: type1
-                    enable: (row) 
-      - type: LayoutBox
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: Label
-            label: "Plots"
-            children:
-              - type: CheckBox
-                name: plot4
-              - type: CheckBox
-                name: plot1
-              - type: CheckBox
-                name: plot2
-              - type: CheckBox
-                name: plot3
-
+                  - type: Label
+                    label: "Plots"
+                    children:
+                      - type: CheckBox
+                        name: plot4
+                      - type: CheckBox
+                        name: plot1
+                      - type: CheckBox
+                        name: plot2
+                      - type: CheckBox
+                        name: plot3
+        

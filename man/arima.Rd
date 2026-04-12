@@ -7,6 +7,8 @@
 arima(
   data,
   mode = "simple",
+  run,
+  run1,
   dep,
   dep1,
   time1 = NULL,
@@ -38,6 +40,10 @@ arima(
 \item{data}{timeseries data format}
 
 \item{mode}{.}
+
+\item{run}{.}
+
+\item{run1}{.}
 
 \item{dep}{the dependent variable from \code{data}, variable must be
 numeric}

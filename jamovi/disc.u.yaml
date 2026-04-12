@@ -19,75 +19,81 @@ children:
           - type: VariablesListBox
             name: covs
             isTarget: true
-  - type: LayoutBox
+  - type: CollapseBox
+    label: 'Analysis'
     margin: large
+    collapsed: true
     stretchFactor: 1
     children:
       - type: LayoutBox
         margin: large
-        cell:
-          column: 0
-          row: 0
         stretchFactor: 1
         children:
-          - type: Label
-            label: Tables
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
             children:
-              - type: CheckBox
-                name: prior
-              - type: CheckBox
-                name: gm
-              - type: CheckBox
-                name: coef
-              - type: CheckBox
-                name: nl
-              - type: CheckBox
-                name: prop
-      - type: LayoutBox
-        stretchFactor: 1
-        margin: large
-        cell:
-          column: 1
-          row: 0
-        fitToGrid: true
-        children:
-          - type: Label
-            label: Confusion matrix
-            children:
-              - type: CheckBox
-                name: tra
-                children:
-                  - type: TextBox
-                    name: per
-                    enable: (tra)
-                    format: number
-              - type: CheckBox
-                name: tes
-          - type: Label
-            label: Save
-            children: 
-              - type: Output
-                name: scores
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        margin: large
-        cell:
-          column: 0
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: Label
-            label: Plots
-            children:
-              - type: CheckBox
-                name: plot
+              - type: Label
+                label: Tables
                 children:
                   - type: CheckBox
-                    name: gc
-                    enable: (plot)
-              - type: CheckBox
-                name: plot1
-
+                    name: prior
+                  - type: CheckBox
+                    name: gm
+                  - type: CheckBox
+                    name: coef
+                  - type: CheckBox
+                    name: nl
+                  - type: CheckBox
+                    name: prop
+          - type: LayoutBox
+            stretchFactor: 1
+            margin: large
+            cell:
+              column: 1
+              row: 0
+            fitToGrid: true
+            children:
+              - type: Label
+                label: Confusion matrix
+                children:
+                  - type: CheckBox
+                    name: tra
+                    children:
+                      - type: TextBox
+                        name: per
+                        enable: (tra)
+                        format: number
+                  - type: CheckBox
+                    name: tes
+              - type: Label
+                label: Save
+                children: 
+                  - type: Output
+                    name: scores
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: Label
+                label: Plots
+                children:
+                  - type: CheckBox
+                    name: plot
+                    children:
+                      - type: CheckBox
+                        name: gc
+                        enable: (plot)
+                  - type: CheckBox
+                    name: plot1
+    

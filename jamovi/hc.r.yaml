@@ -22,6 +22,7 @@ items:
         - metric
         - type
         - method
+        - mode
 
     - name:  plot
       title: Cluster Dendrogram
@@ -39,6 +40,7 @@ items:
         - type
         - method
         - horiz
+        - mode
 
     - name:  plot1
       title: 'Cluster Dendrogram with p-values'
@@ -52,6 +54,7 @@ items:
         - nb
         - method1
         - dm
+        - mode
 
     - name:  text
       title: 'Cluster Information' 

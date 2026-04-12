@@ -35,52 +35,57 @@ children:
                         name: labels
                         isTarget: true
                         maxItemCount: 1
-              - type: LayoutBox
-                margin: large
-                stretchFactor: 1
+              - type: CollapseBox
+                label: 'Analysis'
+                margin: normal
+                collapsed: true
                 children:
                   - type: LayoutBox
                     margin: large
-                    cell:
-                      column: 0
-                      row: 0
                     stretchFactor: 1
                     children:
-                      - type: Label
-                        label: Options
+                      - type: LayoutBox
+                        margin: large
+                        cell:
+                          column: 0
+                          row: 0
+                        stretchFactor: 1
                         children:
-                          - type: CheckBox
-                            name: stand
-                          - name: k
-                            type: TextBox
-                            format: number
-                          - type: ComboBox
-                            name: metric
-                          - type: ComboBox
-                            name: method
-                          - type: ComboBox
-                            name: type
-                  - type: LayoutBox
-                    margin: large
-                    cell:
-                      column: 1
-                      row: 0
-                    stretchFactor: 1
-                    children:
-                      - type: Label
-                        label: Plot
-                        children:
-                          - type: CheckBox
-                            name: plot
+                          - type: Label
+                            label: Options
                             children:
                               - type: CheckBox
-                                name: horiz
-                                enable: (plot)
-                      - type: Label
-                        label: Save
+                                name: stand
+                              - name: k
+                                type: TextBox
+                                format: number
+                              - type: ComboBox
+                                name: metric
+                              - type: ComboBox
+                                name: method
+                              - type: ComboBox
+                                name: type
+                      - type: LayoutBox
+                        margin: large
+                        cell:
+                          column: 1
+                          row: 0
+                        stretchFactor: 1
                         children:
-                          - type: Output
-                            name: clust
+                          - type: Label
+                            label: Plot
+                            children:
+                              - type: CheckBox
+                                name: plot
+                                children:
+                                  - type: CheckBox
+                                    name: horiz
+                                    enable: (plot)
+                          - type: Label
+                            label: Save
+                            children:
+                              - type: Output
+                                name: clust
       - type: Content
         name: complex
         children:
@@ -94,36 +99,41 @@ children:
                   - type: VariablesListBox
                     name: vars1
                     isTarget: true
-          - type: LayoutBox
-            margin: large
-            stretchFactor: 1
+          - type: CollapseBox
+            label: 'Analysis'
+            margin: normal
+            collapsed: true
             children:
               - type: LayoutBox
                 margin: large
-                cell:
-                  column: 0
-                  row: 0
                 stretchFactor: 1
                 children:
-                  - type: Label
-                    label: 'Options'
+                  - type: LayoutBox
+                    margin: large
+                    cell:
+                      column: 0
+                      row: 0
+                    stretchFactor: 1
                     children:
-                      - type: TextBox
-                        name: nb
-                        format: number
-                      - type: ComboBox
-                        name: method1
-                      - type: ComboBox
-                        name: dm
-              - type: LayoutBox
-                margin: large
-                cell:
-                  column: 1
-                  row: 0
-                stretchFactor: 1
-                children:
-                  - type: Label
-                    label: Plot
+                      - type: Label
+                        label: 'Options'
+                        children:
+                          - type: TextBox
+                            name: nb
+                            format: number
+                          - type: ComboBox
+                            name: method1
+                          - type: ComboBox
+                            name: dm
+                  - type: LayoutBox
+                    margin: large
+                    cell:
+                      column: 1
+                      row: 0
+                    stretchFactor: 1
                     children:
-                      - type: CheckBox
-                        name: plot1
+                      - type: Label
+                        label: Plot
+                        children:
+                          - type: CheckBox
+                            name: plot1
