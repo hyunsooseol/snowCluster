@@ -291,6 +291,6 @@ datasets:
     tags:
       - prophet with multiple variables
 usesNative: true
-minApp: 1.8.0
+minApp: 2.7.12
 
 ...
