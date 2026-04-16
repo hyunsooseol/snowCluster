@@ -1,4 +1,3 @@
-
 # This file is a generated template, your changes will not be overwritten
 
 treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
@@ -7,6 +6,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     inherit = treeBase,
     private = list(
       .allCache = NULL,
+      .allCacheKey = NULL,
       .htmlwidget = NULL,
       
       
@@ -40,12 +40,30 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(self$options$dep) || length(self$options$covs) == 0)
           return()
         
+        dep <- self$options$dep
+        covs <- self$options$covs
+        facs <- self$options$facs
+        per <- self$options$per
+        
+        mainKey <- paste(
+          dep,
+          paste(covs, collapse = ","),
+          if (is.null(facs)) "" else paste(facs, collapse = ","),
+          per,
+          sep = " | "
+        )
+        
+        if (is.null(private$.allCacheKey) || private$.allCacheKey != mainKey) {
+          private$.allCache <- NULL
+          private$.allCacheKey <- mainKey
+        }
+        
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.dataClear()
         }
         
         resdc <- private$.allCache
-
+        
         # ---- Train Data ------------------------- #
         if (self$options$over1 || self$options$tab1) {
           # 1. 예측값 및 실제값 factor 변환 및 levels 통일 (test set과 동일하게)
@@ -97,7 +115,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             }
           }
         }
-
+        
         # ---- Test model --------------------------------------------- #
         if (self$options$over2 ||
             self$options$tab2 || self$options$cla) {
@@ -226,8 +244,8 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         model <- rpart::rpart(formula = as.formula(paste0(
           self$options$dep, " ~ ", paste(c(self$options$covs,self$options$facs), 
                                          collapse = " + "))),
-        data = data,
-        method = 'anova')
+          data = data,
+          method = 'anova')
         
         plot2 <- rpart.plot::rpart.plot(
           model,
@@ -278,7 +296,7 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         )),
         data = train,
         method = 'class')
-
+        
         retlist <- list(
           train = train,
           test = test,
