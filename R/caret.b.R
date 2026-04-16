@@ -7,6 +7,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     inherit = caretBase,
     private = list(
       .allCache = NULL,
+      .allCacheKey = NULL,
+      .compCache = NULL,
+      .compCacheKey = NULL,
       .htmlwidget = NULL,
       
       #------------------------------------
@@ -25,9 +28,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
             '<div style="text-align:justify;">',
             '<ul>',
-            '<li>Machine learning based on  <a href="https://topepo.github.io/caret/" target = "_blank">caret R package</a>.</li>',
+            '<li>Machine learning based on the <a href="https://topepo.github.io/caret/" target="_blank">caret R package</a>.</li>',
             '<li>The target variable must be categorical (non-numeric).</li>',
-            '<li>If you use the <b>lda</b> function, uncheck the <b>ROC plot</b> in Test set and the <b>Model selection</b> in Plots.</li>',
+            '<li>Both numeric and categorical predictors can be used.</li>',
+            '<li>Some ROC/calibration-related plots may not be available for certain models. If a plot is not displayed, try another model or uncheck that plot option.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
             
@@ -59,45 +63,93 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         me <- self$options$me
         rep <- self$options$rep
         num <- self$options$num
+        tune1 <- self$options$tune1
         
         data <- self$data
         dep <- self$options$dep
         covs <- self$options$covs
         facs <- self$options$facs
         
+        mainKey <- paste(
+          dep,
+          paste(covs, collapse = ","),
+          paste(facs, collapse = ","),
+          per,
+          trans,
+          mecon,
+          method,
+          cm1,
+          number,
+          repeats,
+          tune,
+          sep = " | "
+        )
+        
+        if (is.null(private$.allCacheKey) || private$.allCacheKey != mainKey) {
+          private$.allCache <- NULL
+          private$.allCacheKey <- mainKey
+        }
+        
+        
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeFIT()
         }
         all <- private$.allCache
         
+        compKey <- paste(
+          dep,
+          paste(covs, collapse = ","),
+          paste(facs, collapse = ","),
+          per,
+          paste(strsplit(self$options$ml, ",")[[1]], collapse = ","),
+          me,
+          num,
+          rep,
+          self$options$tune1,
+          sep = " | "
+        )
+        
+        if (is.null(private$.compCacheKey) || private$.compCacheKey != compKey) {
+          private$.compCache <- NULL
+          private$.compCacheKey <- compKey
+        }
+        
         # Model information-----------
         self$results$text$setContent(all$fit)
         
         # Compare models--------------
-        if (isTRUE(self$options$accu) ||
-            isTRUE(self$options$kapp) ||
-            isTRUE(self$options$plot7)) {
+        if (isTRUE(self$options$accu) || isTRUE(self$options$kapp) || isTRUE(self$options$plot7)) {
           
-          ctrl.comp <- caret::trainControl(
-            method = me,
-            number = num,
-            repeats = rep,
-            p = per,
-            classProbs = TRUE,
-            savePredictions = TRUE
-          )
+          if (is.null(private$.compCache)) {
+            ctrl.comp <- caret::trainControl(
+              method = me,
+              number = num,
+              repeats = rep,
+              p = per,
+              classProbs = TRUE,
+              savePredictions = TRUE
+            )
+            
+            algorithmList <- strsplit(self$options$ml, ',')[[1]]
+            
+            models <- caretEnsemble::caretList(
+              all$formula,
+              data = all$train,
+              trControl = ctrl.comp,
+              methodList = algorithmList,
+              tuneLength = tune1
+            )
+            
+            results <- caret::resamples(models)
+            
+            private$.compCache <- list(
+              results = results,
+              summary = summary(results)
+            )
+          }
           
-          algorithmList <- strsplit(self$options$ml, ',')[[1]]
-          
-          models <- caretEnsemble::caretList(
-            all$formula,
-            data = all$train,
-            trControl = ctrl.comp,
-            methodList = algorithmList
-          )
-          
-          results <- caret::resamples(models)
-          res <- summary(results)
+          results <- private$.compCache$results
+          res <- private$.compCache$summary
           
           # Accuracy Table---------
           if (isTRUE(self$options$accu)) {
@@ -160,6 +212,20 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           facs <- self$options$facs
           new_data <- jmvcore::select(self$data, c(covs, facs))
           new_data <- jmvcore::naOmit(new_data)
+          
+          for (cov in covs)
+            new_data[[cov]] <- jmvcore::toNumeric(new_data[[cov]])
+          
+          for (fac in facs)
+            new_data[[fac]] <- as.factor(new_data[[fac]])
+          
+          # same preprocessing as training
+          if (!is.null(all$preProcValues))
+            new_data <- predict(all$preProcValues, new_data)
+          
+          # same dummy coding as training
+          if (!is.null(all$dummies_model))
+            new_data <- data.frame(predict(all$dummies_model, newdata = new_data))
           
           pred <- predict(all$fit, new_data)
           
@@ -459,8 +525,20 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         all <- private$.allCache
-        res <- MLeval::evalm(list(all$fit, all$comp),
-                             gnames = c(self$options$method, self$options$cm1))
+        
+        if (is.null(all) || is.null(all$fit) || is.null(all$comp))
+          return(FALSE)
+        
+        if (!inherits(all$fit, "train") || !inherits(all$comp, "train"))
+          return(FALSE)
+        
+        if (is.null(self$options$cm1) || self$options$cm1 == "")
+          return(FALSE)
+        
+        res <- MLeval::evalm(
+          list(all$fit, all$comp),
+          gnames = c(self$options$method, self$options$cm1)
+        )
         
         plot <- res$roc
         print(plot)
@@ -472,8 +550,20 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         all <- private$.allCache
-        res <- MLeval::evalm(list(all$fit, all$comp),
-                             gnames = c(self$options$method, self$options$cm1))
+        
+        if (is.null(all) || is.null(all$fit) || is.null(all$comp))
+          return(FALSE)
+        
+        if (!inherits(all$fit, "train") || !inherits(all$comp, "train"))
+          return(FALSE)
+        
+        if (is.null(self$options$cm1) || self$options$cm1 == "")
+          return(FALSE)
+        
+        res <- MLeval::evalm(
+          list(all$fit, all$comp),
+          gnames = c(self$options$method, self$options$cm1)
+        )
         
         plot4 <- res$cc
         print(plot4)
@@ -485,6 +575,13 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         all <- private$.allCache
+        
+        if (is.null(all) || is.null(all$fit))
+          return(FALSE)
+        
+        if (!inherits(all$fit, "train"))
+          return(FALSE)
+        
         plot2 <- ggplot2::ggplot(all$fit)
         plot2 <- plot2 + ggtheme
         print(plot2)
@@ -530,7 +627,21 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         all <- private$.allCache
-        res1 <- MLeval::evalm(all$fit)
+        
+        if (is.null(all) || is.null(all$fit))
+          return(FALSE)
+        
+        if (!inherits(all$fit, "train"))
+          return(FALSE)
+        
+        res1 <- tryCatch(
+          MLeval::evalm(all$fit),
+          error = function(e) NULL
+        )
+        
+        if (is.null(res1) || is.null(res1$roc))
+          return(FALSE)
+        
         plot8 <- res1$roc
         print(plot8)
         TRUE
@@ -569,20 +680,34 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         train1 <- data[split1, ]
         test1 <- data[-split1, ]
         
-        # Transformed dataset-----------------
+        # Transformed dataset
         preProcValues <- caret::preProcess(train1, method = trans)
         self$results$text1$setContent(preProcValues)
         
         train <- predict(preProcValues, train1)
-        test <- predict(preProcValues, test1)
+        test  <- predict(preProcValues, test1)
         
-        # Dummy coding for factors vars.-------------------
-        if (isTRUE(self$options$facs)) {
-          formula <- as.formula(paste0(self$options$dep, " ~ ."))
-          dummies_model <- caret::dummyVars(formula, data = train1)
-          trainData_mat <- predict(dummies_model, newdata = train1)
-          train <- data.frame(trainData_mat)
+        # Dummy coding for factors vars
+        dummies_model <- NULL
+        if (!is.null(facs) && length(facs) > 0) {
+          dummy_formula <- stats::as.formula("~ .")
+          
+          x_train <- train[, c(covs, facs), drop = FALSE]
+          x_test  <- test[, c(covs, facs), drop = FALSE]
+          
+          dummies_model <- caret::dummyVars(dummy_formula, data = x_train, fullRank = TRUE)
+          
+          train_x <- predict(dummies_model, newdata = x_train)
+          test_x  <- predict(dummies_model, newdata = x_test)
+          
+          train <- data.frame(train_x)
+          test  <- data.frame(test_x)
+          
+          train[[dep]] <- train1[[dep]]
+          test[[dep]]  <- test1[[dep]]
         }
+        
+        
         
         # trainControl function-----------
         ctrl <- caret::trainControl(
@@ -617,8 +742,11 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           train = train,
           test = test,
           fit = fit,
-          comp = comp
+          comp = comp,
+          preProcValues = preProcValues,
+          dummies_model = if (!is.null(facs) && length(facs) > 0) dummies_model else NULL
         )
+        
         return(retlist)
       }      
 )

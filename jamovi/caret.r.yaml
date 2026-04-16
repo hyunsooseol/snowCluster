@@ -343,15 +343,23 @@ items:
           visible: (accu)
           type: Table
           clearWith:
+            # - dep
+            # - covs
+            # - facs
+            # - per
+            # - method
+            # - trans
+            # - mecon
+            # - cm1
             - dep
             - covs
             - facs
             - per
-            - method
-            - trans
-            - mecon
-            - cm1
-
+            - ml
+            - me
+            - num
+            - rep
+            - tune1
           columns:
             - name: name
               title: 'Model'
@@ -384,15 +392,23 @@ items:
           visible: (kapp)
           type: Table
           clearWith:
+            # - dep
+            # - covs
+            # - facs
+            # - per
+            # - method
+            # - trans
+            # - mecon
+            # - cm1
             - dep
             - covs
             - facs
             - per
-            - method
-            - trans
-            - mecon
-            - cm1
-
+            - ml
+            - me
+            - num
+            - rep
+            - tune1
           columns:
             - name: name
               title: 'Model'
@@ -427,15 +443,23 @@ items:
       renderFun: .plot7
       refs: caret
       clearWith:
+        # - dep
+        # - covs
+        # - facs
+        # - per
+        # - method
+        # - trans
+        # - mecon
+        # - cm1
         - dep
         - covs
         - facs
         - per
-        - method
-        - trans
-        - mecon
-        - cm1
-
+        - ml
+        - me
+        - num
+        - rep
+        - tune1
     - name: pred
       title: Prediction
       type: Output

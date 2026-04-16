@@ -776,10 +776,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 "covs",
                                 "facs",
                                 "per",
-                                "method",
-                                "trans",
-                                "mecon",
-                                "cm1"),
+                                "ml",
+                                "me",
+                                "num",
+                                "rep",
+                                "tune1"),
                             columns=list(
                                 list(
                                     `name`="name", 
@@ -824,10 +825,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 "covs",
                                 "facs",
                                 "per",
-                                "method",
-                                "trans",
-                                "mecon",
-                                "cm1"),
+                                "ml",
+                                "me",
+                                "num",
+                                "rep",
+                                "tune1"),
                             columns=list(
                                 list(
                                     `name`="name", 
@@ -874,10 +876,11 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "covs",
                     "facs",
                     "per",
-                    "method",
-                    "trans",
-                    "mecon",
-                    "cm1")))
+                    "ml",
+                    "me",
+                    "num",
+                    "rep",
+                    "tune1")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="pred",
