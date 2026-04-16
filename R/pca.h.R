@@ -155,8 +155,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "mode",
                     "vars",
-                    "labels",
-                    "mode"),
+                    "labels"),
                 columns=list(
                     list(
                         `name`="comp", 
@@ -185,8 +184,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "mode",
                     "vars",
-                    "labels",
-                    "mode")))
+                    "labels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -198,8 +196,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "mode",
                     "vars",
-                    "labels",
-                    "mode")))
+                    "labels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -211,8 +208,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "mode",
                     "vars",
-                    "labels",
-                    "mode")))
+                    "labels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -224,8 +220,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "mode",
                     "vars1",
-                    "labels",
-                    "mode")))
+                    "facs")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot4",
@@ -237,8 +232,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "mode",
                     "vars1",
-                    "labels",
-                    "mode")))}))
+                    "facs")))}))
 
 pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "pcaBase",

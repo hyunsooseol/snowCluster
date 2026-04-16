@@ -13,11 +13,13 @@ items:
       title: Summary
       type:  Table
       rows: 1
-      
       clearWith:
+        - podatki
+        - imena
+        - stand
+        - case
         - dis
         - method
-
       columns:       
       - name: var
         title: Variables
@@ -36,6 +38,16 @@ items:
       title: Group membership
       type:  Table
       rows: 0
+      clearWith:
+        - podatki
+        - imena
+        - stand
+        - case
+        - dis
+        - method
+        - group
+        - grp
+        - hght
       columns:
       - name: cluster
         title: Cluster
@@ -44,27 +56,23 @@ items:
         title: Number of elements
         type: integer
 
-      clearWith:
-        - dis
-        - method
-        - group
-        - grp
-        - hght
-        - case
-        
     - name: plot
       title: Dendrogram
       visible: FALSE
       type: Image
       renderFun: .plot
       clearWith:
+        - podatki
+        - imena
+        - stand
+        - case
         - dis
         - method
         - group
         - grp
         - hght
-        - case
         - horiz
+        - dend
       
     - name: heat
       title: Heatmap
@@ -72,12 +80,16 @@ items:
       type: Image
       renderFun: .heat
       clearWith:
+        - podatki
+        - imena
+        - stand
+        - case
         - dis
         - method
         - group
         - grp
         - hght
-        - case
+        - heat
 
     - name: pairs
       title: Pairs plot
@@ -85,12 +97,16 @@ items:
       type: Image
       renderFun: .pairs       
       clearWith:
+        - podatki
+        - imena
+        - stand
+        - case
         - dis
         - method
         - group
         - grp
         - hght
-        - case
+        - pair
 
     - name: clust
       title: Clustering
@@ -98,10 +114,13 @@ items:
       varTitle: Clustering
       measureType: nominal
       clearWith:
+        - podatki
+        - imena
+        - stand
+        - case
         - dis
         - method
         - group
         - grp
         - hght
-        - case
 ...

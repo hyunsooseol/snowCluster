@@ -69,8 +69,8 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (isTRUE(self$options$ind)) {
           type1 <- self$options$type1
           data_map <- list(
-            "coordinates" = res$ind$coord,
-            "cos2"        = res$ind$cos2,
+            "coordinates"  = res$ind$coord,
+            "cos2"         = res$ind$cos2,
             "contribution" = res$ind$contrib
           )
           
@@ -91,115 +91,116 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             }
             table$addRow(rowKey = name, values = row)
           }
-          #---
-          if (isTRUE(self$options$vari)) {
-            type2 <- self$options$type2
-            data_map <- list(
-              "coordinates" = res$var$coord,
-              "cos2"        = res$var$cos2,
-              "contribution" = res$var$contrib
-            )
-            vari <- data_map[[type2]]
-            names <- dimnames(vari)[[1]]
-            table <- self$results$vari
-            
-            for (i in 1:5)
-              
-              table$addColumn(
-                name = paste0("pc", i),
-                title = as.character(i),
-                type = 'number',
-                superTitle = 'Dimension'
-              )
-            for (name in names) {
-              row <- list()
-              
-              for (j in seq_along(1:5)) {
-                row[[paste0("pc", j)]] <- vari[name, j]
-              }
-              table$addRow(rowKey = name, values = row)
-            }
-          }
-          #---
-          if (isTRUE(self$options$quan)) {
-            type3 <- self$options$type3
-            
-            data_map <- list(
-              "coordinates" = res$quanti.var$coord,
-              "cos2"        = res$quanti.var$cos2,
-              "contribution" = res$quanti.var$contrib
-            )
-            
-            quan <- data_map[[type3]]
-            names <- dimnames(quan)[[1]]
-            table <- self$results$quan
-            
-            for (i in 1:5)
-              table$addColumn(
-                name = paste0("pc", i),
-                title = as.character(i),
-                type = 'number',
-                superTitle = 'Dimension'
-              )
-            for (name in names) {
-              row <- list()
-              for (j in seq_along(1:5)) {
-                row[[paste0("pc", j)]] <- quan[name, j]
-              }
-              table$addRow(rowKey = name, values = row)
-            }
-          }
-          #---
-          if (isTRUE(self$options$qual)) {
-            type4 <- self$options$type4
-            
-            data_map <- list(
-              "coordinates" = res$quali.var$coord,
-              "cos2"        = res$quali.var$cos2,
-              "contribution" = res$quali.var$contrib
-            )
-            
-            qual <- data_map[[type4]]
-            names <- dimnames(qual)[[1]]
-            
-            table <- self$results$qual
-            for (i in 1:5)
-              table$addColumn(
-                name = paste0("pc", i),
-                title = as.character(i),
-                type = 'number',
-                superTitle = 'Dimension'
-              )
-            for (name in names) {
-              row <- list()
-              for (j in seq_along(1:5)) {
-                row[[paste0("pc", j)]] <- qual[name, j]
-              }
-              table$addRow(rowKey = name, values = row)
-            }
-          }
+        }
+        
+        #---
+        if (isTRUE(self$options$vari)) {
+          type2 <- self$options$type2
+          data_map <- list(
+            "coordinates"  = res$var$coord,
+            "cos2"         = res$var$cos2,
+            "contribution" = res$var$contrib
+          )
+          vari <- data_map[[type2]]
+          names <- dimnames(vari)[[1]]
+          table <- self$results$vari
           
-          # plot--------
-          if (isTRUE(self$options$plot)) {
-            image <- self$results$plot
-            image$setState(res)
+          for (i in 1:5)
+            table$addColumn(
+              name = paste0("pc", i),
+              title = as.character(i),
+              type = 'number',
+              superTitle = 'Dimension'
+            )
+          for (name in names) {
+            row <- list()
+            for (j in seq_along(1:5)) {
+              row[[paste0("pc", j)]] <- vari[name, j]
+            }
+            table$addRow(rowKey = name, values = row)
           }
-          if (isTRUE(self$options$plot1)) {
-            image1 <- self$results$plot1
-            image1$setState(res)
+        }
+        
+        #---
+        if (isTRUE(self$options$quan)) {
+          type3 <- self$options$type3
+          
+          data_map <- list(
+            "coordinates"  = res$quanti.var$coord,
+            "cos2"         = res$quanti.var$cos2,
+            "contribution" = res$quanti.var$contrib
+          )
+          
+          quan <- data_map[[type3]]
+          names <- dimnames(quan)[[1]]
+          table <- self$results$quan
+          
+          for (i in 1:5)
+            table$addColumn(
+              name = paste0("pc", i),
+              title = as.character(i),
+              type = 'number',
+              superTitle = 'Dimension'
+            )
+          for (name in names) {
+            row <- list()
+            for (j in seq_along(1:5)) {
+              row[[paste0("pc", j)]] <- quan[name, j]
+            }
+            table$addRow(rowKey = name, values = row)
           }
-          if (isTRUE(self$options$plot2)) {
-            image2 <- self$results$plot2
-            image2$setState(res)
+        }
+        
+        #---
+        if (isTRUE(self$options$qual)) {
+          type4 <- self$options$type4
+          
+          data_map <- list(
+            "coordinates"  = res$quali.var$coord,
+            "cos2"         = res$quali.var$cos2,
+            "contribution" = res$quali.var$contrib
+          )
+          
+          qual <- data_map[[type4]]
+          names <- dimnames(qual)[[1]]
+          
+          table <- self$results$qual
+          for (i in 1:5)
+            table$addColumn(
+              name = paste0("pc", i),
+              title = as.character(i),
+              type = 'number',
+              superTitle = 'Dimension'
+            )
+          for (name in names) {
+            row <- list()
+            for (j in seq_along(1:5)) {
+              row[[paste0("pc", j)]] <- qual[name, j]
+            }
+            table$addRow(rowKey = name, values = row)
           }
-          if (isTRUE(self$options$plot3)) {
-            image3 <- self$results$plot3
-            image3$setState(res)
-          }
-          if (isTRUE(self$options$plot4)) {
-            image4 <- self$results$plot4
-            image4$setState(res)
-          }
+        }
+        
+        # plot--------
+        if (isTRUE(self$options$plot)) {
+          image <- self$results$plot
+          image$setState(res)
+        }
+        if (isTRUE(self$options$plot1)) {
+          image1 <- self$results$plot1
+          image1$setState(res)
+        }
+        if (isTRUE(self$options$plot2)) {
+          image2 <- self$results$plot2
+          image2$setState(res)
+        }
+        if (isTRUE(self$options$plot3)) {
+          image3 <- self$results$plot3
+          image3$setState(res)
+        }
+        if (isTRUE(self$options$plot4)) {
+          image4 <- self$results$plot4
+          image4$setState(res)
         }
       },
       

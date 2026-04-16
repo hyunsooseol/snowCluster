@@ -15,14 +15,14 @@ items:
       type: Html
       visible: false
 
-    - name:  text
+    - name: text
       title: ''
-      type:  Preformatted
+      type: Preformatted
 
     - name: accuracy
       title: 'Model Accuracy'
       type: Table
-      rows: 0 
+      rows: 0
       clearWith:
           - dep
           - covs
@@ -32,12 +32,6 @@ items:
           - cp_scale
           - n_chgpts
           - cp_range
-          - daily
-          - weekly
-          - yearly
-          - season_mode
-          - interval_width
-          - mcmc_samples
           - regressors
           - reg_prior_scale
           - reg_future_fill
@@ -56,13 +50,13 @@ items:
         - name: MAPE
           title: MAPE
           type: Number
-        
+
     - name: plotAcc
       title: 'MAPE comparison'
       type: Image
       refs: prophet
       renderFun: .plotAcc
-      visible: (accuracy) 
+      visible: (accuracy)
       clearWith:
           - dep
           - covs
@@ -72,20 +66,14 @@ items:
           - cp_scale
           - n_chgpts
           - cp_range
-          - daily
-          - weekly
-          - yearly
-          - season_mode
-          - interval_width
-          - mcmc_samples
           - regressors
           - reg_prior_scale
           - reg_future_fill
           - seasonality
 
-    - name:  plot1
-      title:  'Forecast of multiple variables' 
-      type:  Image
+    - name: plot1
+      title: 'Forecast of multiple variables'
+      type: Image
       visible: (plot1)
       refs: prophet
       renderFun: .plot1
@@ -98,20 +86,14 @@ items:
         - cp_scale
         - n_chgpts
         - cp_range
-        - daily
-        - weekly
-        - yearly
-        - season_mode
-        - interval_width
-        - mcmc_samples
         - regressors
         - reg_prior_scale
         - reg_future_fill
         - seasonality
-    
-    - name:  plot2
-      title:  'Smooth line plot' 
-      type:  Image
+
+    - name: plot2
+      title: 'Smooth line plot'
+      type: Image
       visible: (plot2)
       refs: prophet
       renderFun: .plot2
@@ -125,12 +107,6 @@ items:
         - cp_scale
         - n_chgpts
         - cp_range
-        - daily
-        - weekly
-        - yearly
-        - season_mode
-        - interval_width
-        - mcmc_samples
         - regressors
         - reg_prior_scale
         - reg_future_fill

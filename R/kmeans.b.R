@@ -24,7 +24,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           nstart = self$options$nstart,
           algo = self$options$algo,
           factors = self$options$factors,
-          k1 = self$options$k1
+          k1 = self$options$k1,
+          max = self$options$max
         )
         return(!identical(currentOptions, private$.allCache$cachedOptions))
       },
@@ -37,7 +38,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           nstart = self$options$nstart,
           algo = self$options$algo,
           factors = self$options$factors,
-          k1 = self$options$k1
+          k1 = self$options$k1,
+          max = self$options$max
         )
       },
       

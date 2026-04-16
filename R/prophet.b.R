@@ -25,7 +25,61 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     inherit = prophetBase,
     private = list(
       .allCache = NULL,
+      .cachedOptions = NULL,
       .htmlwidget = NULL,
+      
+      .getOpt = function(name, default=NULL) {
+        tryCatch({
+          v <- self$options[[name]]
+          if (is.null(v)) default else v
+        }, error = function(e) default)
+      },
+      
+      .optionsChanged = function() {
+        currentOptions <- list(
+          dep             = private$.getOpt("dep"),
+          covs            = private$.getOpt("covs"),
+          method          = private$.getOpt("method"),
+          seasonality     = private$.getOpt("seasonality"),
+          periods         = private$.getOpt("periods"),
+          unit            = private$.getOpt("unit"),
+          accuracy        = private$.getOpt("accuracy"),
+          regressors      = private$.getOpt("regressors"),
+          reg_prior_scale = private$.getOpt("reg_prior_scale"),
+          reg_future_fill = private$.getOpt("reg_future_fill"),
+          growth          = private$.getOpt("growth"),
+          cp_scale        = private$.getOpt("cp_scale"),
+          n_chgpts        = private$.getOpt("n_chgpts"),
+          cp_range        = private$.getOpt("cp_range"),
+          plot1           = private$.getOpt("plot1"),
+          plot2           = private$.getOpt("plot2"),
+          plotAcc         = private$.getOpt("plotAcc")
+        )
+        
+        !identical(private$.cachedOptions, currentOptions)
+      },
+      
+      .saveOptions = function() {
+        private$.cachedOptions <- list(
+          dep             = private$.getOpt("dep"),
+          covs            = private$.getOpt("covs"),
+          method          = private$.getOpt("method"),
+          seasonality     = private$.getOpt("seasonality"),
+          periods         = private$.getOpt("periods"),
+          unit            = private$.getOpt("unit"),
+          accuracy        = private$.getOpt("accuracy"),
+          regressors      = private$.getOpt("regressors"),
+          reg_prior_scale = private$.getOpt("reg_prior_scale"),
+          reg_future_fill = private$.getOpt("reg_future_fill"),
+          growth          = private$.getOpt("growth"),
+          cp_scale        = private$.getOpt("cp_scale"),
+          n_chgpts        = private$.getOpt("n_chgpts"),
+          cp_range        = private$.getOpt("cp_range"),
+          plot1           = private$.getOpt("plot1"),
+          plot2           = private$.getOpt("plot2"),
+          plotAcc         = private$.getOpt("plotAcc")
+        )
+      },
       
       .init = function() {
         private$.htmlwidget <- HTMLWidget$new()
@@ -57,8 +111,9 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         self$results$progressBarHTML$setContent(progressBarH(5, 100, 'Fitting Prophet models...'))
         on.exit(self$results$progressBarHTML$setVisible(FALSE), add = TRUE)
         
-        if (is.null(private$.allCache)) {
+        if (is.null(private$.allCache) || private$.optionsChanged()) {
           private$.allCache <- private$.computeSIMPLE()
+          private$.saveOptions()
         }
         res <- private$.allCache
         

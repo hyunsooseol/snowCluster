@@ -364,7 +364,8 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "factors",
-                    "k1")))
+                    "k1",
+                    "stand")))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="oc",
@@ -372,7 +373,8 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "factors",
-                    "K1"),
+                    "k1",
+                    "stand"),
                 refs="clustMixType",
                 columns=list(
                     list(
@@ -393,7 +395,8 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "factors",
-                    "k1"),
+                    "k1",
+                    "stand"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -409,7 +412,8 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "vars",
                     "factors",
-                    "k1")))}))
+                    "k1",
+                    "stand")))}))
 
 kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "kmeansBase",

@@ -160,6 +160,7 @@ items:
         - vars
         - factors
         - k1
+        - stand
 
     - name: oc
       title: 'Silhouette index'
@@ -167,7 +168,8 @@ items:
       clearWith:
         - vars
         - factors
-        - K1
+        - k1
+        - stand
 
       refs: clustMixType
       columns:
@@ -189,6 +191,7 @@ items:
         - vars
         - factors
         - k1
+        - stand
       columns:
         - name: name
           title: ''
@@ -204,4 +207,5 @@ items:
         - vars
         - factors
         - k1
+        - stand
 ...

@@ -24,7 +24,16 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     inherit = arimaBase,
     private = list(
       .allCache = NULL,
+      .cacheMode = NULL,
       .htmlwidget = NULL,
+      
+      .resetCacheIfModeChanged = function() {
+        currentMode <- self$options$mode
+        if (!identical(private$.cacheMode, currentMode)) {
+          private$.allCache <- NULL
+          private$.cacheMode <- currentMode
+        }
+      },
 
       # ---------------------------
       # Residual diagnostics helper
@@ -87,8 +96,15 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       #---
       .run = function() {
 
+        private$.resetCacheIfModeChanged()
+        
         # -------- SIMPLE (ARIMA) --------
         if (self$options$mode == 'simple') {
+          
+          if (!isTRUE(self$options$run))
+            return()
+          
+          
           if (is.null(self$options$dep)) return()
 
           # progress bar (simple 전용)
@@ -239,6 +255,10 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
 
         # -------- COMPLEX (Prophet) --------
         if (self$options$mode == 'complex') {
+          
+          if (!isTRUE(self$options$run1))
+            return()
+          
           if (is.null(self$options$dep1) | is.null(self$options$time1)) return()
 
           # progress bar (complex 전용)

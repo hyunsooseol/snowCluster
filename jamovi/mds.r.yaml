@@ -13,6 +13,11 @@ items:
       title: Stress value
       type: Preformatted
       visible: false
+      clearWith:
+        - vars
+        - labels
+        - metric
+        - mode      
 
     - name:  plot
       title: MDS Plot
@@ -37,6 +42,7 @@ items:
         - labels
         - k
         - mode
+        - metric
 
     - name:  plot2
       title: '3D Scatter Plot'
@@ -45,6 +51,7 @@ items:
       visible: (plot2)
       renderFun: .plot2
       clearWith:
+        - vars1
         - xlab
         - ylab
         - zlab

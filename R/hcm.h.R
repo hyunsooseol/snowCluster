@@ -187,6 +187,10 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Summary",
                 rows=1,
                 clearWith=list(
+                    "podatki",
+                    "imena",
+                    "stand",
+                    "case",
                     "dis",
                     "method"),
                 columns=list(
@@ -211,6 +215,16 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="groups",
                 title="Group membership",
                 rows=0,
+                clearWith=list(
+                    "podatki",
+                    "imena",
+                    "stand",
+                    "case",
+                    "dis",
+                    "method",
+                    "group",
+                    "grp",
+                    "hght"),
                 columns=list(
                     list(
                         `name`="cluster", 
@@ -219,14 +233,7 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     list(
                         `name`="freq", 
                         `title`="Number of elements", 
-                        `type`="integer")),
-                clearWith=list(
-                    "dis",
-                    "method",
-                    "group",
-                    "grp",
-                    "hght",
-                    "case")))
+                        `type`="integer"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -234,13 +241,17 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible=FALSE,
                 renderFun=".plot",
                 clearWith=list(
+                    "podatki",
+                    "imena",
+                    "stand",
+                    "case",
                     "dis",
                     "method",
                     "group",
                     "grp",
                     "hght",
-                    "case",
-                    "horiz")))
+                    "horiz",
+                    "dend")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="heat",
@@ -248,12 +259,16 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible=FALSE,
                 renderFun=".heat",
                 clearWith=list(
+                    "podatki",
+                    "imena",
+                    "stand",
+                    "case",
                     "dis",
                     "method",
                     "group",
                     "grp",
                     "hght",
-                    "case")))
+                    "heat")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="pairs",
@@ -261,12 +276,16 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible=FALSE,
                 renderFun=".pairs",
                 clearWith=list(
+                    "podatki",
+                    "imena",
+                    "stand",
+                    "case",
                     "dis",
                     "method",
                     "group",
                     "grp",
                     "hght",
-                    "case")))
+                    "pair")))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="clust",
@@ -274,12 +293,15 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 varTitle="Clustering",
                 measureType="nominal",
                 clearWith=list(
+                    "podatki",
+                    "imena",
+                    "stand",
+                    "case",
                     "dis",
                     "method",
                     "group",
                     "grp",
-                    "hght",
-                    "case")))}))
+                    "hght")))}))
 
 hcmBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcmBase",

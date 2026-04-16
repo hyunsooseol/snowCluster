@@ -182,7 +182,12 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="stressNote",
                 title="Stress value",
-                visible=FALSE))
+                visible=FALSE,
+                clearWith=list(
+                    "vars",
+                    "labels",
+                    "metric",
+                    "mode")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -206,7 +211,8 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "labels",
                     "k",
-                    "mode")))
+                    "mode",
+                    "metric")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -215,6 +221,7 @@ mdsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(plot2)",
                 renderFun=".plot2",
                 clearWith=list(
+                    "vars1",
                     "xlab",
                     "ylab",
                     "zlab",
