@@ -8,6 +8,7 @@ prophet(
   data,
   dep,
   covs,
+  run,
   method = "loess",
   seasonality = "none",
   plot1 = FALSE,
@@ -31,6 +32,8 @@ prophet(
 \item{dep}{.}
 
 \item{covs}{.}
+
+\item{run}{.}
 
 \item{method}{.}
 

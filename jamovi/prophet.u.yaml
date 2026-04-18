@@ -21,6 +21,12 @@ children:
           - type: VariablesListBox
             name: covs
             isTarget: true
+  - type: LayoutBox
+    margin: none
+    style: inline
+    children:
+      - type: ActionButton
+        name: run
   - type: CollapseBox
     label: 'Analysis'
     margin: large

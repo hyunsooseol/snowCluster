@@ -103,6 +103,11 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       
       #############################################################
       .run = function() {
+        
+        if (!isTRUE(self$options$run))
+          return()
+        
+        
         if (is.null(self$options$dep) || length(self$options$covs) == 0)
           return()
         

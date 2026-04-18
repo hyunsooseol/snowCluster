@@ -25,7 +25,11 @@ options:
         - continuous
       permitted:
         - numeric
-        
+
+    - name: run
+      type: Action
+      title: Run
+
     - name: method
       title: Method
       type: List

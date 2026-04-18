@@ -44,6 +44,7 @@ mfaClass <- if (requireNamespace('jmvcore'))
         
         if (length(self$options$vars) < 3) return()
         vars <- self$options$vars
+        
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeRES()
         }

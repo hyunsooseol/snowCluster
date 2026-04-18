@@ -8,6 +8,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
+            run = NULL,
             method = "loess",
             seasonality = "none",
             plot1 = FALSE,
@@ -44,6 +45,9 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..run <- jmvcore::OptionAction$new(
+                "run",
+                run)
             private$..method <- jmvcore::OptionList$new(
                 "method",
                 method,
@@ -135,6 +139,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
+            self$.addOption(private$..run)
             self$.addOption(private$..method)
             self$.addOption(private$..seasonality)
             self$.addOption(private$..plot1)
@@ -154,6 +159,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         dep = function() private$..dep$value,
         covs = function() private$..covs$value,
+        run = function() private$..run$value,
         method = function() private$..method$value,
         seasonality = function() private$..seasonality$value,
         plot1 = function() private$..plot1$value,
@@ -172,6 +178,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..dep = NA,
         ..covs = NA,
+        ..run = NA,
         ..method = NA,
         ..seasonality = NA,
         ..plot1 = NA,
@@ -346,6 +353,7 @@ prophetBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data .
 #' @param dep .
 #' @param covs .
+#' @param run .
 #' @param method .
 #' @param seasonality .
 #' @param plot1 .
@@ -383,6 +391,7 @@ prophet <- function(
     data,
     dep,
     covs,
+    run,
     method = "loess",
     seasonality = "none",
     plot1 = FALSE,
@@ -417,6 +426,7 @@ prophet <- function(
     options <- prophetOptions$new(
         dep = dep,
         covs = covs,
+        run = run,
         method = method,
         seasonality = seasonality,
         plot1 = plot1,
