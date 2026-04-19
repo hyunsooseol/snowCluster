@@ -119,7 +119,10 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
 
           # plots state
           self$results$plot$setState(sim$ddata)
-          self$results$plot1$setState(sim$tsdata)
+          
+          #self$results$plot1$setState(sim$tsdata)
+          self$results$plot1$setState(sim$predict)
+          
           self$results$plot2$setState(sim$mymodel$residuals)
           self$results$plot3$setState(sim$predict)
 
@@ -227,27 +230,14 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
                 tr$addRow(rowKey="MAPE", values=list(Metric="MAPE", Value=round(mape,4)))
               }
             }
-            e1 <- tryCatch(
-              forecast::tsCV(sim$tsdata, forecastfunction = function(x, h) {
-                forecast::forecast(forecast::auto.arima(x), h = h)
-              }, h = 1),
-              error = function(e) rep(NA_real_, length(sim$tsdata))
-            )
-            rmse1 <- sqrt(mean(e1^2, na.rm = TRUE)); mae1 <- mean(abs(e1), na.rm = TRUE)
+            
             cv <- self$results$accCV
             if (!is.null(cv)) {
-              ok2 <- TRUE
-              tryCatch({
-                cv$setRow(1, list(Metric="RMSE (h=1)", Value=round(rmse1,4)))
-                cv$setRow(2, list(Metric="MAE (h=1)",  Value=round(mae1,4)))
-              }, error=function(e) ok2 <<- FALSE)
-              if (!ok2) {
-                cv$addRow(rowKey="RMSE1", values=list(Metric="RMSE (h=1)", Value=round(rmse1,4)))
-                cv$addRow(rowKey="MAE1",  values=list(Metric="MAE (h=1)",  Value=round(mae1,4)))
-              }
-              cv$setNote("Info", "tsCV(h=1) can be slow for long series.")
+              try(cv$clear(), silent = TRUE)
+              cv$setNote("Info", "Rolling tsCV was omitted to improve speed.")
             }
-          }
+            
+            }
 
           # done
           self$results$progressBarHTML$setContent(progressBarH(100, 100, 'Done'))
@@ -294,12 +284,9 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
 
       .plot1 = function(image1, ...) {
         if (is.null(image1$state)) return(FALSE)
-        tsdata <- image1$state
-        plot <- tsdata %>%
-          forecast::auto.arima() %>%
-          forecast::forecast(h = 20) %>%
-          ggplot2::autoplot()
-        print(plot)
+        
+        pred <- image1$state
+        print(ggplot2::autoplot(pred))
         TRUE
       },
 
@@ -415,12 +402,13 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
 
         self$results$progressBarHTML$setContent(progressBarH(40, 100, 'Fitting Prophet model...'))
         private$.checkpoint()
+        
         m <- prophet::prophet(
           data,
           changepoint.prior.scale = 0.05,
-          daily.seasonality = TRUE,
-          yearly.seasonality = TRUE,
-          weekly.seasonality = TRUE
+          daily.seasonality = "auto",
+          yearly.seasonality = "auto",
+          weekly.seasonality = "auto"
         )
 
         self$results$progressBarHTML$setContent(progressBarH(75, 100, 'Forecasting with Prophet...'))

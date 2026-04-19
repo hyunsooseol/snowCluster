@@ -11,6 +11,12 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .compCache = NULL,
       .compCacheKey = NULL,
       .htmlwidget = NULL,
+      .evalCache = NULL,
+      .evalCacheKey = NULL,
+      .evalFitCache = NULL,
+      .evalFitCacheKey = NULL,
+      .evalTestCache = NULL,
+      .evalTestCacheKey = NULL,      
       
       #------------------------------------
       
@@ -41,7 +47,82 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
 
       },
       
-      #---------------------------------------------
+      .getEvalComp = function() {
+        all <- private$.allCache
+        
+        if (is.null(all) || is.null(all$fit) || is.null(all$comp))
+          return(NULL)
+        
+        if (!inherits(all$fit, "train") || !inherits(all$comp, "train"))
+          return(NULL)
+        
+        if (is.null(self$options$cm1) || self$options$cm1 == "")
+          return(NULL)
+        
+        key <- paste(
+          self$options$method,
+          self$options$cm1,
+          class(all$fit)[1],
+          class(all$comp)[1],
+          sep = " | "
+        )
+        
+        if (is.null(private$.evalCacheKey) || private$.evalCacheKey != key) {
+          private$.evalCache <- MLeval::evalm(
+            list(all$fit, all$comp),
+            gnames = c(self$options$method, self$options$cm1)
+          )
+          private$.evalCacheKey <- key
+        }
+        
+        private$.evalCache
+      },
+      
+      .getEvalFit = function() {
+        all <- private$.allCache
+        
+        if (is.null(all) || is.null(all$fit))
+          return(NULL)
+        
+        if (!inherits(all$fit, "train"))
+          return(NULL)
+        
+        key <- paste(self$options$method, class(all$fit)[1], sep = " | ")
+        
+        if (is.null(private$.evalFitCacheKey) || private$.evalFitCacheKey != key) {
+          private$.evalFitCache <- tryCatch(
+            MLeval::evalm(all$fit),
+            error = function(e) NULL
+          )
+          private$.evalFitCacheKey <- key
+        }
+        
+        private$.evalFitCache
+      },
+      
+      .getEvalTest = function(roct) {
+        if (is.null(roct))
+          return(NULL)
+        
+        key <- paste(
+          nrow(roct),
+          paste(names(roct), collapse = ","),
+          self$options$method,
+          sep = " | "
+        )
+        
+        if (is.null(private$.evalTestCacheKey) || private$.evalTestCacheKey != key) {
+          private$.evalTestCache <- tryCatch(
+            MLeval::evalm(roct),
+            error = function(e) NULL
+          )
+          private$.evalTestCacheKey <- key
+        }
+        
+        private$.evalTestCache
+      },      
+      
+#---------------------------------------------
       .run = function() {
         
         if (!isTRUE(self$options$run))
@@ -79,11 +160,14 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           mecon,
           method,
           cm1,
+          self$options$plot,
+          self$options$plot4,
           number,
           repeats,
           tune,
           sep = " | "
         )
+        
         
         if (is.null(private$.allCacheKey) || private$.allCacheKey != mainKey) {
           private$.allCache <- NULL
@@ -350,8 +434,6 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           }
         }
         
-        #TEST SET---
-        
         # Predict with test set-----------------
         pred <- predict(all$fit, all$test)
         
@@ -524,21 +606,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot)
           return(FALSE)
         
-        all <- private$.allCache
-        
-        if (is.null(all) || is.null(all$fit) || is.null(all$comp))
+        res <- private$.getEvalComp()
+        if (is.null(res) || is.null(res$roc))
           return(FALSE)
-        
-        if (!inherits(all$fit, "train") || !inherits(all$comp, "train"))
-          return(FALSE)
-        
-        if (is.null(self$options$cm1) || self$options$cm1 == "")
-          return(FALSE)
-        
-        res <- MLeval::evalm(
-          list(all$fit, all$comp),
-          gnames = c(self$options$method, self$options$cm1)
-        )
         
         plot <- res$roc
         print(plot)
@@ -549,21 +619,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot4)
           return(FALSE)
         
-        all <- private$.allCache
-        
-        if (is.null(all) || is.null(all$fit) || is.null(all$comp))
+        res <- private$.getEvalComp()
+        if (is.null(res) || is.null(res$cc))
           return(FALSE)
-        
-        if (!inherits(all$fit, "train") || !inherits(all$comp, "train"))
-          return(FALSE)
-        
-        if (is.null(self$options$cm1) || self$options$cm1 == "")
-          return(FALSE)
-        
-        res <- MLeval::evalm(
-          list(all$fit, all$comp),
-          gnames = c(self$options$method, self$options$cm1)
-        )
         
         plot4 <- res$cc
         print(plot4)
@@ -603,7 +661,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         roct <- image3$state
-        res <- MLeval::evalm(roct)
+        res <- private$.getEvalTest(roct)
+        if (is.null(res) || is.null(res$roc))
+          return(FALSE)
+        
         plot3 <- res$roc
         print(plot3)
         TRUE
@@ -626,19 +687,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!self$options$plot8)
           return(FALSE)
         
-        all <- private$.allCache
-        
-        if (is.null(all) || is.null(all$fit))
-          return(FALSE)
-        
-        if (!inherits(all$fit, "train"))
-          return(FALSE)
-        
-        res1 <- tryCatch(
-          MLeval::evalm(all$fit),
-          error = function(e) NULL
-        )
-        
+        res1 <- private$.getEvalFit()
         if (is.null(res1) || is.null(res1$roc))
           return(FALSE)
         
@@ -728,14 +777,19 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           trControl = ctrl
         )
         
-        # Compare ROC curves------------------
-        comp <- caret::train(
-          formula,
-          data = train,
-          method = cm1,
-          tuneLength = tune,
-          trControl = ctrl
-        )
+        # Compare ROC/calibration model: only when needed
+        need_comp <- isTRUE(self$options$plot) || isTRUE(self$options$plot4)
+        
+        comp <- NULL
+        if (need_comp && !is.null(cm1) && nzchar(cm1)) {
+          comp <- caret::train(
+            formula,
+            data = train,
+            method = cm1,
+            tuneLength = tune,
+            trControl = ctrl
+          )
+        }
         
         retlist <- list(
           formula = formula,
