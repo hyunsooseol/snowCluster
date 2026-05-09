@@ -241,12 +241,24 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         set.seed(1234)
-        model <- rpart::rpart(formula = as.formula(paste0(
-          self$options$dep, " ~ ", paste(c(self$options$covs,self$options$facs), 
-                                         collapse = " + "))),
-          data = data,
-          method = 'anova')
+        # model <- rpart::rpart(formula = as.formula(paste0(
+        #   self$options$dep, " ~ ", paste(c(self$options$covs,self$options$facs), 
+        #                                  collapse = " + "))),
+        #   data = data,
+        #   method = 'anova')
+        formula <- jmvcore::constructFormula(
+          self$options$dep,
+          c(self$options$covs, self$options$facs)
+        )
+        formula <- as.formula(formula)
         
+        model <- rpart::rpart(
+          formula = formula,
+          data = data,
+          method = 'anova'
+        )
+        
+                
         plot2 <- rpart.plot::rpart.plot(
           model,
           type = 2,
@@ -282,20 +294,35 @@ treeClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # mtrain <- party::ctree(formula=as.formula(paste0(self$options$dep, " ~ .")),
         #                        data=train)
-        mtrain <- party::ctree(formula = as.formula(paste0(
-          self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + ")
-        )), data = train)
+        # mtrain <- party::ctree(formula = as.formula(paste0(
+        #   self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + ")
+        # )), data = train)
+        formula <- jmvcore::constructFormula(
+          self$options$dep,
+          c(self$options$covs, self$options$facs)
+        )
+        formula <- as.formula(formula)
         
+        mtrain <- party::ctree(
+          formula = formula,
+          data = train
+        )
         
         # rpart <- rpart::rpart(formula=as.formula(paste0(self$options$dep, " ~ .")),
         #                       data=train,
         #                       method='class')
+        # set.seed(1234)
+        # rpart <- rpart::rpart(formula = as.formula(paste0(
+        #   self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + ")
+        # )),
+        # data = train,
+        # method = 'class')
         set.seed(1234)
-        rpart <- rpart::rpart(formula = as.formula(paste0(
-          self$options$dep, " ~ ", paste(c(self$options$covs, self$options$facs), collapse = " + ")
-        )),
-        data = train,
-        method = 'class')
+        rpart <- rpart::rpart(
+          formula = formula,
+          data = train,
+          method = 'class'
+        )
         
         retlist <- list(
           train = train,

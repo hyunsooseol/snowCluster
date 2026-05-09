@@ -40,18 +40,29 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # Example--------
         # multipleROC::multipleROC(am~wt,data=mtcars)
-        dep <- self$options$dep
-        covs <- self$options$covs
+        # dep <- self$options$dep
+        # covs <- self$options$covs
+        # data <- self$data
+        # data <- na.omit(data)
+        # data <- as.data.frame(data)
+        # #Formula(male~height+weight)------
+        # covs <- vapply(covs, function(x)
+        #   jmvcore::composeTerm(x), '')
+        # 
+        # formula <- as.formula(paste(paste(dep, paste0(covs, collapse = "+"), 
+        #                                   sep ="~")))
+        dep <- jmvcore::composeTerm(self$options$dep)
+        covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
+        
         data <- self$data
         data <- na.omit(data)
         data <- as.data.frame(data)
-        #Formula(male~height+weight)------
-        covs <- vapply(covs, function(x)
-          jmvcore::composeTerm(x), '')
         
-        formula <- as.formula(paste(paste(dep, paste0(covs, collapse = "+"), 
-                                          sep ="~")))
+        formula <- as.formula(
+          paste(dep, paste(covs, collapse = " + "), sep = " ~ ")
+        )
         
+                
         # if(isTRUE(self$options$plot1)){
         #
         # image <- self$results$plot1
@@ -317,18 +328,26 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot1 = function(image, ...) {
         if (!self$options$plot1)
           return(FALSE)
-        dep <- self$options$dep
-        covs <- self$options$covs
+        # dep <- self$options$dep
+        # covs <- self$options$covs
+        # data <- self$data
+        # data <- na.omit(data)
+        # data <- as.data.frame(data)
+        # 
+        # #Formula(male~height+weight)------
+        # covs <- vapply(covs, function(x)
+        #   jmvcore::composeTerm(x), '')
+        # formula <- as.formula(paste(paste(dep, paste0(covs, collapse =
+        dep <- jmvcore::composeTerm(self$options$dep)
+        covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
+        
         data <- self$data
         data <- na.omit(data)
         data <- as.data.frame(data)
-        
-        #Formula(male~height+weight)------
-        covs <- vapply(covs, function(x)
-          jmvcore::composeTerm(x), '')
-        formula <- as.formula(paste(paste(dep, paste0(covs, collapse =
-                                                        "+"), sep = "~")))
-        
+        formula <- as.formula(
+          paste(dep, paste(covs, collapse = " + "), sep = " ~ ")
+        )        
+
         plot1 <-  multipleROC::multipleROC(formula, data = data)
         
         print(plot1)
@@ -366,41 +385,52 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       #Function---
       
       .computeP2 = function() {
-        dep <- self$options$dep
-        covs <- self$options$covs
+        dep <- jmvcore::composeTerm(self$options$dep)
+        covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
+        
         data <- self$data
         data <- na.omit(data)
         data <- as.data.frame(data)
         
         roc <- list()
         
-        # Loop through each element in covs
         for (i in seq_along(covs)) {
-          # Compute ROC curve for the current covariate and store it in the list
-          roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(
-            dep, paste0(covs[[i]]), sep = "~"
-          ))), data = data, plot = FALSE)
+          formula <- as.formula(
+            paste(dep, covs[[i]], sep = " ~ ")
+          )
+          
+          roc[[i]] <- multipleROC::multipleROC(
+            formula,
+            data = data,
+            plot = FALSE
+          )
         }
         
         return(roc)
       },
       
       .computeP3 = function() {
-        dep <- self$options$dep
-        covs <- self$options$covs
+        dep <- jmvcore::composeTerm(self$options$dep)
+        covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
+        
         data <- self$data
         data <- na.omit(data)
         data <- as.data.frame(data)
         
         roc <- list()
         
-        # Loop through each element in covs
         for (i in seq_along(covs)) {
-          # Compute ROC curve for the current covariate and store it in the list
-          roc[[i]] <- multipleROC::multipleROC(as.formula(paste(paste(
-            dep, paste0(covs[[i]]), sep = "~"
-          ))), data = data, plot = FALSE)
+          formula <- as.formula(
+            paste(dep, covs[[i]], sep = " ~ ")
+          )
+          
+          roc[[i]] <- multipleROC::multipleROC(
+            formula,
+            data = data,
+            plot = FALSE
+          )
         }
+        
         return(roc)
       }
     )

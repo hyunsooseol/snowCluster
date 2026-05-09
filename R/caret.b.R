@@ -721,8 +721,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         data[[dep]] <- as.factor(data[[dep]])
         data <- na.omit(data)
         
-        formula <- as.formula(paste0(self$options$dep, " ~ ."))
-        
+        #formula <- as.formula(paste0(self$options$dep, " ~ ."))
+        formula <- as.formula(
+          paste0(jmvcore::composeTerm(self$options$dep), " ~ .")
+        )
         # Create Train/test dataset using caret package-----------------
         set.seed(1234)
         split1 <- caret::createDataPartition(data[[dep]], p = per, list = F)

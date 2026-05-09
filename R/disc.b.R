@@ -211,9 +211,9 @@ discClass <- if (requireNamespace('jmvcore'))
         
         if (isTRUE(self$options$prop)) {
           if (length(levels(data[[self$options$dep]])) <= 2) {
-            err_string <- stringr::str_interp("Dependent levels should be at least 3.")
-            stop(err_string)
-            
+            # err_string <- stringr::str_interp("Dependent levels should be at least 3.")
+            # stop(err_string)
+            stop("Dependent levels should be at least 3.")            
           }
           
           if (length(levels(data[[self$options$dep]])) > 2) {
@@ -239,8 +239,9 @@ discClass <- if (requireNamespace('jmvcore'))
         
         if (isTRUE(self$options$plot)) {
           if (length(levels(data[[self$options$dep]])) <= 2) {
-            err_string <- stringr::str_interp("Dependent levels should be at least 3.")
-            stop(err_string)
+            # err_string <- stringr::str_interp("Dependent levels should be at least 3.")
+            # stop(err_string)
+            stop("Dependent levels should be at least 3.")
           }
           
           if (length(levels(data[[self$options$dep]])) > 2) {
