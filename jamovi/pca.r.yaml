@@ -1,6 +1,6 @@
 ---
 name:  pca
-title: PCA & Group plot
+title: Dimension Reduction Plot
 jrs:   '1.1'
 refs: snowCluster
 items:
@@ -91,4 +91,24 @@ items:
         - mode
         - vars1
         - facs
+
+    - name:  plot5
+      title: UMAP Plot
+      type:  Image
+      requiresData: true
+      refs: uwot
+      visible: (umapPlot)
+      renderFun: .plot5
+      clearWith:
+        - mode
+        - vars2
+        - facs2
+        - labels2
+        - umapStandardize
+        - umapNeighbors
+        - umapMinDist
+        - umapMetric
+        - umapSeed
+        - umapLabels
+        - umapLegend
 ...

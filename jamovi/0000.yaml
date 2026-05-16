@@ -1,12 +1,12 @@
 ---
 title: Multivariate Analysis
 name: snowCluster
-version: 7.6.2
+version: 7.6.3
 jms: '1.0'
 authors:
   - Hyunsoo Seol
 maintainer: Hyunsoo Seol <snow@cau.ac.kr>
-date: '2026-05-09'
+date: '2026-05-16'
 type: R
 description: >-
   This module allows users to analyze k-means, Density based clustering, and
@@ -66,11 +66,11 @@ analyses:
     menuSubgroup: Cluster Plot
     ribbon: analyses
     category: analyses
-  - title: PCA & Group plot
+  - title: Dimension Reduction Plot
     name: pca
     ns: snowCluster
     menuGroup: snowCluster
-    menuTitle: PCA & Group plot
+    menuTitle: Dimension Reduction Plot
     menuSubgroup: Cluster Plot
     ribbon: analyses
     category: analyses
@@ -192,6 +192,11 @@ datasets:
       - PCA Plot
       - MDS
       - Clustering dendrogram
+  - name: umap
+    path: umap.omv
+    description: UMAP plot
+    tags:
+      - UMAP plot
   - name: mtcars
     path: mtcars.omv
     description: Cluster dendrogam with p-values

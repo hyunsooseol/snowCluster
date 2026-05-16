@@ -7,7 +7,7 @@
         `author`="Seol, H.", 
         `year`=2026, 
         `title`="snowCluster: Multivariate Analysis", 
-        `publisher`="(Version 7.6.2) [jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
+        `publisher`="(Version 7.6.3) [jamovi module]. URL https://github.com/hyunsooseol/snowCluster", 
         `url`="https://github.com/hyunsooseol/snowCluster"), 
     `factoextra`=list(
         `type`="software", 
@@ -92,4 +92,10 @@
         `author`="Hahsler, M., et.al.", 
         `year`=2025, 
         `title`="dbscan: Density-Based Spatial Clustering of Applications with Noise (DBSCAN) and Related Algorithms", 
-        `publisher`="(Version 1.2.3)[R package]. URL https://CRAN.R-project.org/package=dbscan"))
+        `publisher`="(Version 1.2.3)[R package]. URL https://CRAN.R-project.org/package=dbscan"), 
+    `uwot`=list(
+        `type`="software", 
+        `author`="Melville, J., et.al.", 
+        `year`=2025, 
+        `title`="uwot: The Uniform Manifold Approximation and Projection (UMAP) Method for Dimensionality Reduction", 
+        `publisher`="(Version 0.2.4)[R package]. URL https://CRAN.R-project.org/package=uwot"))

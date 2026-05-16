@@ -2,7 +2,7 @@
 % Please edit documentation in R/pca.h.R
 \name{pca}
 \alias{pca}
-\title{PCA & Group plot}
+\title{Dimension Reduction Plot}
 \usage{
 pca(
   data,
@@ -16,7 +16,18 @@ pca(
   vars1,
   facs,
   plot3 = FALSE,
-  plot4 = FALSE
+  plot4 = FALSE,
+  vars2,
+  facs2,
+  labels2,
+  umapPlot = TRUE,
+  umapStandardize = TRUE,
+  umapNeighbors = 15,
+  umapMinDist = 0.1,
+  umapMetric = "euclidean",
+  umapSeed = 1234,
+  umapLabels = FALSE,
+  umapLegend = FALSE
 )
 }
 \arguments{
@@ -43,6 +54,28 @@ pca(
 \item{plot3}{.}
 
 \item{plot4}{.}
+
+\item{vars2}{.}
+
+\item{facs2}{.}
+
+\item{labels2}{.}
+
+\item{umapPlot}{.}
+
+\item{umapStandardize}{.}
+
+\item{umapNeighbors}{.}
+
+\item{umapMinDist}{.}
+
+\item{umapMetric}{.}
+
+\item{umapSeed}{.}
+
+\item{umapLabels}{.}
+
+\item{umapLegend}{.}
 }
 \value{
 A results object containing:
@@ -54,6 +87,7 @@ A results object containing:
   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -63,5 +97,5 @@ Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.f
 \code{as.data.frame(results$eigen)}
 }
 \description{
-PCA & Group plot
+Dimension Reduction Plot
 }

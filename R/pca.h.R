@@ -16,7 +16,18 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars1 = NULL,
             facs = NULL,
             plot3 = FALSE,
-            plot4 = FALSE, ...) {
+            plot4 = FALSE,
+            vars2 = NULL,
+            facs2 = NULL,
+            labels2 = NULL,
+            umapPlot = TRUE,
+            umapStandardize = TRUE,
+            umapNeighbors = 15,
+            umapMinDist = 0.1,
+            umapMetric = "euclidean",
+            umapSeed = 1234,
+            umapLabels = FALSE,
+            umapLegend = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -29,7 +40,8 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 mode,
                 options=list(
                     "simple",
-                    "complex"),
+                    "complex",
+                    "umap"),
                 default="simple")
             private$..labels <- jmvcore::OptionVariable$new(
                 "labels",
@@ -84,6 +96,70 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot4",
                 plot4,
                 default=FALSE)
+            private$..vars2 <- jmvcore::OptionVariables$new(
+                "vars2",
+                vars2,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..facs2 <- jmvcore::OptionVariable$new(
+                "facs2",
+                facs2,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
+            private$..labels2 <- jmvcore::OptionVariable$new(
+                "labels2",
+                labels2,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "id",
+                    "factor"))
+            private$..umapPlot <- jmvcore::OptionBool$new(
+                "umapPlot",
+                umapPlot,
+                default=TRUE)
+            private$..umapStandardize <- jmvcore::OptionBool$new(
+                "umapStandardize",
+                umapStandardize,
+                default=TRUE)
+            private$..umapNeighbors <- jmvcore::OptionInteger$new(
+                "umapNeighbors",
+                umapNeighbors,
+                min=2,
+                max=100,
+                default=15)
+            private$..umapMinDist <- jmvcore::OptionNumber$new(
+                "umapMinDist",
+                umapMinDist,
+                min=0,
+                max=1,
+                default=0.1)
+            private$..umapMetric <- jmvcore::OptionList$new(
+                "umapMetric",
+                umapMetric,
+                options=list(
+                    "euclidean",
+                    "manhattan",
+                    "cosine"),
+                default="euclidean")
+            private$..umapSeed <- jmvcore::OptionInteger$new(
+                "umapSeed",
+                umapSeed,
+                min=1,
+                max=999999,
+                default=1234)
+            private$..umapLabels <- jmvcore::OptionBool$new(
+                "umapLabels",
+                umapLabels,
+                default=FALSE)
+            private$..umapLegend <- jmvcore::OptionBool$new(
+                "umapLegend",
+                umapLegend,
+                default=FALSE)
 
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
@@ -96,6 +172,17 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..facs)
             self$.addOption(private$..plot3)
             self$.addOption(private$..plot4)
+            self$.addOption(private$..vars2)
+            self$.addOption(private$..facs2)
+            self$.addOption(private$..labels2)
+            self$.addOption(private$..umapPlot)
+            self$.addOption(private$..umapStandardize)
+            self$.addOption(private$..umapNeighbors)
+            self$.addOption(private$..umapMinDist)
+            self$.addOption(private$..umapMetric)
+            self$.addOption(private$..umapSeed)
+            self$.addOption(private$..umapLabels)
+            self$.addOption(private$..umapLegend)
         }),
     active = list(
         mode = function() private$..mode$value,
@@ -108,7 +195,18 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars1 = function() private$..vars1$value,
         facs = function() private$..facs$value,
         plot3 = function() private$..plot3$value,
-        plot4 = function() private$..plot4$value),
+        plot4 = function() private$..plot4$value,
+        vars2 = function() private$..vars2$value,
+        facs2 = function() private$..facs2$value,
+        labels2 = function() private$..labels2$value,
+        umapPlot = function() private$..umapPlot$value,
+        umapStandardize = function() private$..umapStandardize$value,
+        umapNeighbors = function() private$..umapNeighbors$value,
+        umapMinDist = function() private$..umapMinDist$value,
+        umapMetric = function() private$..umapMetric$value,
+        umapSeed = function() private$..umapSeed$value,
+        umapLabels = function() private$..umapLabels$value,
+        umapLegend = function() private$..umapLegend$value),
     private = list(
         ..mode = NA,
         ..labels = NA,
@@ -120,7 +218,18 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars1 = NA,
         ..facs = NA,
         ..plot3 = NA,
-        ..plot4 = NA)
+        ..plot4 = NA,
+        ..vars2 = NA,
+        ..facs2 = NA,
+        ..labels2 = NA,
+        ..umapPlot = NA,
+        ..umapStandardize = NA,
+        ..umapNeighbors = NA,
+        ..umapMinDist = NA,
+        ..umapMetric = NA,
+        ..umapSeed = NA,
+        ..umapLabels = NA,
+        ..umapLegend = NA)
 )
 
 pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -133,14 +242,15 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$.items[["plot1"]],
         plot2 = function() private$.items[["plot2"]],
         plot3 = function() private$.items[["plot3"]],
-        plot4 = function() private$.items[["plot4"]]),
+        plot4 = function() private$.items[["plot4"]],
+        plot5 = function() private$.items[["plot5"]]),
     private = list(),
     public=list(
         initialize=function(options) {
             super$initialize(
                 options=options,
                 name="",
-                title="PCA & Group plot",
+                title="Dimension Reduction Plot",
                 refs="snowCluster")
             self$add(jmvcore::Html$new(
                 options=options,
@@ -232,7 +342,27 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "mode",
                     "vars1",
-                    "facs")))}))
+                    "facs")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot5",
+                title="UMAP Plot",
+                requiresData=TRUE,
+                refs="uwot",
+                visible="(umapPlot)",
+                renderFun=".plot5",
+                clearWith=list(
+                    "mode",
+                    "vars2",
+                    "facs2",
+                    "labels2",
+                    "umapStandardize",
+                    "umapNeighbors",
+                    "umapMinDist",
+                    "umapMetric",
+                    "umapSeed",
+                    "umapLabels",
+                    "umapLegend")))}))
 
 pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "pcaBase",
@@ -255,7 +385,7 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'auto')
         }))
 
-#' PCA & Group plot
+#' Dimension Reduction Plot
 #'
 #' 
 #' @param data The data as a data frame.
@@ -270,6 +400,17 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param facs .
 #' @param plot3 .
 #' @param plot4 .
+#' @param vars2 .
+#' @param facs2 .
+#' @param labels2 .
+#' @param umapPlot .
+#' @param umapStandardize .
+#' @param umapNeighbors .
+#' @param umapMinDist .
+#' @param umapMetric .
+#' @param umapSeed .
+#' @param umapLabels .
+#' @param umapLegend .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -279,6 +420,7 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot2} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot4} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot5} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -300,7 +442,18 @@ pca <- function(
     vars1,
     facs,
     plot3 = FALSE,
-    plot4 = FALSE) {
+    plot4 = FALSE,
+    vars2,
+    facs2,
+    labels2,
+    umapPlot = TRUE,
+    umapStandardize = TRUE,
+    umapNeighbors = 15,
+    umapMinDist = 0.1,
+    umapMetric = "euclidean",
+    umapSeed = 1234,
+    umapLabels = FALSE,
+    umapLegend = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("pca requires jmvcore to be installed (restart may be required)")
@@ -309,15 +462,22 @@ pca <- function(
     if ( ! missing(vars)) vars <- jmvcore::resolveQuo(jmvcore::enquo(vars))
     if ( ! missing(vars1)) vars1 <- jmvcore::resolveQuo(jmvcore::enquo(vars1))
     if ( ! missing(facs)) facs <- jmvcore::resolveQuo(jmvcore::enquo(facs))
+    if ( ! missing(vars2)) vars2 <- jmvcore::resolveQuo(jmvcore::enquo(vars2))
+    if ( ! missing(facs2)) facs2 <- jmvcore::resolveQuo(jmvcore::enquo(facs2))
+    if ( ! missing(labels2)) labels2 <- jmvcore::resolveQuo(jmvcore::enquo(labels2))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(labels), labels, NULL),
             `if`( ! missing(vars), vars, NULL),
             `if`( ! missing(vars1), vars1, NULL),
-            `if`( ! missing(facs), facs, NULL))
+            `if`( ! missing(facs), facs, NULL),
+            `if`( ! missing(vars2), vars2, NULL),
+            `if`( ! missing(facs2), facs2, NULL),
+            `if`( ! missing(labels2), labels2, NULL))
 
     for (v in facs) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
+    for (v in facs2) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- pcaOptions$new(
         mode = mode,
@@ -330,7 +490,18 @@ pca <- function(
         vars1 = vars1,
         facs = facs,
         plot3 = plot3,
-        plot4 = plot4)
+        plot4 = plot4,
+        vars2 = vars2,
+        facs2 = facs2,
+        labels2 = labels2,
+        umapPlot = umapPlot,
+        umapStandardize = umapStandardize,
+        umapNeighbors = umapNeighbors,
+        umapMinDist = umapMinDist,
+        umapMetric = umapMetric,
+        umapSeed = umapSeed,
+        umapLabels = umapLabels,
+        umapLegend = umapLegend)
 
     analysis <- pcaClass$new(
         options = options,

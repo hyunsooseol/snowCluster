@@ -110,7 +110,78 @@ pcaClass <- if (requireNamespace('jmvcore'))
           image4 <- self$results$plot4
           image4$setState(pca)
         }
-      },
+      
+        if (self$options$mode == 'umap') {
+          if (length(self$options$vars2) < 2)
+            return()
+          
+          vars2 <- self$options$vars2
+          facs2 <- self$options$facs2
+          labels2 <- self$options$labels2
+          
+          data <- self$data
+          
+          keep <- vars2
+          if (!is.null(facs2))
+            keep <- c(keep, facs2)
+          if (!is.null(labels2))
+            keep <- c(keep, labels2)
+          
+          data <- data[, keep, drop = FALSE]
+          
+          for (v in vars2)
+            data[[v]] <- jmvcore::toNumeric(data[[v]])
+          
+          if (!is.null(facs2))
+            data[[facs2]] <- as.factor(data[[facs2]])
+          
+          data <- stats::na.omit(data)
+          
+          if (nrow(data) < 3)
+            return()
+          
+          x <- data[, vars2, drop = FALSE]
+          
+          if (isTRUE(self$options$umapStandardize))
+            x <- as.data.frame(scale(x))
+          
+          n_neighbors <- self$options$umapNeighbors
+          n_neighbors <- min(n_neighbors, nrow(x) - 1)
+          n_neighbors <- max(n_neighbors, 2)
+          
+          set.seed(self$options$umapSeed)
+          
+          umap_res <- uwot::umap(
+            X = x,
+            n_neighbors = n_neighbors,
+            min_dist = self$options$umapMinDist,
+            metric = self$options$umapMetric,
+            n_components = 2,
+            ret_model = FALSE,
+            verbose = FALSE
+          )
+          
+          plotData <- data.frame(
+            UMAP1 = umap_res[, 1],
+            UMAP2 = umap_res[, 2],
+            stringsAsFactors = FALSE
+          )
+          
+          if (!is.null(facs2))
+            plotData$Group <- as.factor(data[[facs2]])
+          else
+            plotData$Group <- factor("All")
+          
+          if (!is.null(labels2))
+            plotData$Label <- as.character(data[[labels2]])
+          else
+            plotData$Label <- as.character(seq_len(nrow(plotData)))
+          
+          image5 <- self$results$plot5
+          image5$setState(plotData)
+        }        
+
+        },
       
       # Control variable colors using their contributions----------
       
@@ -186,6 +257,54 @@ pcaClass <- if (requireNamespace('jmvcore'))
         )
         plot4 <- plot4 + ggtheme
         print(plot4)
+        TRUE
+      },
+      
+      .plot5 = function(image5, ggtheme, theme, ...) {
+        if (is.null(image5$state))
+          return(FALSE)
+        
+        plotData <- image5$state
+        
+        if (!isTRUE(self$options$umapPlot))
+          return(FALSE)
+        
+        p <- ggplot2::ggplot(
+          plotData,
+          ggplot2::aes(
+            x = UMAP1,
+            y = UMAP2,
+            color = Group
+          )
+        ) +
+          ggplot2::geom_point(size = 2.4, alpha = 0.85) +
+          ggplot2::labs(
+            title = "UMAP Plot",
+            x = "UMAP 1",
+            y = "UMAP 2",
+            color = if (!is.null(self$options$facs2)) self$options$facs2 else "Group"
+          ) +
+          ggplot2::theme_minimal()
+        
+        if (isTRUE(self$options$umapLabels) && !is.null(self$options$labels2)) {
+          p <- p +
+            ggplot2::geom_text(
+              ggplot2::aes(label = Label),
+              color = "black",
+              size = 3.2,
+              vjust = -0.8,
+              check_overlap = TRUE,
+              show.legend = FALSE
+            )
+        }
+        
+        p <- p + ggtheme
+        
+        if (!isTRUE(self$options$umapLegend)) {
+          p <- p + ggplot2::theme(legend.position = "none")
+        }
+        
+        print(p)
         TRUE
       }
     )

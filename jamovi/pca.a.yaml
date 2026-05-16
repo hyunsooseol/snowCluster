@@ -1,6 +1,6 @@
 ---
 name:  pca
-title: PCA & Group plot
+title: Dimension Reduction Plot
 menuGroup: snowCluster
 menuSubgroup: Cluster Plot
 version: '1.0.0'
@@ -21,6 +21,8 @@ options:
               title: 'PCA Plot'
             - name: complex
               title: 'Group Plot'
+            - name: umap
+              title: 'UMAP Plot'
       default: simple
 
     - name: labels
@@ -85,5 +87,83 @@ options:
       title: PCA-Biplot
       type: Bool
       default: FALSE        
+
+    - name: vars2
+      title: Variables
+      type: Variables
+      suggested:
+         - continuous
+      permitted:
+        - numeric
+
+    - name: facs2
+      title: Factor (Optional)
+      type: Variable
+      suggested:
+         - nominal
+      permitted:
+        - factor
+
+    - name: labels2
+      title: 'Case label (Optional)'
+      type: Variable
+      suggested:
+         - nominal
+      permitted:
+        - id
+        - factor
+
+    - name: umapPlot
+      title: UMAP plot
+      type: Bool
+      default: TRUE
+
+    - name: umapStandardize
+      title: Standardize variables
+      type: Bool
+      default: TRUE
+
+    - name: umapNeighbors
+      title: Number of neighbors
+      type: Integer
+      min: 2
+      max: 100
+      default: 15
+
+    - name: umapMinDist
+      title: Minimum distance
+      type: Number
+      min: 0
+      max: 1
+      default: 0.1
+
+    - name: umapMetric
+      title: Distance metric
+      type: List
+      options:
+            - name: euclidean
+              title: Euclidean
+            - name: manhattan
+              title: Manhattan
+            - name: cosine
+              title: Cosine
+      default: euclidean
+
+    - name: umapSeed
+      title: Random seed
+      type: Integer
+      min: 1
+      max: 999999
+      default: 1234
+
+    - name: umapLabels
+      title: 'Show case labels'
+      type: Bool
+      default: FALSE
+
+    - name: umapLegend
+      title: Show group legend
+      type: Bool
+      default: FALSE
 
 ...
