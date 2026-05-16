@@ -279,7 +279,7 @@ pcaClass <- if (requireNamespace('jmvcore'))
         ) +
           ggplot2::geom_point(size = 2.4, alpha = 0.85) +
           ggplot2::labs(
-            title = "UMAP Plot",
+            title = "",
             x = "UMAP 1",
             y = "UMAP 2",
             color = if (!is.null(self$options$facs2)) self$options$facs2 else "Group"
