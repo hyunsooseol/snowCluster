@@ -65,6 +65,10 @@ children:
                         name: plot
                       - type: CheckBox
                         name: plot1
+                        children:
+                          - type: CheckBox
+                            name: pcaLabels
+                            enable: (plot1)
                       - type: CheckBox
                         name: plot2
 
@@ -136,7 +140,7 @@ children:
                         isTarget: true
                         maxItemCount: 1
                   - type: TargetLayoutBox
-                    label: 'Case labels (Optional)'
+                    label: 'Case label (Optional)'
                     children:
                       - type: VariablesListBox
                         name: labels2

@@ -26,14 +26,14 @@ options:
       default: simple
 
     - name: labels
-      title: Labels (Optional)
+      title: Case label (Optional)
       type: Variable
       suggested:
          - nominal
       permitted:
-        - id
-        - factor
-  
+         - id
+         - factor
+
     - name: vars
       title: Variables
       type: Variables
@@ -42,10 +42,15 @@ options:
       permitted:
         - numeric  
 
+    - name: pcaLabels
+      title: Show case labels
+      type: Bool
+      default: FALSE
+
     - name: eigen
       title: Eigenvalues
       type: Bool
-      default: FALSE
+      default: TRUE
 
     - name: plot
       title: Variable contributions 
@@ -110,8 +115,8 @@ options:
       suggested:
          - nominal
       permitted:
-        - id
-        - factor
+         - id
+         - factor
 
     - name: umapPlot
       title: UMAP plot

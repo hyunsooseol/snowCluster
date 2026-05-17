@@ -9,7 +9,8 @@ pca(
   mode = "simple",
   labels,
   vars,
-  eigen = FALSE,
+  pcaLabels = FALSE,
+  eigen = TRUE,
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
@@ -38,6 +39,8 @@ pca(
 \item{labels}{.}
 
 \item{vars}{.}
+
+\item{pcaLabels}{.}
 
 \item{eigen}{.}
 

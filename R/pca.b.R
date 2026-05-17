@@ -30,85 +30,106 @@ pcaClass <- if (requireNamespace('jmvcore'))
       },
       
       .run = function() {
+        
         if (self$options$mode == 'simple') {
-          if (length(self$options$vars) < 3) return()
+          if (length(self$options$vars) < 3)
+            return()
+          
+          vars <- self$options$vars
+          labels <- self$options$labels
+          data <- self$data
+          
+          keep <- vars
+          if (!is.null(labels))
+            keep <- c(keep, labels)
+          
+          data <- data[, keep, drop = FALSE]
+          
+          for (v in vars)
+            data[[v]] <- jmvcore::toNumeric(data[[v]])
+          
+          data <- stats::na.omit(data)
+          
+          if (nrow(data) < 3)
+            return()
+          
+          if (!is.null(labels)) {
+            rownames(data) <- make.unique(as.character(data[[labels]]))
+            data[[labels]] <- NULL
+          }
+          
+                    
+          pca <- FactoMineR::PCA(data, graph = FALSE)
+          
+          if (isTRUE(self$options$eigen)) {
+            table <- self$results$eigen
             
-            vars <- self$options$vars
-            data <- self$data
-            data <- jmvcore::naOmit(data)
-            # Handling id----------
-            if (!is.null(self$options$labels)) {
-              rownames(data) <- data[[self$options$labels]]
-              data[[self$options$labels]] <- NULL
-            }
-            for (i in seq_along(vars))
-              data[[i]] <- jmvcore::toNumeric(data[[i]])
-            # principal component analysis---------
-            pca <- FactoMineR::PCA(data, graph = FALSE)
+            eigen <- as.vector(pca$eig[, 1])
             
-            #---
-            if (isTRUE(self$options$eigen)) {
-              table <- self$results$eigen
-              
-              eigen <- as.vector(pca$eig[, 1])
-              
-              lapply(seq_along(eigen), function(i) {
-                table$addRow(rowKey = i,
-                             values = list(comp = as.character(i)))
-              })
-              
-              eigenTotal <- sum(abs(eigen))
-              varProp <- (abs(eigen) / eigenTotal) * 100
-              varCum <- cumsum(varProp)
-              
-              lapply(seq_along(eigen), function(i) {
-                row <- list(eigen = eigen[i],
-                            varProp = varProp[i],
-                            varCum = varCum[i])
-                table$setRow(rowNo = i, values = row)
-              })
-            }
+            lapply(seq_along(eigen), function(i) {
+              table$addRow(rowKey = i,
+                           values = list(comp = as.character(i)))
+            })
             
-            # Variable contributions plot----------
-            image <- self$results$plot
-            image$setState(pca)
+            eigenTotal <- sum(abs(eigen))
+            varProp <- (abs(eigen) / eigenTotal) * 100
+            varCum <- cumsum(varProp)
             
-            # Individual plot-------
-            image1 <- self$results$plot1
-            image1$setState(pca)
-            # Biplot--------
-            image2 <- self$results$plot2
-            image2$setState(pca)
+            lapply(seq_along(eigen), function(i) {
+              row <- list(eigen = eigen[i],
+                          varProp = varProp[i],
+                          varCum = varCum[i])
+              table$setRow(rowNo = i, values = row)
+            })
+          }
+          
+          image <- self$results$plot
+          image$setState(pca)
+          
+          image1 <- self$results$plot1
+          image1$setState(pca)
+          
+          image2 <- self$results$plot2
+          image2$setState(pca)
         }
         
         if (self$options$mode == 'complex') {
           if (is.null(self$options$facs) || length(self$options$vars1) < 2)
             return()
-          # read the option values into shorter variable names
-          vars1  <- self$options$vars1
+          
+          vars1 <- self$options$vars1
           facs <- self$options$facs
           data <- self$data
-          # convert to appropriate data types
           
-          for (i in seq_along(vars1))
-            data[[i]] <- jmvcore::toNumeric(data[[i]])
+          keep <- c(vars1, facs)
+          data <- data[, keep, drop = FALSE]
           
-          for (fac in facs)
-            data[[fac]] <- as.factor(data[[fac]])
+          for (v in vars1)
+            data[[v]] <- jmvcore::toNumeric(data[[v]])
           
-          # data is now all of the appropriate type we can begin!
-          data <- na.omit(data)
-          data <- jmvcore::select(data, self$options$vars1)
+          data[[facs]] <- as.factor(data[[facs]])
           
-          # principal component analysis---------
-          pca <- FactoMineR::PCA(data, graph = FALSE)
-          # group plot----------
+          data <- stats::na.omit(data)
+          
+          if (nrow(data) < 3)
+            return()
+          
+          pcaData <- data[, vars1, drop = FALSE]
+          group <- data[[facs]]
+          
+          pca <- FactoMineR::PCA(pcaData, graph = FALSE)
+          
+          state <- list(
+            pca = pca,
+            group = group,
+            groupName = facs
+          )
+          
           image3 <- self$results$plot3
-          image3$setState(pca)
+          image3$setState(state)
           
-          # biplot------------------------
           image4 <- self$results$plot4
-          image4$setState(pca)
+          image4$setState(state)
         }
       
         if (self$options$mode == 'umap') {
@@ -140,7 +161,14 @@ pcaClass <- if (requireNamespace('jmvcore'))
           if (nrow(data) < 3)
             return()
           
+         
           x <- data[, vars2, drop = FALSE]
+          
+          sds <- vapply(x, stats::sd, numeric(1), na.rm = TRUE)
+          x <- x[, sds > 0, drop = FALSE]
+          
+          if (ncol(x) < 2)
+            return()
           
           if (isTRUE(self$options$umapStandardize))
             x <- as.data.frame(scale(x))
@@ -203,9 +231,17 @@ pcaClass <- if (requireNamespace('jmvcore'))
         
         pca <- image1$state
         
-        plot1 <- factoextra::fviz_pca_ind(pca, #col.ind = "cos2",
-                                          #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                          repel = TRUE) # Avoid text overlapping (slow if many points))
+        labelMode <- if (isTRUE(self$options$pcaLabels) && !is.null(self$options$labels)) {
+          "ind"
+        } else {
+          "none"
+        }
+        
+        plot1 <- factoextra::fviz_pca_ind(
+          pca,
+          label = labelMode,
+          repel = TRUE
+        )
         
         plot1 <- plot1 + ggtheme
         print(plot1)
@@ -215,8 +251,15 @@ pcaClass <- if (requireNamespace('jmvcore'))
       .plot2 = function(image2, ggtheme, theme, ...) {
         if (is.null(image2$state))
           return(FALSE)
+        
         pca <- image2$state
-        plot2 <- factoextra::fviz_pca_biplot(pca, repel = TRUE)
+        
+        plot2 <- factoextra::fviz_pca_biplot(
+          pca,
+          label = "var",
+          repel = TRUE
+        )
+        
         plot2 <- plot2 + ggtheme
         print(plot2)
         TRUE
@@ -225,16 +268,18 @@ pcaClass <- if (requireNamespace('jmvcore'))
       .plot3 = function(image3, ggtheme, theme, ...) {
         if (is.null(image3$state))
           return(FALSE)
-        pca <- image3$state
+        
+        state <- image3$state
+        pca <- state$pca
+        group <- state$group
+        
         plot3 <- factoextra::fviz_pca_ind(
           pca,
           label = "none",
-          # hide individual labels
-          habillage = self$data[[self$options$facs]],
-          # color by groups for example, iris$Species,
-          palette = c("#00AFBB", "#E7B800", "#FC4E07"),
-          addEllipses = TRUE # Concentration ellipses
+          habillage = group,
+          addEllipses = TRUE
         )
+        
         plot3 <- plot3 + ggtheme
         print(plot3)
         TRUE
@@ -243,18 +288,22 @@ pcaClass <- if (requireNamespace('jmvcore'))
       .plot4 = function(image4, ggtheme, theme, ...) {
         if (is.null(image4$state))
           return(FALSE)
-        pca <- image4$state
+        
+        state <- image4$state
+        pca <- state$pca
+        group <- state$group
+        groupName <- state$groupName
         
         plot4 <- factoextra::fviz_pca_biplot(
           pca,
-          col.ind =  self$data[[self$options$facs]],
-          palette = "jco",
+          col.ind = group,
           addEllipses = TRUE,
           label = "var",
           col.var = "black",
           repel = TRUE,
-          legend.title = self$options$facs
+          legend.title = groupName
         )
+        
         plot4 <- plot4 + ggtheme
         print(plot4)
         TRUE

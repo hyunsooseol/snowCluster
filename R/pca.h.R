@@ -9,7 +9,8 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             mode = "simple",
             labels = NULL,
             vars = NULL,
-            eigen = FALSE,
+            pcaLabels = FALSE,
+            eigen = TRUE,
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
@@ -58,10 +59,14 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..pcaLabels <- jmvcore::OptionBool$new(
+                "pcaLabels",
+                pcaLabels,
+                default=FALSE)
             private$..eigen <- jmvcore::OptionBool$new(
                 "eigen",
                 eigen,
-                default=FALSE)
+                default=TRUE)
             private$..plot <- jmvcore::OptionBool$new(
                 "plot",
                 plot,
@@ -164,6 +169,7 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..mode)
             self$.addOption(private$..labels)
             self$.addOption(private$..vars)
+            self$.addOption(private$..pcaLabels)
             self$.addOption(private$..eigen)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
@@ -188,6 +194,7 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         mode = function() private$..mode$value,
         labels = function() private$..labels$value,
         vars = function() private$..vars$value,
+        pcaLabels = function() private$..pcaLabels$value,
         eigen = function() private$..eigen$value,
         plot = function() private$..plot$value,
         plot1 = function() private$..plot1$value,
@@ -211,6 +218,7 @@ pcaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..mode = NA,
         ..labels = NA,
         ..vars = NA,
+        ..pcaLabels = NA,
         ..eigen = NA,
         ..plot = NA,
         ..plot1 = NA,
@@ -261,7 +269,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="eigen",
                 title="Eigenvalues",
-                visible="(eigen)",
+                visible="(mode:simple && eigen)",
                 clearWith=list(
                     "mode",
                     "vars",
@@ -289,7 +297,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Variable Contributions",
                 requiresData=TRUE,
                 refs="factoextra",
-                visible="(plot)",
+                visible="(mode:simple && plot)",
                 renderFun=".plot",
                 clearWith=list(
                     "mode",
@@ -301,19 +309,20 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Individual Plot",
                 requiresData=TRUE,
                 refs="factoextra",
-                visible="(plot1)",
+                visible="(mode:simple && plot1)",
                 renderFun=".plot1",
                 clearWith=list(
                     "mode",
                     "vars",
-                    "labels")))
+                    "labels",
+                    "pcaLabels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
                 title="Biplot",
                 requiresData=TRUE,
                 refs="factoextra",
-                visible="(plot2)",
+                visible="(mode:simple && plot2)",
                 renderFun=".plot2",
                 clearWith=list(
                     "mode",
@@ -325,7 +334,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Individuals by groups",
                 requiresData=TRUE,
                 refs="factoextra",
-                visible="(plot3)",
+                visible="(mode:complex && plot3)",
                 renderFun=".plot3",
                 clearWith=list(
                     "mode",
@@ -337,7 +346,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="PCA-Biplot",
                 requiresData=TRUE,
                 refs="factoextra",
-                visible="(plot4)",
+                visible="(mode:complex && plot4)",
                 renderFun=".plot4",
                 clearWith=list(
                     "mode",
@@ -349,7 +358,7 @@ pcaResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="UMAP Plot",
                 requiresData=TRUE,
                 refs="uwot",
-                visible="(umapPlot)",
+                visible="(mode:umap && umapPlot)",
                 renderFun=".plot5",
                 clearWith=list(
                     "mode",
@@ -392,6 +401,7 @@ pcaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param mode .
 #' @param labels .
 #' @param vars .
+#' @param pcaLabels .
 #' @param eigen .
 #' @param plot .
 #' @param plot1 .
@@ -435,7 +445,8 @@ pca <- function(
     mode = "simple",
     labels,
     vars,
-    eigen = FALSE,
+    pcaLabels = FALSE,
+    eigen = TRUE,
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
@@ -483,6 +494,7 @@ pca <- function(
         mode = mode,
         labels = labels,
         vars = vars,
+        pcaLabels = pcaLabels,
         eigen = eigen,
         plot = plot,
         plot1 = plot1,

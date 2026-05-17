@@ -11,7 +11,7 @@ items:
       
     - name: eigen
       title: 'Eigenvalues'
-      visible: (eigen)
+      visible: (mode:simple && eigen)
       type: Table
       clearWith:
         - mode
@@ -37,7 +37,7 @@ items:
       type:  Image
       requiresData: true
       refs: factoextra
-      visible: (plot)
+      visible: (mode:simple && plot)
       renderFun: .plot
       clearWith:
         - mode
@@ -49,19 +49,20 @@ items:
       type:  Image
       requiresData: true
       refs: factoextra
-      visible: (plot1)
+      visible: (mode:simple && plot1)
       renderFun: .plot1
       clearWith:
         - mode
         - vars
         - labels
+        - pcaLabels
 
     - name:  plot2
       title: Biplot
       type:  Image
       requiresData: true
       refs: factoextra 
-      visible: (plot2)
+      visible: (mode:simple && plot2)
       renderFun: .plot2
       clearWith:
         - mode
@@ -73,7 +74,7 @@ items:
       type:  Image
       requiresData: true
       refs: factoextra
-      visible: (plot3)
+      visible: (mode:complex && plot3)
       renderFun: .plot3
       clearWith:
         - mode
@@ -85,7 +86,7 @@ items:
       type:  Image
       requiresData: true
       refs: factoextra
-      visible: (plot4)
+      visible: (mode:complex && plot4)
       renderFun: .plot4
       clearWith:
         - mode
@@ -97,7 +98,7 @@ items:
       type:  Image
       requiresData: true
       refs: uwot
-      visible: (umapPlot)
+      visible: (mode:umap && umapPlot)
       renderFun: .plot5
       clearWith:
         - mode
