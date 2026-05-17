@@ -159,7 +159,7 @@ children:
                 stretchFactor: 1
                 children:
                   - type: Label
-                    label: "Plots"
+                    label: "Plot"
                     children:
                       - type: CheckBox
                         name: umapPlot
