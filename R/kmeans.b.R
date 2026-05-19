@@ -1,3 +1,4 @@
+
 kmeansClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "kmeansClass",
@@ -25,7 +26,14 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           algo = self$options$algo,
           factors = self$options$factors,
           k1 = self$options$k1,
-          max = self$options$max
+          max = self$options$max,
+          oc = self$options$oc,
+          kp = self$options$kp,
+          plot1 = self$options$plot1,
+          plot2 = self$options$plot2,
+          plot3 = self$options$plot3,
+          plot4 = self$options$plot4,
+          plot5 = self$options$plot5
         )
         return(!identical(currentOptions, private$.allCache$cachedOptions))
       },
@@ -39,7 +47,14 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           algo = self$options$algo,
           factors = self$options$factors,
           k1 = self$options$k1,
-          max = self$options$max
+          max = self$options$max,
+          oc = self$options$oc,
+          kp = self$options$kp,
+          plot1 = self$options$plot1,
+          plot2 = self$options$plot2,
+          plot3 = self$options$plot3,
+          plot4 = self$options$plot4,
+          plot5 = self$options$plot5
         )
       },
       
@@ -92,7 +107,6 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           )
         ))
         
-
         if (self$options$oc)
           self$results$oc$setNote(
             "Note",
@@ -139,35 +153,56 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       },
       
       .run = function() {
-        if (length(self$options$vars) < 2) return()
-        optionsChanged <- private$.optionsChanged()
         
-        # Store indices of complete cases from original data
+        vars <- self$options$vars
+        facs <- self$options$factors
+        
+        hasKmeans <- length(vars) >= 2
+        hasGower <- length(facs) >= 1 && length(c(vars, facs)) >= 2
+        
+        if (!hasKmeans && !hasGower)
+          return()
+        
+        optionsChanged <- private$.optionsChanged()
+        model <- NULL
+        
+        if (optionsChanged) {
+          private$.allCache$model <- NULL
+          private$.allCache$plotData <- NULL
+          private$.allCache$clusterData <- NULL
+          private$.allCache$gowerData <- NULL
+          private$.allCache$silhouetteData <- NULL
+          private$.allCache$elbowData <- NULL
+        }
+        
+        # Store number of rows from original data
         n_row <- nrow(self$data)
-        not_na_idx <- which(stats::complete.cases(self$data[, self$options$vars, drop=FALSE]))
         
         # K-means clustering for continuous variables
-        if (optionsChanged || is.null(private$.allCache$model)) {
-          set.seed(1234)
-          k <- self$options$k
-          vars <- self$options$vars
+        if (hasKmeans) {
           
-          # Prepare data for clustering
-          data_nomiss <- self$data[not_na_idx, , drop=FALSE]
-          dat2 <- private$.prepareContinuousData(data_nomiss, vars, remove_na = FALSE)
+          not_na_idx <- which(stats::complete.cases(self$data[, vars, drop = FALSE]))
           
-          if (dim(dat2)[2] > 0) {
-            model <- stats::kmeans(
-              dat2,
-              centers = self$options$k,
-              nstart = self$options$nstart,
-              algorithm = self$options$algo
-            )
-            private$.allCache$model <- model
-            private$.saveOptions()
+          if (optionsChanged || is.null(private$.allCache$model)) {
+            set.seed(1234)
+            k <- self$options$k
+            
+            # Prepare data for clustering
+            data_nomiss <- self$data[not_na_idx, , drop = FALSE]
+            dat2 <- private$.prepareContinuousData(data_nomiss, vars, remove_na = FALSE)
+            
+            if (ncol(dat2) >= 2) {
+              model <- stats::kmeans(
+                dat2,
+                centers = self$options$k,
+                nstart = self$options$nstart,
+                algorithm = self$options$algo
+              )
+              private$.allCache$model <- model
+            }
+          } else {
+            model <- private$.allCache$model
           }
-        } else {
-          model <- private$.allCache$model
         }
         
         if (!is.null(model)) {
@@ -231,7 +266,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         }
         
         # Plot1: Optimal number of clusters
-        if (isTRUE(self$options$plot1)) {
+        if (hasKmeans && isTRUE(self$options$plot1)) {
           plotData1 <- self$data
           image1 <- self$results$plot1
           image1$setState(plotData1)
@@ -276,7 +311,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         }
         
         # Plot5: Scree plot (Elbow method)
-        if (isTRUE(self$options$plot5)) {
+        if (hasKmeans && isTRUE(self$options$plot5)) {
           if (is.null(private$.allCache$elbowData) || optionsChanged) {
             data <- private$.prepareContinuousData(self$data, self$options$vars)
             
@@ -299,7 +334,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         }
         
         # Gower distance analysis for mixed-type variables
-        if (length(self$options$factors) >= 1) {
+        if (hasGower) {
           if (is.null(private$.allCache$gowerData) || optionsChanged) {
             k1 <- self$options$k1
             vars <- self$options$vars
@@ -328,7 +363,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             
             # Combine dataset
             selected_vars <- c(vars, facs)
-            dat <- jmvcore::select(data, selected_vars)
+            not_na_idx_gower <- which(stats::complete.cases(data[, selected_vars, drop = FALSE]))
+            dat <- data[not_na_idx_gower, selected_vars, drop = FALSE]
             
             # Calculate Gower distance and cache
             if (isTRUE(self$options$oc)) {
@@ -396,10 +432,10 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             
             # Assign cluster numbers with missing value handling
             gn <- proto$cluster
-            n_row <- nrow(self$data)
-            not_na_idx <- which(stats::complete.cases(self$data[, c(vars, facs), drop=FALSE]))
+            selected_vars <- c(vars, facs)
+            not_na_idx_gower <- which(stats::complete.cases(self$data[, selected_vars, drop = FALSE]))
             gn_vec <- rep(NA, n_row)
-            gn_vec[not_na_idx] <- as.numeric(gn)
+            gn_vec[not_na_idx_gower] <- as.numeric(gn)
             self$results$clust1$setRowNums(rownames(self$data))
             self$results$clust1$setValues(gn_vec)
           }
@@ -410,6 +446,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             image4$setState(private$.allCache$silhouetteData)
           }
         }
+        
+        private$.saveOptions()
       },
       
       # Plot of means across groups
