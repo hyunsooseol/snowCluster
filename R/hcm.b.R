@@ -1,6 +1,4 @@
 
-# This file is a generated template, your changes will not be overwritten
-
 hcmClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "hcmClass",
@@ -65,7 +63,9 @@ hcmClass <- if (requireNamespace('jmvcore'))
         # (1) 군집분석 데이터 생성
         if (length(imena) > 0) {
           ime <- as.character(data[, which(names(data) == imena)])
-          pod0 <- data[, which(names(data) != imena)]
+          #pod0 <- data[, which(names(data) != imena)]
+          pod0 <- data[, podatki, drop = FALSE]
+          
           if (stand == TRUE) {
             pod <- scale(na.omit(pod0))
           } else {
@@ -86,7 +86,9 @@ hcmClass <- if (requireNamespace('jmvcore'))
         
         # (2) 거리 계산 및 군집분석
         razdalje <- stats::dist(pod, method = dis)
-        klastri <- stats::hclust(d = jmvcore::toNumeric(razdalje), method = method)
+        #klastri <- stats::hclust(d = jmvcore::toNumeric(razdalje), method = method)
+        klastri <- stats::hclust(d = razdalje, method = method)
+        
         
         # (3) 클러스터 잘라내기
         if (grp == "height") {
