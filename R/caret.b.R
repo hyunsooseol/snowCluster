@@ -60,6 +60,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(NULL)
         
         key <- paste(
+          private$.allCacheKey,
           self$options$method,
           self$options$cm1,
           class(all$fit)[1],
@@ -87,7 +88,12 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (!inherits(all$fit, "train"))
           return(NULL)
         
-        key <- paste(self$options$method, class(all$fit)[1], sep = " | ")
+        key <- paste(
+          private$.allCacheKey,
+          self$options$method,
+          class(all$fit)[1],
+          sep = " | "
+        )
         
         if (is.null(private$.evalFitCacheKey) || private$.evalFitCacheKey != key) {
           private$.evalFitCache <- tryCatch(
@@ -104,9 +110,18 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(roct))
           return(NULL)
         
+        dep <- self$options$dep
+        
+        depDist <- ""
+        if (!is.null(dep) && dep %in% names(roct)) {
+          depDist <- paste(table(roct[[dep]], useNA = "ifany"), collapse = ",")
+        }
+        
         key <- paste(
+          private$.allCacheKey,
           nrow(roct),
           paste(names(roct), collapse = ","),
+          depDist,
           self$options$method,
           sep = " | "
         )
@@ -120,7 +135,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         }
         
         private$.evalTestCache
-      },      
+      },
       
 #---------------------------------------------
       .run = function() {
@@ -132,6 +147,16 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(self$options$dep) ||
             length(self$options$covs) < 2)
           return()
+        
+        # Show progress spinner
+        self$results$progressBarHTML$setVisible(TRUE)
+        self$results$progressBarHTML$setContent(
+          appleSpinnerH('Performing machine learning analysis...')
+        )
+        private$.checkpoint()
+        
+        
+        
         trans <- self$options$trans
         mecon <- self$options$mecon
         repeats <- self$options$repeats
@@ -168,23 +193,35 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           sep = " | "
         )
         
-        
         if (is.null(private$.allCacheKey) || private$.allCacheKey != mainKey) {
           private$.allCache <- NULL
           private$.allCacheKey <- mainKey
+          
+          private$.compCache <- NULL
+          private$.compCacheKey <- NULL
+          
+          private$.evalCache <- NULL
+          private$.evalCacheKey <- NULL
+          
+          private$.evalFitCache <- NULL
+          private$.evalFitCacheKey <- NULL
+          
+          private$.evalTestCache <- NULL
+          private$.evalTestCacheKey <- NULL
         }
         
         
         if (is.null(private$.allCache)) {
           private$.allCache <- private$.computeFIT()
         }
-        all <- private$.allCache
-        
+        all <- private$.allCache        
+
         compKey <- paste(
           dep,
           paste(covs, collapse = ","),
           paste(facs, collapse = ","),
           per,
+          trans,
           paste(strsplit(self$options$ml, ",")[[1]], collapse = ","),
           me,
           num,
@@ -430,7 +467,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             for (j in seq_along(dims)) {
               row[[dims[j]]] <- cla1[name, j]
             }
-            table$addRow(rowKey = "Training", values = row)
+            table$addRow(rowKey = name, values = row)
           }
         }
         
@@ -532,9 +569,9 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             for (j in seq_along(dims)) {
               row[[dims[j]]] <- cla[name, j]
             }
-            table$addRow(rowKey = "Test", values = row)
+            table$addRow(rowKey = name, values = row)
           }
-        } 
+        }
         
         # Feature plot-----------
         if (isTRUE(self$options$plot5) || isTRUE(self$options$plot6)) {
@@ -554,7 +591,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           image6 <- self$results$plot6
           image6$setState(data)
         }
-      },
+      
+        self$results$progressBarHTML$setVisible(FALSE)
+        
+        },
       
       #Plot functions---
       
@@ -696,119 +736,179 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         TRUE
       },
       
-      .computeFIT = function() {
-        trans <- self$options$trans
-        mecon <- self$options$mecon
-        repeats <- self$options$repeats
-        number <- self$options$number
-        tune <- self$options$tune
-        per <- self$options$per
-        method <- self$options$method
-        cm1 <- self$options$cm1
-        
-        data <- self$data
-        dep <- self$options$dep
-        covs <- self$options$covs
-        facs <- self$options$facs
-        
-        # data cleaning---------------
-        for (fac in facs)
-          data[[fac]] <- as.factor(data[[fac]])
-        
-        for (cov in covs)
-          data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-        
-        data[[dep]] <- as.factor(data[[dep]])
-        data <- na.omit(data)
-        
-        #formula <- as.formula(paste0(self$options$dep, " ~ ."))
-        formula <- as.formula(
-          paste0(jmvcore::composeTerm(self$options$dep), " ~ .")
-        )
-        # Create Train/test dataset using caret package-----------------
-        set.seed(1234)
-        split1 <- caret::createDataPartition(data[[dep]], p = per, list = F)
-        train1 <- data[split1, ]
-        test1 <- data[-split1, ]
-        
-        # Transformed dataset
-        preProcValues <- caret::preProcess(train1, method = trans)
-        self$results$text1$setContent(preProcValues)
-        
-        train <- predict(preProcValues, train1)
-        test  <- predict(preProcValues, test1)
-        
-        # Dummy coding for factors vars
-        dummies_model <- NULL
-        if (!is.null(facs) && length(facs) > 0) {
-          dummy_formula <- stats::as.formula("~ .")
-          
-          x_train <- train[, c(covs, facs), drop = FALSE]
-          x_test  <- test[, c(covs, facs), drop = FALSE]
-          
-          dummies_model <- caret::dummyVars(dummy_formula, data = x_train, fullRank = TRUE)
-          
-          train_x <- predict(dummies_model, newdata = x_train)
-          test_x  <- predict(dummies_model, newdata = x_test)
-          
-          train <- data.frame(train_x)
-          test  <- data.frame(test_x)
-          
-          train[[dep]] <- train1[[dep]]
-          test[[dep]]  <- test1[[dep]]
-        }
-        
-        
-        
-        # trainControl function-----------
-        ctrl <- caret::trainControl(
-          method = mecon,
-          number = number,
-          repeats = repeats,
-          p = per,
-          classProbs = T,
-          savePredictions = T
-        )
-        
-        # Training dataset---------------
-        fit <- caret::train(
-          formula,
-          data = train,
-          method = method,
-          tuneLength = tune,
-          trControl = ctrl
-        )
-        
-        # Compare ROC/calibration model: only when needed
-        need_comp <- isTRUE(self$options$plot) || isTRUE(self$options$plot4)
-        
-        comp <- NULL
-        if (need_comp && !is.null(cm1) && nzchar(cm1)) {
-          comp <- caret::train(
-            formula,
-            data = train,
-            method = cm1,
-            tuneLength = tune,
-            trControl = ctrl
-          )
-        }
-        
-        retlist <- list(
-          formula = formula,
-          train = train,
-          test = test,
-          fit = fit,
-          comp = comp,
-          preProcValues = preProcValues,
-          dummies_model = if (!is.null(facs) && length(facs) > 0) dummies_model else NULL
-        )
-        
-        return(retlist)
-      }      
+.computeFIT = function() {
+  trans <- self$options$trans
+  mecon <- self$options$mecon
+  repeats <- self$options$repeats
+  number <- self$options$number
+  tune <- self$options$tune
+  per <- self$options$per
+  method <- self$options$method
+  cm1 <- self$options$cm1
+  
+  data <- self$data
+  dep <- self$options$dep
+  covs <- self$options$covs
+  facs <- self$options$facs
+  
+  # Use only variables selected in the analysis
+  vars <- unique(c(dep, covs, facs))
+  data <- data[, vars, drop = FALSE]
+  
+  # data cleaning---------------
+  for (fac in facs)
+    data[[fac]] <- as.factor(data[[fac]])
+  
+  for (cov in covs)
+    data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+  
+  data[[dep]] <- as.factor(data[[dep]])
+  data <- na.omit(data)
+  
+  #formula <- as.formula(paste0(self$options$dep, " ~ ."))
+  formula <- as.formula(
+    paste0(jmvcore::composeTerm(self$options$dep), " ~ .")
+  )
+  
+  # Create Train/test dataset using caret package-----------------
+  set.seed(1234)
+  split1 <- caret::createDataPartition(data[[dep]], p = per, list = F)
+  train1 <- data[split1, ]
+  test1 <- data[-split1, ]
+  
+  # Transformed dataset
+  preProcValues <- caret::preProcess(train1, method = trans)
+  self$results$text1$setContent(preProcValues)
+  
+  train <- predict(preProcValues, train1)
+  test  <- predict(preProcValues, test1)
+  
+  # Dummy coding for factors vars
+  dummies_model <- NULL
+  if (!is.null(facs) && length(facs) > 0) {
+    dummy_formula <- stats::as.formula("~ .")
+    
+    x_train <- train[, c(covs, facs), drop = FALSE]
+    x_test  <- test[, c(covs, facs), drop = FALSE]
+    
+    dummies_model <- caret::dummyVars(dummy_formula, data = x_train, fullRank = TRUE)
+    
+    train_x <- predict(dummies_model, newdata = x_train)
+    test_x  <- predict(dummies_model, newdata = x_test)
+    
+    train <- data.frame(train_x)
+    test  <- data.frame(test_x)
+    
+    train[[dep]] <- train1[[dep]]
+    test[[dep]]  <- test1[[dep]]
+  }
+  
+  # trainControl function-----------
+  ctrl <- caret::trainControl(
+    method = mecon,
+    number = number,
+    repeats = repeats,
+    p = per,
+    classProbs = T,
+    savePredictions = T
+  )
+  
+  # Training dataset---------------
+  fit <- caret::train(
+    formula,
+    data = train,
+    method = method,
+    tuneLength = tune,
+    trControl = ctrl
+  )
+  
+  # Compare ROC/calibration model: only when needed
+  need_comp <- isTRUE(self$options$plot) || isTRUE(self$options$plot4)
+  
+  comp <- NULL
+  if (need_comp && !is.null(cm1) && nzchar(cm1)) {
+    comp <- caret::train(
+      formula,
+      data = train,
+      method = cm1,
+      tuneLength = tune,
+      trControl = ctrl
+    )
+  }
+  
+  retlist <- list(
+    formula = formula,
+    train = train,
+    test = test,
+    fit = fit,
+    comp = comp,
+    preProcValues = preProcValues,
+    dummies_model = if (!is.null(facs) && length(facs) > 0) dummies_model else NULL
+  )
+  
+  return(retlist)
+}   
 )
 )
 
-
+# Progress Bar HTML  (R/progressBarH.R)
+appleSpinnerH <- function(message = '') {
+  paste0(
+    '<div style="text-align:center;padding:24px;">',
+    
+    '<style>',
+    '@keyframes snowsoftAppleDotPulse {',
+    '0%, 80%, 100% { transform: scale(0.72); opacity: 0.55; }',
+    '40% { transform: scale(1.20); opacity: 1; }',
+    '}',
+    '</style>',
+    
+    '<div style="margin-bottom:10px;">',
+    
+    '<span style="',
+    'display:inline-block;',
+    'width:12px;',
+    'height:12px;',
+    'margin:0 5px;',
+    'border-radius:50%;',
+    'background:#007AFF;',
+    'animation:snowsoftAppleDotPulse 1.2s infinite ease-in-out;',
+    'vertical-align:middle;',
+    '"></span>',
+    
+    '<span style="',
+    'display:inline-block;',
+    'width:12px;',
+    'height:12px;',
+    'margin:0 5px;',
+    'border-radius:50%;',
+    'background:#34C759;',
+    'animation:snowsoftAppleDotPulse 1.2s infinite ease-in-out;',
+    'animation-delay:0.15s;',
+    'vertical-align:middle;',
+    '"></span>',
+    
+    '<span style="',
+    'display:inline-block;',
+    'width:12px;',
+    'height:12px;',
+    'margin:0 5px;',
+    'border-radius:50%;',
+    'background:#FF9500;',
+    'animation:snowsoftAppleDotPulse 1.2s infinite ease-in-out;',
+    'animation-delay:0.30s;',
+    'vertical-align:middle;',
+    '"></span>',
+    
+    '</div>',
+    
+    '<div style="font-size:12px;color:#666;">',
+    message,
+    '</div>',
+    
+    '</div>'
+  )
+}
 
 
 
