@@ -18,7 +18,10 @@ disc(
   tes = FALSE,
   gc = TRUE,
   plot = FALSE,
-  plot1 = FALSE
+  plot1 = FALSE,
+  can = FALSE,
+  struct = FALSE,
+  wilks = FALSE
 )
 }
 \arguments{
@@ -49,6 +52,12 @@ disc(
 \item{plot}{.}
 
 \item{plot1}{.}
+
+\item{can}{.}
+
+\item{struct}{.}
+
+\item{wilks}{.}
 }
 \value{
 A results object containing:
@@ -66,6 +75,9 @@ A results object containing:
   \code{results$gc} \tab \tab \tab \tab \tab a table \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$scores} \tab \tab \tab \tab \tab an output \cr
+  \code{results$can} \tab \tab \tab \tab \tab a table \cr
+  \code{results$struct} \tab \tab \tab \tab \tab a table \cr
+  \code{results$wilks} \tab \tab \tab \tab \tab a table \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

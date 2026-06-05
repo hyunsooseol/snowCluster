@@ -1,13 +1,10 @@
 
 # This file is a generated template, your changes will not be overwritten
-
-
 discClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "discClass",
     inherit = discBase,
     private = list(
-      .allCache = NULL,
       .htmlwidget = NULL,
       #------------------------------------
       
@@ -26,7 +23,7 @@ discClass <- if (requireNamespace('jmvcore'))
             '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
             '<div style="text-align:justify;">',
             '<ul>',
-            '<li>If you set <b>Split set</b> to less than 1, uncheck the linear discriminant plot and discriminant scores. Otherwise, you will get an error.</li>',
+            '<li>When <b>Split set</b> is less than 1, the LDA model, discriminant function statistics, group centroids, and structure coefficients are based on the training set, while test accuracy is evaluated on the held-out test set.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
             
@@ -34,14 +31,13 @@ discClass <- if (requireNamespace('jmvcore'))
           
         ))
         
-
       },
       
       #---------------------------------------------
       
       .run = function() {
-
-          if (is.null(self$options$dep) || length(self$options$covs) < 2)
+        
+        if (is.null(self$options$dep) || length(self$options$covs) < 2)
           return()
         
         dep <- self$options$dep
@@ -56,13 +52,7 @@ discClass <- if (requireNamespace('jmvcore'))
         
         data[[dep]] <- as.factor(data[[dep]])
         
-        if (is.null(private$.allCache)) {
-          private$.allCache <- private$.computeRES()
-        }
-        res <- private$.allCache
-        
-        # private$.allCache <- private$.computeRES()
-        # res <- private$.allCache
+        res <- private$.computeRES()
         
         # Prior probabilities of groups table----
         
@@ -119,7 +109,7 @@ discClass <- if (requireNamespace('jmvcore'))
           table$addRow(rowKey = name, values = row)
         }
         
-        #Normalized loading---
+        # Normalized loading---
         nl <- sweep(res$lda.train$scaling, 2, sqrt(colSums(res$lda.train$scaling^2)), "/")
         #self$results$text$setContent(nl)
         nl <- as.data.frame(nl)
@@ -139,6 +129,21 @@ discClass <- if (requireNamespace('jmvcore'))
           }
           table$addRow(rowKey = name, values = row)
         }
+        
+        # Discriminant scores and group centroids ------------------
+        # Group centroids are table results, not plot-only results.
+        
+        pred_x <- as.data.frame(predict(res$lda.train)$x)
+        ld_names <- colnames(pred_x)
+        
+        df <- cbind(res$train, pred_x)
+        df$Groups <- as.factor(res$train[[self$options$dep]])
+        
+        cent <- stats::aggregate(
+          df[, ld_names, drop = FALSE],
+          by = list(Groups = df$Groups),
+          FUN = mean
+        )
         
         # Accuracy with training data-----------
         
@@ -209,94 +214,209 @@ discClass <- if (requireNamespace('jmvcore'))
         
         # Proportion of trace------------------
         
+        # Variance explained ------------------
+        # This can be reported even when only LD1 exists.
+        
         if (isTRUE(self$options$prop)) {
-          if (length(levels(data[[self$options$dep]])) <= 2) {
-            # err_string <- stringr::str_interp("Dependent levels should be at least 3.")
-            # stop(err_string)
-            stop("Dependent levels should be at least 3.")            
-          }
           
-          if (length(levels(data[[self$options$dep]])) > 2) {
-            # proportion of trace----------
-            
-            prop.lda = res$lda.train$svd ^ 2 / sum(res$lda.train$svd ^
-                                                     2)
-            
-            table <- self$results$prop
-            
-            ld1 <- prop.lda[[1]]
-            ld2 <- prop.lda[[2]]
+          prop.lda <- res$lda.train$svd ^ 2 / sum(res$lda.train$svd ^ 2)
+          
+          table <- self$results$prop
+          
+          row <- list()
+          
+          if (length(prop.lda) >= 1)
+            row[['LD1']] <- prop.lda[[1]]
+          
+          if (length(prop.lda) >= 2)
+            row[['LD2']] <- prop.lda[[2]]
+          
+          table$setRow(rowNo = 1, values = row)
+        }
+        
+        # Canonical discriminant functions table---
+        
+        if (isTRUE(self$options$can)) {
+          
+          eigenvalues <- res$lda.train$svd ^ 2
+          variance <- eigenvalues / sum(eigenvalues) * 100
+          cumulative <- cumsum(variance)
+          canonical <- sqrt(eigenvalues / (1 + eigenvalues))
+          
+          table <- self$results$can
+          
+          for (i in seq_along(eigenvalues)) {
+            fn <- paste0("LD", i)
             
             row <- list()
-            row[['LD1']] <- ld1
-            row[['LD2']] <- ld2
+            row[["function"]] <- fn
+            row[["eigen"]] <- eigenvalues[i]
+            row[["variance"]] <- variance[i]
+            row[["cumulative"]] <- cumulative[i]
+            row[["canonical"]] <- canonical[i]
             
-            table$setRow(rowNo = 1, values = row)
+            table$addRow(rowKey = fn, values = row)
           }
         }
         
-        #LD plot---
+        # Wilks' Lambda tests---
+        # Approximate chi-square tests for discriminant functions.
+        
+        # Wilks' Lambda tests---
+        # Approximate chi-square tests for discriminant functions.
+        
+        if (isTRUE(self$options$wilks)) {
+          
+          eigenvalues <- res$lda.train$svd ^ 2
+          n <- nrow(res$train)
+          p <- length(covs)
+          g <- nlevels(res$train[[dep]])
+          s <- length(eigenvalues)
+          
+          table <- self$results$wilks
+          
+          for (i in seq_len(s)) {
+            
+            lambda <- prod(1 / (1 + eigenvalues[i:s]))
+            
+            df_wilks <- (p - i + 1) * (g - i)
+            
+            chisq <- -(
+              n - 1 - (p + g) / 2
+            ) * log(lambda)
+            
+            pval <- stats::pchisq(chisq, df = df_wilks, lower.tail = FALSE)
+            
+            test_label <- if (i == s) {
+              paste0(i)
+            } else {
+              paste0(i, " through ", s)
+            }
+            
+            row <- list()
+            row[["test"]] <- test_label
+            row[["lambda"]] <- lambda
+            row[["chisq"]] <- chisq
+            row[["df"]] <- df_wilks
+            row[["p"]] <- pval
+            
+            table$addRow(rowKey = paste0("func", i), values = row)
+          }
+        }
+        
+        # Structure coefficients table---
+        # Correlations between original variables and discriminant functions.
+        
+        if (isTRUE(self$options$struct)) {
+          
+          xvars <- res$train[, covs, drop = FALSE]
+          xvars[] <- lapply(xvars, jmvcore::toNumeric)
+          
+          structure <- stats::cor(
+            xvars,
+            pred_x,
+            use = "pairwise.complete.obs"
+          )
+          
+          structure <- as.data.frame(structure)
+          
+          table <- self$results$struct
+          
+          for (ld in colnames(structure)) {
+            table$addColumn(name = ld,
+                            title = ld,
+                            type = 'number',
+                            format = 'zto')
+          }
+          
+          for (var in rownames(structure)) {
+            row <- list()
+            row[["variable"]] <- var
+            
+            for (ld in colnames(structure)) {
+              row[[ld]] <- structure[var, ld]
+            }
+            
+            table$addRow(rowKey = var, values = row)
+          }
+        }
+        
+        # Group centroids table---
+        # This table is independent of the linear discriminant plot.
+        # It can be reported even when only LD1 exists.
+        
+        if (isTRUE(self$options$gc)) {
+          table <- self$results$gc
+          
+          for (i in seq_len(nrow(cent))) {
+            row <- list()
+            row[["name"]] <- as.character(cent$Groups[i])
+            
+            if ("LD1" %in% names(cent))
+              row[["ld1"]] <- cent$LD1[i]
+            
+            if ("LD2" %in% names(cent))
+              row[["ld2"]] <- cent$LD2[i]
+            
+            table$addRow(rowKey = as.character(cent$Groups[i]), values = row)
+          }
+        }
+        
+       
+       
+        # LD plot---
         
         if (isTRUE(self$options$plot)) {
-          if (length(levels(data[[self$options$dep]])) <= 2) {
-            # err_string <- stringr::str_interp("Dependent levels should be at least 3.")
-            # stop(err_string)
-            stop("Dependent levels should be at least 3.")
-          }
           
-          if (length(levels(data[[self$options$dep]])) > 2) {
-            # df <- cbind(res$train, predict(res$lda.train)$x)
-            # Groups <- data[[self$options$dep]]
-            # df <- cbind(df, Groups)
-            df <- cbind(res$train, predict(res$lda.train)$x)
-            Groups <- res$train[[self$options$dep]]
-            df <- cbind(df, Groups)
-            df$Groups <- as.factor(df$Groups)
+          image <- self$results$plot
+          
+          # The 2D discriminant plot requires at least two discriminant functions.
+          # If only LD1 exists, show an informative message instead of an empty plot.
+          
+          if (length(ld_names) >= 2) {
             
-            df <- dplyr::select(df, LD1, LD2, Groups)
-            df <- data.frame(df)
+            plot_df <- df[, c("LD1", "LD2", "Groups"), drop = FALSE]
+            plot_cent <- cent[, c("Groups", "LD1", "LD2"), drop = FALSE]
             
-            # Calculate group centroids
-            
-            lda_scores_grouped <- dplyr::group_by(df, Groups)
-            centroids_summarized <- dplyr::summarize(lda_scores_grouped,
-                                                     LD1 = mean(LD1),
-                                                     LD2 = mean(LD2))
-            
-            cent <- data.frame(centroids_summarized)
-            #self$results$text$setContent(cent)
-            
-            state <- list(df, cent)
-            image <- self$results$plot
+            state <- list(
+              df = plot_df,
+              cent = plot_cent,
+              message = NULL
+            )
             image$setState(state)
             
-            # group centroids table---
+          } else {
             
-            if (isTRUE(self$options$gc)) {
-              table <- self$results$gc
-              
-              cent <- as.data.frame(cent)
-              names <- dimnames(cent)[[1]]
-              
-              for (name in names) {
-                row <- list()
-                row[["name"]] <- as.character(cent[name, 1])
-                row[["ld1"]] <-  cent[name, 2]
-                row[["ld2"]] <-  cent[name, 3]
-                table$addRow(rowKey = name, values = row)
-              }
-            }
+            state <- list(
+              df = NULL,
+              cent = NULL,
+              message = "A 2D discriminant plot requires both LD1 and LD2. For two-group LDA, only LD1 is available."
+            )
+            image$setState(state)
           }
         }
-
-
+        
+        
         if (isTRUE(self$options$scores)) {
-          pred <- as.data.frame(predict(res$lda.train)$x)
           
-          keys <- 1:2
-          titles <- c("LD1", "LD2")
-          descriptions <- c("LD1", "LD2")
-          measureTypes <- rep("continuous", 2)
+          needed <- c(dep, covs)
+          complete_rows <- complete.cases(self$data[, needed, drop = FALSE])
+          
+          data_scores <- self$data[complete_rows, , drop = FALSE]
+          
+          for (cov in covs)
+            data_scores[[cov]] <- jmvcore::toNumeric(data_scores[[cov]])
+          
+          data_scores[[dep]] <- as.factor(data_scores[[dep]])
+          
+          pred <- as.data.frame(predict(res$lda.train, data_scores)$x)
+          score_names <- colnames(pred)
+          n_scores <- length(score_names)
+          
+          keys <- seq_len(n_scores)
+          titles <- score_names
+          descriptions <- score_names
+          measureTypes <- rep("continuous", n_scores)
           
           self$results$scores$set(
             keys = keys,
@@ -307,29 +427,42 @@ discClass <- if (requireNamespace('jmvcore'))
           
           self$results$scores$setRowNums(rownames(self$data))
           
-          # 전체 데이터 크기에 맞는 NA 벡터 생성
-          full_scores <- matrix(NA, nrow = nrow(self$data), ncol = 2)
+          full_scores <- matrix(NA, nrow = nrow(self$data), ncol = n_scores)
           
-          # 결측값이 없는 행의 인덱스 찾기
-          complete_rows <- complete.cases(self$data)
-          
-          # 완전한 행에만 판별점수 할당
           full_scores[complete_rows, ] <- as.matrix(pred)
           
-          for (i in 1:2) {
+          for (i in seq_len(n_scores)) {
             values <- as.numeric(full_scores[, i])
             self$results$scores$setValues(index = i, values)
           }
         }
         
       },
-        
+      
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)
         
-        df <- image$state[[1]]
-        cent <- image$state[[2]]
+        if (!is.null(image$state$message)) {
+          plot.new()
+          par(mar = c(2, 2, 2, 2))
+          
+          msg <- strwrap(image$state$message, width = 55)
+          
+          text(
+            x = 0.5,
+            y = 0.55,
+            labels = paste(msg, collapse = "\n"),
+            cex = 0.95,
+            adj = c(0.5, 0.5)
+          )
+          
+          return(TRUE)
+        }
+        
+        df <- image$state$df
+        cent <- image$state$cent
+        
         library(ggplot2)
         plot <- ggplot(df, ggplot2::aes(x = LD1, y = LD2, color = Groups)) +
           geom_point(alpha = 0.6) +
@@ -356,7 +489,7 @@ discClass <- if (requireNamespace('jmvcore'))
         if (length(self$options$covs) <= 2)
           return()
         
-        res <- private$.allCache
+        res <- private$.computeRES()
         if (is.null(res))
           return(FALSE)
         
@@ -411,6 +544,11 @@ discClass <- if (requireNamespace('jmvcore'))
       }
     )
   )
+
+
+
+
+
 #
 #  # dividing two datasets------------------------
 #

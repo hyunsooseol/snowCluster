@@ -18,7 +18,10 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             tes = FALSE,
             gc = TRUE,
             plot = FALSE,
-            plot1 = FALSE, ...) {
+            plot1 = FALSE,
+            can = FALSE,
+            struct = FALSE,
+            wilks = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -88,6 +91,18 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot1",
                 plot1,
                 default=FALSE)
+            private$..can <- jmvcore::OptionBool$new(
+                "can",
+                can,
+                default=FALSE)
+            private$..struct <- jmvcore::OptionBool$new(
+                "struct",
+                struct,
+                default=FALSE)
+            private$..wilks <- jmvcore::OptionBool$new(
+                "wilks",
+                wilks,
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -103,6 +118,9 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..scores)
             self$.addOption(private$..plot)
             self$.addOption(private$..plot1)
+            self$.addOption(private$..can)
+            self$.addOption(private$..struct)
+            self$.addOption(private$..wilks)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -118,7 +136,10 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         gc = function() private$..gc$value,
         scores = function() private$..scores$value,
         plot = function() private$..plot$value,
-        plot1 = function() private$..plot1$value),
+        plot1 = function() private$..plot1$value,
+        can = function() private$..can$value,
+        struct = function() private$..struct$value,
+        wilks = function() private$..wilks$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -133,7 +154,10 @@ discOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..gc = NA,
         ..scores = NA,
         ..plot = NA,
-        ..plot1 = NA)
+        ..plot1 = NA,
+        ..can = NA,
+        ..struct = NA,
+        ..wilks = NA)
 )
 
 discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -152,7 +176,10 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot = function() private$.items[["plot"]],
         gc = function() private$.items[["gc"]],
         plot1 = function() private$.items[["plot1"]],
-        scores = function() private$.items[["scores"]]),
+        scores = function() private$.items[["scores"]],
+        can = function() private$.items[["can"]],
+        struct = function() private$.items[["struct"]],
+        wilks = function() private$.items[["wilks"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -341,7 +368,91 @@ discResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "covs",
                     "dep",
-                    "per")))}))
+                    "per")))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="can",
+                title="Canonical Discriminant Functions",
+                visible="(can)",
+                clearWith=list(
+                    "dep",
+                    "covs",
+                    "per"),
+                rows=0,
+                columns=list(
+                    list(
+                        `name`="function", 
+                        `title`="Function", 
+                        `type`="text"),
+                    list(
+                        `name`="eigen", 
+                        `title`="Eigenvalue", 
+                        `type`="number", 
+                        `format`="zto"),
+                    list(
+                        `name`="variance", 
+                        `title`="% of Variance", 
+                        `type`="number", 
+                        `format`="zto"),
+                    list(
+                        `name`="cumulative", 
+                        `title`="Cumulative %", 
+                        `type`="number", 
+                        `format`="zto"),
+                    list(
+                        `name`="canonical", 
+                        `title`="Canonical Correlation", 
+                        `type`="number", 
+                        `format`="zto"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="struct",
+                title="Structure Coefficients",
+                visible="(struct)",
+                clearWith=list(
+                    "dep",
+                    "covs",
+                    "per"),
+                rows=0,
+                columns=list(
+                    list(
+                        `name`="variable", 
+                        `title`="Variable", 
+                        `type`="text"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="wilks",
+                title="Wilks' Lambda Tests",
+                visible="(wilks)",
+                clearWith=list(
+                    "dep",
+                    "covs",
+                    "per"),
+                rows=0,
+                columns=list(
+                    list(
+                        `name`="test", 
+                        `title`="Test of Function(s)", 
+                        `type`="text"),
+                    list(
+                        `name`="lambda", 
+                        `title`="Wilks' Lambda", 
+                        `type`="number", 
+                        `format`="zto"),
+                    list(
+                        `name`="chisq", 
+                        `title`="Chi-square", 
+                        `type`="number", 
+                        `format`="zto"),
+                    list(
+                        `name`="df", 
+                        `title`="df", 
+                        `type`="integer"),
+                    list(
+                        `name`="p", 
+                        `title`="p", 
+                        `type`="number", 
+                        `format`="zto,pvalue"))))}))
 
 discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "discBase",
@@ -381,6 +492,9 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param gc .
 #' @param plot .
 #' @param plot1 .
+#' @param can .
+#' @param struct .
+#' @param wilks .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -396,6 +510,9 @@ discBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$gc} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$scores} \tab \tab \tab \tab \tab an output \cr
+#'   \code{results$can} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$struct} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$wilks} \tab \tab \tab \tab \tab a table \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -419,7 +536,10 @@ disc <- function(
     tes = FALSE,
     gc = TRUE,
     plot = FALSE,
-    plot1 = FALSE) {
+    plot1 = FALSE,
+    can = FALSE,
+    struct = FALSE,
+    wilks = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("disc requires jmvcore to be installed (restart may be required)")
@@ -447,7 +567,10 @@ disc <- function(
         tes = tes,
         gc = gc,
         plot = plot,
-        plot1 = plot1)
+        plot1 = plot1,
+        can = can,
+        struct = struct,
+        wilks = wilks)
 
     analysis <- discClass$new(
         options = options,

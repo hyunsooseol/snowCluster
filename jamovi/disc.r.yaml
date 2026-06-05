@@ -183,4 +183,85 @@ items:
         - dep
         - per
 
+
+    - name: can
+      title: Canonical Discriminant Functions
+      type: Table
+      visible: (can)
+      clearWith:
+        - dep
+        - covs
+        - per
+      rows: 0
+      columns:
+        - name: function
+          title: Function
+          type: text
+
+        - name: eigen
+          title: Eigenvalue
+          type: number
+          format: zto
+
+        - name: variance
+          title: '% of Variance'
+          type: number
+          format: zto
+
+        - name: cumulative
+          title: Cumulative %
+          type: number
+          format: zto
+
+        - name: canonical
+          title: Canonical Correlation
+          type: number
+          format: zto
+
+    - name: struct
+      title: Structure Coefficients
+      type: Table
+      visible: (struct)
+      clearWith:
+        - dep
+        - covs
+        - per
+      rows: 0
+      columns:
+        - name: variable
+          title: Variable
+          type: text
+
+    - name: wilks
+      title: Wilks' Lambda Tests
+      type: Table
+      visible: (wilks)
+      clearWith:
+        - dep
+        - covs
+        - per
+      rows: 0
+      columns:
+        - name: test
+          title: Test of Function(s)
+          type: text
+
+        - name: lambda
+          title: Wilks' Lambda
+          type: number
+          format: zto
+
+        - name: chisq
+          title: Chi-square
+          type: number
+          format: zto
+
+        - name: df
+          title: df
+          type: integer
+
+        - name: p
+          title: p
+          type: number
+          format: zto,pvalue
 ...

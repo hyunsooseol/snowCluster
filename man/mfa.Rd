@@ -6,7 +6,7 @@
 \usage{
 mfa(
   data,
-  run,
+  run = FALSE,
   vars,
   facs,
   labels,

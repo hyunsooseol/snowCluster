@@ -6,7 +6,7 @@ mfaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
-            run = NULL,
+            run = FALSE,
             vars = NULL,
             facs = NULL,
             labels = NULL,
@@ -582,7 +582,7 @@ mfaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @export
 mfa <- function(
     data,
-    run,
+    run = FALSE,
     vars,
     facs,
     labels,

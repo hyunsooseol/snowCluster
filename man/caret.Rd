@@ -17,7 +17,7 @@ caret(
   repeats = 5,
   tune = 10,
   per = 0.7,
-  run,
+  run = FALSE,
   over1 = TRUE,
   over = FALSE,
   cla = FALSE,

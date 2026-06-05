@@ -8,7 +8,7 @@ prophetOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             dep = NULL,
             covs = NULL,
-            run = NULL,
+            run = FALSE,
             method = "loess",
             seasonality = "none",
             plot1 = FALSE,
@@ -391,7 +391,7 @@ prophet <- function(
     data,
     dep,
     covs,
-    run,
+    run = FALSE,
     method = "loess",
     seasonality = "none",
     plot1 = FALSE,

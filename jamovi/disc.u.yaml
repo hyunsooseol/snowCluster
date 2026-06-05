@@ -20,7 +20,7 @@ children:
             name: covs
             isTarget: true
   - type: CollapseBox
-    label: 'Analysis'
+    label: 'Linear Discriminant'
     margin: large
     collapsed: true
     stretchFactor: 1
@@ -37,7 +37,7 @@ children:
             stretchFactor: 1
             children:
               - type: Label
-                label: Tables
+                label: 'Tables'
                 children:
                   - type: CheckBox
                     name: prior
@@ -49,6 +49,8 @@ children:
                     name: nl
                   - type: CheckBox
                     name: prop
+                  - type: CheckBox
+                    name: gc
           - type: LayoutBox
             stretchFactor: 1
             margin: large
@@ -90,10 +92,34 @@ children:
                 children:
                   - type: CheckBox
                     name: plot
-                    children:
-                      - type: CheckBox
-                        name: gc
-                        enable: (plot)
                   - type: CheckBox
                     name: plot1
-    
+  - type: CollapseBox
+    label: 'Discriminant Function Statistics'
+    margin: large
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            margin: large
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: Label
+                label: 'Tables'
+                children:
+                  - type: CheckBox
+                    name: can
+                    label: Canonical discriminant functions
+                  - type: CheckBox
+                    name: struct
+                    label: Structure coefficients    
+                  - type: CheckBox
+                    name: wilks
+                    label: Wilks' Lambda tests

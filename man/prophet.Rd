@@ -8,7 +8,7 @@ prophet(
   data,
   dep,
   covs,
-  run,
+  run = FALSE,
   method = "loess",
   seasonality = "none",
   plot1 = FALSE,

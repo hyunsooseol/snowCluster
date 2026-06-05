@@ -7,8 +7,8 @@
 arima(
   data,
   mode = "simple",
-  run,
-  run1,
+  run = FALSE,
+  run1 = FALSE,
   dep,
   dep1,
   time1 = NULL,

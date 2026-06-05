@@ -54,7 +54,7 @@ options:
       default: FALSE    
 
     - name: prop
-      title: 'Proportion of trace'
+      title: 'Variance explained'
       type: Bool 
       default: FALSE    
       
@@ -87,4 +87,18 @@ options:
       type: Bool
       default: FALSE
       
+    - name: can
+      title: Function summary
+      type: Bool
+      default: false
+
+    - name: struct
+      title: Structure coefficients
+      type: Bool
+      default: false
+
+    - name: wilks
+      title: Wilks' Lambda tests
+      type: Bool
+      default: false
 ...

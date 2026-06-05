@@ -7,8 +7,8 @@ arimaOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             mode = "simple",
-            run = NULL,
-            run1 = NULL,
+            run = FALSE,
+            run1 = FALSE,
             dep = NULL,
             dep1 = NULL,
             time1 = NULL,
@@ -681,8 +681,8 @@ arimaBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 arima <- function(
     data,
     mode = "simple",
-    run,
-    run1,
+    run = FALSE,
+    run1 = FALSE,
     dep,
     dep1,
     time1 = NULL,
