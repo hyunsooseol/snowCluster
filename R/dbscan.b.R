@@ -418,50 +418,24 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
           return(FALSE)
         if (is.null(private$.fit) || is.null(private$.coords))
           return(FALSE)
+        if (!requireNamespace("ggplot2", quietly = TRUE))
+          jmvcore::reject('The "ggplot2" package is required but not installed.')
         
         coords <- as.data.frame(private$.coords)
         cl <- private$.fit$cluster
+        coords$clusterLabel <- ifelse(cl == 0, "Noise", paste0("C", cl))
+        coords$isNoise <- cl == 0
         
-        if (nrow(coords) == 0 || length(cl) == 0)
-          return(FALSE)
+        ggplot2::theme_set(ggplot2::theme_minimal())
+        p <- ggplot2::ggplot(coords, ggplot2::aes(x = PC1, y = PC2)) +
+          ggplot2::geom_point(
+            ggplot2::aes(color = clusterLabel, shape = isNoise),
+            alpha = 0.9, size = 2.2, stroke = 0.6
+          ) +
+          ggplot2::scale_shape_manual(values = c(`TRUE` = 4, `FALSE` = 16), guide = "none") +
+          ggplot2::labs(x = "PC1", y = "PC2", color = "Cluster")
         
-        clusterLabel <- ifelse(cl == 0, "Noise", paste0("C", cl))
-        clusterFactor <- factor(clusterLabel)
-        
-        # Base R colors/shapes
-        levs <- levels(clusterFactor)
-        cols <- seq_along(levs)
-        names(cols) <- levs
-        
-        pchVals <- ifelse(clusterLabel == "Noise", 4, 16)
-        pointCols <- cols[as.character(clusterFactor)]
-        
-        oldPar <- par(no.readonly = TRUE)
-        on.exit(par(oldPar), add = TRUE)
-        
-        par(mar = c(4.5, 4.5, 2.5, 8.5), xpd = TRUE)
-        
-        plot(
-          coords$PC1, coords$PC2,
-          xlab = "PC1",
-          ylab = "PC2",
-          main = "DBSCAN Cluster Plot",
-          pch = pchVals,
-          col = pointCols,
-          cex = 1.1
-        )
-        
-        legend(
-          "topright",
-          inset = c(-0.28, 0),
-          legend = levs,
-          col = cols[levs],
-          pch = ifelse(levs == "Noise", 4, 16),
-          title = "Cluster",
-          bty = "n",
-          cex = 0.9
-        )
-        
+        print(p)
         TRUE
       },
       
@@ -471,6 +445,8 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
       .plotKNN = function(image, ...) {
         if (is.null(private$.kinfo) || is.null(private$.kinfo$kdist))
           return(FALSE)
+        if (!requireNamespace("ggplot2", quietly = TRUE))
+          jmvcore::reject('The "ggplot2" package is required but not installed.')
         
         kd <- private$.kinfo$kdist
         if (!is.numeric(kd) || length(kd) == 0L || all(is.na(kd)))
@@ -482,34 +458,27 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
         
         # sorted kNN distances (ascending)
         kd_sorted <- sort(kd[valid], decreasing = FALSE)
-        idx <- seq_along(kd_sorted)
+        df <- data.frame(idx = seq_along(kd_sorted), kdist = kd_sorted)
         
-        oldPar <- par(no.readonly = TRUE)
-        on.exit(par(oldPar), add = TRUE)
-        
-        par(mar = c(4.5, 4.8, 2.5, 1.5))
-        
-        plot(
-          idx, kd_sorted,
-          type = "l",
-          xlab = "Points (sorted by kNN distance)",
-          ylab = paste0(private$.kinfo$k, "-NN distance"),
-          main = "kNN-distance Plot",
-          lwd = 2
-        )
+        ggplot2::theme_set(ggplot2::theme_minimal())
+        p <- ggplot2::ggplot(df, ggplot2::aes(x = idx, y = kdist)) +
+          ggplot2::geom_line() +
+          ggplot2::labs(
+            x = "Points (sorted by kNN distance)",
+            y = paste0(private$.kinfo$k, "-NN distance")
+          )
         
         if (!is.null(private$.kinfo$epsUsed) &&
             is.finite(private$.kinfo$epsUsed)) {
-          abline(
-            h = private$.kinfo$epsUsed,
-            lty = 2,
-            lwd = 1.5
+          p <- p + ggplot2::geom_hline(
+            yintercept = private$.kinfo$epsUsed,
+            linetype = "dashed"
           )
         }
         
+        print(p)
         TRUE
       }
-      
       
     )
   )

@@ -5,7 +5,6 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     "famdClass",
     inherit = famdBase,
     private = list(
-      .allCache = NULL,
       .htmlwidget = NULL,
       
       #------------------------------------
@@ -32,7 +31,7 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
         ))
         
-
+        
       },
       
       .run = function() {
@@ -40,11 +39,9 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         vars <- self$options$vars
         
-        if (is.null(private$.allCache)) {
-          private$.allCache <- private$.computeRES()
-        }
-        
-        res <- private$.allCache
+        res <- private$.computeRES()
+        if (is.null(res))
+          return()
         
         #-----------
         if (isTRUE(self$options$eigen)) {
@@ -276,23 +273,33 @@ famdClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       
       .computeRES = function() {
         if (length(self$options$vars) < 3)
-          return()
-        
-        data <- self$data
-        data <- jmvcore::naOmit(data)
+          return(NULL)
         
         vars <- self$options$vars
+        data <- self$data
+        
+        needed <- vars
         
         # Handling id----------
+        if (!is.null(self$options$labels))
+          needed <- unique(c(needed, self$options$labels))
+        
+        data <- data[, needed, drop = FALSE]
+        data <- jmvcore::naOmit(data)
         
         if (!is.null(self$options$labels)) {
-          rownames(data) <- data[[self$options$labels]]
+          labels <- as.character(data[[self$options$labels]])
+          rownames(data) <- make.unique(labels)
           data[[self$options$labels]] <- NULL
         }
         
-        for (i in seq_along(vars))
-          data[[i]] <- jmvcore::toNumeric(data[[i]])
-        
+        for (v in names(data)) {
+          if (is.factor(data[[v]]) || is.character(data[[v]])) {
+            data[[v]] <- as.factor(data[[v]])
+          } else {
+            data[[v]] <- jmvcore::toNumeric(data[[v]])
+          }
+        }
         
         # FA analysis of mixed data ##########################
         

@@ -60,11 +60,18 @@ hc(
 A results object containing:
 \tabular{llllll}{
   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+  \code{results$progressBarHTML} \tab \tab \tab \tab \tab a html \cr
   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
-  \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$clusterInfo} \tab \tab \tab \tab \tab a table \cr
 }
+
+Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+
+\code{results$clusterInfo$asDF}
+
+\code{as.data.frame(results$clusterInfo)}
 }
 \description{
 Clustering Dendrogram

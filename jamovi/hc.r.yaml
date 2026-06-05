@@ -9,6 +9,11 @@ items:
       type: Html
       visible: True  
 
+    - name: progressBarHTML
+      title: ' '
+      type: Html
+      visible: false
+
     - name: clust
       title: Clustering
       type: Output
@@ -56,8 +61,29 @@ items:
         - dm
         - mode
 
-    - name:  text
-      title: 'Cluster Information' 
-      type:  Preformatted
-      visible: (plot1)     
+    # - name:  text
+    #   title: 'Cluster Information' 
+    #   type:  Preformatted
+    #   visible: (plot1)     
+
+    - name: clusterInfo
+      title: Cluster Information
+      type: Table
+      visible: (plot1)
+      clearWith:
+        - vars1
+        - nb
+        - method1
+        - dm
+        - mode
+      columns:
+        - name: cluster
+          title: Cluster
+          type: integer
+        - name: size
+          title: Size
+          type: integer
+        - name: members
+          title: Members
+          type: text
 ...

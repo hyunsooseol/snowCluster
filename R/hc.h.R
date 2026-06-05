@@ -185,10 +185,11 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         instructions = function() private$.items[["instructions"]],
+        progressBarHTML = function() private$.items[["progressBarHTML"]],
         clust = function() private$.items[["clust"]],
         plot = function() private$.items[["plot"]],
         plot1 = function() private$.items[["plot1"]],
-        text = function() private$.items[["text"]]),
+        clusterInfo = function() private$.items[["clusterInfo"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -202,6 +203,11 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="instructions",
                 title="Instructions",
                 visible=TRUE))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="progressBarHTML",
+                title=" ",
+                visible=FALSE))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="clust",
@@ -249,11 +255,30 @@ hcResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "method1",
                     "dm",
                     "mode")))
-            self$add(jmvcore::Preformatted$new(
+            self$add(jmvcore::Table$new(
                 options=options,
-                name="text",
+                name="clusterInfo",
                 title="Cluster Information",
-                visible="(plot1)"))}))
+                visible="(plot1)",
+                clearWith=list(
+                    "vars1",
+                    "nb",
+                    "method1",
+                    "dm",
+                    "mode"),
+                columns=list(
+                    list(
+                        `name`="cluster", 
+                        `title`="Cluster", 
+                        `type`="integer"),
+                    list(
+                        `name`="size", 
+                        `title`="Size", 
+                        `type`="integer"),
+                    list(
+                        `name`="members", 
+                        `title`="Members", 
+                        `type`="text"))))}))
 
 hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "hcBase",
@@ -298,11 +323,18 @@ hcBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$progressBarHTML} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$clusterInfo} \tab \tab \tab \tab \tab a table \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$clusterInfo$asDF}
+#'
+#' \code{as.data.frame(results$clusterInfo)}
 #'
 #' @export
 hc <- function(
