@@ -151,7 +151,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         # Show progress spinner
         self$results$progressBarHTML$setVisible(TRUE)
         self$results$progressBarHTML$setContent(
-          appleSpinnerH('Performing machine learning analysis...')
+          appleSpinnerH('Performing machine learning model...')
         )
         private$.checkpoint()
         

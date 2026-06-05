@@ -5,7 +5,6 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
     "correspondenceClass",
     inherit = correspondenceBase,
     private = list(
-      .allCache = NULL,
       .htmlwidget = NULL,
       #------------------------------------
       
@@ -30,7 +29,7 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
           
         ))
         
-
+        
       },
       
       .run = function() {
@@ -38,13 +37,9 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
         
         vars <- self$options$vars
         
-        if (is.null(private$.allCache)) {
-          private$.allCache <- private$.computeRES()
-        }
-        
-        res.ca <- private$.allCache
-        #data <- res.ca$data
-        #res.ca <- res.ca$res
+        res.ca <- private$.computeRES()
+        if (is.null(res.ca))
+          return()
         
         #---
         if (isTRUE(self$options$chi)) {
@@ -79,18 +74,18 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
         }
         #---
         if (isTRUE(self$options$col)) {
-        nd <- self$options$nd
-        type <- self$options$type 
-        
-        data_map <- list(
-          "coordinates" = res.ca$res$col$coord,
-          "cos2"        = res.ca$res$col$cos2,
-          "contribution"= res.ca$res$col$contrib  
-        )          
-        
-        cc <- data_map[[type]]
-        
-        #----------------
+          nd <- self$options$nd
+          type <- self$options$type 
+          
+          data_map <- list(
+            "coordinates" = res.ca$res$col$coord,
+            "cos2"        = res.ca$res$col$cos2,
+            "contribution"= res.ca$res$col$contrib  
+          )          
+          
+          cc <- data_map[[type]]
+          
+          #----------------
           table <- self$results$col
           
           for (i in 1:nd)
@@ -121,7 +116,7 @@ correspondenceClass <- if (requireNamespace('jmvcore'))
           )          
           
           rr <- data_map[[type1]]
-
+          
           table <- self$results$row
           
           for (i in 1:nd)
