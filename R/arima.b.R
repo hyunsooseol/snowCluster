@@ -23,18 +23,8 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
     "arimaClass",
     inherit = arimaBase,
     private = list(
-      .allCache = NULL,
-      .cacheMode = NULL,
       .htmlwidget = NULL,
       
-      .resetCacheIfModeChanged = function() {
-        currentMode <- self$options$mode
-        if (!identical(private$.cacheMode, currentMode)) {
-          private$.allCache <- NULL
-          private$.cacheMode <- currentMode
-        }
-      },
-
       # ---------------------------
       # Residual diagnostics helper
       # ---------------------------
@@ -43,9 +33,18 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         n   <- length(res)
         f   <- stats::frequency(y_ts)
         lag <- if (self$options$lbLag > 0) self$options$lbLag else max(10, 2 * f)
-        lb  <- stats::Box.test(res, lag = lag, type = "Ljung-Box")
+        
+        fitdf <- length(stats::coef(model))
+        
+        lb <- stats::Box.test(
+          res,
+          lag = lag,
+          type = "Ljung-Box",
+          fitdf = fitdf
+        )
+        
         shap <- if (n <= 5000) stats::shapiro.test(res) else NULL
-
+        
         out <- data.frame(
           Metric    = c(sprintf("Ljung-Box (lag=%d)", lag),
                         if (!is.null(shap)) "Shapiro-Wilk normality" else NULL,
@@ -65,15 +64,15 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         out
       },
       # ---------------------------
-
+      
       .init = function() {
         private$.htmlwidget <- HTMLWidget$new()
-
+        
         if (is.null(self$options$dep) |
             is.null(self$options$dep1)) {
           self$results$instructions$setVisible(visible = TRUE)
         }
-
+        
         self$results$instructions$setContent(private$.htmlwidget$generate_accordion(
           title = "Instructions",
           content = paste(
@@ -90,13 +89,11 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '</ul></div></div>'
           )
         ))
-
+        
       },
-
+      
       #---
       .run = function() {
-
-        private$.resetCacheIfModeChanged()
         
         # -------- SIMPLE (ARIMA) --------
         if (self$options$mode == 'simple') {
@@ -104,19 +101,16 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           if (!isTRUE(self$options$run))
             return()
           
-          
           if (is.null(self$options$dep)) return()
-
+          
           # progress bar (simple 전용)
           self$results$progressBarHTML$setVisible(TRUE)
           self$results$progressBarHTML$setContent(progressBarH(5, 100, 'Preparing data...'))
           on.exit(self$results$progressBarHTML$setVisible(FALSE), add = TRUE)
-
-          if (is.null(private$.allCache)) {
-            private$.allCache <- private$.computeSIMPLE()
-          }
-          sim <- private$.allCache
-
+          
+          sim <- private$.computeSIMPLE()
+          if (is.null(sim)) return()
+          
           # plots state
           self$results$plot$setState(sim$ddata)
           
@@ -125,7 +119,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
           self$results$plot2$setState(sim$mymodel$residuals)
           self$results$plot3$setState(sim$predict)
-
+          
           # coefficients table
           if (isTRUE(self$options$coef)) {
             table <- self$results$coef
@@ -138,7 +132,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               table$addRow(rowKey = name, values = row)
             })
           }
-
+          
           # fit table
           if (isTRUE(self$options$fit)) {
             table <- self$results$fit
@@ -160,7 +154,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
                                              vals["P"], vals["D"], vals["Q"],
                                              self$options$freq))
           }
-
+          
           # prediction interval table
           if (isTRUE(self$options$point)) {
             table <- self$results$point
@@ -179,7 +173,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             
             table$setNote("Interval", sprintf("%d%% prediction interval", self$options$level))
           }
-
+          
           # Residual Diagnostics (동적 행, 초기 숨김)
           if (isTRUE(self$options$resid)) {
             tbl <- self$results$resid$diagTable
@@ -187,7 +181,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               tbl$setVisible(FALSE)
               try(tbl$clear(), silent = TRUE)
               try({ for (rk in c("row1","row2","row3","row4")) tbl$deleteRow(rk) }, silent = TRUE)
-
+              
               diagdf <- private$.resid_diag_table(sim$mymodel, sim$tsdata)
               if (!is.null(diagdf) && nrow(diagdf) > 0) {
                 for (i in seq_len(nrow(diagdf))) {
@@ -203,19 +197,20 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               }
             }
           }
-
+          
           # ACF/PACF states
           if (isTRUE(self$options$plot9))  self$results$plot9$setState(stats::na.omit(stats::residuals(sim$mymodel)))
           if (isTRUE(self$options$plot10)) self$results$plot10$setState(stats::na.omit(stats::residuals(sim$mymodel)))
-
+          
           # Accuracy tables
           if (isTRUE(self$options$showAcc)) {
-            acc <- tryCatch(forecast::accuracy(sim$predict, sim$tsdata),
+            acc <- tryCatch(forecast::accuracy(sim$mymodel),
                             error = function(e) forecast::accuracy(sim$predict))
             rn <- rownames(acc)
-            useRow <- if ("Test set" %in% rn) "Test set" else if ("Training set" %in% rn) "Training set" else rn[1]
+            useRow <- if ("Training set" %in% rn) "Training set" else rn[1]
             getm <- function(m) if (m %in% colnames(acc)) as.numeric(acc[useRow, m]) else NA_real_
             rmse <- getm("RMSE"); mae <- getm("MAE"); mape <- getm("MAPE")
+            
             tr <- self$results$accTrain
             if (!is.null(tr)) {
               ok <- TRUE
@@ -224,25 +219,26 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
                 tr$setRow(2, list(Metric="MAE",  Value=round(mae,4)))
                 tr$setRow(3, list(Metric="MAPE", Value=round(mape,4)))
               }, error=function(e) ok <<- FALSE)
+              
               if (!ok) {
                 tr$addRow(rowKey="RMSE", values=list(Metric="RMSE", Value=round(rmse,4)))
                 tr$addRow(rowKey="MAE",  values=list(Metric="MAE",  Value=round(mae,4)))
                 tr$addRow(rowKey="MAPE", values=list(Metric="MAPE", Value=round(mape,4)))
               }
+              
+              tr$setNote("Info", "Accuracy is calculated on the training series.")
             }
             
             cv <- self$results$accCV
             if (!is.null(cv)) {
-              try(cv$clear(), silent = TRUE)
-              cv$setNote("Info", "Rolling tsCV was omitted to improve speed.")
+              cv$setVisible(FALSE)
             }
-            
-            }
-
+          }
+          
           # done
           self$results$progressBarHTML$setContent(progressBarH(100, 100, 'Done'))
         }
-
+        
         # -------- COMPLEX (Prophet) --------
         if (self$options$mode == 'complex') {
           
@@ -250,38 +246,67 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             return()
           
           if (is.null(self$options$dep1) | is.null(self$options$time1)) return()
-
+          
           # progress bar (complex 전용)
           self$results$progressBarHTML$setVisible(TRUE)
           self$results$progressBarHTML$setContent(progressBarH(5, 100, 'Preparing data for Prophet...'))
           on.exit(self$results$progressBarHTML$setVisible(FALSE), add = TRUE)
-
-          if (is.null(private$.allCache)) {
-            private$.allCache <- private$.computeCOM()
-          }
-          com <- private$.allCache
-
+          
+          com <- private$.computeCOM()
+          if (is.null(com)) return()
+          
           state <- list(com$m, com$forecast)
           self$results$plot4$setState(state)
           self$results$plot5$setState(state)
           self$results$plot6$setState(state)
-
+          
           # done
           self$results$progressBarHTML$setContent(progressBarH(100, 100, 'Done'))
         }
       },
-
+      
       .plot = function(image, ...) {
         if (is.null(image$state)) return(FALSE)
         plot(image$state); TRUE
       },
-
+      
       .box = function(image, ggtheme, theme, ...) {
-        data <- jmvcore::naOmit(self$data)
-        tsdata <- stats::ts(data, frequency = self$options$freq)
-        boxplot(tsdata ~ stats::cycle(tsdata)); TRUE
+        dep  <- self$options$dep
+        freq <- self$options$freq
+        
+        if (is.null(dep))
+          return(FALSE)
+        
+        y <- self$data[[dep]]
+        y <- as.numeric(y)
+        y <- y[!is.na(y)]
+        
+        if (length(y) < 2)
+          return(FALSE)
+        
+        tsdata <- stats::ts(y, frequency = freq)
+        
+        if (freq <= 1) {
+          boxplot(
+            as.numeric(tsdata),
+            main = "Box plot",
+            ylab = dep
+          )
+          return(TRUE)
+        }
+        
+        cyc <- stats::cycle(tsdata)
+        
+        boxplot(
+          split(as.numeric(tsdata), cyc),
+          main = "Seasonal box plot",
+          xlab = "Season",
+          ylab = dep
+        )
+        
+        TRUE
       },
-
+      
       .plot1 = function(image1, ...) {
         if (is.null(image1$state)) return(FALSE)
         
@@ -289,30 +314,30 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         print(ggplot2::autoplot(pred))
         TRUE
       },
-
+      
       .plot2 = function(image2, ...) {
         if (is.null(image2$state)) return(FALSE)
         print(plot(image2$state)); TRUE
       },
-
+      
       .plot3 = function(image3, ...) {
         if (is.null(image3$state)) return(FALSE)
         print(plot(image3$state)); TRUE
       },
-
+      
       .plot4 = function(image4, ...) {
         if (is.null(image4$state)) return(FALSE)
         m <- image4$state[[1]]; forecast <- image4$state[[2]]
         print(plot(m, forecast)); TRUE
       },
-
+      
       .plot5 = function(image5, ...) {
         if (is.null(image5$state)) return(FALSE)
         m <- image5$state[[1]]; forecast <- image5$state[[2]]
         prophet::prophet_plot_components(m, forecast, plot_cap = FALSE, uncertainty = TRUE)
         TRUE
       },
-
+      
       .plot6 = function(image6, ...) {
         if (is.null(image6$state)) return(FALSE)
         m <- image6$state[[1]]; forecast <- image6$state[[2]]
@@ -326,7 +351,7 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         print(plot6)
         TRUE
       },
-
+      
       # ---------------------------
       # ACF / PACF renderers
       # ---------------------------
@@ -339,43 +364,59 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         stats::pacf(image$state, main = "Residuals PACF"); TRUE
       },
       # ---------------------------
-
+      
       .computeSIMPLE = function() {
         dep  <- self$options$dep
         freq <- self$options$freq
         pred <- self$options$pred
-
-        data <- jmvcore::naOmit(self$data)
-
+        
+        if (is.null(dep))
+          return(NULL)
+        
+        y <- self$data[[dep]]
+        y <- as.numeric(y)
+        y <- y[!is.na(y)]
+        
+        if (length(y) < 3)
+          stop("At least 3 non-missing observations are required.")
+        
         # progress updates at heavy steps
         self$results$progressBarHTML$setContent(progressBarH(10, 100, 'Cleaning & structuring series...'))
         private$.checkpoint()
-
-        tsdata <- stats::ts(data, frequency = freq)
+        
+        tsdata <- stats::ts(y, frequency = freq)
+        
         if (self$options$clean == 'TRUE')
           tsdata <- forecast::tsclean(tsdata)
-
-        ddata <- stats::decompose(tsdata, "multiplicative")
-
+        
+        ddata <- NULL
+        if (freq > 1 && length(tsdata) >= 2 * freq) {
+          if (all(tsdata > 0, na.rm = TRUE)) {
+            ddata <- stats::decompose(tsdata, "multiplicative")
+          } else {
+            ddata <- stats::decompose(tsdata, "additive")
+          }
+        }
+        
         self$results$progressBarHTML$setContent(progressBarH(40, 100, 'Selecting ARIMA via auto.arima()...'))
         private$.checkpoint()
         mymodel <- forecast::auto.arima(tsdata, approximation = TRUE)
-
+        
         self$results$progressBarHTML$setContent(progressBarH(75, 100, 'Forecasting...'))
         private$.checkpoint()
         predict <- forecast::forecast(mymodel, level = self$options$level, h = pred * freq)
-
+        
         self$results$progressBarHTML$setContent(progressBarH(95, 100, 'Rendering results...'))
         private$.checkpoint()
-
+        
         list(tsdata = tsdata, ddata = ddata, mymodel = mymodel, predict = predict)
       },
-
+      
       .fun = function(model, dig) {
         # return matrix [coef; se]
         if (is.null(model$coef) || length(model$coef) == 0)
           return(matrix(numeric(0), nrow = 0, ncol = 0))
-
+        
         cf <- round(model$coef, digits = dig)
         if (!is.null(model$var.coef) && NROW(model$var.coef)) {
           se <- rep(0, length(cf))
@@ -392,14 +433,33 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(model$xreg) && !is.na(mch)) colnames(out)[mch] <- "mean"
         out
       },
-
+      
       .computeCOM = function() {
-        data <- jmvcore::naOmit(self$data)
-
+        time1 <- self$options$time1
+        dep1  <- self$options$dep1
+        
+        if (is.null(time1) || is.null(dep1))
+          return(NULL)
+        
+        data <- self$data[, c(time1, dep1), drop = FALSE]
+        names(data) <- c("ds", "y")
+        data <- jmvcore::naOmit(data)
+        
+        if (!inherits(data$ds, "Date")) {
+          data$ds <- as.Date(data$ds)
+        }
+        
+        data$y <- as.numeric(data$y)
+        
+        data <- data[!is.na(data$ds) & !is.na(data$y), , drop = FALSE]
+        
+        if (nrow(data) < 3)
+          stop("At least 3 complete observations are required for Prophet.")
+        
         # Prophet progress (few key steps only)
         self$results$progressBarHTML$setContent(progressBarH(10, 100, 'Cleaning & setting up Prophet...'))
         private$.checkpoint()
-
+        
         self$results$progressBarHTML$setContent(progressBarH(40, 100, 'Fitting Prophet model...'))
         private$.checkpoint()
         
@@ -410,17 +470,17 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           yearly.seasonality = "auto",
           weekly.seasonality = "auto"
         )
-
+        
         self$results$progressBarHTML$setContent(progressBarH(75, 100, 'Forecasting with Prophet...'))
         private$.checkpoint()
         future <- prophet::make_future_dataframe(m,
                                                  periods = self$options$periods,
                                                  freq = self$options$unit)
         forecast <- predict(m, future)
-
+        
         self$results$progressBarHTML$setContent(progressBarH(95, 100, 'Rendering Prophet results...'))
         private$.checkpoint()
-
+        
         list(m = m, forecast = forecast)
       }
     )

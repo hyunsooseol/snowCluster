@@ -89,7 +89,7 @@ items:
           type: number
 
     - name: accTrain
-      title: 'Accuracy (in-sample, includes Naive/S-Naive)'
+      title: 'In-sample accuracy'
       type: Table
       visible: (showAcc)
       clearWith:
