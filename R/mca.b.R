@@ -1,12 +1,9 @@
 
-#' @import ggplot2
-
 mcaClass <- if (requireNamespace('jmvcore'))
   R6::R6Class(
     "mcaClass",
     inherit = mcaBase,
     private = list(
-      .allCache = NULL,
       .htmlwidget = NULL,
       
       .init = function() {
@@ -28,7 +25,7 @@ mcaClass <- if (requireNamespace('jmvcore'))
           )
           
         ))
-
+        
       },
       
       .run = function() {
@@ -36,18 +33,10 @@ mcaClass <- if (requireNamespace('jmvcore'))
         
         vars <- self$options$vars
         
-        if (is.null(private$.allCache)) {
-          private$.allCache <- private$.computeRES()
-        }
+        res.mca <- private$.computeRES()
         
-        res.mca <- private$.allCache
-        # # compute the dimension (max) number
-        # n <- 0
-        # for (i in seq_along(vars))
-        #   n <- n + nlevels(data[[i]])
-        # n <- n - length(vars)
-        # # limit the number of dimension to 5
-        # n <- min(n,5)
+        if (is.null(res.mca))
+          return()
         
         if (isTRUE(self$options$eigen)) {
           nd <- self$options$nd
@@ -71,23 +60,23 @@ mcaClass <- if (requireNamespace('jmvcore'))
             table$setRow(rowNo = i, values = row)
           })
         }
-       
+        
         if (isTRUE(self$options$cat)) {
           nd <- self$options$nd
           type <- self$options$type
           
           data_map <- list(
-            "coordinates" = res.mca$var$coord,
-            "cos2"        = res.mca$var$cos2,
-            "contribution"= res.mca$var$contrib  
+            "coordinates"  = res.mca$var$coord,
+            "cos2"         = res.mca$var$cos2,
+            "contribution" = res.mca$var$contrib  
           )          
           
           cc <- data_map[[type]]
-          #self$results$text$setContent(res.mca$var$coord)
-          #-----------------
+          
           df <- res.mca$var$coord
           names <- dimnames(df)[[1]]
           table <- self$results$cat
+          
           for (i in 1:nd)
             table$addColumn(
               name = paste0("pc", i),
@@ -95,12 +84,13 @@ mcaClass <- if (requireNamespace('jmvcore'))
               type = 'number',
               superTitle = 'Dimension'
             )
+          
           for (name in names) {
             row <- list()
             for (j in 1:nd) {
               row[[paste0("pc", j)]] <- cc[name, j]
             }
-           table$addRow(rowKey = name, values = row)
+            table$addRow(rowKey = name, values = row)
           }
         }
         
@@ -109,14 +99,16 @@ mcaClass <- if (requireNamespace('jmvcore'))
           type1 <- self$options$type1
           
           data_map <- list(
-            "coordinates" = res.mca$ind$coord,
-            "cos2"        = res.mca$ind$cos2,
-            "contribution"= res.mca$ind$contrib  
+            "coordinates"  = res.mca$ind$coord,
+            "cos2"         = res.mca$ind$cos2,
+            "contribution" = res.mca$ind$contrib  
           )          
+          
           rr <- data_map[[type1]]
           data <- self$data
           data <- jmvcore::naOmit(data)
           table <- self$results$ind
+          
           for (i in 1:nd)
             table$addColumn(
               name = paste0("pc", i),
@@ -124,6 +116,7 @@ mcaClass <- if (requireNamespace('jmvcore'))
               type = 'number',
               superTitle = 'Dimension'
             )
+          
           for (i in 1:nrow(data)) {
             row <- list()
             for (j in 1:nd) {
@@ -135,16 +128,18 @@ mcaClass <- if (requireNamespace('jmvcore'))
         
         ##### plot##########################
         
-        #  Correlation between variables plot----------
+        # Correlation between variables plot----------
         if (isTRUE(self$options$plot1)) {
           image1 <- self$results$plot1
           image1$setState(res.mca)
         }
+        
         # Coordinates of variable categories plot-------
         if (isTRUE(self$options$plot2)) {
           image2 <- self$results$plot2
           image2$setState(res.mca)
         }
+        
         # Plot of individuals--------
         if (isTRUE(self$options$plot3)) {
           image3 <- self$results$plot3
@@ -165,7 +160,7 @@ mcaClass <- if (requireNamespace('jmvcore'))
           image5$setState(res.mca)
         }
         
-        #Biplot------
+        # Biplot------
         if (isTRUE(self$options$plot6)) {
           image6 <- self$results$plot6
           image6$setState(res.mca)
@@ -176,13 +171,16 @@ mcaClass <- if (requireNamespace('jmvcore'))
       .plot1 = function(image1, ggtheme, theme, ...) {
         if (is.null(image1$state))
           return(FALSE)
+        
         res.mca <- image1$state
         
-        plot1 <- factoextra::fviz_mca_var(res.mca,
-                                          choice = "mca.cor",
-                                          repel = TRUE,
-                                          # Avoid text overlapping (slow)
-                                          ggtheme = theme_minimal())
+        plot1 <- factoextra::fviz_mca_var(
+          res.mca,
+          choice = "mca.cor",
+          repel = TRUE,
+          ggtheme = ggplot2::theme_minimal()
+        )
+        
         plot1 <- plot1 + ggtheme
         print(plot1)
         TRUE
@@ -191,15 +189,17 @@ mcaClass <- if (requireNamespace('jmvcore'))
       .plot2 = function(image2, ggtheme, theme, ...) {
         if (is.null(image2$state))
           return(FALSE)
+        
         res.mca <- image2$state
+        
         plot2 <- factoextra::fviz_mca_var(
           res.mca,
           repel = TRUE,
-          # Avoid text overlapping (slow)
           col.var = "black",
           shape.var = 15,
-          ggtheme = theme_minimal()
+          ggtheme = ggplot2::theme_minimal()
         )
+        
         plot2 <- plot2 + ggtheme
         print(plot2)
         TRUE
@@ -208,11 +208,14 @@ mcaClass <- if (requireNamespace('jmvcore'))
       .plot3 = function(image3, ggtheme, theme, ...) {
         if (is.null(image3$state))
           return(FALSE)
+        
         res.mca <- image3$state
-        plot3 <- factoextra::fviz_mca_ind(res.mca, #col.ind = "contrib",
-                                          # gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                          repel = TRUE, # Avoid text overlapping (slow if many points)
-                                          ggtheme = theme_minimal())
+        
+        plot3 <- factoextra::fviz_mca_ind(
+          res.mca,
+          repel = TRUE,
+          ggtheme = ggplot2::theme_minimal()
+        )
         
         plot3 <- plot3 + ggtheme
         print(plot3)
@@ -224,17 +227,17 @@ mcaClass <- if (requireNamespace('jmvcore'))
           return(FALSE)
         
         res.mca <- image4$state
+        
         plot4 <- factoextra::fviz_mca_ind(
           res.mca,
           label = "none",
-          # hide individual labels
           habillage = self$data[[self$options$facs]],
-          # color by groups
           palette = c("#00AFBB", "#E7B800"),
           addEllipses = TRUE,
           ellipse.type = "confidence",
-          ggtheme = theme_minimal()
+          ggtheme = ggplot2::theme_minimal()
         )
+        
         plot4 <- plot4 + ggtheme
         print(plot4)
         TRUE
@@ -243,8 +246,14 @@ mcaClass <- if (requireNamespace('jmvcore'))
       .plot5 = function(image5, ggtheme, theme, ...) {
         if (is.null(image5$state))
           return(FALSE)
+        
         res.mca <- image5$state
-        plot5 <- factoextra::fviz_screeplot(res.mca, addlabels = TRUE)
+        
+        plot5 <- factoextra::fviz_screeplot(
+          res.mca,
+          addlabels = TRUE
+        )
+        
         plot5 <- plot5 + ggtheme
         print(plot5)
         TRUE
@@ -253,9 +262,15 @@ mcaClass <- if (requireNamespace('jmvcore'))
       .plot6 = function(image6, ggtheme, theme, ...) {
         if (is.null(image6$state))
           return(FALSE)
+        
         res.mca <- image6$state
-        plot6 <- factoextra::fviz_mca_biplot(res.mca, repel = TRUE, # Avoid text overlapping (slow if many point)
-                                             ggtheme = theme_minimal())
+        
+        plot6 <- factoextra::fviz_mca_biplot(
+          res.mca,
+          repel = TRUE,
+          ggtheme = ggplot2::theme_minimal()
+        )
+        
         plot6 <- plot6 + ggtheme
         print(plot6)
         TRUE
@@ -268,7 +283,7 @@ mcaClass <- if (requireNamespace('jmvcore'))
         vars <- self$options$vars
         facs <- self$options$facs
         
-        #get the data--------
+        # get the data--------
         data <- self$data
         data <- jmvcore::naOmit(data)
         
@@ -276,8 +291,6 @@ mcaClass <- if (requireNamespace('jmvcore'))
         for (i in seq_along(vars))
           data[[i]] <- jmvcore::toNumeric(data[[i]])
         
-        
-        #  data[[vars]] <- jmvcore::toNumeric(data[[vars]])
         for (fac in facs)
           data[[fac]] <- as.factor(data[[fac]])
         
@@ -287,8 +300,11 @@ mcaClass <- if (requireNamespace('jmvcore'))
         nd <- self$options$nd
         
         # Multiple Correspondence analysis---------
-        
-        res.mca <- FactoMineR::MCA(data, ncp = nd , graph = FALSE)
+        res.mca <- FactoMineR::MCA(
+          data,
+          ncp = nd,
+          graph = FALSE
+        )
         
         return(res.mca)
         
