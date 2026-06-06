@@ -13,6 +13,9 @@ children:
             name: dep
             isTarget: true
             maxItemCount: 1
+          - type: LevelSelector
+            name: positive
+            enable: (dep)
       - type: TargetLayoutBox
         label: Covariates
         children:
@@ -78,12 +81,7 @@ children:
                     name: tab2
                   - type: CheckBox
                     name: cla
-                    children:
-                      - type: TextBox
-                        name: positive
-                        enable: (cla)
-                        format: string
-  
+
                     
                     
                     

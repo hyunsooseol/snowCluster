@@ -14,7 +14,7 @@ timeclust(
   plot1 = FALSE,
   summary = FALSE,
   plot3 = FALSE,
-  angle = 0
+  angle = 90
 )
 }
 \arguments{

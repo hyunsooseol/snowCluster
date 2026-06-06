@@ -18,7 +18,7 @@ tree(
   plot = FALSE,
   plot1 = FALSE,
   plot2 = FALSE,
-  positive = "no"
+  positive
 )
 }
 \arguments{

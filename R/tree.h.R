@@ -18,7 +18,7 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot = FALSE,
             plot1 = FALSE,
             plot2 = FALSE,
-            positive = "no", ...) {
+            positive = NULL, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -82,10 +82,10 @@ treeOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot2",
                 plot2,
                 default=FALSE)
-            private$..positive <- jmvcore::OptionString$new(
+            private$..positive <- jmvcore::OptionLevel$new(
                 "positive",
                 positive,
-                default="no")
+                variable="(dep)")
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -390,7 +390,7 @@ tree <- function(
     plot = FALSE,
     plot1 = FALSE,
     plot2 = FALSE,
-    positive = "no") {
+    positive) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("tree requires jmvcore to be installed (restart may be required)")
