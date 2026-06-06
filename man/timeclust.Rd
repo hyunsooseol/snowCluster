@@ -13,7 +13,8 @@ timeclust(
   plot = FALSE,
   plot1 = FALSE,
   summary = FALSE,
-  plot3 = FALSE
+  plot3 = FALSE,
+  angle = 0
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ timeclust(
 \item{summary}{.}
 
 \item{plot3}{.}
+
+\item{angle}{.}
 }
 \value{
 A results object containing:

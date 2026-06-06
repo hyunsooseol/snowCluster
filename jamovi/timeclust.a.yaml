@@ -52,7 +52,7 @@ options:
       type: Output
 
     - name: plot1
-      title: 'BIC plot'
+      title: 'Elbow plot'
       type: Bool
       default: FALSE
 
@@ -66,6 +66,11 @@ options:
       type: Bool
       default: FALSE
 
-
+    - name: angle
+      title: Angle of x-axis labels
+      type: Number
+      min: 0
+      max: 90
+      default: 90
 
 ...

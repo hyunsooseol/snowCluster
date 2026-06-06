@@ -13,7 +13,8 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot = FALSE,
             plot1 = FALSE,
             summary = FALSE,
-            plot3 = FALSE, ...) {
+            plot3 = FALSE,
+            angle = 90, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -65,6 +66,12 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot3",
                 plot3,
                 default=FALSE)
+            private$..angle <- jmvcore::OptionNumber$new(
+                "angle",
+                angle,
+                min=0,
+                max=90,
+                default=90)
 
             self$.addOption(private$..k)
             self$.addOption(private$..feature)
@@ -75,6 +82,7 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..plot1)
             self$.addOption(private$..summary)
             self$.addOption(private$..plot3)
+            self$.addOption(private$..angle)
         }),
     active = list(
         k = function() private$..k$value,
@@ -85,7 +93,8 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         clust = function() private$..clust$value,
         plot1 = function() private$..plot1$value,
         summary = function() private$..summary$value,
-        plot3 = function() private$..plot3$value),
+        plot3 = function() private$..plot3$value,
+        angle = function() private$..angle$value),
     private = list(
         ..k = NA,
         ..feature = NA,
@@ -95,7 +104,8 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..clust = NA,
         ..plot1 = NA,
         ..summary = NA,
-        ..plot3 = NA)
+        ..plot3 = NA,
+        ..angle = NA)
 )
 
 timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -175,7 +185,7 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
-                title="BIC plot",
+                title="Elbow Plot Information",
                 requiresData=TRUE,
                 visible="(plot1)",
                 refs="mclust",
@@ -197,7 +207,8 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "item",
                     "feature",
                     "value",
-                    "k")))
+                    "k",
+                    "angle")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -209,7 +220,8 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "item",
                     "feature",
                     "value",
-                    "k")))}))
+                    "k",
+                    "angle")))}))
 
 timeclustBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "timeclustBase",
@@ -244,6 +256,7 @@ timeclustBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param plot1 .
 #' @param summary .
 #' @param plot3 .
+#' @param angle .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -271,7 +284,8 @@ timeclust <- function(
     plot = FALSE,
     plot1 = FALSE,
     summary = FALSE,
-    plot3 = FALSE) {
+    plot3 = FALSE,
+    angle = 90) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("timeclust requires jmvcore to be installed (restart may be required)")
@@ -297,7 +311,8 @@ timeclust <- function(
         plot = plot,
         plot1 = plot1,
         summary = summary,
-        plot3 = plot3)
+        plot3 = plot3,
+        angle = angle)
 
     analysis <- timeclustClass$new(
         options = options,

@@ -54,7 +54,7 @@ items:
           type: number
 
     - name:  plot1
-      title: 'BIC plot'
+      title: 'Elbow Plot Information'
       type:  Image
       requiresData: true
       visible: (plot1)
@@ -78,6 +78,7 @@ items:
         - feature
         - value
         - k 
+        - angle
 
     - name:  plot3
       title: 'Cluster mean time series'
@@ -90,5 +91,6 @@ items:
         - feature
         - value
         - k 
+        - angle
 
 ...
