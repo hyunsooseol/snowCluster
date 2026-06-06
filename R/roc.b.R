@@ -22,6 +22,7 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
             '<div style="text-align:justify;">',
             '<ul>',
+            '<li>Select the outcome category to be treated as the positive level in ROC analysis.</li>',
             '<li>ROC analysis based on Binomial logistic regression.</li>',
             '<li>Perform ROC curve based on <a href="https://github.com/cardiomoon/multipleROC" target = "_blank">multipleROC R package</a>.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
