@@ -4,7 +4,6 @@ mfaClass <- if (requireNamespace('jmvcore'))
     "mfaClass",
     inherit = mfaBase,
     private = list(
-      .allCache = NULL,
       .htmlwidget = NULL,
       
       #------------------------------------
@@ -45,11 +44,8 @@ mfaClass <- if (requireNamespace('jmvcore'))
         if (length(self$options$vars) < 3) return()
         vars <- self$options$vars
         
-        if (is.null(private$.allCache)) {
-          private$.allCache <- private$.computeRES()
-        }
-        mfa <- private$.allCache
-
+        mfa <- private$.computeRES()
+        
         #Tables---
         
         if (isTRUE(self$options$eigen)) {
