@@ -4,59 +4,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
     "kmeansClass",
     inherit = kmeansBase,
     private = list(
-      .allCache = list(
-        model = NULL,
-        plotData = NULL,
-        clusterData = NULL,
-        gowerData = NULL,
-        silhouetteData = NULL,
-        elbowData = NULL,
-        cachedOptions = NULL,
-        standardizedData = NULL  # Cache standardized data
-      ),
       .htmlwidget = NULL,
-      
-      .optionsChanged = function() {
-        if (is.null(private$.allCache$cachedOptions)) return(TRUE)
-        currentOptions <- list(
-          vars = self$options$vars,
-          k = self$options$k,
-          stand = self$options$stand,
-          nstart = self$options$nstart,
-          algo = self$options$algo,
-          factors = self$options$factors,
-          k1 = self$options$k1,
-          max = self$options$max,
-          oc = self$options$oc,
-          kp = self$options$kp,
-          plot1 = self$options$plot1,
-          plot2 = self$options$plot2,
-          plot3 = self$options$plot3,
-          plot4 = self$options$plot4,
-          plot5 = self$options$plot5
-        )
-        return(!identical(currentOptions, private$.allCache$cachedOptions))
-      },
-      
-      .saveOptions = function() {
-        private$.allCache$cachedOptions <- list(
-          vars = self$options$vars,
-          k = self$options$k,
-          stand = self$options$stand,
-          nstart = self$options$nstart,
-          algo = self$options$algo,
-          factors = self$options$factors,
-          k1 = self$options$k1,
-          max = self$options$max,
-          oc = self$options$oc,
-          kp = self$options$kp,
-          plot1 = self$options$plot1,
-          plot2 = self$options$plot2,
-          plot3 = self$options$plot3,
-          plot4 = self$options$plot4,
-          plot5 = self$options$plot5
-        )
-      },
       
       # Helper function to standardize data
       .standardizeData = function(data) {
@@ -163,17 +111,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         if (!hasKmeans && !hasGower)
           return()
         
-        optionsChanged <- private$.optionsChanged()
         model <- NULL
-        
-        if (optionsChanged) {
-          private$.allCache$model <- NULL
-          private$.allCache$plotData <- NULL
-          private$.allCache$clusterData <- NULL
-          private$.allCache$gowerData <- NULL
-          private$.allCache$silhouetteData <- NULL
-          private$.allCache$elbowData <- NULL
-        }
         
         # Store number of rows from original data
         n_row <- nrow(self$data)
@@ -183,25 +121,20 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           
           not_na_idx <- which(stats::complete.cases(self$data[, vars, drop = FALSE]))
           
-          if (optionsChanged || is.null(private$.allCache$model)) {
-            set.seed(1234)
-            k <- self$options$k
-            
-            # Prepare data for clustering
-            data_nomiss <- self$data[not_na_idx, , drop = FALSE]
-            dat2 <- private$.prepareContinuousData(data_nomiss, vars, remove_na = FALSE)
-            
-            if (ncol(dat2) >= 2) {
-              model <- stats::kmeans(
-                dat2,
-                centers = self$options$k,
-                nstart = self$options$nstart,
-                algorithm = self$options$algo
-              )
-              private$.allCache$model <- model
-            }
-          } else {
-            model <- private$.allCache$model
+          set.seed(1234)
+          k <- self$options$k
+          
+          # Prepare data for clustering
+          data_nomiss <- self$data[not_na_idx, , drop = FALSE]
+          dat2 <- private$.prepareContinuousData(data_nomiss, vars, remove_na = FALSE)
+          
+          if (ncol(dat2) >= 2) {
+            model <- stats::kmeans(
+              dat2,
+              centers = self$options$k,
+              nstart = self$options$nstart,
+              algorithm = self$options$algo
+            )
           }
         }
         
@@ -251,16 +184,12 @@ kmeansClass <- if (requireNamespace('jmvcore'))
             ss$setRow(rowKey = i, values = list(value = SSW[i]))
           
           # Prepare plot data
-          if (is.null(private$.allCache$plotData) || optionsChanged) {
-            plotData <- data.frame(
-              cluster = as.factor(rep(1:k, nVars)),
-              var = rep(vars, each = k),
-              centers = as.vector(model$centers)
-            )
-            private$.allCache$plotData <- plotData
-          } else {
-            plotData <- private$.allCache$plotData
-          }
+          plotData <- data.frame(
+            cluster = as.factor(rep(1:k, nVars)),
+            var = rep(vars, each = k),
+            centers = as.vector(model$centers)
+          )
+          
           image <- self$results$plot
           image$setState(plotData)
         }
@@ -280,125 +209,119 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         
         # Plot3: Variable clustering (PCA) plot
         if (isTRUE(self$options$plot3) && !is.null(model)) {
-          if (is.null(private$.allCache$clusterData) || optionsChanged) {
-            # Always use standardized data for PCA plot (as per instructions)
-            data <- jmvcore::select(self$data, self$options$vars)
-            data <- jmvcore::naOmit(data)
-            for (i in seq_along(self$options$vars))
-              data[[i]] <- jmvcore::toNumeric(data[[i]])
-            
-            # Force standardization for PCA plot
-            for (var in 1:ncol(data)) {
-              tmp <- data[, var]
-              data[, var] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
-            }
-            
-            res.pca <- FactoMineR::PCA(data, graph = FALSE)
-            var <- factoextra::get_pca_var(res.pca)
-            set.seed(1234)
-            res.km <- stats::kmeans(
-              var$coord,
-              centers = self$options$k,
-              nstart = self$options$nstart,
-              algorithm = self$options$algo
-            )
-            grp <- as.factor(res.km$cluster)
-            state <- list(res.pca, grp)
-            private$.allCache$clusterData <- state
+          # Always use standardized data for PCA plot (as per instructions)
+          data <- jmvcore::select(self$data, self$options$vars)
+          data <- jmvcore::naOmit(data)
+          for (i in seq_along(self$options$vars))
+            data[[i]] <- jmvcore::toNumeric(data[[i]])
+          
+          # Force standardization for PCA plot
+          for (var in 1:ncol(data)) {
+            tmp <- data[, var]
+            data[, var] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
           }
+          
+          res.pca <- FactoMineR::PCA(data, graph = FALSE)
+          var <- factoextra::get_pca_var(res.pca)
+          set.seed(1234)
+          res.km <- stats::kmeans(
+            var$coord,
+            centers = self$options$k,
+            nstart = self$options$nstart,
+            algorithm = self$options$algo
+          )
+          grp <- as.factor(res.km$cluster)
+          state <- list(res.pca, grp)
+          
           image3 <- self$results$plot3
-          image3$setState(private$.allCache$clusterData)
+          image3$setState(state)
         }
         
         # Plot5: Scree plot (Elbow method)
         if (hasKmeans && isTRUE(self$options$plot5)) {
-          if (is.null(private$.allCache$elbowData) || optionsChanged) {
-            data <- private$.prepareContinuousData(self$data, self$options$vars)
-            
-            inertia <- numeric(self$options$max)
-            for (k in 1:self$options$max) {
-              set.seed(1234)
-              km.res <- stats::kmeans(
-                data,
-                centers = k,
-                nstart = self$options$nstart,
-                algorithm = self$options$algo
-              )
-              inertia[k] <- km.res$tot.withinss
-            }
-            elbow_data <- data.frame(K = 1:self$options$max, Inertia = inertia)
-            private$.allCache$elbowData <- elbow_data
+          data <- private$.prepareContinuousData(self$data, self$options$vars)
+          
+          inertia <- numeric(self$options$max)
+          for (k in 1:self$options$max) {
+            set.seed(1234)
+            km.res <- stats::kmeans(
+              data,
+              centers = k,
+              nstart = self$options$nstart,
+              algorithm = self$options$algo
+            )
+            inertia[k] <- km.res$tot.withinss
           }
+          elbow_data <- data.frame(K = 1:self$options$max, Inertia = inertia)
+          
           image5 <- self$results$plot5
-          image5$setState(private$.allCache$elbowData)
+          image5$setState(elbow_data)
         }
         
         # Gower distance analysis for mixed-type variables
         if (hasGower) {
-          if (is.null(private$.allCache$gowerData) || optionsChanged) {
-            k1 <- self$options$k1
-            vars <- self$options$vars
-            facs <- self$options$factors
-            data <- self$data
+          gowerData <- list()
+          silhouetteData <- NULL
+          
+          k1 <- self$options$k1
+          vars <- self$options$vars
+          facs <- self$options$factors
+          data <- self$data
+          
+          # Process continuous variables
+          if (length(vars) > 0) {
+            for (i in seq_along(vars))
+              data[[vars[i]]] <- jmvcore::toNumeric(data[[vars[i]]])
             
-            # Process continuous variables
-            if (length(vars) > 0) {
-              for (i in seq_along(vars))
-                data[[vars[i]]] <- jmvcore::toNumeric(data[[vars[i]]])
-              
-              # Apply standardization option (only for continuous variables)
-              if (self$options$stand && length(vars) > 0) {
-                for (var in vars) {
-                  tmp <- data[[var]]
-                  data[[var]] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
-                }
-              }
-            }
-            
-            # Process categorical variables
-            if (length(facs) > 0) {
-              for (fac in facs)
-                data[[fac]] <- as.factor(data[[fac]])
-            }
-            
-            # Combine dataset
-            selected_vars <- c(vars, facs)
-            not_na_idx_gower <- which(stats::complete.cases(data[, selected_vars, drop = FALSE]))
-            dat <- data[not_na_idx_gower, selected_vars, drop = FALSE]
-            
-            # Calculate Gower distance and cache
-            if (isTRUE(self$options$oc)) {
-              set.seed(1234)
-              oc <- clustMixType::validation_kproto(data = dat, type = 'gower')
-              private$.allCache$gowerData <- list(indices = oc$indices)
-            }
-            
-            if (isTRUE(self$options$kp)) {
-              set.seed(1234)
-              proto <- clustMixType::kproto(dat, k = k1, type = 'gower')
-              if (is.null(private$.allCache$gowerData)) {
-                private$.allCache$gowerData <- list()
-              }
-              private$.allCache$gowerData$proto <- proto
-              
-              if (isTRUE(self$options$plot4)) {
-                gn <- proto$cluster
-                gower_dist <- stats::as.dist(proto$dists)
-                sil <- cluster::silhouette(gn, gower_dist)
-                sil_data <- data.frame(cluster = factor(sil[, 1]),
-                                       silhouette_width = sil[, 3])
-                agg_sil <- stats::aggregate(silhouette_width ~ cluster, data = sil_data, mean)
-                agg_sil$cluster_num <- as.integer(as.character(agg_sil$cluster))
-                agg_sil <- agg_sil[order(agg_sil$cluster_num), ]
-                private$.allCache$silhouetteData <- agg_sil
+            # Apply standardization option (only for continuous variables)
+            if (self$options$stand && length(vars) > 0) {
+              for (var in vars) {
+                tmp <- data[[var]]
+                data[[var]] <- (tmp - mean(tmp, na.rm = TRUE)) / sd(tmp, na.rm = TRUE)
               }
             }
           }
           
+          # Process categorical variables
+          if (length(facs) > 0) {
+            for (fac in facs)
+              data[[fac]] <- as.factor(data[[fac]])
+          }
+          
+          # Combine dataset
+          selected_vars <- c(vars, facs)
+          not_na_idx_gower <- which(stats::complete.cases(data[, selected_vars, drop = FALSE]))
+          dat <- data[not_na_idx_gower, selected_vars, drop = FALSE]
+          
+          # Calculate Gower distance
+          if (isTRUE(self$options$oc)) {
+            set.seed(1234)
+            oc <- clustMixType::validation_kproto(data = dat, type = 'gower')
+            gowerData$indices <- oc$indices
+          }
+          
+          if (isTRUE(self$options$kp)) {
+            set.seed(1234)
+            proto <- clustMixType::kproto(dat, k = k1, type = 'gower')
+            gowerData$proto <- proto
+            
+            if (isTRUE(self$options$plot4)) {
+              gn <- proto$cluster
+              gower_dist <- stats::as.dist(proto$dists)
+              sil <- cluster::silhouette(gn, gower_dist)
+              sil_data <- data.frame(cluster = factor(sil[, 1]),
+                                     silhouette_width = sil[, 3])
+              agg_sil <- stats::aggregate(silhouette_width ~ cluster, data = sil_data, mean)
+              agg_sil$cluster_num <- as.integer(as.character(agg_sil$cluster))
+              agg_sil <- agg_sil[order(agg_sil$cluster_num), ]
+              silhouetteData <- agg_sil
+            }
+          }
+          
           # Update optimal clusters table
-          if (isTRUE(self$options$oc) && !is.null(private$.allCache$gowerData$indices)) {
+          if (isTRUE(self$options$oc) && !is.null(gowerData$indices)) {
             table <- self$results$oc
-            oc <- data.frame(private$.allCache$gowerData$indices)
+            oc <- data.frame(gowerData$indices)
             names <- dimnames(oc)[[1]]
             for (name in names) {
               row <- list()
@@ -408,8 +331,8 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           }
           
           # Update kproto table
-          if (isTRUE(self$options$kp) && !is.null(private$.allCache$gowerData$proto)) {
-            proto <- private$.allCache$gowerData$proto
+          if (isTRUE(self$options$kp) && !is.null(gowerData$proto)) {
+            proto <- gowerData$proto
             table <- self$results$kp
             mat <- data.frame(proto$dists)
             colnames(mat) <- paste0("Cluster", seq_along(colnames(mat)))
@@ -441,13 +364,11 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           }
           
           # Plot4: Silhouette plot
-          if (isTRUE(self$options$plot4) && !is.null(private$.allCache$silhouetteData)) {
+          if (isTRUE(self$options$plot4) && !is.null(silhouetteData)) {
             image4 <- self$results$plot4
-            image4$setState(private$.allCache$silhouetteData)
+            image4$setState(silhouetteData)
           }
         }
-        
-        private$.saveOptions()
       },
       
       # Plot of means across groups
@@ -549,10 +470,22 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         
         res.pca <- image3$state[[1]]
         grp     <- image3$state[[2]]
+        
         plot3 <-
-          factoextra::fviz_pca_var(res.pca, col.var = grp,
-                                   legend.title = "Cluster")
-        plot3 <- plot3 + ggtheme
+          factoextra::fviz_pca_var(
+            res.pca,
+            col.var = grp,
+            legend.title = "Cluster"
+          )
+        
+        plot3 <- plot3 +
+          ggplot2::guides(
+            colour = ggplot2::guide_legend(
+              override.aes = list(label = "")
+            )
+          ) +
+          ggtheme
+        
         print(plot3)
         TRUE
       },
