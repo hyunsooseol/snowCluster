@@ -9,18 +9,24 @@ children:
     stretchFactor: 1
     children:
       - type: TargetLayoutBox
-        label: 'Dependent variable'
+        label: 'Dependent'
         children:
           - type: VariablesListBox
             name: dep
             maxItemCount: 1
             isTarget: true
+          - type: LevelSelector
+            name: positive
+            enable: (dep)
+
       - type: TargetLayoutBox
         label: 'Covariates'
         children:
           - type: VariablesListBox
             name: covs
             isTarget: true
+
+
   - type: LayoutBox
     margin: large
     stretchFactor: 1

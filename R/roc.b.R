@@ -51,26 +51,26 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         # 
         # formula <- as.formula(paste(paste(dep, paste0(covs, collapse = "+"), 
         #                                   sep ="~")))
-        dep <- jmvcore::composeTerm(self$options$dep)
-        covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
-        
-        data <- self$data
-        data <- na.omit(data)
-        data <- as.data.frame(data)
-        
-        formula <- as.formula(
-          paste(dep, paste(covs, collapse = " + "), sep = " ~ ")
-        )
-        
-                
-        # if(isTRUE(self$options$plot1)){
-        #
-        # image <- self$results$plot1
-        # image$setState(formula)
-        # }
-        p2 <- private$.computeP2()
-        #self$results$text$setContent(p2)
-        p3 <- private$.computeP3()
+        # dep <- jmvcore::composeTerm(self$options$dep)
+        # covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
+        # 
+        # data <- self$data
+        # data <- na.omit(data)
+        # data <- as.data.frame(data)
+        # 
+        # formula <- as.formula(
+        #   paste(dep, paste(covs, collapse = " + "), sep = " ~ ")
+        # )
+        # 
+        #         
+        # # if(isTRUE(self$options$plot1)){
+        # #
+        # # image <- self$results$plot1
+        # # image$setState(formula)
+        # # }
+        # p2 <- private$.computeP2()
+        # #self$results$text$setContent(p2)
+        # p3 <- private$.computeP3()
 
         if (isTRUE(self$options$auc)) {
           if (length(self$options$covs) < 2) {
@@ -95,7 +95,9 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             {
               if (length(labels) != dim(x)[1])
                 stop("\n The number of rows in x must match the length of labels\n")
-              id.pos <- labels == labpos
+              #id.pos <- labels == labpos
+              id.pos <- as.character(labels) == as.character(labpos)
+              
               if (sum(id.pos) < 1)
                 stop("\n wrong level specified!\n")
               if (dim(x)[2] < 2)
@@ -278,13 +280,57 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             
             # delong test ---------------------
             
-            res <- deLong.test(x = data[, -1],
-                               labels = data[, 1],
-                               labpos = "1")
+            # res <- deLong.test(x = data[, -1],
+            #                    labels = data[, 1],
+            #                    labpos = "1")
             
             # self$results$delong$setVisible(visible = TRUE)
             # self$results$delong$setContent(delongres)
+            # labels <- data[[1]]
+            # 
+            # if (is.factor(labels)) {
+            #   labelLevels <- levels(droplevels(labels))
+            # } else {
+            #   labelLevels <- unique(labels[!is.na(labels)])
+            # }
+            # 
+            # if (length(labelLevels) != 2) {
+            #   stop("The dependent variable must have exactly two levels.")
+            # }
+            # 
+            # positiveLevel <- labelLevels[2]
+            # 
+            # res <- deLong.test(
+            #   x = data[, -1, drop = FALSE],
+            #   labels = labels,
+            #   labpos = positiveLevel
+            # )            
+            labels <- data[[1]]
+            positiveLevel <- self$options$positive
             
+            if (is.factor(labels)) {
+              labelLevels <- levels(droplevels(labels))
+            } else {
+              labelLevels <- unique(labels[!is.na(labels)])
+            }
+            
+            if (length(labelLevels) != 2) {
+              stop("The dependent variable must have exactly two levels.")
+            }
+            
+            if (is.null(positiveLevel) || length(positiveLevel) == 0) {
+              stop("Please specify the positive level.")
+            }
+            
+            if (!as.character(positiveLevel) %in% as.character(labelLevels)) {
+              stop("The selected positive level is not a valid level of the dependent variable.")
+            }
+            
+            res <- deLong.test(
+              x = data[, -1, drop = FALSE],
+              labels = labels,
+              labpos = positiveLevel
+            )
             #----------------------------------------
             table <- self$results$auc
             res1 <- res$AUC
@@ -328,31 +374,66 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       .plot1 = function(image, ...) {
         if (!self$options$plot1)
           return(FALSE)
-        # dep <- self$options$dep
-        # covs <- self$options$covs
-        # data <- self$data
-        # data <- na.omit(data)
-        # data <- as.data.frame(data)
-        # 
-        # #Formula(male~height+weight)------
-        # covs <- vapply(covs, function(x)
-        #   jmvcore::composeTerm(x), '')
-        # formula <- as.formula(paste(paste(dep, paste0(covs, collapse =
-        dep <- jmvcore::composeTerm(self$options$dep)
-        covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
+        
+        depName <- self$options$dep
+        positiveLevel <- self$options$positive
+        
+        dep <- jmvcore::composeTerm(depName)
+        covs <- vapply(
+          self$options$covs,
+          jmvcore::composeTerm,
+          character(1)
+        )
         
         data <- self$data
         data <- na.omit(data)
         data <- as.data.frame(data)
+        
+        # Apply the selected positive level
+        depValues <- data[[depName]]
+        depLevels <- levels(droplevels(as.factor(depValues)))
+        
+        if (length(depLevels) != 2) {
+          stop("The dependent variable must have exactly two levels.")
+        }
+        
+        if (is.null(positiveLevel) || length(positiveLevel) == 0) {
+          stop("Please specify the positive level.")
+        }
+        
+        positiveLevel <- as.character(positiveLevel)
+        
+        if (!positiveLevel %in% as.character(depLevels)) {
+          stop(
+            "The selected positive level is not a valid level of the dependent variable."
+          )
+        }
+        
+        negativeLevel <- setdiff(
+          as.character(depLevels),
+          positiveLevel
+        )
+        
+        data[[depName]] <- factor(
+          as.character(depValues),
+          levels = c(negativeLevel, positiveLevel)
+        )
+        
         formula <- as.formula(
-          paste(dep, paste(covs, collapse = " + "), sep = " ~ ")
-        )        
-
-        plot1 <-  multipleROC::multipleROC(formula, data = data)
+          paste(
+            dep,
+            paste(covs, collapse = " + "),
+            sep = " ~ "
+          )
+        )
+        
+        plot1 <- multipleROC::multipleROC(
+          formula,
+          data = data
+        )
         
         print(plot1)
         TRUE
-        
       },
       
       .plot2 = function(image, ggtheme, theme, ...) {
@@ -385,12 +466,49 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       #Function---
       
       .computeP2 = function() {
-        dep <- jmvcore::composeTerm(self$options$dep)
-        covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
+        depName <- self$options$dep
+        positiveLevel <- self$options$positive
+        
+        dep <- jmvcore::composeTerm(depName)
+        covs <- vapply(
+          self$options$covs,
+          jmvcore::composeTerm,
+          character(1)
+        )
         
         data <- self$data
         data <- na.omit(data)
         data <- as.data.frame(data)
+        
+        # Apply the selected positive level
+        depValues <- data[[depName]]
+        depLevels <- levels(droplevels(as.factor(depValues)))
+        
+        if (length(depLevels) != 2) {
+          stop("The dependent variable must have exactly two levels.")
+        }
+        
+        if (is.null(positiveLevel) || length(positiveLevel) == 0) {
+          stop("Please specify the positive level.")
+        }
+        
+        positiveLevel <- as.character(positiveLevel)
+        
+        if (!positiveLevel %in% as.character(depLevels)) {
+          stop(
+            "The selected positive level is not a valid level of the dependent variable."
+          )
+        }
+        
+        negativeLevel <- setdiff(
+          as.character(depLevels),
+          positiveLevel
+        )
+        
+        data[[depName]] <- factor(
+          as.character(depValues),
+          levels = c(negativeLevel, positiveLevel)
+        )
         
         roc <- list()
         
@@ -410,12 +528,49 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .computeP3 = function() {
-        dep <- jmvcore::composeTerm(self$options$dep)
-        covs <- vapply(self$options$covs, jmvcore::composeTerm, character(1))
+        depName <- self$options$dep
+        positiveLevel <- self$options$positive
+        
+        dep <- jmvcore::composeTerm(depName)
+        covs <- vapply(
+          self$options$covs,
+          jmvcore::composeTerm,
+          character(1)
+        )
         
         data <- self$data
         data <- na.omit(data)
         data <- as.data.frame(data)
+        
+        # Apply the selected positive level
+        depValues <- data[[depName]]
+        depLevels <- levels(droplevels(as.factor(depValues)))
+        
+        if (length(depLevels) != 2) {
+          stop("The dependent variable must have exactly two levels.")
+        }
+        
+        if (is.null(positiveLevel) || length(positiveLevel) == 0) {
+          stop("Please specify the positive level.")
+        }
+        
+        positiveLevel <- as.character(positiveLevel)
+        
+        if (!positiveLevel %in% as.character(depLevels)) {
+          stop(
+            "The selected positive level is not a valid level of the dependent variable."
+          )
+        }
+        
+        negativeLevel <- setdiff(
+          as.character(depLevels),
+          positiveLevel
+        )
+        
+        data[[depName]] <- factor(
+          as.character(depValues),
+          levels = c(negativeLevel, positiveLevel)
+        )
         
         roc <- list()
         

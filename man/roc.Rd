@@ -13,7 +13,8 @@ roc(
   plot3 = FALSE,
   auc = FALSE,
   dif = FALSE,
-  overall = FALSE
+  overall = FALSE,
+  positive
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ roc(
 \item{dif}{.}
 
 \item{overall}{.}
+
+\item{positive}{.}
 }
 \value{
 A results object containing:

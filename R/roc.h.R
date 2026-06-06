@@ -13,7 +13,8 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot3 = FALSE,
             auc = FALSE,
             dif = FALSE,
-            overall = FALSE, ...) {
+            overall = FALSE,
+            positive = NULL, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -55,6 +56,10 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "overall",
                 overall,
                 default=FALSE)
+            private$..positive <- jmvcore::OptionLevel$new(
+                "positive",
+                positive,
+                variable="(dep)")
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -64,6 +69,7 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..auc)
             self$.addOption(private$..dif)
             self$.addOption(private$..overall)
+            self$.addOption(private$..positive)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -73,7 +79,8 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot3 = function() private$..plot3$value,
         auc = function() private$..auc$value,
         dif = function() private$..dif$value,
-        overall = function() private$..overall$value),
+        overall = function() private$..overall$value,
+        positive = function() private$..positive$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -82,7 +89,8 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot3 = NA,
         ..auc = NA,
         ..dif = NA,
-        ..overall = NA)
+        ..overall = NA,
+        ..positive = NA)
 )
 
 rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -124,7 +132,8 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="multipleROC",
                 clearWith=list(
                     "covs",
-                    "dep")))
+                    "dep",
+                    "positive")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot2",
@@ -135,7 +144,8 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="multipleROC",
                 clearWith=list(
                     "covs",
-                    "dep")))
+                    "dep",
+                    "positive")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot3",
@@ -146,7 +156,8 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs="multipleROC",
                 clearWith=list(
                     "covs",
-                    "dep")))
+                    "dep",
+                    "positive")))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="auc",
@@ -154,7 +165,8 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(auc)",
                 clearWith=list(
                     "dep",
-                    "covs"),
+                    "covs",
+                    "positive"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -177,7 +189,8 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(auc)",
                 clearWith=list(
                     "dep",
-                    "covs"),
+                    "covs",
+                    "positive"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -211,7 +224,8 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(overall)",
                 clearWith=list(
                     "dep",
-                    "covs"),
+                    "covs",
+                    "positive"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -220,6 +234,7 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `content`="Value"),
                     list(
                         `name`="Z", 
+                        `title`="Wald \u03C7\u00B2", 
                         `type`="number"),
                     list(
                         `name`="p", 
@@ -259,6 +274,7 @@ rocBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param auc .
 #' @param dif .
 #' @param overall .
+#' @param positive .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -287,7 +303,8 @@ roc <- function(
     plot3 = FALSE,
     auc = FALSE,
     dif = FALSE,
-    overall = FALSE) {
+    overall = FALSE,
+    positive) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("roc requires jmvcore to be installed (restart may be required)")
@@ -310,7 +327,8 @@ roc <- function(
         plot3 = plot3,
         auc = auc,
         dif = dif,
-        overall = overall)
+        overall = overall,
+        positive = positive)
 
     analysis <- rocClass$new(
         options = options,

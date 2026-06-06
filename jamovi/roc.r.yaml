@@ -23,6 +23,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - positive
 
     - name:  plot2
       title: 'Multiple ROC curves'
@@ -34,7 +35,8 @@ items:
       clearWith:
         - covs 
         - dep
-
+        - positive
+        
     - name:  plot3
       title: 'Faceted ROC plots'
       type:  Image
@@ -45,6 +47,7 @@ items:
       clearWith:
         - covs 
         - dep
+        - positive
 
     - name: auc
       title: 'A nonparametric test for AUC'
@@ -53,6 +56,7 @@ items:
       clearWith:
         - dep
         - covs
+        - positive
  
       columns:
         - name: name
@@ -74,6 +78,7 @@ items:
       clearWith:
         - dep
         - covs
+        - positive
  
       columns:
         - name: name
@@ -104,6 +109,7 @@ items:
       clearWith:
         - dep
         - covs
+        - positive
 
       columns:
         - name: name
@@ -111,6 +117,7 @@ items:
           type: 'text'
           content: Value
         - name: Z
+          title: 'Wald χ²'
           type: number
         - name: p
           type: number
