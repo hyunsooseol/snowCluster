@@ -338,16 +338,51 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         TRUE
       },
       
-      .plot6 = function(image6, ...) {
-        if (is.null(image6$state)) return(FALSE)
-        m <- image6$state[[1]]; forecast <- image6$state[[2]]
-        actual_df   <- data.frame(ds = m$history$ds, y = m$history$y)
-        expected_df <- data.frame(ds = forecast$ds, yhat = forecast$yhat)
-        plot6 <- ggplot() +
-          geom_smooth(data = actual_df,   aes(x = ds, y = y,    color = "Actual"),   se = FALSE) +
-          geom_smooth(data = expected_df, aes(x = ds, y = yhat, color = "Expected"), se = FALSE) +
-          labs(title = "Actual vs Expected Values", x = "Date", y = "Value", color = " ") +
-          theme_bw()
+      .plot6 = function(image6, ggtheme, theme, ...) {
+        if (is.null(image6$state))
+          return(FALSE)
+        
+        m <- image6$state[[1]]
+        forecast <- image6$state[[2]]
+        
+        actual_df <- data.frame(
+          ds = m$history$ds,
+          y = m$history$y
+        )
+        
+        expected_df <- data.frame(
+          ds = forecast$ds,
+          yhat = forecast$yhat
+        )
+        
+        plot6 <- ggplot2::ggplot() +
+          ggplot2::geom_smooth(
+            data = actual_df,
+            ggplot2::aes(
+              x = ds,
+              y = y,
+              color = "Actual"
+            ),
+            se = FALSE
+          ) +
+          ggplot2::geom_smooth(
+            data = expected_df,
+            ggplot2::aes(
+              x = ds,
+              y = yhat,
+              color = "Expected"
+            ),
+            se = FALSE
+          ) +
+          ggplot2::labs(
+            title = "Actual vs Expected Values",
+            x = "Date",
+            y = "Value",
+            color = " "
+          ) +
+          ggplot2::theme_bw()
+        
+        plot6 <- plot6 + ggtheme
         print(plot6)
         TRUE
       },

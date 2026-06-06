@@ -1,3 +1,4 @@
+
 # This file is a generated template, your changes will not be overwritten
 
 #' @importFrom magrittr %>%
@@ -176,17 +177,36 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         df <- image$state
-        if (nrow(df) == 0) return(FALSE)
+        if (nrow(df) == 0)
+          return(FALSE)
         
-        library(ggplot2)
+        p <- ggplot2::ggplot(
+          df,
+          ggplot2::aes(
+            x = ds,
+            y = yhat,
+            color = variable,
+            fill = variable
+          )
+        ) +
+          ggplot2::geom_ribbon(
+            ggplot2::aes(
+              ymin = yhat_lower,
+              ymax = yhat_upper
+            ),
+            alpha = 0.15,
+            colour = NA
+          ) +
+          ggplot2::geom_line(linewidth = 0.7) +
+          ggplot2::labs(
+            x = "Date",
+            y = "Forecast",
+            color = "Variable",
+            fill = "Variable"
+          ) +
+          ggplot2::theme_bw()
         
-        p <- ggplot(df, aes(x = ds, y = yhat, color = variable, fill = variable)) +
-          geom_ribbon(aes(ymin = yhat_lower, ymax = yhat_upper), alpha = 0.15, colour = NA) +
-          geom_line(size = 0.7) +
-          labs(x = "Date", y = "Forecast", color = "Variable", fill = "Variable") +
-          theme_bw()
-        
-        p + ggtheme
+        p <- p + ggtheme
         print(p)
         TRUE
       },
@@ -197,18 +217,42 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         df <- image$state
-        if (nrow(df) == 0) return(FALSE)
+        if (nrow(df) == 0)
+          return(FALSE)
         
         method <- self$options$method
-        library(ggplot2)
         
-        p <- ggplot(df, aes(x = ds, y = yhat, color = variable, fill = variable)) +
-          geom_ribbon(aes(ymin = yhat_lower, ymax = yhat_upper), alpha = 0.12, colour = NA) +
-          geom_smooth(method = method, se = FALSE, size = 0.9) +
-          labs(x = "Date", y = "Forecast", color = "Variable", fill = "Variable") +
-          theme_bw()
+        p <- ggplot2::ggplot(
+          df,
+          ggplot2::aes(
+            x = ds,
+            y = yhat,
+            color = variable,
+            fill = variable
+          )
+        ) +
+          ggplot2::geom_ribbon(
+            ggplot2::aes(
+              ymin = yhat_lower,
+              ymax = yhat_upper
+            ),
+            alpha = 0.12,
+            colour = NA
+          ) +
+          ggplot2::geom_smooth(
+            method = method,
+            se = FALSE,
+            linewidth = 0.9
+          ) +
+          ggplot2::labs(
+            x = "Date",
+            y = "Forecast",
+            color = "Variable",
+            fill = "Variable"
+          ) +
+          ggplot2::theme_bw()
         
-        p + ggtheme
+        p <- p + ggtheme
         print(p)
         TRUE
       },
@@ -220,29 +264,64 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         # (no reg) / (+reg) 태그 분리 및 MAPE만 사용
-        acc$base  <- sub(" \\(.*\\)$", "", acc$variable)
-        acc$model <- ifelse(grepl("\\(\\+reg\\)", acc$variable), "+reg",
-                            ifelse(grepl("\\(no reg\\)", acc$variable), "no reg", "other"))
+        acc$base <- sub(" \\(.*\\)$", "", acc$variable)
+        acc$model <- ifelse(
+          grepl("\\(\\+reg\\)", acc$variable),
+          "+reg",
+          ifelse(
+            grepl("\\(no reg\\)", acc$variable),
+            "no reg",
+            "other"
+          )
+        )
         
-        plot_df <- acc[, c("base","model","MAPE")]
-        plot_df <- plot_df[plot_df$model %in% c("no reg","+reg"), , drop = FALSE]
-        if (nrow(plot_df) == 0) return(FALSE)
+        plot_df <- acc[, c("base", "model", "MAPE")]
+        plot_df <- plot_df[
+          plot_df$model %in% c("no reg", "+reg"),
+          ,
+          drop = FALSE
+        ]
+        
+        if (nrow(plot_df) == 0)
+          return(FALSE)
         
         # Average는 항상 마지막에 보이도록 정렬
         is_avg <- grepl("^Average", plot_df$base)
-        plot_df$base <- factor(plot_df$base,
-                               levels = c(sort(unique(plot_df$base[!is_avg])),
-                                          sort(unique(plot_df$base[is_avg]))))
+        plot_df$base <- factor(
+          plot_df$base,
+          levels = c(
+            sort(unique(plot_df$base[!is_avg])),
+            sort(unique(plot_df$base[is_avg]))
+          )
+        )
         
-        library(ggplot2)
-        p <- ggplot(plot_df, aes(x = base, y = MAPE, fill = model)) +
-          geom_col(position = position_dodge(width = 0.6), width = 0.55) +
-          labs(x = NULL, y = "MAPE (%)", fill = "Model") +
-          theme_bw() +
-          theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+        p <- ggplot2::ggplot(
+          plot_df,
+          ggplot2::aes(
+            x = base,
+            y = MAPE,
+            fill = model
+          )
+        ) +
+          ggplot2::geom_col(
+            position = ggplot2::position_dodge(width = 0.6),
+            width = 0.55
+          ) +
+          ggplot2::labs(
+            x = NULL,
+            y = "MAPE (%)",
+            fill = "Model"
+          ) +
+          ggplot2::theme_bw() +
+          ggplot2::theme(
+            axis.text.x = ggplot2::element_text(
+              angle = 0,
+              hjust = 0.5
+            )
+          ) +
+          ggplot2::coord_flip()
         
-        p + ggtheme
-        p <- p + coord_flip()
+        p <- p + ggtheme
         print(p)
         TRUE
       },
@@ -305,14 +384,32 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         private$.checkpoint()
         
         run_one <- function(varname, use_regs) {
-          regs_now <- if (isTRUE(use_regs)) intersect(names(data), regs) else character(0)
           
-          cols_keep <- c("ds", varname, regs_now)
+          # 실제 데이터에 존재하는 회귀변수만 사용하고,
+          # 날짜 변수 및 현재 분석 변수와 중복되는 변수는 제외
+          regs_now <- if (isTRUE(use_regs)) {
+            setdiff(
+              intersect(as.character(regs), names(data)),
+              c("ds", varname)
+            )
+          } else {
+            character(0)
+          }
+          
+          cols_keep <- unique(c("ds", varname, regs_now))
           new_data <- data[, cols_keep, drop = FALSE]
           names(new_data)[names(new_data) == varname] <- "y"
           new_data$y <- suppressWarnings(as.numeric(new_data$y))
+          
           if (length(regs_now) > 0) {
-            for (r in regs_now) new_data[[r]] <- suppressWarnings(as.numeric(new_data[[r]]))
+            for (r in regs_now) {
+              if (r %in% names(new_data) &&
+                  length(new_data[[r]]) == nrow(new_data)) {
+                new_data[[r]] <- suppressWarnings(
+                  as.numeric(new_data[[r]])
+                )
+              }
+            }
           }
           
           m <- prophet::prophet(
@@ -398,7 +495,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
               variable   = varname
             ),
             acc = data.frame(
-              variable = paste0(varname, if (isTRUE(use_regs) && length(regs) > 0) " (+reg)" else " (no reg)"),
+              variable = paste0(varname, if (isTRUE(use_regs) && length(regs_now) > 0) " (+reg)" else " (no reg)"),
               MAE = mae, RMSE = rmse, MAPE = mape,
               stringsAsFactors = FALSE
             )
@@ -413,8 +510,14 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           res0 <- run_one(v, use_regs = FALSE)
           acc_list[[length(acc_list)+1]] <- res0$acc
           
-          # 2) 회귀자 포함 (회귀자가 실제로 선택되어 있을 때만)
-          if (length(regs) > 0) {
+          # 2) 회귀자 포함 (현재 분석 변수와 중복되지 않는
+          # 실제 회귀변수가 있을 때만)
+          valid_regs <- setdiff(
+            intersect(as.character(regs), names(data)),
+            c("ds", v)
+          )
+          
+          if (length(valid_regs) > 0) {
             res1 <- run_one(v, use_regs = TRUE)
             acc_list[[length(acc_list)+1]] <- res1$acc
             
