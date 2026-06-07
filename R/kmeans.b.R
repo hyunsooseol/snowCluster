@@ -372,6 +372,7 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       },
       
       # Plot of means across groups
+      # Plot of means across groups
       .plot = function(image, ggtheme, theme, ...) {
         if (is.null(image$state))
           return(FALSE)
@@ -380,27 +381,35 @@ kmeansClass <- if (requireNamespace('jmvcore'))
         
         if (!is.null(plotData)) {
           plot <-
-            ggplot(plotData,
-                   aes(
-                     x = var,
-                     y = centers,
-                     group = cluster,
-                     colour = cluster
-                   )) +
-            geom_path(size = 1.2) +
-            geom_point(size = 4) +
-            xlab("") +
-            ylab("Mean value") +
+            ggplot2::ggplot(
+              plotData,
+              ggplot2::aes(
+                x = var,
+                y = centers,
+                group = cluster,
+                colour = cluster
+              )
+            ) +
+            ggplot2::geom_path(linewidth = 1.2) +
+            ggplot2::geom_point(size = 4) +
+            ggplot2::xlab("") +
+            ggplot2::ylab("Mean value") +
             ggtheme
           
           if (self$options$angle > 0) {
-            plot <- plot + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = self$options$angle, hjust = 1))
+            plot <- plot +
+              ggplot2::theme(
+                axis.text.x = ggplot2::element_text(
+                  angle = self$options$angle,
+                  hjust = 1
+                )
+              )
           }
+          
           print(plot)
           TRUE
         }
       },
-      
       # Optimal number of clusters plot
       .plot1 = function(image1, ggtheme, theme, ...) {
         if (is.null(image1$state))
@@ -446,19 +455,26 @@ kmeansClass <- if (requireNamespace('jmvcore'))
           return(FALSE)
         
         vars <- self$options$vars
+        
         # Prepare data using helper function
-        dat <- private$.prepareContinuousData(self$data, vars)
+        dat <- private$.prepareContinuousData(
+          self$data,
+          vars
+        )
         
         km.res <- image2$state
+        
         plot2 <-
           factoextra::fviz_cluster(
             km.res,
             data = dat,
             ellipse.type = "convex",
             palette = "jco",
-            ggtheme = theme_minimal()
+            ggtheme = ggplot2::theme_minimal()
           )
+        
         plot2 <- plot2 + ggtheme
+        
         print(plot2)
         TRUE
       },
