@@ -273,6 +273,15 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         df <- image$state
         
+        if (!is.data.frame(df) || nrow(df) < 1)
+          return(FALSE)
+        
+        # Ensure time is Date
+        if (!inherits(df$time, "Date"))
+          df$time <- as.Date(df$time)
+        
+        time_breaks <- sort(unique(df$time))
+        
         p <- ggplot2::ggplot(
           df,
           ggplot2::aes(
@@ -285,29 +294,62 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           ggplot2::geom_line(
             show.legend = FALSE
           ) +
+          ggplot2::scale_x_date(
+            breaks = time_breaks,
+            labels = scales::label_date("%Y"),
+            expand = ggplot2::expansion(
+              mult = c(0.02, 0.02)
+            )
+          ) +
           ggplot2::scale_y_continuous(
             labels = scales::comma
           ) +
           ggplot2::facet_wrap(
             ggplot2::vars(cluster)
           ) +
-          ggthemes::scale_color_solarized()
+          ggthemes::scale_color_solarized() +
+          ggplot2::labs(
+            title = "",
+            x = "Time",
+            y = "Value"
+          )
         
         p <- p + ggtheme
         
         if (self$options$angle > 0) {
-          p <- p + ggplot2::theme(
-            axis.text.x = ggplot2::element_text(
-              angle = self$options$angle,
-              hjust = 1
+          
+          p <- p +
+            ggplot2::theme(
+              axis.text.x = ggplot2::element_text(
+                angle = self$options$angle,
+                hjust = 1,
+                vjust = 0.5
+              ),
+              plot.margin = ggplot2::margin(
+                t = 5.5,
+                r = 5.5,
+                b = 15,
+                l = 5.5
+              )
             )
-          )
+          
+        } else {
+          
+          p <- p +
+            ggplot2::theme(
+              axis.text.x = ggplot2::element_text(
+                angle = 0,
+                hjust = 0.5,
+                vjust = 0.5
+              )
+            )
         }
         
         print(p)
         
         TRUE
       },
+      
       
       # ------------------------------------------------------------------
       # Plot 3: Cluster mean time-series
@@ -318,6 +360,15 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         dfm <- image$state
+        
+        if (!is.data.frame(dfm) || nrow(dfm) < 1)
+          return(FALSE)
+        
+        # Ensure time is Date
+        if (!inherits(dfm$time, "Date"))
+          dfm$time <- as.Date(dfm$time)
+        
+        time_breaks <- sort(unique(dfm$time))
         
         p <- ggplot2::ggplot(
           dfm,
@@ -331,6 +382,13 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           ggplot2::geom_line(
             linewidth = 1
           ) +
+          ggplot2::scale_x_date(
+            breaks = time_breaks,
+            labels = scales::label_date("%Y"),
+            expand = ggplot2::expansion(
+              mult = c(0.02, 0.02)
+            )
+          ) +
           ggplot2::labs(
             title = "",
             x = "Time",
@@ -342,12 +400,32 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         p <- p + ggtheme
         
         if (self$options$angle > 0) {
-          p <- p + ggplot2::theme(
-            axis.text.x = ggplot2::element_text(
-              angle = self$options$angle,
-              hjust = 1
+          
+          p <- p +
+            ggplot2::theme(
+              axis.text.x = ggplot2::element_text(
+                angle = self$options$angle,
+                hjust = 1,
+                vjust = 0.5
+              ),
+              plot.margin = ggplot2::margin(
+                t = 5.5,
+                r = 5.5,
+                b = 15,
+                l = 5.5
+              )
             )
-          )
+          
+        } else {
+          
+          p <- p +
+            ggplot2::theme(
+              axis.text.x = ggplot2::element_text(
+                angle = 0,
+                hjust = 0.5,
+                vjust = 0.5
+              )
+            )
         }
         
         print(p)
