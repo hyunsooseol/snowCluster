@@ -40,8 +40,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             accu = FALSE,
             kapp = FALSE,
             plot8 = FALSE,
-            positive = "no",
-            positive1 = "no", ...) {
+            positive = NULL, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -264,14 +263,10 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plot8",
                 plot8,
                 default=FALSE)
-            private$..positive <- jmvcore::OptionString$new(
+            private$..positive <- jmvcore::OptionLevel$new(
                 "positive",
                 positive,
-                default="no")
-            private$..positive1 <- jmvcore::OptionString$new(
-                "positive1",
-                positive1,
-                default="no")
+                variable="(dep)")
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -309,7 +304,6 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..kapp)
             self$.addOption(private$..plot8)
             self$.addOption(private$..positive)
-            self$.addOption(private$..positive1)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -347,8 +341,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         accu = function() private$..accu$value,
         kapp = function() private$..kapp$value,
         plot8 = function() private$..plot8$value,
-        positive = function() private$..positive$value,
-        positive1 = function() private$..positive1$value),
+        positive = function() private$..positive$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -385,8 +378,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..accu = NA,
         ..kapp = NA,
         ..plot8 = NA,
-        ..positive = NA,
-        ..positive1 = NA)
+        ..positive = NA)
 )
 
 caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -530,8 +522,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "tune",
-                    "positive1"),
+                    "tune"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -553,8 +544,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mecon",
                     "number",
                     "repeats",
-                    "tune",
-                    "positive"),
+                    "tune"),
                 refs="caret",
                 columns=list(
                     list(
@@ -579,7 +569,7 @@ caretResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "number",
                     "repeats",
                     "tune",
-                    "positive1"),
+                    "positive"),
                 columns=list(
                     list(
                         `name`="name", 
@@ -965,7 +955,6 @@ caretBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param kapp .
 #' @param plot8 .
 #' @param positive .
-#' @param positive1 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -1035,8 +1024,7 @@ caret <- function(
     accu = FALSE,
     kapp = FALSE,
     plot8 = FALSE,
-    positive = "no",
-    positive1 = "no") {
+    positive) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("caret requires jmvcore to be installed (restart may be required)")
@@ -1089,8 +1077,7 @@ caret <- function(
         accu = accu,
         kapp = kapp,
         plot8 = plot8,
-        positive = positive,
-        positive1 = positive1)
+        positive = positive)
 
     analysis <- caretClass$new(
         options = options,

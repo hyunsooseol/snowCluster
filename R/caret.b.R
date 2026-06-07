@@ -44,7 +44,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           )
           
         ))
-
+        
       },
       
       .getEvalComp = function() {
@@ -137,13 +137,13 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         private$.evalTestCache
       },
       
-#---------------------------------------------
+      #---------------------------------------------
       .run = function() {
         
         if (!isTRUE(self$options$run))
           return()
         
-
+        
         if (is.null(self$options$dep) ||
             length(self$options$covs) < 2)
           return()
@@ -215,7 +215,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           private$.allCache <- private$.computeFIT()
         }
         all <- private$.allCache        
-
+        
         compKey <- paste(
           dep,
           paste(covs, collapse = ","),
@@ -397,17 +397,27 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         predicted <- factor(predicted, levels = common_levels)
         
         # 2. positive 값이 실제 존재하는지 확인
-        positive1 <- self$options$positive1
-        use_positive <- !is.null(positive1) && positive1 != "" && positive1 %in% common_levels
+        positive <- self$options$positive
         
-        # 3. confusionMatrix 실행 (positive 옵션 자동 적용)
-        if (use_positive) {
-          eval.tr <- caret::confusionMatrix(predicted, actual, positive = positive1)
+        use_positive_train <- !is.null(positive) &&
+          positive != "" &&
+          positive %in% common_levels
+        
+        # 3. confusionMatrix 실행
+        if (use_positive_train) {
+          eval.tr <- caret::confusionMatrix(
+            predicted,
+            actual,
+            positive = positive
+          )
         } else {
-          eval.tr <- caret::confusionMatrix(predicted, actual)
+          eval.tr <- caret::confusionMatrix(
+            predicted,
+            actual
+          )
         }
         
-
+        
         # 결과 테이블 생성 (행=Prediction, 열=Reference(Actual))
         if (isTRUE(self$options$tra)) {
           table <- self$results$tra
@@ -445,29 +455,54 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           table$setRow(rowNo = 1, values = row)
         }
         
-        # Statistics by class WITH TRAINing set-----------
+        # Statistics by class WITH training set-----------
         if (isTRUE(self$options$cla1)) {
           table <- self$results$cla1
           
           cla1 <- eval.tr[["byClass"]]
+          
           if (is.vector(cla1)) {
-            cla1 <- as.data.frame(t(cla1))
+            cla1 <- as.data.frame(
+              t(cla1),
+              check.names = FALSE
+            )
+            
+            positive_label_train <- if (use_positive_train) {
+              positive
+            } else {
+              common_levels[1]
+            }
+            
+            rownames(cla1) <- paste0("Class: ", positive_label_train)
+            
           } else {
-            cla1 <- as.data.frame(cla1)
+            cla1 <- as.data.frame(
+              cla1,
+              check.names = FALSE
+            )
           }
           
-          names <- dimnames(cla1)[[1]]
-          dims <- dimnames(cla1)[[2]]
+          names <- rownames(cla1)
+          dims <- colnames(cla1)
           
           for (dim in dims) {
-            table$addColumn(name = paste0(dim), type = 'number')
+            table$addColumn(
+              name = dim,
+              type = 'number'
+            )
           }
+          
           for (name in names) {
             row <- list()
+            
             for (j in seq_along(dims)) {
-              row[[dims[j]]] <- cla1[name, j]
+              row[[dims[j]]] <- cla1[name, dims[j]]
             }
-            table$addRow(rowKey = name, values = row)
+            
+            table$addRow(
+              rowKey = name,
+              values = row
+            )
           }
         }
         
@@ -496,15 +531,25 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         actual.test <- factor(actual.test, levels = common_levels.test)
         predicted.test <- factor(predicted.test, levels = common_levels.test)
         
-        # 2. positive 값이 실제 존재하는지 확인 (train과 동일)
-        positive2 <- self$options$positive
-        use_positive2 <- !is.null(positive2) && positive2 != "" && positive2 %in% common_levels.test
+        # 2. positive 값이 실제 존재하는지 확인
+        positive <- self$options$positive
         
-        # 3. confusionMatrix 실행 (positive 옵션 자동 적용)
-        if (use_positive2) {
-          eval <- caret::confusionMatrix(predicted.test, actual.test, positive = positive2)
+        use_positive_test <- !is.null(positive) &&
+          positive != "" &&
+          positive %in% common_levels.test
+        
+        # 3. confusionMatrix 실행
+        if (use_positive_test) {
+          eval <- caret::confusionMatrix(
+            predicted.test,
+            actual.test,
+            positive = positive
+          )
         } else {
-          eval <- caret::confusionMatrix(predicted.test, actual.test)
+          eval <- caret::confusionMatrix(
+            predicted.test,
+            actual.test
+          )
         }
         
         # 4. caret 구조(행=Prediction, 열=Reference)로 표 생성
@@ -547,29 +592,54 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           table$setRow(rowNo = 1, values = row)
         }
         
-        # Statistics by class-----------
+        # Statistics by class with test set-----------
         if (isTRUE(self$options$cla)) {
           table <- self$results$cla
           
           cla <- eval[["byClass"]]
+          
           if (is.vector(cla)) {
-            cla <- as.data.frame(t(cla))
+            cla <- as.data.frame(
+              t(cla),
+              check.names = FALSE
+            )
+            
+            positive_label_test <- if (use_positive_test) {
+              positive
+            } else {
+              common_levels.test[1]
+            }
+            
+            rownames(cla) <- paste0("Class: ", positive_label_test)
+            
           } else {
-            cla <- as.data.frame(cla)
+            cla <- as.data.frame(
+              cla,
+              check.names = FALSE
+            )
           }
           
-          names <- dimnames(cla)[[1]]
-          dims <- dimnames(cla)[[2]]
+          names <- rownames(cla)
+          dims <- colnames(cla)
           
           for (dim in dims) {
-            table$addColumn(name = paste0(dim), type = 'number')
+            table$addColumn(
+              name = dim,
+              type = 'number'
+            )
           }
+          
           for (name in names) {
             row <- list()
+            
             for (j in seq_along(dims)) {
-              row[[dims[j]]] <- cla[name, j]
+              row[[dims[j]]] <- cla[name, dims[j]]
             }
-            table$addRow(rowKey = name, values = row)
+            
+            table$addRow(
+              rowKey = name,
+              values = row
+            )
           }
         }
         
@@ -591,10 +661,10 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           image6 <- self$results$plot6
           image6$setState(data)
         }
-      
+        
         self$results$progressBarHTML$setVisible(FALSE)
         
-        },
+      },
       
       #Plot functions---
       
@@ -736,120 +806,120 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         TRUE
       },
       
-.computeFIT = function() {
-  trans <- self$options$trans
-  mecon <- self$options$mecon
-  repeats <- self$options$repeats
-  number <- self$options$number
-  tune <- self$options$tune
-  per <- self$options$per
-  method <- self$options$method
-  cm1 <- self$options$cm1
-  
-  data <- self$data
-  dep <- self$options$dep
-  covs <- self$options$covs
-  facs <- self$options$facs
-  
-  # Use only variables selected in the analysis
-  vars <- unique(c(dep, covs, facs))
-  data <- data[, vars, drop = FALSE]
-  
-  # data cleaning---------------
-  for (fac in facs)
-    data[[fac]] <- as.factor(data[[fac]])
-  
-  for (cov in covs)
-    data[[cov]] <- jmvcore::toNumeric(data[[cov]])
-  
-  data[[dep]] <- as.factor(data[[dep]])
-  data <- na.omit(data)
-  
-  #formula <- as.formula(paste0(self$options$dep, " ~ ."))
-  formula <- as.formula(
-    paste0(jmvcore::composeTerm(self$options$dep), " ~ .")
-  )
-  
-  # Create Train/test dataset using caret package-----------------
-  set.seed(1234)
-  split1 <- caret::createDataPartition(data[[dep]], p = per, list = F)
-  train1 <- data[split1, ]
-  test1 <- data[-split1, ]
-  
-  # Transformed dataset
-  preProcValues <- caret::preProcess(train1, method = trans)
-  self$results$text1$setContent(preProcValues)
-  
-  train <- predict(preProcValues, train1)
-  test  <- predict(preProcValues, test1)
-  
-  # Dummy coding for factors vars
-  dummies_model <- NULL
-  if (!is.null(facs) && length(facs) > 0) {
-    dummy_formula <- stats::as.formula("~ .")
-    
-    x_train <- train[, c(covs, facs), drop = FALSE]
-    x_test  <- test[, c(covs, facs), drop = FALSE]
-    
-    dummies_model <- caret::dummyVars(dummy_formula, data = x_train, fullRank = TRUE)
-    
-    train_x <- predict(dummies_model, newdata = x_train)
-    test_x  <- predict(dummies_model, newdata = x_test)
-    
-    train <- data.frame(train_x)
-    test  <- data.frame(test_x)
-    
-    train[[dep]] <- train1[[dep]]
-    test[[dep]]  <- test1[[dep]]
-  }
-  
-  # trainControl function-----------
-  ctrl <- caret::trainControl(
-    method = mecon,
-    number = number,
-    repeats = repeats,
-    p = per,
-    classProbs = T,
-    savePredictions = T
-  )
-  
-  # Training dataset---------------
-  fit <- caret::train(
-    formula,
-    data = train,
-    method = method,
-    tuneLength = tune,
-    trControl = ctrl
-  )
-  
-  # Compare ROC/calibration model: only when needed
-  need_comp <- isTRUE(self$options$plot) || isTRUE(self$options$plot4)
-  
-  comp <- NULL
-  if (need_comp && !is.null(cm1) && nzchar(cm1)) {
-    comp <- caret::train(
-      formula,
-      data = train,
-      method = cm1,
-      tuneLength = tune,
-      trControl = ctrl
+      .computeFIT = function() {
+        trans <- self$options$trans
+        mecon <- self$options$mecon
+        repeats <- self$options$repeats
+        number <- self$options$number
+        tune <- self$options$tune
+        per <- self$options$per
+        method <- self$options$method
+        cm1 <- self$options$cm1
+        
+        data <- self$data
+        dep <- self$options$dep
+        covs <- self$options$covs
+        facs <- self$options$facs
+        
+        # Use only variables selected in the analysis
+        vars <- unique(c(dep, covs, facs))
+        data <- data[, vars, drop = FALSE]
+        
+        # data cleaning---------------
+        for (fac in facs)
+          data[[fac]] <- as.factor(data[[fac]])
+        
+        for (cov in covs)
+          data[[cov]] <- jmvcore::toNumeric(data[[cov]])
+        
+        data[[dep]] <- as.factor(data[[dep]])
+        data <- na.omit(data)
+        
+        #formula <- as.formula(paste0(self$options$dep, " ~ ."))
+        formula <- as.formula(
+          paste0(jmvcore::composeTerm(self$options$dep), " ~ .")
+        )
+        
+        # Create Train/test dataset using caret package-----------------
+        set.seed(1234)
+        split1 <- caret::createDataPartition(data[[dep]], p = per, list = F)
+        train1 <- data[split1, ]
+        test1 <- data[-split1, ]
+        
+        # Transformed dataset
+        preProcValues <- caret::preProcess(train1, method = trans)
+        self$results$text1$setContent(preProcValues)
+        
+        train <- predict(preProcValues, train1)
+        test  <- predict(preProcValues, test1)
+        
+        # Dummy coding for factors vars
+        dummies_model <- NULL
+        if (!is.null(facs) && length(facs) > 0) {
+          dummy_formula <- stats::as.formula("~ .")
+          
+          x_train <- train[, c(covs, facs), drop = FALSE]
+          x_test  <- test[, c(covs, facs), drop = FALSE]
+          
+          dummies_model <- caret::dummyVars(dummy_formula, data = x_train, fullRank = TRUE)
+          
+          train_x <- predict(dummies_model, newdata = x_train)
+          test_x  <- predict(dummies_model, newdata = x_test)
+          
+          train <- data.frame(train_x)
+          test  <- data.frame(test_x)
+          
+          train[[dep]] <- train1[[dep]]
+          test[[dep]]  <- test1[[dep]]
+        }
+        
+        # trainControl function-----------
+        ctrl <- caret::trainControl(
+          method = mecon,
+          number = number,
+          repeats = repeats,
+          p = per,
+          classProbs = T,
+          savePredictions = T
+        )
+        
+        # Training dataset---------------
+        fit <- caret::train(
+          formula,
+          data = train,
+          method = method,
+          tuneLength = tune,
+          trControl = ctrl
+        )
+        
+        # Compare ROC/calibration model: only when needed
+        need_comp <- isTRUE(self$options$plot) || isTRUE(self$options$plot4)
+        
+        comp <- NULL
+        if (need_comp && !is.null(cm1) && nzchar(cm1)) {
+          comp <- caret::train(
+            formula,
+            data = train,
+            method = cm1,
+            tuneLength = tune,
+            trControl = ctrl
+          )
+        }
+        
+        retlist <- list(
+          formula = formula,
+          train = train,
+          test = test,
+          fit = fit,
+          comp = comp,
+          preProcValues = preProcValues,
+          dummies_model = if (!is.null(facs) && length(facs) > 0) dummies_model else NULL
+        )
+        
+        return(retlist)
+      }   
     )
-  }
-  
-  retlist <- list(
-    formula = formula,
-    train = train,
-    test = test,
-    fit = fit,
-    comp = comp,
-    preProcValues = preProcValues,
-    dummies_model = if (!is.null(facs) && length(facs) > 0) dummies_model else NULL
   )
-  
-  return(retlist)
-}   
-)
-)
 
 # Progress Bar HTML  (R/progressBarH.R)
 appleSpinnerH <- function(message = '') {
@@ -909,8 +979,6 @@ appleSpinnerH <- function(message = '') {
     '</div>'
   )
 }
-
-
 
 
 # # iris example in R-----------

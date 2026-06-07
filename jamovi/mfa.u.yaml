@@ -24,12 +24,14 @@ children:
             name: facs
             isTarget: true
             maxItemCount: 1
+            ghostText: Optional
       - type: TargetLayoutBox
         children:
           - type: VariablesListBox
             name: labels
             isTarget: true
             maxItemCount: 1
+            ghostText: Optional
   - type: LayoutBox
     margin: none
     style: inline

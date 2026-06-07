@@ -106,7 +106,6 @@ items:
         - number
         - repeats
         - tune
-        - positive1
 
       columns:
         - name: name
@@ -129,7 +128,6 @@ items:
         - number
         - repeats
         - tune
-        - positive
 
       refs: caret    
 
@@ -155,7 +153,7 @@ items:
         - number
         - repeats
         - tune
-        - positive1
+        - positive
 
       columns:
         - name: name

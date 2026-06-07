@@ -19,12 +19,13 @@ children:
             name: podatki
             isTarget: true
       - type: TargetLayoutBox
-        label: Labels (optional)
+        label: Labels 
         children:
           - type: VariablesListBox
             name: imena
             maxItemCount: 1
             isTarget: true
+            ghostText: Optional
   - type: CollapseBox
     label: 'Analysis'
     margin: normal

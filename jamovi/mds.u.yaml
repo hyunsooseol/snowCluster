@@ -35,6 +35,7 @@ children:
                         name: labels
                         isTarget: true
                         maxItemCount: 1
+                        ghostText: Required
               - type: CollapseBox
                 label: 'Analysis'
                 margin: large

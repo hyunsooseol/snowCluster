@@ -23,7 +23,8 @@ children:
           - type: VariablesListBox
             name: facs
             isTarget: true
-            maxItemCount: 1      
+            maxItemCount: 1
+            ghostText: Optional
   - type: CollapseBox
     label: 'Analysis'
     margin: normal

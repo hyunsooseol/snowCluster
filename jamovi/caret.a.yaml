@@ -185,11 +185,6 @@ options:
       max: 1.0
       default: 0.7    
 
-    # - name: run
-    #   title: 'Run when ready'
-    #   type: Bool
-    #   default: FALSE
-
     - name: run
       type: Action
       title: Run
@@ -321,14 +316,9 @@ options:
       type: Bool
       default: FALSE      
 
-    - name: positive        
-      title: Positive label
-      type: String
-      default: 'no'
-
-    - name: positive1        
-      title: Positive label
-      type: String
-      default: 'no'      
+    - name: positive
+      title: 'Positive level'
+      type: Level
+      variable: (dep)
 
 ...

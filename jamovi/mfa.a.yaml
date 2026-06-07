@@ -21,7 +21,7 @@ options:
       type: Variables
  
     - name: facs
-      title: Factor(Optional)
+      title: Factor
       type: Variable
       suggested:
          - nominal
@@ -29,7 +29,7 @@ options:
         - factor    
 
     - name: labels
-      title: Labels(Optional) 
+      title: Labels 
       type: Variable
       suggested:
          - id

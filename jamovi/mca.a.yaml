@@ -14,7 +14,7 @@ options:
             The data as a data frame.
 
     - name: facs
-      title: Factor(Optional)
+      title: Factor
       type: Variable
       suggested:
          - nominal

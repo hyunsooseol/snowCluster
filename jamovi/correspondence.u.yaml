@@ -24,6 +24,7 @@ children:
             name: labels
             isTarget: true
             maxItemCount: 1
+            ghostText: Optional
   - type: CollapseBox
     label: 'Analysis'
     margin: normal

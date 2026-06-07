@@ -14,7 +14,7 @@ options:
             The data as a data frame.
 
     - name: labels
-      title: Labels (Optional)
+      title: Labels
       type: Variable
       suggested:
          - nominal

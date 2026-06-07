@@ -40,8 +40,7 @@ caret(
   accu = FALSE,
   kapp = FALSE,
   plot8 = FALSE,
-  positive = "no",
-  positive1 = "no"
+  positive
 )
 }
 \arguments{
@@ -116,8 +115,6 @@ caret(
 \item{plot8}{.}
 
 \item{positive}{.}
-
-\item{positive1}{.}
 }
 \value{
 A results object containing:

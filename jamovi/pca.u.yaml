@@ -35,6 +35,7 @@ children:
                         name: labels
                         isTarget: true
                         maxItemCount: 1
+                        ghostText: Optional
           - type: LayoutBox
             margin: large
             stretchFactor: 1
@@ -86,12 +87,13 @@ children:
                     name: vars1
                     isTarget: true
               - type: TargetLayoutBox
-                label: Factor(Required)
+                label: Factor
                 children:
                   - type: VariablesListBox
                     name: facs
                     maxItemCount: 1
                     isTarget: true
+                    ghostText: Required
           - type: LayoutBox
             margin: large
             stretchFactor: 1
@@ -133,19 +135,21 @@ children:
                         name: vars2
                         isTarget: true
                   - type: TargetLayoutBox
-                    label: Factor (Optional)
+                    label: Factor
                     children:
                       - type: VariablesListBox
                         name: facs2
                         isTarget: true
                         maxItemCount: 1
+                        ghostText: Optional
                   - type: TargetLayoutBox
-                    label: 'Case label (Optional)'
+                    label: 'Case label'
                     children:
                       - type: VariablesListBox
                         name: labels2
                         isTarget: true
                         maxItemCount: 1
+                        ghostText: Optional
 
           - type: LayoutBox
             margin: large
