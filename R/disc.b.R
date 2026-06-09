@@ -17,20 +17,20 @@ discClass <- if (requireNamespace('jmvcore'))
           
         }
         
-        self$results$instructions$setContent(private$.htmlwidget$generate_accordion(
-          title = "Instructions",
-          content = paste(
-            '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
-            '<div style="text-align:justify;">',
-            '<ul>',
-            '<li>When <b>Split set</b> is less than 1, the LDA model, discriminant function statistics, group centroids, and structure coefficients are based on the training set, while test accuracy is evaluated on the held-out test set.</li>',
-            '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
-            '</ul></div></div>'
-            
+        self$results$instructions$setContent(
+          private$.htmlwidget$generate_accordion(
+            title = "Instructions",
+            content = paste(
+              '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
+              '<div style="text-align:justify;">',
+              '<ul>',
+              '<li><b>Set Split set to 1.0</b> to perform conventional discriminant analysis using the full dataset. Use this setting when comparing results with SPSS, Stata, or other software that analyzes the complete sample.</li>',
+              '<li>When <b>Split set is less than 1.0</b>, the LDA model, discriminant function statistics, coefficients, structure coefficients, and group centroids are calculated from the training set only. Test accuracy is evaluated separately using the held-out test set, so these results may differ from full-sample analyses in other software.</li>',
+              '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
+              '</ul></div></div>'
+            )
           )
-          
-        ))
-        
+        )
       },
       
       #---------------------------------------------
