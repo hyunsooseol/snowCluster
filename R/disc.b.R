@@ -236,9 +236,19 @@ discClass <- if (requireNamespace('jmvcore'))
         
         # Canonical discriminant functions table---
         
+        # Canonical discriminant functions table---
+        
         if (isTRUE(self$options$can)) {
           
-          eigenvalues <- res$lda.train$svd ^ 2
+          n <- nrow(res$train)
+          g <- nlevels(droplevels(res$train[[dep]]))
+          
+          # MASS::lda()$svd^2 is not on the same scale as the
+          # canonical discriminant eigenvalues reported by SPSS.
+          raw_roots <- res$lda.train$svd^2
+          
+          eigenvalues <- raw_roots * (g - 1) / (n - g)
+          
           variance <- eigenvalues / sum(eigenvalues) * 100
           cumulative <- cumsum(variance)
           canonical <- sqrt(eigenvalues / (1 + eigenvalues))
@@ -250,12 +260,15 @@ discClass <- if (requireNamespace('jmvcore'))
             
             row <- list()
             row[["function"]] <- fn
-            row[["eigen"]] <- eigenvalues[i]
-            row[["variance"]] <- variance[i]
-            row[["cumulative"]] <- cumulative[i]
-            row[["canonical"]] <- canonical[i]
+            row[["eigen"]] <- as.numeric(eigenvalues[i])
+            row[["variance"]] <- as.numeric(variance[i])
+            row[["cumulative"]] <- as.numeric(cumulative[i])
+            row[["canonical"]] <- as.numeric(canonical[i])
             
-            table$addRow(rowKey = fn, values = row)
+            table$addRow(
+              rowKey = fn,
+              values = row
+            )
           }
         }
         
@@ -265,27 +278,39 @@ discClass <- if (requireNamespace('jmvcore'))
         # Wilks' Lambda tests---
         # Approximate chi-square tests for discriminant functions.
         
+        # Wilks' Lambda tests---
+        # Sequential approximate chi-square tests for discriminant functions.
+        
         if (isTRUE(self$options$wilks)) {
           
-          eigenvalues <- res$lda.train$svd ^ 2
           n <- nrow(res$train)
           p <- length(covs)
-          g <- nlevels(res$train[[dep]])
-          s <- length(eigenvalues)
+          g <- nlevels(droplevels(res$train[[dep]]))
           
+          raw_roots <- res$lda.train$svd^2
+          eigenvalues <- raw_roots * (g - 1) / (n - g)
+          
+          s <- length(eigenvalues)
           table <- self$results$wilks
           
           for (i in seq_len(s)) {
             
+            # Wilks' lambda for functions i through s
             lambda <- prod(1 / (1 + eigenvalues[i:s]))
             
+            # Sequential-test degrees of freedom
             df_wilks <- (p - i + 1) * (g - i)
             
+            # Bartlett chi-square approximation
             chisq <- -(
               n - 1 - (p + g) / 2
             ) * log(lambda)
             
-            pval <- stats::pchisq(chisq, df = df_wilks, lower.tail = FALSE)
+            pval <- stats::pchisq(
+              chisq,
+              df = df_wilks,
+              lower.tail = FALSE
+            )
             
             test_label <- if (i == s) {
               paste0(i)
@@ -293,14 +318,18 @@ discClass <- if (requireNamespace('jmvcore'))
               paste0(i, " through ", s)
             }
             
-            row <- list()
-            row[["test"]] <- test_label
-            row[["lambda"]] <- lambda
-            row[["chisq"]] <- chisq
-            row[["df"]] <- df_wilks
-            row[["p"]] <- pval
+            row <- list(
+              test = test_label,
+              lambda = as.numeric(lambda),
+              chisq = as.numeric(chisq),
+              df = as.numeric(df_wilks),
+              p = as.numeric(pval)
+            )
             
-            table$addRow(rowKey = paste0("func", i), values = row)
+            table$addRow(
+              rowKey = paste0("func", i),
+              values = row
+            )
           }
         }
         
