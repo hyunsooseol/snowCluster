@@ -19,6 +19,13 @@ children:
           - type: VariablesListBox
             name: covs
             isTarget: true
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: per
+        enable: (tra)
+        format: number
   - type: CollapseBox
     label: 'Linear Discriminant'
     margin: large
@@ -60,15 +67,10 @@ children:
             fitToGrid: true
             children:
               - type: Label
-                label: Confusion matrix
+                label: 'Confusion matrix'
                 children:
                   - type: CheckBox
                     name: tra
-                    children:
-                      - type: TextBox
-                        name: per
-                        enable: (tra)
-                        format: number
                   - type: CheckBox
                     name: tes
               - type: Label

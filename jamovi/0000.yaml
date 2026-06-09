@@ -157,12 +157,12 @@ analyses:
 datasets:
   - name: iris
     path: iris.omv
-    description: kmeans, Group plot, and Classification
+    description: iris
     tags:
       - Kmeans
-      - Group plot
-      - Machine Learning
-      - Density based clustering
+      - LDA
+      - Dimension plot
+      - Density clustering
   - name: gower
     path: gower.omv
     description: Gower distance
