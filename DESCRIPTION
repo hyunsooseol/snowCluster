@@ -67,4 +67,6 @@ Imports:
     scales,
     uwot,
     dbscan,
+    rlang,
+    tidyr,
 Remotes: cardiomoon/multipleROC    

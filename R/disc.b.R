@@ -491,19 +491,30 @@ discClass <- if (requireNamespace('jmvcore'))
         df <- image$state$df
         cent <- image$state$cent
         
-        library(ggplot2)
-        plot <- ggplot(df, ggplot2::aes(x = LD1, y = LD2, color = Groups)) +
-          geom_point(alpha = 0.6) +
-          #include circle---
-          stat_ellipse(aes(fill = Groups), geom = "polygon", alpha = 0.2, level = 0.95) +
-          geom_point(
+        plot <- ggplot2::ggplot(
+          df,
+          ggplot2::aes(x = LD1, y = LD2, color = Groups)
+        ) +
+          ggplot2::geom_point(alpha = 0.6) +
+          # include circle---
+          ggplot2::stat_ellipse(
+            ggplot2::aes(fill = Groups),
+            geom = "polygon",
+            alpha = 0.2,
+            level = 0.95
+          ) +
+          ggplot2::geom_point(
             data = cent,
             ggplot2::aes(x = LD1, y = LD2, color = Groups),
             size = 7,
             shape = 17,
             alpha = 1
           ) +
-          labs(title = "", x = "LD1", y = "LD2")
+          ggplot2::labs(
+            title = "",
+            x = "LD1",
+            y = "LD2"
+          )
         
         plot <- plot + ggtheme
         print(plot)
