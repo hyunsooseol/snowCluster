@@ -102,6 +102,12 @@ kmeansClass <- if (requireNamespace('jmvcore'))
       
       .run = function() {
         
+        # Run button guard -------------------------------------------------
+        if (is.null(self$options$run) || self$options$run == 0) {
+          self$results$instructions$setVisible(TRUE)
+          return()
+        }
+        
         vars <- self$options$vars
         facs <- self$options$factors
         

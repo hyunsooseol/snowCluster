@@ -29,6 +29,10 @@ options:
       permitted:
         - factor
 
+    - name: run
+      type: Action
+      title: Run
+
     - name: k
       title: Number of clusters
       default: 2

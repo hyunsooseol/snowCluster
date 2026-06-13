@@ -8,6 +8,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             vars = NULL,
             factors = NULL,
+            run = FALSE,
             k = 2,
             k1 = 2,
             max = 10,
@@ -44,6 +45,9 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "nominal"),
                 permitted=list(
                     "factor"))
+            private$..run <- jmvcore::OptionAction$new(
+                "run",
+                run)
             private$..k <- jmvcore::OptionInteger$new(
                 "k",
                 k,
@@ -121,6 +125,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..vars)
             self$.addOption(private$..factors)
+            self$.addOption(private$..run)
             self$.addOption(private$..k)
             self$.addOption(private$..k1)
             self$.addOption(private$..max)
@@ -142,6 +147,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         vars = function() private$..vars$value,
         factors = function() private$..factors$value,
+        run = function() private$..run$value,
         k = function() private$..k$value,
         k1 = function() private$..k1$value,
         max = function() private$..max$value,
@@ -162,6 +168,7 @@ kmeansOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..vars = NA,
         ..factors = NA,
+        ..run = NA,
         ..k = NA,
         ..k1 = NA,
         ..max = NA,
@@ -442,6 +449,7 @@ kmeansBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param data The data as a data frame.
 #' @param vars .
 #' @param factors .
+#' @param run .
 #' @param k .
 #' @param k1 .
 #' @param max .
@@ -488,6 +496,7 @@ kmeans <- function(
     data,
     vars,
     factors,
+    run = FALSE,
     k = 2,
     k1 = 2,
     max = 10,
@@ -520,6 +529,7 @@ kmeans <- function(
     options <- kmeansOptions$new(
         vars = vars,
         factors = factors,
+        run = run,
         k = k,
         k1 = k1,
         max = max,

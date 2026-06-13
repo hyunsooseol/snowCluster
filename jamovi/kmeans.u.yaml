@@ -22,9 +22,23 @@ children:
             isTarget: true
   - type: LayoutBox
     margin: large
+    stretchFactor: 1
     children:
-      - name: stand
-        type: CheckBox
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: ActionButton
+            name: run
+      - type: LayoutBox
+        cell:
+          column: 3
+          row: 0
+        children:
+          - name: stand
+            type: CheckBox
   - type: CollapseBox
     label: 'K-means Clustering'
     margin: normal
