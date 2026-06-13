@@ -1,0 +1,193 @@
+---
+name:  long
+title: Trajectory K-Means
+menuGroup: snowCluster
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+
+    - name: vars
+      title: Repeated-measure variables
+      type: Variables
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+      description:
+        R: >
+          Numeric repeated-measure variables representing time points.
+
+    # - name: id
+    #   title: ID variable
+    #   type: Variable
+    #   suggested:
+    #     - nominal
+    #     - ordinal
+    #   permitted:
+    #     - factor
+    #     - id
+    #   default: null
+    #   description:
+    #     R: >
+    #       Optional subject ID variable.
+
+    - name: run
+      title: Run
+      type: Action
+
+    - name: nclust
+      title: Number of clusters
+      type: Integer
+      default: 3
+      min: 2
+      max: 10
+      description:
+        R: >
+          Number of trajectory clusters.
+
+    - name: standardize
+      title: Standardize variables
+      type: Bool
+      default: true
+      description:
+        R: >
+          Standardizes repeated-measure variables before clustering.
+
+    - name: missing
+      title: Missing
+      type: List
+      options:
+        - title: Listwise
+          name: listwise
+        - title: Mean imputation
+          name: mean
+      default: listwise
+
+    - name: nstart
+      title: Random starts
+      type: Integer
+      default: 25
+      min: 1
+      max: 100
+      description:
+        R: >
+          Number of random starting configurations passed to stats::kmeans().
+
+    - name: itermax
+      title: Maximum iterations
+      type: Integer
+      default: 100
+      min: 10
+      max: 1000
+      description:
+        R: >
+          Maximum number of iterations passed to stats::kmeans().
+
+    - name: algorithm
+      title: Algorithm
+      type: List
+      options:
+        - title: Hartigan-Wong
+          name: Hartigan-Wong
+        - title: Lloyd
+          name: Lloyd
+        - title: Forgy
+          name: Forgy
+        - title: MacQueen
+          name: MacQueen
+      default: Hartigan-Wong
+      description:
+        R: >
+          K-means algorithm used by stats::kmeans().
+
+    - name: seed
+      title: Random seed
+      type: Integer
+      default: 1234
+      min: 1
+      max: 999999
+      description:
+        R: >
+          Random seed for reproducible clustering.
+
+    - name: showSummary
+      title: Cluster summary
+      type: Bool
+      default: true
+
+    - name: showCenters
+      title: Cluster centers
+      type: Bool
+      default: true
+
+    - name: member
+      title: Cluster membership
+      type: Output
+
+    - name: showFit
+      title: Fit indices
+      type: Bool
+      default: true
+
+    - name: showPlot
+      title: Trajectory plot
+      type: Bool
+      default: true
+
+    - name: plotType
+      title: Plot type
+      type: List
+      options:
+        - title: Means only
+          name: mean
+        - title: Individuals + means
+          name: individual
+      default: individual
+
+    - name: lineAlpha
+      title: Line transparency
+      type: Number
+      default: 0.25
+      min: 0.05
+      max: 1.00
+
+    - name: showElbow
+      title: Elbow plot
+      type: Bool
+      default: false
+
+    - name: maxK
+      title: Maximum K 
+      type: Integer
+      default: 8
+      min: 2
+      max: 15
+
+    - name: centerScale
+      title: 'Show centers as'
+      type: List
+      options:
+        - title: Original 
+          name: original
+        - title:  Z-score
+          name: standardized
+      default: original
+      description:
+        R: >
+          Scale used to display cluster centers.
+
+    - name: showSilhouette
+      title: Silhouette summary
+      type: Bool
+      default: true
+
+    - name: angle
+      title: Angle of x-axis labels
+      type: Number
+      min: 0
+      max: 90
+      default: 0
+...

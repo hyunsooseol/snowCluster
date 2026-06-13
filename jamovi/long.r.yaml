@@ -1,0 +1,152 @@
+---
+name:  long
+title: Trajectory K-Means
+jrs:   '1.1'
+refs: snowCluster
+items:
+    - name: instructions
+      title: Instructions
+      type: Html
+      visible: true
+
+    - name: summary
+      title: Cluster Summary
+      type: Table
+      visible: (showSummary)
+      clearWith:
+        - vars
+        - nclust
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
+      columns:
+        - name: cluster
+          title: Cluster
+          type: text
+        - name: n
+          title: N
+          type: integer
+        - name: percent
+          title: '%'
+          type: number
+
+    - name: fit
+      title: Fit Indices
+      type: Table
+      visible: (showFit)
+      clearWith:
+        - vars
+        - nclust
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
+      columns:
+        - name: index
+          title: Index
+          type: text
+        - name: value
+          title: Value
+          type: number
+
+    - name: silhouette
+      title: Silhouette Summary
+      type: Table
+      visible: (showSilhouette)
+      clearWith:
+        - vars
+        - nclust
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
+      columns:
+        - name: cluster
+          title: Cluster
+          type: text
+        - name: n
+          title: N
+          type: integer
+        - name: avgSilhouette
+          title: Avg. silhouette
+          type: number
+
+    - name: centers
+      title: Cluster Centers
+      type: Table
+      visible: (showCenters)
+      clearWith:
+        - vars
+        - nclust
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
+        - centerScale
+      columns:
+        - name: cluster
+          title: Cluster
+          type: text
+          
+    - name: member
+      title: Cluster membership
+      type: Output
+      measureType: nominal
+      varTitle: Cluster
+      clearWith:
+        - vars
+        - nclust
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
+
+    - name: plot
+      title: Trajectory Plot
+      type: Image
+      width: 650
+      height: 450
+      renderFun: .plot
+      visible: (showPlot)
+      clearWith:
+        - vars
+        - nclust
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
+        - plotType
+        - lineAlpha
+        - angle
+
+    - name: elbow
+      title: Elbow Plot
+      type: Image
+      width: 600
+      height: 400
+      renderFun: .elbow
+      visible: (showElbow)
+      clearWith:
+        - vars
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
+        - maxK
+
+...

@@ -9,7 +9,7 @@ dbscan(
   vars,
   eps = 0.5,
   minPts = 5,
-  standardize = FALSE,
+  standardize = TRUE,
   dist = "euclidean",
   sizeTable = FALSE,
   plot = FALSE,

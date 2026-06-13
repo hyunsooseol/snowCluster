@@ -1,0 +1,177 @@
+title: Trajectory K-Means
+name: long
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Repeated-measure variables
+        children:
+          - type: VariablesListBox
+            name: vars
+            isTarget: true
+      # - type: TargetLayoutBox
+      #   label: ID variable
+      #   children:
+      #     - type: VariablesListBox
+      #       name: id
+      #       maxItemCount: 1
+      #       isTarget: true
+      #       ghostText: Optional
+  - type: ActionButton
+    name: run
+    label: Run
+
+  - type: CollapseBox
+    label: 'Options'
+    margin: normal
+    collapsed: false
+    children:
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Missing
+            fitToGrid: true
+            children:
+              - type: ComboBox
+                name: missing
+          - type: Label
+            label: K-means Settings
+            fitToGrid: true
+            children:
+              - type: TextBox
+                name: nstart
+                format: number
+              - type: TextBox
+                name: itermax
+                format: number
+              - type: TextBox
+                name: seed
+                format: number
+              - type: ComboBox
+                name: algorithm
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Clustering
+            fitToGrid: true
+            children:
+              - type: CheckBox
+                name: standardize
+              - type: TextBox
+                name: nclust
+                format: number
+  - type: CollapseBox
+    label: 'Analysis'
+    margin: normal
+    collapsed: false
+    children:
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Tables
+            fitToGrid: true
+            children:
+              - type: CheckBox
+                name: showSummary
+              - type: CheckBox
+                name: showCenters
+                children:
+                  - type: ComboBox
+                    name: centerScale
+                    enable: (showCenters)
+              - type: CheckBox
+                name: showFit
+              - type: CheckBox
+                name: showSilhouette  
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Save
+            fitToGrid: true
+            children:
+              - type: Output
+                name: member
+
+  - type: CollapseBox
+    label: Plots
+    margin: normal
+    collapsed: false
+    children:
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 0
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Trajectory Plot
+            fitToGrid: true
+            children:
+              - type: CheckBox
+                name: showPlot
+                children:
+                  - type: ComboBox
+                    name: plotType
+                    enable: (showPlot)
+                  - type: TextBox
+                    name: lineAlpha
+                    format: number
+                    enable: (showPlot)
+                  - type: TextBox
+                    name: angle
+                    format: number
+                    enable: (showPlot)
+                    suggestedValues:
+                      - value: 0
+                      - value: 45
+                      - value: 90                    
+      - type: LayoutBox
+        stretchFactor: 1
+        margin: large
+        cell:
+          column: 1
+          row: 0
+        fitToGrid: true
+        children:
+          - type: Label
+            label: Elbow Plot
+            fitToGrid: true
+            children:
+              - type: CheckBox
+                name: showElbow
+                children:
+                  - type: TextBox
+                    name: maxK
+                    format: number
+                    enable: (showElbow)

@@ -9,11 +9,12 @@ maintainer: Hyunsoo Seol <snow@cau.ac.kr>
 date: '2026-06-09'
 type: R
 description: >-
-  This module allows users to analyze k-means, Density based clustering, and
-  hierarchical clustering,Time series clustering, Correspondence Analysis,
-  Multiple Factor Analysis, Factor analysis of mixed data, Discriminant
-  Analysis, Multidimensional Scaling, Univariate time series, Prophet analysis,
-  Decision Tree, Machine Learning,and various visualization results.
+  This module allows users to analyze k-means, Trajectory k-means, Density based
+  clustering, and hierarchical clustering,Time series clustering, Correspondence
+  Analysis, Multiple Factor Analysis, Factor analysis of mixed data,
+  Discriminant Analysis, Multidimensional Scaling, Univariate time series,
+  Prophet analysis, Decision Tree, Machine Learning,and various visualization
+  results.
 
   Please submit feedback, bug reports, and feature requests via the links
   provided <a href = "https://github.com/hyunsooseol/snowCluster/issues"
@@ -24,6 +25,14 @@ analyses:
     ns: snowCluster
     menuGroup: snowCluster
     menuTitle: K-means Clustering
+    menuSubgroup: Cluster Analysis
+    ribbon: analyses
+    category: analyses
+  - title: Trajectory K-Means
+    name: long
+    ns: snowCluster
+    menuGroup: snowCluster
+    menuTitle: Trajectory K-Means
     menuSubgroup: Cluster Analysis
     ribbon: analyses
     category: analyses
@@ -168,6 +177,11 @@ datasets:
     description: Gower distance
     tags:
       - Gower distance
+  - name: trajectory
+    path: trajectory.omv
+    description: Trajectory k-means
+    tags:
+      - Trajectory k-means
   - name: timeclust
     path: timeclust.omv
     description: Time series clustering
