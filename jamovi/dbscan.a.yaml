@@ -35,7 +35,7 @@ options:
     - name: standardize
       title: "Standardize variables"
       type: Bool
-      default: false
+      default: TRUE
 
     - name: dist
       title: "Distance measure"

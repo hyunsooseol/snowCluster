@@ -9,7 +9,7 @@ dbscanOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             eps = 0.5,
             minPts = 5,
-            standardize = FALSE,
+            standardize = TRUE,
             dist = "euclidean",
             sizeTable = FALSE,
             plot = FALSE,
@@ -50,7 +50,7 @@ dbscanOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..standardize <- jmvcore::OptionBool$new(
                 "standardize",
                 standardize,
-                default=FALSE)
+                default=TRUE)
             private$..dist <- jmvcore::OptionList$new(
                 "dist",
                 dist,
@@ -402,7 +402,7 @@ dbscan <- function(
     vars,
     eps = 0.5,
     minPts = 5,
-    standardize = FALSE,
+    standardize = TRUE,
     dist = "euclidean",
     sizeTable = FALSE,
     plot = FALSE,

@@ -8,6 +8,7 @@ kmeans(
   data,
   vars,
   factors,
+  run = FALSE,
   k = 2,
   k1 = 2,
   max = 10,
@@ -31,6 +32,8 @@ kmeans(
 \item{vars}{.}
 
 \item{factors}{.}
+
+\item{run}{.}
 
 \item{k}{.}
 
