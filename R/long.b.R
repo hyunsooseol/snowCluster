@@ -20,11 +20,11 @@ longClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
             '<div style="border: 2px solid #e6f4fe; border-radius: 15px; padding: 15px; background-color: #e6f4fe; margin-top: 10px;">',
             '<div style="text-align:justify;">',
             '<ul>',
+            '<li>This is an exploratory clustering method that clusters subjects based on their overall repeated-measure trajectory, not by separate k-means analyses at each time point.</li>',
             '<li>Select numeric repeated-measure variables in wide format, then click <b>Run</b>.</li>',
             '<li>Each row is treated as one subject trajectory.</li>',
             '<li>Use the elbow plot and silhouette values to help choose the number of clusters.</li>',
             '<li>The saved <b>Cluster</b> variable can be used for follow-up analyses.</li>',
-            '<li>This is an exploratory clustering method, not a latent growth mixture model.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul>',
             
