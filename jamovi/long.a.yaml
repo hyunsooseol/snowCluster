@@ -133,9 +133,14 @@ options:
       default: true
 
     - name: showPlot
-      title: Trajectory plot
+      title: Original scale
       type: Bool
       default: true
+
+    - name: showZPlot
+      title: Z-score scale
+      type: Bool
+      default: false
 
     - name: plotType
       title: Plot type
@@ -153,6 +158,13 @@ options:
       default: 0.25
       min: 0.05
       max: 1.00
+
+    - name: angle
+      title: Angle of x-axis labels
+      type: Number
+      min: 0
+      max: 90
+      default: 0
 
     - name: showElbow
       title: Elbow plot
@@ -183,13 +195,6 @@ options:
       title: Silhouette summary
       type: Bool
       default: true
-
-    - name: angle
-      title: Angle of x-axis labels
-      type: Number
-      min: 0
-      max: 90
-      default: 0
 
     - name: showSilPlot
       title: Silhouette plot

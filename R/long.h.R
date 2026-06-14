@@ -19,13 +19,14 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             showCenters = TRUE,
             showFit = TRUE,
             showPlot = TRUE,
+            showZPlot = FALSE,
             plotType = "individual",
             lineAlpha = 0.25,
+            angle = 0,
             showElbow = FALSE,
             maxK = 8,
             centerScale = "original",
             showSilhouette = TRUE,
-            angle = 0,
             showSilPlot = FALSE, ...) {
 
             super$initialize(
@@ -106,6 +107,10 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "showPlot",
                 showPlot,
                 default=TRUE)
+            private$..showZPlot <- jmvcore::OptionBool$new(
+                "showZPlot",
+                showZPlot,
+                default=FALSE)
             private$..plotType <- jmvcore::OptionList$new(
                 "plotType",
                 plotType,
@@ -119,6 +124,12 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=0.25,
                 min=0.05,
                 max=1)
+            private$..angle <- jmvcore::OptionNumber$new(
+                "angle",
+                angle,
+                min=0,
+                max=90,
+                default=0)
             private$..showElbow <- jmvcore::OptionBool$new(
                 "showElbow",
                 showElbow,
@@ -140,12 +151,6 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "showSilhouette",
                 showSilhouette,
                 default=TRUE)
-            private$..angle <- jmvcore::OptionNumber$new(
-                "angle",
-                angle,
-                min=0,
-                max=90,
-                default=0)
             private$..showSilPlot <- jmvcore::OptionBool$new(
                 "showSilPlot",
                 showSilPlot,
@@ -165,13 +170,14 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..member)
             self$.addOption(private$..showFit)
             self$.addOption(private$..showPlot)
+            self$.addOption(private$..showZPlot)
             self$.addOption(private$..plotType)
             self$.addOption(private$..lineAlpha)
+            self$.addOption(private$..angle)
             self$.addOption(private$..showElbow)
             self$.addOption(private$..maxK)
             self$.addOption(private$..centerScale)
             self$.addOption(private$..showSilhouette)
-            self$.addOption(private$..angle)
             self$.addOption(private$..showSilPlot)
         }),
     active = list(
@@ -189,13 +195,14 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         member = function() private$..member$value,
         showFit = function() private$..showFit$value,
         showPlot = function() private$..showPlot$value,
+        showZPlot = function() private$..showZPlot$value,
         plotType = function() private$..plotType$value,
         lineAlpha = function() private$..lineAlpha$value,
+        angle = function() private$..angle$value,
         showElbow = function() private$..showElbow$value,
         maxK = function() private$..maxK$value,
         centerScale = function() private$..centerScale$value,
         showSilhouette = function() private$..showSilhouette$value,
-        angle = function() private$..angle$value,
         showSilPlot = function() private$..showSilPlot$value),
     private = list(
         ..vars = NA,
@@ -212,13 +219,14 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..member = NA,
         ..showFit = NA,
         ..showPlot = NA,
+        ..showZPlot = NA,
         ..plotType = NA,
         ..lineAlpha = NA,
+        ..angle = NA,
         ..showElbow = NA,
         ..maxK = NA,
         ..centerScale = NA,
         ..showSilhouette = NA,
-        ..angle = NA,
         ..showSilPlot = NA)
 )
 
@@ -233,6 +241,7 @@ longResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         centers = function() private$.items[["centers"]],
         member = function() private$.items[["member"]],
         plot = function() private$.items[["plot"]],
+        plot1 = function() private$.items[["plot1"]],
         elbow = function() private$.items[["elbow"]],
         silplot = function() private$.items[["silplot"]]),
     private = list(),
@@ -363,11 +372,31 @@ longResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Trajectory Plot",
+                title="Trajectory Plot (Original scale)",
                 width=650,
                 height=450,
                 renderFun=".plot",
                 visible="(showPlot)",
+                clearWith=list(
+                    "vars",
+                    "nclust",
+                    "standardize",
+                    "missing",
+                    "nstart",
+                    "itermax",
+                    "algorithm",
+                    "seed",
+                    "plotType",
+                    "lineAlpha",
+                    "angle")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot1",
+                title="Trajectory Plot (Z-score scale)",
+                width=650,
+                height=450,
+                renderFun=".plot1",
+                visible="(showZPlot)",
                 clearWith=list(
                     "vars",
                     "nclust",
@@ -455,13 +484,14 @@ longBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param showCenters .
 #' @param showFit .
 #' @param showPlot .
+#' @param showZPlot .
 #' @param plotType .
 #' @param lineAlpha .
+#' @param angle .
 #' @param showElbow .
 #' @param maxK .
 #' @param centerScale Scale used to display cluster centers.
 #' @param showSilhouette .
-#' @param angle .
 #' @param showSilPlot .
 #' @return A results object containing:
 #' \tabular{llllll}{
@@ -472,6 +502,7 @@ longBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$centers} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$member} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$elbow} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$silplot} \tab \tab \tab \tab \tab an image \cr
 #' }
@@ -498,13 +529,14 @@ long <- function(
     showCenters = TRUE,
     showFit = TRUE,
     showPlot = TRUE,
+    showZPlot = FALSE,
     plotType = "individual",
     lineAlpha = 0.25,
+    angle = 0,
     showElbow = FALSE,
     maxK = 8,
     centerScale = "original",
     showSilhouette = TRUE,
-    angle = 0,
     showSilPlot = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
@@ -531,13 +563,14 @@ long <- function(
         showCenters = showCenters,
         showFit = showFit,
         showPlot = showPlot,
+        showZPlot = showZPlot,
         plotType = plotType,
         lineAlpha = lineAlpha,
+        angle = angle,
         showElbow = showElbow,
         maxK = maxK,
         centerScale = centerScale,
         showSilhouette = showSilhouette,
-        angle = angle,
         showSilPlot = showSilPlot)
 
     analysis <- longClass$new(

@@ -113,12 +113,32 @@ items:
         - seed
 
     - name: plot
-      title: Trajectory Plot
+      title: Trajectory Plot (Original scale)
       type: Image
       width: 650
       height: 450
       renderFun: .plot
       visible: (showPlot)
+      clearWith:
+        - vars
+        - nclust
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
+        - plotType
+        - lineAlpha
+        - angle
+
+    - name: plot1
+      title: Trajectory Plot (Z-score scale)
+      type: Image
+      width: 650
+      height: 450
+      renderFun: .plot1
+      visible: (showZPlot)
       clearWith:
         - vars
         - nclust

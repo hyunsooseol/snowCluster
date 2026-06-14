@@ -337,7 +337,7 @@ longClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       
       
       # ------------------------------------------------------------
-      # Trajectory plot state
+      # Trajectory plot state: original scale
       # ------------------------------------------------------------
       
       plotState <- list(
@@ -348,10 +348,57 @@ longClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         k = k,
         plotType = self$options$plotType,
         lineAlpha = self$options$lineAlpha,
+        ylab = "Value",
+        main = "Trajectory K-Means (Original Scale)",
         message = NULL
       )
       
       self$results$plot$setState(plotState)
+      
+      # ------------------------------------------------------------
+      # Trajectory plot state: z-score scale
+      # ------------------------------------------------------------
+      
+      sds_z <- vapply(x_original, stats::sd, numeric(1), na.rm = TRUE)
+      
+      if (any(is.na(sds_z) | sds_z == 0)) {
+        
+        zMessage <- paste0(
+          "Z-score trajectory plot cannot be drawn because the following variable(s) ",
+          "have zero or undefined standard deviation: ",
+          paste(vars[which(is.na(sds_z) | sds_z == 0)], collapse = ", "),
+          "."
+        )
+        
+        self$results$plot1$setState(
+          list(message = zMessage)
+        )
+        
+      } else {
+        
+        x_z <- as.data.frame(scale(x_original))
+        
+        centersZ <- private$.clusterMeans(
+          x = x_z,
+          cluster = cluster,
+          k = k
+        )
+        
+        plotStateZ <- list(
+          x = as.matrix(x_z),
+          vars = vars,
+          cluster = cluster,
+          centers = centersZ,
+          k = k,
+          plotType = self$options$plotType,
+          lineAlpha = self$options$lineAlpha,
+          ylab = "Z-score",
+          main = "Trajectory K-Means (Z-score Scale)",
+          message = NULL
+        )
+        
+        self$results$plot1$setState(plotStateZ)
+      }
       
       # ------------------------------------------------------------
       # Elbow plot state
@@ -431,6 +478,10 @@ longClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       )
       
       self$results$plot$setState(
+        list(message = message)
+      )
+      
+      self$results$plot1$setState(
         list(message = message)
       )
       
@@ -705,6 +756,168 @@ longClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           cex = 1.1
         )
       }
+      
+      graphics::legend(
+        x = max(time) + 0.25,
+        y = ylim[2],
+        legend = paste0("Cluster ", seq_len(k)),
+        col = cols,
+        lwd = 3,
+        pch = 19,
+        bty = "n",
+        xpd = TRUE
+      )
+      
+      return(TRUE)
+    },
+    
+    
+    # ------------------------------------------------------------
+    # Trajectory plot: z-score scale
+    # ------------------------------------------------------------
+    
+    .plot1 = function(image, ggtheme, theme, ...) {
+      
+      state <- image$state
+      
+      if (is.null(state))
+        return(FALSE)
+      
+      if (!is.null(state$message)) {
+        graphics::plot.new()
+        graphics::text(
+          x = 0.5,
+          y = 0.5,
+          labels = paste(strwrap(state$message, width = 60), collapse = "\n"),
+          cex = 0.9
+        )
+        return(TRUE)
+      }
+      
+      x <- state$x
+      vars <- state$vars
+      cluster <- state$cluster
+      centers <- state$centers
+      k <- state$k
+      plotType <- state$plotType
+      lineAlpha <- state$lineAlpha
+      
+      ylab <- state$ylab
+      main <- state$main
+      
+      if (is.null(ylab))
+        ylab <- "Z-score"
+      
+      if (is.null(main))
+        main <- "Trajectory K-Means (Z-score Scale)"
+      
+      time <- seq_along(vars)
+      ylim <- range(x, centers, na.rm = TRUE)
+      
+      angle <- self$options$angle
+      if (is.null(angle))
+        angle <- 0
+      
+      op <- graphics::par(no.readonly = TRUE)
+      on.exit(graphics::par(op), add = TRUE)
+      
+      graphics::par(
+        mar = c(6, 5, 4, 8),
+        xpd = TRUE
+      )
+      
+      graphics::plot(
+        x = time,
+        y = centers[1, ],
+        type = "n",
+        xaxt = "n",
+        xlab = "Time point",
+        ylab = ylab,
+        ylim = ylim,
+        main = main
+      )
+      
+      # x-axis ticks
+      graphics::axis(
+        side = 1,
+        at = time,
+        labels = FALSE
+      )
+      
+      # x-axis labels with optional angle
+      if (angle > 0) {
+        graphics::text(
+          x = time,
+          y = graphics::par("usr")[3] - 0.06 * diff(graphics::par("usr")[3:4]),
+          labels = vars,
+          srt = angle,
+          adj = 1,
+          xpd = TRUE,
+          cex = 0.8
+        )
+      } else {
+        graphics::axis(
+          side = 1,
+          at = time,
+          labels = vars,
+          las = 1,
+          cex.axis = 0.8
+        )
+      }
+      
+      # Grid and zero reference line should stay inside the plot box
+      graphics::par(xpd = FALSE)
+      
+      graphics::grid()
+      
+      usr <- graphics::par("usr")
+      
+      graphics::segments(
+        x0 = usr[1],
+        y0 = 0,
+        x1 = usr[2],
+        y1 = 0,
+        lty = 2,
+        lwd = 1.5,
+        col = "gray40"
+      )
+      
+      cols <- grDevices::rainbow(k)
+      
+      if (plotType == "individual") {
+        
+        for (i in seq_len(nrow(x))) {
+          cl <- cluster[i]
+          
+          graphics::lines(
+            x = time,
+            y = x[i, ],
+            col = grDevices::adjustcolor(cols[cl], alpha.f = lineAlpha),
+            lwd = 1
+          )
+        }
+      }
+      
+      for (cl in seq_len(k)) {
+        
+        graphics::lines(
+          x = time,
+          y = centers[cl, ],
+          col = cols[cl],
+          lwd = 3
+        )
+        
+        graphics::points(
+          x = time,
+          y = centers[cl, ],
+          col = cols[cl],
+          pch = 19,
+          cex = 1.1
+        )
+      }
+      
+      # Legend can be drawn outside the plot box
+      graphics::par(xpd = TRUE)
       
       graphics::legend(
         x = max(time) + 0.25,

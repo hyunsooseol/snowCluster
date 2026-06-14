@@ -19,13 +19,14 @@ long(
   showCenters = TRUE,
   showFit = TRUE,
   showPlot = TRUE,
+  showZPlot = FALSE,
   plotType = "individual",
   lineAlpha = 0.25,
+  angle = 0,
   showElbow = FALSE,
   maxK = 8,
   centerScale = "original",
   showSilhouette = TRUE,
-  angle = 0,
   showSilPlot = FALSE
 )
 }
@@ -60,9 +61,13 @@ stats::kmeans().}
 
 \item{showPlot}{.}
 
+\item{showZPlot}{.}
+
 \item{plotType}{.}
 
 \item{lineAlpha}{.}
+
+\item{angle}{.}
 
 \item{showElbow}{.}
 
@@ -71,8 +76,6 @@ stats::kmeans().}
 \item{centerScale}{Scale used to display cluster centers.}
 
 \item{showSilhouette}{.}
-
-\item{angle}{.}
 
 \item{showSilPlot}{.}
 }
@@ -86,6 +89,7 @@ A results object containing:
   \code{results$centers} \tab \tab \tab \tab \tab a table \cr
   \code{results$member} \tab \tab \tab \tab \tab an output \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+  \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
   \code{results$elbow} \tab \tab \tab \tab \tab an image \cr
   \code{results$silplot} \tab \tab \tab \tab \tab an image \cr
 }

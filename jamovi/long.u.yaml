@@ -135,27 +135,33 @@ children:
         fitToGrid: true
         children:
           - type: Label
-            label: Trajectory Plot
+            label: 'Trajectory Plot'
             fitToGrid: true
             children:
               - type: CheckBox
                 name: showPlot
-                children:
-                  - type: ComboBox
-                    name: plotType
-                    enable: (showPlot)
-                  - type: TextBox
-                    name: lineAlpha
-                    format: number
-                    enable: (showPlot)
-                  - type: TextBox
-                    name: angle
-                    format: number
-                    enable: (showPlot)
-                    suggestedValues:
-                      - value: 0
-                      - value: 45
-                      - value: 90                    
+          
+              - type: CheckBox
+                name: showZPlot
+          
+              - type: ComboBox
+                name: plotType
+                enable: (showPlot || showZPlot)
+          
+              - type: TextBox
+                name: lineAlpha
+                format: number
+                enable: (showPlot || showZPlot)
+          
+              - type: TextBox
+                name: angle
+                format: number
+                enable: (showPlot || showZPlot)
+                suggestedValues:
+                  - value: 0
+                  - value: 45
+                  - value: 90
+
       - type: LayoutBox
         stretchFactor: 1
         margin: large
