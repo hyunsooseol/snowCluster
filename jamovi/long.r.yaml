@@ -149,4 +149,20 @@ items:
         - seed
         - maxK
 
+    - name: silplot
+      title: Silhouette Plot
+      type: Image
+      width: 650
+      height: 450
+      renderFun: .silplot
+      visible: (showSilPlot)
+      clearWith:
+        - vars
+        - nclust
+        - standardize
+        - missing
+        - nstart
+        - itermax
+        - algorithm
+        - seed
 ...

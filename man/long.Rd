@@ -25,7 +25,8 @@ long(
   maxK = 8,
   centerScale = "original",
   showSilhouette = TRUE,
-  angle = 0
+  angle = 0,
+  showSilPlot = FALSE
 )
 }
 \arguments{
@@ -72,6 +73,8 @@ stats::kmeans().}
 \item{showSilhouette}{.}
 
 \item{angle}{.}
+
+\item{showSilPlot}{.}
 }
 \value{
 A results object containing:
@@ -84,6 +87,7 @@ A results object containing:
   \code{results$member} \tab \tab \tab \tab \tab an output \cr
   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
   \code{results$elbow} \tab \tab \tab \tab \tab an image \cr
+  \code{results$silplot} \tab \tab \tab \tab \tab an image \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

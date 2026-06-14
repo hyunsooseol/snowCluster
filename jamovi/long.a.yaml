@@ -190,4 +190,9 @@ options:
       min: 0
       max: 90
       default: 0
+
+    - name: showSilPlot
+      title: Silhouette plot
+      type: Bool
+      default: false
 ...

@@ -25,7 +25,8 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             maxK = 8,
             centerScale = "original",
             showSilhouette = TRUE,
-            angle = 0, ...) {
+            angle = 0,
+            showSilPlot = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -145,6 +146,10 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0,
                 max=90,
                 default=0)
+            private$..showSilPlot <- jmvcore::OptionBool$new(
+                "showSilPlot",
+                showSilPlot,
+                default=FALSE)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..run)
@@ -167,6 +172,7 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..centerScale)
             self$.addOption(private$..showSilhouette)
             self$.addOption(private$..angle)
+            self$.addOption(private$..showSilPlot)
         }),
     active = list(
         vars = function() private$..vars$value,
@@ -189,7 +195,8 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         maxK = function() private$..maxK$value,
         centerScale = function() private$..centerScale$value,
         showSilhouette = function() private$..showSilhouette$value,
-        angle = function() private$..angle$value),
+        angle = function() private$..angle$value,
+        showSilPlot = function() private$..showSilPlot$value),
     private = list(
         ..vars = NA,
         ..run = NA,
@@ -211,7 +218,8 @@ longOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..maxK = NA,
         ..centerScale = NA,
         ..showSilhouette = NA,
-        ..angle = NA)
+        ..angle = NA,
+        ..showSilPlot = NA)
 )
 
 longResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -225,7 +233,8 @@ longResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         centers = function() private$.items[["centers"]],
         member = function() private$.items[["member"]],
         plot = function() private$.items[["plot"]],
-        elbow = function() private$.items[["elbow"]]),
+        elbow = function() private$.items[["elbow"]],
+        silplot = function() private$.items[["silplot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -387,7 +396,24 @@ longResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "itermax",
                     "algorithm",
                     "seed",
-                    "maxK")))}))
+                    "maxK")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="silplot",
+                title="Silhouette Plot",
+                width=650,
+                height=450,
+                renderFun=".silplot",
+                visible="(showSilPlot)",
+                clearWith=list(
+                    "vars",
+                    "nclust",
+                    "standardize",
+                    "missing",
+                    "nstart",
+                    "itermax",
+                    "algorithm",
+                    "seed")))}))
 
 longBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "longBase",
@@ -436,6 +462,7 @@ longBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param centerScale Scale used to display cluster centers.
 #' @param showSilhouette .
 #' @param angle .
+#' @param showSilPlot .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -446,6 +473,7 @@ longBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$member} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$elbow} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$silplot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -476,7 +504,8 @@ long <- function(
     maxK = 8,
     centerScale = "original",
     showSilhouette = TRUE,
-    angle = 0) {
+    angle = 0,
+    showSilPlot = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("long requires jmvcore to be installed (restart may be required)")
@@ -508,7 +537,8 @@ long <- function(
         maxK = maxK,
         centerScale = centerScale,
         showSilhouette = showSilhouette,
-        angle = angle)
+        angle = angle,
+        showSilPlot = showSilPlot)
 
     analysis <- longClass$new(
         options = options,

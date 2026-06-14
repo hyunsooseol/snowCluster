@@ -203,6 +203,19 @@ longClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
         k = k
       )
       
+      if (isTRUE(self$options$showSilPlot)) {
+        
+        self$results$silplot$setState(
+          list(
+            values = sil$values,
+            cluster = cluster,
+            k = k,
+            overall = sil$overall,
+            message = NULL
+          )
+        )
+      }
+      
       # ------------------------------------------------------------
       # Cluster summary
       # ------------------------------------------------------------
@@ -424,7 +437,12 @@ longClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       self$results$elbow$setState(
         list(message = message)
       )
-    },
+    
+      self$results$silplot$setState(
+        list(message = message)
+      )
+      
+      },
     
     # ------------------------------------------------------------
     # Helper: cluster means on original scale
@@ -756,6 +774,107 @@ longClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
       graphics::grid()
       
       return(TRUE)
+    },
+    
+    # ------------------------------------------------------------
+    # Silhouette plot
+    # ------------------------------------------------------------
+    
+    .silplot = function(image, ggtheme, theme, ...) {
+      
+      state <- image$state
+      
+      if (is.null(state))
+        return(FALSE)
+      
+      if (!is.null(state$message)) {
+        graphics::plot.new()
+        graphics::text(
+          x = 0.5,
+          y = 0.5,
+          labels = paste(strwrap(state$message, width = 60), collapse = "\n"),
+          cex = 0.9
+        )
+        return(TRUE)
+      }
+      
+      sil <- state$values
+      cluster <- state$cluster
+      k <- state$k
+      overall <- state$overall
+      
+      if (is.null(sil) || length(sil) == 0 || all(is.na(sil))) {
+        graphics::plot.new()
+        graphics::text(
+          x = 0.5,
+          y = 0.5,
+          labels = "No silhouette values are available.",
+          cex = 0.9
+        )
+        return(TRUE)
+      }
+      
+      ord <- order(cluster, -sil)
+      silOrd <- sil[ord]
+      clOrd <- cluster[ord]
+      
+      cols <- grDevices::rainbow(k)
+      barCols <- cols[clOrd]
+      
+      op <- graphics::par(no.readonly = TRUE)
+      on.exit(graphics::par(op), add = TRUE)
+      
+      graphics::par(
+        mar = c(5, 5, 4, 4),
+        xpd = FALSE
+      )
+      
+      graphics::barplot(
+        height = silOrd,
+        horiz = TRUE,
+        names.arg = rep("", length(silOrd)),
+        col = barCols,
+        border = NA,
+        xlim = c(-1, 1),
+        xlab = "Silhouette width",
+        ylab = "Cases grouped by cluster",
+        main = "Silhouette Plot"
+      )
+      
+      graphics::abline(
+        v = 0,
+        lty = 2
+      )
+      
+      if (!is.na(overall)) {
+        graphics::abline(
+          v = overall,
+          lwd = 2
+        )
+      }
+      
+      avgLabel <- ifelse(
+        is.na(overall),
+        "Average = NA",
+        paste0("Average = ", sprintf("%.2f", overall))
+      )
+      
+      graphics::legend(
+        "topleft",
+        inset = 0.02,
+        legend = c(
+          paste0("Cluster ", seq_len(k)),
+          avgLabel
+        ),
+        col = c(cols, "black"),
+        lwd = c(rep(5, k), 2),
+        bty = "n",
+        cex = 0.85
+      )
+      
+      return(TRUE)
     }
+    
+    
   )
 )
