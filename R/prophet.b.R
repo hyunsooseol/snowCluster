@@ -93,6 +93,9 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<div style="text-align:justify;">',
             '<ul>',
             '<li>Prophet analysis requires the date column to be in a specific format (%Y-%m-%d). Otherwise, an error occurs.</li>',
+            '<li>The number of periods is interpreted according to the selected unit. For example, 365 with day, 52 with week, and 12 with month represent approximately one year ahead.</li>',
+            '<li>The unit option controls the frequency of future prediction points; it does not aggregate the original data.</li>',
+            '<li>When extra regressors are used, future regressor values are filled according to the selected option, so forecasts with regressors should be interpreted cautiously.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul></div></div>'
           )
