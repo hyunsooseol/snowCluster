@@ -16,6 +16,8 @@ items:
     - name:  plot1
       title: 'ROC Curve'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       visible: (plot1)
       renderFun: .plot1
@@ -28,6 +30,8 @@ items:
     - name:  plot2
       title: 'Multiple ROC curves'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       visible: (plot2)
       renderFun: .plot2
@@ -40,6 +44,8 @@ items:
     - name:  plot3
       title: 'Faceted ROC plots'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       visible: (plot3)
       renderFun: .plot3

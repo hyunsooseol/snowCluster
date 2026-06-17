@@ -188,6 +188,8 @@ items:
     - name:  plot2
       title: Model selection plot
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot2)
       renderFun: .plot2
       refs: caret
@@ -207,6 +209,8 @@ items:
     - name:  plot8
       title: 'ROC plot with training set'            
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot8)
       renderFun: .plot8
       refs: MLeval
@@ -226,6 +230,8 @@ items:
     - name:  plot
       title:  'Comparison of ROC curves'                
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot)
       renderFun: .plot
       refs: MLeval
@@ -246,6 +252,8 @@ items:
     - name:  plot4
       title: 'Calibration curve with training set'
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot4)
       renderFun: .plot4
       refs: MLeval
@@ -266,6 +274,8 @@ items:
     - name:  plot1
       title: Variable importance plot
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot1)
       renderFun: .plot1
       refs: caret
@@ -285,6 +295,8 @@ items:
     - name:  plot3
       title: 'ROC plot with test set'               
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot3)
       renderFun: .plot3
       refs: MLeval
@@ -304,6 +316,8 @@ items:
     - name:  plot5
       title: Box plot              
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot5)
       renderFun: .plot5
       refs: caret
@@ -322,6 +336,8 @@ items:
     - name:  plot6
       title: Density plot              
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot6)
       renderFun: .plot6
       refs: caret
@@ -442,6 +458,8 @@ items:
     - name:  plot7
       title: Box plots to compare models              
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot7)
       renderFun: .plot7
       refs: caret

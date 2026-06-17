@@ -60,6 +60,8 @@ items:
       title: Dendrogram
       visible: FALSE
       type: Image
+      width: 600
+      height: 450      
       renderFun: .plot
       clearWith:
         - podatki
@@ -78,6 +80,8 @@ items:
       title: Heatmap
       visible: FALSE
       type: Image
+      width: 600
+      height: 450      
       renderFun: .heat
       clearWith:
         - podatki
@@ -95,6 +99,8 @@ items:
       title: Pairs plot
       visible: FALSE
       type: Image
+      width: 600
+      height: 450      
       renderFun: .pairs       
       clearWith:
         - podatki

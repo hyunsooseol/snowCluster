@@ -54,6 +54,8 @@ items:
     - name: plotAcc
       title: 'MAPE comparison'
       type: Image
+      width: 600
+      height: 450      
       refs: prophet
       renderFun: .plotAcc
       visible: (accuracy)
@@ -74,6 +76,8 @@ items:
     - name: plot1
       title: 'Forecast of multiple variables'
       type: Image
+      width: 600
+      height: 450      
       visible: (plot1)
       refs: prophet
       renderFun: .plot1
@@ -94,6 +98,8 @@ items:
     - name: plot2
       title: 'Smooth line plot'
       type: Image
+      width: 600
+      height: 450      
       visible: (plot2)
       refs: prophet
       renderFun: .plot2

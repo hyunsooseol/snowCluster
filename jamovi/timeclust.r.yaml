@@ -56,6 +56,8 @@ items:
     - name:  plot1
       title: 'Elbow Plot Information'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       visible: (plot1)
       refs: mclust
@@ -69,6 +71,8 @@ items:
     - name:  plot
       title: 'Time series clustering'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       visible: (plot)
       refs: widyr
@@ -83,6 +87,8 @@ items:
     - name:  plot3
       title: 'Cluster mean time series'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       visible: (plot3)
       renderFun: .plot3

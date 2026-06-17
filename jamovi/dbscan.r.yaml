@@ -70,6 +70,8 @@ items:
     - name: plot
       title: "Cluster Plot"
       type: Image
+      width: 600
+      height: 450      
       visible: (plot)
       renderFun: .plot
       refs: dbscan
@@ -85,8 +87,8 @@ items:
     - name: knnPlot
       title: "kNN-distance Plot"
       type: Image
-      width: 520
-      height: 360
+      width: 600
+      height: 450
       visible: (knnPlot)
       renderFun: .plotKNN
       refs: dbscan

@@ -125,6 +125,8 @@ items:
     - name:  plot
       title: 'Decision tree plot with train set'
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot)
       requiresData: true
       renderFun: .plot
@@ -138,6 +140,8 @@ items:
     - name:  plot1
       title: 'rpart plot with train set'
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot1)
       requiresData: true
       renderFun: .plot1
@@ -151,6 +155,8 @@ items:
     - name:  plot2
       title: 'Regression tree'
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot2)
       requiresData: true
       renderFun: .plot2

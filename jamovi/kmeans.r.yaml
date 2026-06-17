@@ -74,6 +74,8 @@ items:
     - name:  plot
       title: 'Cluster profiles plot'
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot)
       renderFun: .plot
       clearWith:
@@ -87,6 +89,8 @@ items:
     - name:  plot1
       title: 'Gap statistic plot'
       type:  Image
+      width: 600
+      height: 450      
       refs: factoextra
       visible: (plot1)
       renderFun: .plot1
@@ -100,6 +104,8 @@ items:
     - name:  plot5
       title: 'Elbow plot'
       type:  Image
+      width: 600
+      height: 450      
       refs: snowCluster
       visible: (plot5)
       renderFun: .plot5
@@ -114,6 +120,8 @@ items:
     - name:  plot2
       title: 'Cluster scatter plot'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot2)
@@ -128,6 +136,8 @@ items:
     - name:  plot3
       title: 'Variable clustering(PCA)'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot3)
@@ -201,6 +211,8 @@ items:
     - name:  plot4
       title: 'Silhouette plot'
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot4)
       renderFun: .plot4
       clearWith:

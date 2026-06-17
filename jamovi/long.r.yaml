@@ -156,7 +156,7 @@ items:
       title: Elbow Plot
       type: Image
       width: 600
-      height: 400
+      height: 450
       renderFun: .elbow
       visible: (showElbow)
       clearWith:

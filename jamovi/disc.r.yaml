@@ -131,6 +131,8 @@ items:
     - name:  plot
       title: 'Linear discriminant plot'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       visible: (plot)
       renderFun: .plot
@@ -167,6 +169,8 @@ items:
     - name:  plot1
       title: Histogram
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       visible: (plot1)
       renderFun: .plot1

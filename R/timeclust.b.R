@@ -1,5 +1,4 @@
-# This file is a generated template, your changes will not be overwritten
-#' @importFrom magrittr %>%
+
 
 timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
   R6::R6Class(
@@ -147,43 +146,52 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
           suppressWarnings({
             
-            cluster_summary <- df_local %>%
-              dplyr::mutate(
-                cluster_chr = as.character(cluster),
-                cluster_num = as.integer(cluster_chr)
-              ) %>%
-              dplyr::group_by(
-                cluster_chr,
-                cluster_num
-              ) %>%
-              dplyr::summarise(
-                n_items = dplyr::n_distinct(item),
-                mean_value = mean(
-                  value,
-                  na.rm = TRUE
-                ),
-                sd_value = stats::sd(
-                  value,
-                  na.rm = TRUE
-                ),
-                min_value = min(
-                  value,
-                  na.rm = TRUE
-                ),
-                max_value = max(
-                  value,
-                  na.rm = TRUE
-                ),
-                .groups = "drop"
-              ) %>%
-              dplyr::arrange(
-                dplyr::coalesce(
-                  cluster_num,
-                  NA_integer_
-                ),
-                cluster_chr
-              )
+            cluster_summary <- df_local
+            
+            cluster_summary <- dplyr::mutate(
+              cluster_summary,
+              cluster_chr = as.character(cluster),
+              cluster_num = as.integer(cluster_chr)
+            )
+            
+            cluster_summary <- dplyr::group_by(
+              cluster_summary,
+              cluster_chr,
+              cluster_num
+            )
+            
+            cluster_summary <- dplyr::summarise(
+              cluster_summary,
+              n_items = dplyr::n_distinct(item),
+              mean_value = mean(
+                value,
+                na.rm = TRUE
+              ),
+              sd_value = stats::sd(
+                value,
+                na.rm = TRUE
+              ),
+              min_value = min(
+                value,
+                na.rm = TRUE
+              ),
+              max_value = max(
+                value,
+                na.rm = TRUE
+              ),
+              .groups = "drop"
+            )
+            
+            cluster_summary <- dplyr::arrange(
+              cluster_summary,
+              dplyr::coalesce(
+                cluster_num,
+                NA_integer_
+              ),
+              cluster_chr
+            )
           })
+          
           
           n_rows <- min(
             nrow(cluster_summary),

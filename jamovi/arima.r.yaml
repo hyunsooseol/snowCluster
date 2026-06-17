@@ -157,6 +157,8 @@ items:
     - name:  plot
       title: "Decomposition"
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot)
       renderFun: .plot
       clearWith:
@@ -169,6 +171,8 @@ items:
       title: "Box plot"
       requiresData: true
       type:  Image
+      width: 600
+      height: 450      
       visible: (box)
       renderFun: .box
       clearWith:
@@ -181,8 +185,8 @@ items:
       title:  'Automatic ARIMA forecasts' 
       type:  Image
       visible: (plot1)
-      width: 500
-      height: 500
+      width: 600
+      height: 450
       renderFun: .plot1
       clearWith:
         - dep
@@ -195,6 +199,8 @@ items:
     - name:  plot2
       title:  'Residual plot' 
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot2)
       renderFun: .plot2
       clearWith:
@@ -206,6 +212,8 @@ items:
     - name:  plot3
       title:  'Prediction' 
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot3)
       refs: forecast
       renderFun: .plot3
@@ -233,6 +241,8 @@ items:
     - name:  plot5
       title:  'Model components for Prophet' 
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot5)
       refs: prophet
       renderFun: .plot5
@@ -246,6 +256,8 @@ items:
     - name:  plot6
       title:  "Actual vs. Forecasted Values for Variable y for Prophet"
       type:  Image
+      width: 600
+      height: 450      
       visible: (plot6)
       refs: prophet
       renderFun: .plot6
@@ -259,6 +271,8 @@ items:
     - name: plot9
       title: Residuals ACF
       type: Image
+      width: 600
+      height: 450
       visible: (plot9)
       renderFun: .plot9
       clearWith:
@@ -270,6 +284,8 @@ items:
     - name: plot10
       title: Residuals PACF
       type: Image
+      width: 600
+      height: 450      
       visible: (plot10)
       renderFun: .plot10
       clearWith:

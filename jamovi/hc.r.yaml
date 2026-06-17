@@ -32,6 +32,8 @@ items:
     - name:  plot
       title: Cluster Dendrogram
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot)
@@ -50,6 +52,8 @@ items:
     - name:  plot1
       title: 'Cluster Dendrogram with p-values'
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: pvclust
       visible: (plot1)

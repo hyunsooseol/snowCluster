@@ -111,6 +111,8 @@ items:
     - name:  plot
       title: Scree plot
       type:  Image
+      width: 600
+      height: 450      
       refs: factoextra
       visible: (plot)
       renderFun: .plot
@@ -121,6 +123,8 @@ items:
     - name:  plot1
       title: Graph of variables
       type:  Image
+      width: 600
+      height: 450      
       refs: factoextra
       visible: (plot1)
       renderFun: .plot1
@@ -132,6 +136,8 @@ items:
     - name: plot2
       title: Quantitative variables
       type:  Image
+      width: 600
+      height: 450      
       refs: factoextra
       visible: (plot2)
       renderFun: .plot2
@@ -143,6 +149,8 @@ items:
     - name: plot3
       title:  Qualitative variables
       type:  Image
+      width: 600
+      height: 450      
       refs: factoextra
       visible: (plot3)
       renderFun: .plot3
@@ -154,6 +162,8 @@ items:
     - name: plot4
       title: 'Graph of individuals' 
       type:  Image
+      width: 600
+      height: 450      
       refs: factoextra
       visible: (plot4)
       renderFun: .plot4

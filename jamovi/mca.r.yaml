@@ -79,6 +79,8 @@ items:
     - name:  plot5
       title: Scree plot
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot5)
@@ -91,6 +93,8 @@ items:
     - name:  plot6
       title: Biplot
       type:  Image
+      width: 600
+      height: 450      
       refs: factoextra
       visible: (plot6)
       renderFun: .plot6
@@ -102,6 +106,8 @@ items:
     - name:  plot1
       title: Correlation between variables and dimensions
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot1)
@@ -114,6 +120,8 @@ items:
     - name:  plot2
       title: Coordinates of variable categories
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot2)
@@ -126,6 +134,8 @@ items:
     - name:  plot3
       title: Plot of individuals
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot3)
@@ -138,6 +148,8 @@ items:
     - name:  plot4
       title: Individuals by groups
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot4)

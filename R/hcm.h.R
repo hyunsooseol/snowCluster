@@ -239,6 +239,8 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="plot",
                 title="Dendrogram",
                 visible=FALSE,
+                width=600,
+                height=450,
                 renderFun=".plot",
                 clearWith=list(
                     "podatki",
@@ -257,6 +259,8 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="heat",
                 title="Heatmap",
                 visible=FALSE,
+                width=600,
+                height=450,
                 renderFun=".heat",
                 clearWith=list(
                     "podatki",
@@ -274,6 +278,8 @@ hcmResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="pairs",
                 title="Pairs plot",
                 visible=FALSE,
+                width=600,
+                height=450,
                 renderFun=".pairs",
                 clearWith=list(
                     "podatki",

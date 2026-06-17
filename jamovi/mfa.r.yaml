@@ -107,6 +107,8 @@ items:
     - name:  plot8
       title: Scree plot
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot8)
@@ -122,6 +124,8 @@ items:
     - name:  plot
       title: Variable groups
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot)
@@ -138,6 +142,8 @@ items:
     - name:  plot6
       title: Contribution of groups to dimension 1
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot6)
@@ -154,6 +160,8 @@ items:
     - name:  plot7
       title: Contribution of groups to dimension 2
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot7)
@@ -170,6 +178,8 @@ items:
     - name:  plot1
       title: Quantitative variables by groups
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot1)
@@ -186,6 +196,8 @@ items:
     - name:  plot2
       title: Contribution to dimension 1
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot2)
@@ -202,6 +214,8 @@ items:
     - name:  plot3
       title: Contribution to dimension 2
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot3)
@@ -218,6 +232,8 @@ items:
     - name:  plot4
       title: Graph of individuals
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot4)
@@ -234,6 +250,8 @@ items:
     - name:  plot5
       title: Individuals by group
       type:  Image
+      width: 600
+      height: 450      
       requiresData: true
       refs: factoextra
       visible: (plot5)

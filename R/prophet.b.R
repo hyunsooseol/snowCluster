@@ -1,7 +1,5 @@
 
-# This file is a generated template, your changes will not be overwritten
-
-#' @importFrom magrittr %>%
+# Prophet Analysis
 
 # -------------------------------
 # Lightweight Progress Bar (HTML)
@@ -81,7 +79,7 @@ prophetClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           plotAcc         = private$.getOpt("plotAcc")
         )
       },
-      
+     
       .init = function() {
         private$.htmlwidget <- HTMLWidget$new()
         

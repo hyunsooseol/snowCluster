@@ -1,5 +1,6 @@
 # This file is a generated template, your changes will not be overwritten
-#' @importFrom magrittr %>%
+
+# Univariate time series(ARIMA)
 
 # -------------------------------
 # Lightweight Progress Bar (HTML)
@@ -64,6 +65,18 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         out
       },
       # ---------------------------
+      
+      .withEnglishTimeLocale = function(expr) {
+        old <- Sys.getlocale("LC_TIME")
+        
+        on.exit({
+          try(Sys.setlocale("LC_TIME", old), silent = TRUE)
+        }, add = TRUE)
+        
+        try(Sys.setlocale("LC_TIME", "C"), silent = TRUE)
+        
+        force(expr)
+      },
       
       .init = function() {
         private$.htmlwidget <- HTMLWidget$new()
@@ -332,9 +345,21 @@ arimaClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       .plot5 = function(image5, ...) {
-        if (is.null(image5$state)) return(FALSE)
-        m <- image5$state[[1]]; forecast <- image5$state[[2]]
-        prophet::prophet_plot_components(m, forecast, plot_cap = FALSE, uncertainty = TRUE)
+        if (is.null(image5$state))
+          return(FALSE)
+        
+        m <- image5$state[[1]]
+        forecast <- image5$state[[2]]
+        
+        private$.withEnglishTimeLocale({
+          prophet::prophet_plot_components(
+            m,
+            forecast,
+            plot_cap = FALSE,
+            uncertainty = TRUE
+          )
+        })
+        
         TRUE
       },
       
