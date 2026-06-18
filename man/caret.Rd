@@ -9,7 +9,7 @@ caret(
   dep,
   covs,
   facs,
-  trans = "bagImpute",
+  trans = "scale",
   method = "pls",
   cm1 = "ctree",
   mecon = "cv",

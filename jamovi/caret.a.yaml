@@ -38,17 +38,17 @@ options:
       title: Transformation
       type: List
       options:
-        - title: range
-          name:  range
-        - title: center
-          name:  center
         - title: scale
           name:  scale
+        - title: center
+          name:  center
+        - title: range
+          name:  range
         - title: knnImpute
           name:  knnImpute      
         - title: bagImpute
           name:  bagImpute
-      default: bagImpute
+      default: scale
 
     - name: method
       title: Model
@@ -58,12 +58,18 @@ options:
           name:  pls
         - title: ctree
           name:  ctree
+        - title: rpart
+          name:  rpart
+        - title: C5.0
+          name:  C5.0
         - title: knn
           name:  knn
         - title: rf
           name:  rf
-        - title: rpart
-          name:  rpart
+        - title: ranger
+          name:  ranger
+        - title: treebag
+          name:  treebag
         - title: nnet
           name:  nnet
         - title: neuralnet
@@ -72,22 +78,20 @@ options:
           name:  avNNet
         - title: gbm
           name:  gbm
-        - title: glm
-          name:  glm
         - title: glmboost
           name:  glmboost
-        - title: glmnet
-          name:  glmnet          
         - title: blackboost
           name:  blackboost
+        - title: glm
+          name:  glm
+        - title: glmnet
+          name:  glmnet          
+        - name: multinom
+          title: multinom          
         - title: lda
           name:  lda  
         - title: mda
           name:  mda  
-        - title: treebag
-          name:  treebag
-        - title: C5.0
-          name:  C5.0
         - title: svmLinear
           name:  svmLinear  
         - title: svmRadial
@@ -96,7 +100,7 @@ options:
           name: bagFDA
         - title: nb
           name: nb
-      default: pls
+      default: rpart
 
     - name: cm1
       title: Model
@@ -112,6 +116,8 @@ options:
           name:  rf
         - title: rpart
           name:  rpart
+        - title: ranger
+          name:  ranger
         - title: nnet
           name:  nnet
         - title: neuralnet
@@ -128,6 +134,8 @@ options:
           name:  glmnet   
         - title: blackboost
           name:  blackboost
+        - name: multinom
+          title: multinom    
         - title: lda
           name:  lda  
         - title: mda

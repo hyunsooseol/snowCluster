@@ -66,6 +66,7 @@ Imports:
     uwot,
     dbscan,
     rlang,
+    ranger,
     multipleROC,
     tidyr
 Remotes: cardiomoon/multipleROC    

@@ -1,5 +1,3 @@
-# This file is a generated template, your changes will not be overwritten
-#' @export
 
 caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
   R6::R6Class(
@@ -151,7 +149,7 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         # Show progress spinner
         self$results$progressBarHTML$setVisible(TRUE)
         self$results$progressBarHTML$setContent(
-          appleSpinnerH('Performing machine learning model...')
+          appleSpinnerH('Performing ML model...')
         )
         private$.checkpoint()
         
@@ -320,9 +318,19 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         # Variable importance plot----------
         if (isTRUE(self$options$plot1)) {
-          vi <- caret::varImp(all$fit)
+          
+          vi <- tryCatch(
+            caret::varImp(all$fit),
+            error = function(e) NULL
+          )
+          
           image1 <- self$results$plot1
-          image1$setState(vi)
+          
+          if (!is.null(vi)) {
+            image1$setState(vi)
+          } else {
+            image1$setState(NULL)
+          }
         }
         
         #TRAINING SET#############################
@@ -761,7 +769,15 @@ caretClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           return(FALSE)
         
         vi <- image1$state
-        plot1 <- plot(vi)
+        
+        plot1 <- tryCatch(
+          plot(vi),
+          error = function(e) NULL
+        )
+        
+        if (is.null(plot1))
+          return(FALSE)
+        
         print(plot1)
         TRUE
       },
