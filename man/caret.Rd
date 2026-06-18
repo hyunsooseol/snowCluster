@@ -10,7 +10,7 @@ caret(
   covs,
   facs,
   trans = "scale",
-  method = "pls",
+  method = "rpart",
   cm1 = "ctree",
   mecon = "cv",
   number = 10,

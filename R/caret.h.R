@@ -32,7 +32,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot5 = FALSE,
             plot6 = FALSE,
             plot7 = FALSE,
-            ml = "pls,ctree,knn,rf",
+            ml = "rpart,glm,knn,nb,ranger",
             me = "cv",
             num = 10,
             rep = 5,
@@ -230,7 +230,7 @@ caretOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..ml <- jmvcore::OptionString$new(
                 "ml",
                 ml,
-                default="pls,ctree,knn,rf")
+                default="rpart,glm,knn,nb,ranger")
             private$..me <- jmvcore::OptionList$new(
                 "me",
                 me,
@@ -1038,7 +1038,7 @@ caret <- function(
     plot5 = FALSE,
     plot6 = FALSE,
     plot7 = FALSE,
-    ml = "pls,ctree,knn,rf",
+    ml = "rpart,glm,knn,nb,ranger",
     me = "cv",
     num = 10,
     rep = 5,

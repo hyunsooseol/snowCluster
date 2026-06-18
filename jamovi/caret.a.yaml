@@ -275,7 +275,7 @@ options:
     - name: ml
       title: Model list
       type: String
-      default: 'pls,ctree,knn,rf'
+      default: "rpart,glm,knn,nb,ranger"
 
     - name: me
       title: Methods
