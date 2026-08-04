@@ -14,7 +14,11 @@ roc(
   auc = FALSE,
   dif = FALSE,
   overall = FALSE,
-  positive
+  positive,
+  optimalCutpoint = FALSE,
+  specifiedCutpoint = FALSE,
+  cutpointValue = 0,
+  classificationTable = FALSE
 )
 }
 \arguments{
@@ -37,6 +41,14 @@ roc(
 \item{overall}{.}
 
 \item{positive}{.}
+
+\item{optimalCutpoint}{.}
+
+\item{specifiedCutpoint}{.}
+
+\item{cutpointValue}{.}
+
+\item{classificationTable}{.}
 }
 \value{
 A results object containing:
@@ -49,6 +61,9 @@ A results object containing:
   \code{results$auc} \tab \tab \tab \tab \tab a table \cr
   \code{results$dif} \tab \tab \tab \tab \tab a table \cr
   \code{results$overall} \tab \tab \tab \tab \tab a table \cr
+  \code{results$optimalCutpoint} \tab \tab \tab \tab \tab a table \cr
+  \code{results$specifiedCutpoint} \tab \tab \tab \tab \tab a table \cr
+  \code{results$classificationTable} \tab \tab \tab \tab \tab a table \cr
 }
 
 Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:

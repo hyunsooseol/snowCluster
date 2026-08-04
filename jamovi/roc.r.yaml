@@ -1,57 +1,59 @@
+
 ---
 name:  roc
 title: ROC Analysis
 jrs:   '1.1'
 refs: snowCluster
+
 items:
     - name: instructions
       title: Instructions
       type: Html
       visible: True
 
-    - name:  text
-      title: '' 
-      type:  Preformatted
+    - name: text
+      title: ''
+      type: Preformatted
 
-    - name:  plot1
+    - name: plot1
       title: 'ROC Curve'
-      type:  Image
+      type: Image
       width: 600
-      height: 450      
+      height: 450
       requiresData: true
       visible: (plot1)
       renderFun: .plot1
       refs: multipleROC
       clearWith:
-        - covs 
+        - covs
         - dep
         - positive
 
-    - name:  plot2
+    - name: plot2
       title: 'Multiple ROC curves'
-      type:  Image
+      type: Image
       width: 600
-      height: 450      
+      height: 450
       requiresData: true
       visible: (plot2)
       renderFun: .plot2
       refs: multipleROC
       clearWith:
-        - covs 
+        - covs
         - dep
         - positive
-        
-    - name:  plot3
+
+    - name: plot3
       title: 'Faceted ROC plots'
-      type:  Image
+      type: Image
       width: 600
-      height: 450      
+      height: 450
       requiresData: true
       visible: (plot3)
       renderFun: .plot3
       refs: multipleROC
       clearWith:
-        - covs 
+        - covs
         - dep
         - positive
 
@@ -63,15 +65,17 @@ items:
         - dep
         - covs
         - positive
- 
+
       columns:
         - name: name
           title: ''
-          type: 'text'
+          type: text
           content: ($key)
+
         - name: auc
           title: 'AUC'
           type: number
+
         - name: p
           title: 'p'
           type: number
@@ -85,23 +89,27 @@ items:
         - dep
         - covs
         - positive
- 
+
       columns:
         - name: name
           title: ''
-          type: 'text'
+          type: text
           content: ($key)
+
         - name: auc
           title: 'AUC Difference'
           type: number
+
         - name: lower
           title: Lower
           type: number
           superTitle: '95% CI'
+
         - name: upper
           title: Upper
           type: number
-          superTitle: '95% CI'   
+          superTitle: '95% CI'
+
         - name: p
           title: 'p'
           type: number
@@ -120,12 +128,204 @@ items:
       columns:
         - name: name
           title: ''
-          type: 'text'
+          type: text
           content: Value
+
         - name: Z
           title: 'Wald χ²'
           type: number
+
         - name: p
+          title: 'p'
           type: number
           format: zto,pvalue
+
+    - name: optimalCutpoint
+      title: 'Optimal Cutpoint Performance'
+      type: Table
+      visible: (optimalCutpoint)
+      clearWith:
+        - dep
+        - covs
+        - positive
+        - optimalCutpoint
+
+      columns:
+        - name: predictor
+          title: 'Predictor'
+          type: text
+
+        - name: n
+          title: 'N'
+          type: integer
+
+        - name: auc
+          title: 'AUC'
+          type: number
+
+        - name: cutpoint
+          title: 'Cutpoint'
+          type: number
+
+        - name: direction
+          title: 'Direction'
+          type: text
+
+        - name: sensitivity
+          title: 'Sensitivity'
+          type: number
+          format: pc
+
+        - name: specificity
+          title: 'Specificity'
+          type: number
+          format: pc
+
+        - name: youden
+          title: "Youden's J"
+          type: number
+
+        - name: accuracy
+          title: 'Accuracy'
+          type: number
+          format: pc
+
+        - name: ppv
+          title: 'PPV'
+          type: number
+          format: pc
+
+        - name: npv
+          title: 'NPV'
+          type: number
+          format: pc
+
+        - name: lrPositive
+          title: 'LR+'
+          type: number
+
+        - name: lrNegative
+          title: 'LR−'
+          type: number
+
+    - name: specifiedCutpoint
+      title: 'Specified Cutpoint Performance'
+      type: Table
+      visible: (specifiedCutpoint)
+      clearWith:
+        - dep
+        - covs
+        - positive
+        - specifiedCutpoint
+        - cutpointValue
+
+      columns:
+        - name: predictor
+          title: 'Predictor'
+          type: text
+
+        - name: n
+          title: 'N'
+          type: integer
+
+        - name: cutpoint
+          title: 'Cutpoint'
+          type: number
+
+        - name: direction
+          title: 'Direction'
+          type: text
+
+        - name: sensitivity
+          title: 'Sensitivity'
+          type: number
+          format: pc
+
+        - name: specificity
+          title: 'Specificity'
+          type: number
+          format: pc
+
+        - name: accuracy
+          title: 'Accuracy'
+          type: number
+          format: pc
+
+        - name: balancedAccuracy
+          title: 'Balanced Accuracy'
+          type: number
+          format: pc
+
+        - name: ppv
+          title: 'PPV'
+          type: number
+          format: pc
+
+        - name: npv
+          title: 'NPV'
+          type: number
+          format: pc
+
+        - name: lrPositive
+          title: 'LR+'
+          type: number
+
+        - name: lrNegative
+          title: 'LR−'
+          type: number
+
+    - name: classificationTable
+      title: 'Classification Table'
+      type: Table
+      visible: (classificationTable)
+      clearWith:
+        - dep
+        - covs
+        - positive
+        - optimalCutpoint
+        - specifiedCutpoint
+        - cutpointValue
+        - classificationTable
+
+      columns:
+        - name: predictor
+          title: 'Predictor'
+          type: text
+
+        - name: cutpointSource
+          title: 'Cutpoint Source'
+          type: text
+
+        - name: cutpoint
+          title: 'Cutpoint'
+          type: number
+
+        - name: direction
+          title: 'Direction'
+          type: text
+
+        - name: truePositive
+          title: 'TP'
+          type: integer
+          superTitle: 'Classification'
+
+        - name: falseNegative
+          title: 'FN'
+          type: integer
+          superTitle: 'Classification'
+
+        - name: falsePositive
+          title: 'FP'
+          type: integer
+          superTitle: 'Classification'
+
+        - name: trueNegative
+          title: 'TN'
+          type: integer
+          superTitle: 'Classification'
+
+        - name: total
+          title: 'N'
+          type: integer
+
 ...

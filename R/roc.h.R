@@ -14,7 +14,11 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             auc = FALSE,
             dif = FALSE,
             overall = FALSE,
-            positive = NULL, ...) {
+            positive = NULL,
+            optimalCutpoint = FALSE,
+            specifiedCutpoint = FALSE,
+            cutpointValue = 0,
+            classificationTable = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -60,6 +64,22 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "positive",
                 positive,
                 variable="(dep)")
+            private$..optimalCutpoint <- jmvcore::OptionBool$new(
+                "optimalCutpoint",
+                optimalCutpoint,
+                default=FALSE)
+            private$..specifiedCutpoint <- jmvcore::OptionBool$new(
+                "specifiedCutpoint",
+                specifiedCutpoint,
+                default=FALSE)
+            private$..cutpointValue <- jmvcore::OptionNumber$new(
+                "cutpointValue",
+                cutpointValue,
+                default=0)
+            private$..classificationTable <- jmvcore::OptionBool$new(
+                "classificationTable",
+                classificationTable,
+                default=FALSE)
 
             self$.addOption(private$..dep)
             self$.addOption(private$..covs)
@@ -70,6 +90,10 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..dif)
             self$.addOption(private$..overall)
             self$.addOption(private$..positive)
+            self$.addOption(private$..optimalCutpoint)
+            self$.addOption(private$..specifiedCutpoint)
+            self$.addOption(private$..cutpointValue)
+            self$.addOption(private$..classificationTable)
         }),
     active = list(
         dep = function() private$..dep$value,
@@ -80,7 +104,11 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         auc = function() private$..auc$value,
         dif = function() private$..dif$value,
         overall = function() private$..overall$value,
-        positive = function() private$..positive$value),
+        positive = function() private$..positive$value,
+        optimalCutpoint = function() private$..optimalCutpoint$value,
+        specifiedCutpoint = function() private$..specifiedCutpoint$value,
+        cutpointValue = function() private$..cutpointValue$value,
+        classificationTable = function() private$..classificationTable$value),
     private = list(
         ..dep = NA,
         ..covs = NA,
@@ -90,7 +118,11 @@ rocOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..auc = NA,
         ..dif = NA,
         ..overall = NA,
-        ..positive = NA)
+        ..positive = NA,
+        ..optimalCutpoint = NA,
+        ..specifiedCutpoint = NA,
+        ..cutpointValue = NA,
+        ..classificationTable = NA)
 )
 
 rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -104,7 +136,10 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot3 = function() private$.items[["plot3"]],
         auc = function() private$.items[["auc"]],
         dif = function() private$.items[["dif"]],
-        overall = function() private$.items[["overall"]]),
+        overall = function() private$.items[["overall"]],
+        optimalCutpoint = function() private$.items[["optimalCutpoint"]],
+        specifiedCutpoint = function() private$.items[["specifiedCutpoint"]],
+        classificationTable = function() private$.items[["classificationTable"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -244,8 +279,197 @@ rocResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `type`="number"),
                     list(
                         `name`="p", 
+                        `title`="p", 
                         `type`="number", 
-                        `format`="zto,pvalue"))))}))
+                        `format`="zto,pvalue"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="optimalCutpoint",
+                title="Optimal Cutpoint Performance",
+                visible="(optimalCutpoint)",
+                clearWith=list(
+                    "dep",
+                    "covs",
+                    "positive",
+                    "optimalCutpoint"),
+                columns=list(
+                    list(
+                        `name`="predictor", 
+                        `title`="Predictor", 
+                        `type`="text"),
+                    list(
+                        `name`="n", 
+                        `title`="N", 
+                        `type`="integer"),
+                    list(
+                        `name`="auc", 
+                        `title`="AUC", 
+                        `type`="number"),
+                    list(
+                        `name`="cutpoint", 
+                        `title`="Cutpoint", 
+                        `type`="number"),
+                    list(
+                        `name`="direction", 
+                        `title`="Direction", 
+                        `type`="text"),
+                    list(
+                        `name`="sensitivity", 
+                        `title`="Sensitivity", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="specificity", 
+                        `title`="Specificity", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="youden", 
+                        `title`="Youden's J", 
+                        `type`="number"),
+                    list(
+                        `name`="accuracy", 
+                        `title`="Accuracy", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="ppv", 
+                        `title`="PPV", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="npv", 
+                        `title`="NPV", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="lrPositive", 
+                        `title`="LR+", 
+                        `type`="number"),
+                    list(
+                        `name`="lrNegative", 
+                        `title`="LR\u2212", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="specifiedCutpoint",
+                title="Specified Cutpoint Performance",
+                visible="(specifiedCutpoint)",
+                clearWith=list(
+                    "dep",
+                    "covs",
+                    "positive",
+                    "specifiedCutpoint",
+                    "cutpointValue"),
+                columns=list(
+                    list(
+                        `name`="predictor", 
+                        `title`="Predictor", 
+                        `type`="text"),
+                    list(
+                        `name`="n", 
+                        `title`="N", 
+                        `type`="integer"),
+                    list(
+                        `name`="cutpoint", 
+                        `title`="Cutpoint", 
+                        `type`="number"),
+                    list(
+                        `name`="direction", 
+                        `title`="Direction", 
+                        `type`="text"),
+                    list(
+                        `name`="sensitivity", 
+                        `title`="Sensitivity", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="specificity", 
+                        `title`="Specificity", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="accuracy", 
+                        `title`="Accuracy", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="balancedAccuracy", 
+                        `title`="Balanced Accuracy", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="ppv", 
+                        `title`="PPV", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="npv", 
+                        `title`="NPV", 
+                        `type`="number", 
+                        `format`="pc"),
+                    list(
+                        `name`="lrPositive", 
+                        `title`="LR+", 
+                        `type`="number"),
+                    list(
+                        `name`="lrNegative", 
+                        `title`="LR\u2212", 
+                        `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="classificationTable",
+                title="Classification Table",
+                visible="(classificationTable)",
+                clearWith=list(
+                    "dep",
+                    "covs",
+                    "positive",
+                    "optimalCutpoint",
+                    "specifiedCutpoint",
+                    "cutpointValue",
+                    "classificationTable"),
+                columns=list(
+                    list(
+                        `name`="predictor", 
+                        `title`="Predictor", 
+                        `type`="text"),
+                    list(
+                        `name`="cutpointSource", 
+                        `title`="Cutpoint Source", 
+                        `type`="text"),
+                    list(
+                        `name`="cutpoint", 
+                        `title`="Cutpoint", 
+                        `type`="number"),
+                    list(
+                        `name`="direction", 
+                        `title`="Direction", 
+                        `type`="text"),
+                    list(
+                        `name`="truePositive", 
+                        `title`="TP", 
+                        `type`="integer", 
+                        `superTitle`="Classification"),
+                    list(
+                        `name`="falseNegative", 
+                        `title`="FN", 
+                        `type`="integer", 
+                        `superTitle`="Classification"),
+                    list(
+                        `name`="falsePositive", 
+                        `title`="FP", 
+                        `type`="integer", 
+                        `superTitle`="Classification"),
+                    list(
+                        `name`="trueNegative", 
+                        `title`="TN", 
+                        `type`="integer", 
+                        `superTitle`="Classification"),
+                    list(
+                        `name`="total", 
+                        `title`="N", 
+                        `type`="integer"))))}))
 
 rocBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "rocBase",
@@ -281,6 +505,10 @@ rocBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param dif .
 #' @param overall .
 #' @param positive .
+#' @param optimalCutpoint .
+#' @param specifiedCutpoint .
+#' @param cutpointValue .
+#' @param classificationTable .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
@@ -291,6 +519,9 @@ rocBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$auc} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$dif} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$overall} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$optimalCutpoint} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$specifiedCutpoint} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$classificationTable} \tab \tab \tab \tab \tab a table \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -310,7 +541,11 @@ roc <- function(
     auc = FALSE,
     dif = FALSE,
     overall = FALSE,
-    positive) {
+    positive,
+    optimalCutpoint = FALSE,
+    specifiedCutpoint = FALSE,
+    cutpointValue = 0,
+    classificationTable = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("roc requires jmvcore to be installed (restart may be required)")
@@ -334,7 +569,11 @@ roc <- function(
         auc = auc,
         dif = dif,
         overall = overall,
-        positive = positive)
+        positive = positive,
+        optimalCutpoint = optimalCutpoint,
+        specifiedCutpoint = specifiedCutpoint,
+        cutpointValue = cutpointValue,
+        classificationTable = classificationTable)
 
     analysis <- rocClass$new(
         options = options,

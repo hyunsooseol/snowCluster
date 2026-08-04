@@ -1,5 +1,4 @@
 
-# This file is a generated template, your changes will not be overwritten
 
 rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
   R6::R6Class(
@@ -23,6 +22,8 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<div style="text-align:justify;">',
             '<ul>',
             '<li>Select the outcome category to be treated as the positive level in ROC analysis.</li>',
+            '<li>With one predictor, you can evaluate the optimal cutpoint, a specified cutpoint, and the corresponding classification performance.</li>',
+            '<li>With two or more predictors, you can compare AUCs using DeLong tests and obtain predictor-specific optimal cutpoints. Specified cutpoint analysis is not performed because a single cutpoint cannot be applied meaningfully to predictors with different scales.</li>',
             '<li>ROC analysis based on Binomial logistic regression.</li>',
             '<li>Perform ROC curve based on <a href="https://github.com/cardiomoon/multipleROC" target = "_blank">multipleROC R package</a>.</li>',
             '<li>Feature requests and bug reports can be made on my <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
@@ -38,6 +39,29 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         if (is.null(self$data) |
             is.null(self$options$dep) | is.null(self$options$covs))
           return()
+        
+        
+        predictorCount <- length(self$options$covs)
+        
+        # Hide result tables that do not apply to the current number of predictors
+        self$results$auc$setVisible(
+          visible = isTRUE(self$options$auc) &&
+            predictorCount >= 2
+        )
+        self$results$dif$setVisible(
+          visible = isTRUE(self$options$auc) &&
+            isTRUE(self$options$dif) &&
+            predictorCount >= 2
+        )
+        self$results$overall$setVisible(
+          visible = isTRUE(self$options$auc) &&
+            isTRUE(self$options$overall) &&
+            predictorCount >= 2
+        )
+        self$results$specifiedCutpoint$setVisible(
+          visible = isTRUE(self$options$specifiedCutpoint) &&
+            predictorCount == 1
+        )
         
         # Example--------
         # multipleROC::multipleROC(am~wt,data=mtcars)
@@ -72,10 +96,10 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         # p2 <- private$.computeP2()
         # #self$results$text$setContent(p2)
         # p3 <- private$.computeP3()
-
+        
         if (isTRUE(self$options$auc)) {
           if (length(self$options$covs) < 2) {
-            stop("Please specify at least two Covariate variables to use DeLong's test.")
+            NULL
           } else{
             data <- self$data
             dep <- self$options$dep
@@ -370,6 +394,305 @@ rocClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             }
           }
         }
+        
+        if (isTRUE(self$options$optimalCutpoint) ||
+            isTRUE(self$options$specifiedCutpoint) ||
+            isTRUE(self$options$classificationTable)) {
+          private$.runClassificationPerformance()
+        }
+      },
+      
+      .runClassificationPerformance = function() {
+        depName <- self$options$dep
+        covs <- self$options$covs
+        positiveLevel <- self$options$positive
+        
+        if (is.null(depName) || is.null(covs) || length(covs) == 0)
+          return()
+        
+        if (is.null(positiveLevel) || length(positiveLevel) == 0)
+          stop("Please specify the positive level.")
+        
+        depValues <- self$data[[depName]]
+        depLevels <- levels(droplevels(as.factor(depValues)))
+        
+        if (length(depLevels) != 2)
+          stop("The dependent variable must have exactly two levels.")
+        
+        positiveLevel <- as.character(positiveLevel)
+        
+        if (!positiveLevel %in% as.character(depLevels))
+          stop("The selected positive level is not a valid level of the dependent variable.")
+        
+        specifiedValue <- self$options$cutpointValue
+        useSpecifiedCutpoint <-
+          isTRUE(self$options$specifiedCutpoint) &&
+          length(covs) == 1
+        
+        for (predictor in covs) {
+          values <- jmvcore::toNumeric(self$data[[predictor]])
+          outcome <- as.character(depValues)
+          
+          keep <- !is.na(values) &
+            is.finite(values) &
+            !is.na(outcome)
+          
+          values <- values[keep]
+          outcome <- outcome[keep]
+          positive <- outcome == positiveLevel
+          
+          if (length(values) == 0)
+            next
+          
+          if (sum(positive) == 0 || sum(!positive) == 0)
+            next
+          
+          optimal <- private$.findOptimalCutpoint(
+            values = values,
+            positive = positive
+          )
+          
+          if (isTRUE(self$options$optimalCutpoint)) {
+            table <- self$results$optimalCutpoint
+            row <- list(
+              predictor = predictor,
+              n = optimal$total,
+              auc = optimal$auc,
+              cutpoint = optimal$cutpoint,
+              direction = optimal$direction,
+              sensitivity = optimal$sensitivity,
+              specificity = optimal$specificity,
+              youden = optimal$youden,
+              accuracy = optimal$accuracy,
+              ppv = optimal$ppv,
+              npv = optimal$npv,
+              lrPositive = optimal$lrPositive,
+              lrNegative = optimal$lrNegative
+            )
+            table$addRow(rowKey = predictor, values = row)
+          }
+          
+          specified <- NULL
+          
+          if (useSpecifiedCutpoint) {
+            observedRange <- range(values, na.rm = TRUE)
+            
+            if (!is.finite(specifiedValue)) {
+              stop("Please enter a valid specified cutpoint.")
+            }
+            
+            if (specifiedValue < observedRange[1] ||
+                specifiedValue > observedRange[2]) {
+              stop(
+                paste0(
+                  "The specified cutpoint for '",
+                  predictor,
+                  "' must be within the observed range: ",
+                  observedRange[1],
+                  " to ",
+                  observedRange[2],
+                  "."
+                )
+              )
+            }
+            
+            specified <- private$.classificationMetrics(
+              values = values,
+              positive = positive,
+              cutpoint = specifiedValue,
+              direction = optimal$direction
+            )
+            
+            table <- self$results$specifiedCutpoint
+            row <- list(
+              predictor = predictor,
+              n = specified$total,
+              cutpoint = specified$cutpoint,
+              direction = specified$direction,
+              sensitivity = specified$sensitivity,
+              specificity = specified$specificity,
+              accuracy = specified$accuracy,
+              balancedAccuracy = specified$balancedAccuracy,
+              ppv = specified$ppv,
+              npv = specified$npv,
+              lrPositive = specified$lrPositive,
+              lrNegative = specified$lrNegative
+            )
+            table$addRow(rowKey = predictor, values = row)
+          }
+          
+          if (isTRUE(self$options$classificationTable)) {
+            if (!is.null(specified)) {
+              selected <- specified
+              cutpointSource <- "Specified"
+            } else {
+              selected <- optimal
+              cutpointSource <- "Optimal (Youden)"
+            }
+            
+            table <- self$results$classificationTable
+            row <- list(
+              predictor = predictor,
+              cutpointSource = cutpointSource,
+              cutpoint = selected$cutpoint,
+              direction = selected$direction,
+              truePositive = selected$truePositive,
+              falseNegative = selected$falseNegative,
+              falsePositive = selected$falsePositive,
+              trueNegative = selected$trueNegative,
+              total = selected$total
+            )
+            table$addRow(rowKey = predictor, values = row)
+          }
+        }
+      },
+      
+      .findOptimalCutpoint = function(values, positive) {
+        positiveValues <- values[positive]
+        negativeValues <- values[!positive]
+        
+        comparisons <- outer(
+          positiveValues,
+          negativeValues,
+          FUN = "-"
+        )
+        
+        aucIncreasing <- (
+          sum(comparisons > 0) +
+            0.5 * sum(comparisons == 0)
+        ) / length(comparisons)
+        
+        if (aucIncreasing >= 0.5) {
+          direction <- ">="
+          auc <- aucIncreasing
+        } else {
+          direction <- "<="
+          auc <- 1 - aucIncreasing
+        }
+        
+        cutpoints <- sort(unique(values))
+        
+        metrics <- lapply(
+          cutpoints,
+          function(cutpoint) {
+            private$.classificationMetrics(
+              values = values,
+              positive = positive,
+              cutpoint = cutpoint,
+              direction = direction
+            )
+          }
+        )
+        
+        youden <- vapply(metrics, function(x) x$youden, numeric(1))
+        best <- which(youden == max(youden, na.rm = TRUE))
+        
+        if (length(best) > 1) {
+          accuracy <- vapply(
+            metrics[best],
+            function(x) x$accuracy,
+            numeric(1)
+          )
+          best <- best[which.max(accuracy)]
+        }
+        
+        result <- metrics[[best[1]]]
+        result$auc <- auc
+        result$direction <- direction
+        result
+      },
+      
+      .classificationMetrics = function(values,
+                                        positive,
+                                        cutpoint,
+                                        direction) {
+        if (identical(direction, ">=")) {
+          predictedPositive <- values >= cutpoint
+        } else {
+          predictedPositive <- values <= cutpoint
+        }
+        
+        truePositive <- sum(predictedPositive & positive)
+        falsePositive <- sum(predictedPositive & !positive)
+        trueNegative <- sum(!predictedPositive & !positive)
+        falseNegative <- sum(!predictedPositive & positive)
+        
+        positiveN <- truePositive + falseNegative
+        negativeN <- trueNegative + falsePositive
+        predictedPositiveN <- truePositive + falsePositive
+        predictedNegativeN <- trueNegative + falseNegative
+        total <- positiveN + negativeN
+        
+        sensitivity <- if (positiveN > 0)
+          truePositive / positiveN
+        else
+          NA_real_
+        
+        specificity <- if (negativeN > 0)
+          trueNegative / negativeN
+        else
+          NA_real_
+        
+        accuracy <- if (total > 0)
+          (truePositive + trueNegative) / total
+        else
+          NA_real_
+        
+        balancedAccuracy <- mean(
+          c(sensitivity, specificity),
+          na.rm = TRUE
+        )
+        
+        ppv <- if (predictedPositiveN > 0)
+          truePositive / predictedPositiveN
+        else
+          NA_real_
+        
+        npv <- if (predictedNegativeN > 0)
+          trueNegative / predictedNegativeN
+        else
+          NA_real_
+        
+        lrPositive <- if (is.na(sensitivity) || is.na(specificity)) {
+          NA_real_
+        } else if ((1 - specificity) == 0) {
+          if (sensitivity > 0) Inf else NA_real_
+        } else {
+          sensitivity / (1 - specificity)
+        }
+        
+        lrNegative <- if (is.na(sensitivity) || is.na(specificity)) {
+          NA_real_
+        } else if (specificity == 0) {
+          if ((1 - sensitivity) > 0) Inf else NA_real_
+        } else {
+          (1 - sensitivity) / specificity
+        }
+        
+        list(
+          cutpoint = cutpoint,
+          sensitivity = if (is.finite(sensitivity)) sensitivity else NA_real_,
+          specificity = if (is.finite(specificity)) specificity else NA_real_,
+          youden = if (is.finite(sensitivity + specificity - 1))
+            sensitivity + specificity - 1
+          else
+            NA_real_,
+          accuracy = if (is.finite(accuracy)) accuracy else NA_real_,
+          balancedAccuracy = if (is.finite(balancedAccuracy))
+            balancedAccuracy
+          else
+            NA_real_,
+          ppv = if (is.finite(ppv)) ppv else NA_real_,
+          npv = if (is.finite(npv)) npv else NA_real_,
+          lrPositive = if (is.finite(lrPositive)) lrPositive else NA_real_,
+          lrNegative = if (is.finite(lrNegative)) lrNegative else NA_real_,
+          truePositive = truePositive,
+          falseNegative = falseNegative,
+          falsePositive = falsePositive,
+          trueNegative = trueNegative,
+          total = total,
+          direction = direction
+        )
       },
       
       .plot1 = function(image, ...) {

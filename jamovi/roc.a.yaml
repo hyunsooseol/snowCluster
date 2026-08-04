@@ -24,36 +24,56 @@ options:
     - name: plot1
       title: 'ROC curve'
       type: Bool
-      default: FALSE    
+      default: FALSE
 
     - name: plot2
       title: 'Multiple ROC curves'
       type: Bool
-      default: FALSE    
+      default: FALSE
 
     - name: plot3
       title: 'Faceted ROC plots'
       type: Bool
-      default: FALSE    
+      default: FALSE
 
     - name: auc
-      title: 'AUC test'
+      title: 'AUC test (Predictors > 1)'
       type: Bool
-      default: False
+      default: FALSE
 
     - name: dif
       title: 'AUC difference'
       type: Bool
-      default: False
+      default: FALSE
 
     - name: overall
       title: 'Overall test'
       type: Bool
-      default: False
+      default: FALSE
 
     - name: positive
       title: 'Positive level'
       type: Level
       variable: (dep)
+
+    - name: optimalCutpoint
+      title: 'Optimal cutpoint (Youden index)'
+      type: Bool
+      default: FALSE
+
+    - name: specifiedCutpoint
+      title: 'Evaluate specified cutpoint (Predictors = 1)'
+      type: Bool
+      default: FALSE
+
+    - name: cutpointValue
+      title: 'Specified cutpoint'
+      type: Number
+      default: 0
+
+    - name: classificationTable
+      title: 'Classification table'
+      type: Bool
+      default: FALSE
 
 ...

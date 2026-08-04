@@ -32,7 +32,7 @@ caret(
   plot5 = FALSE,
   plot6 = FALSE,
   plot7 = FALSE,
-  ml = "pls,ctree,knn,rf",
+  ml = "rpart,glm,knn,nb,ranger",
   me = "cv",
   num = 10,
   rep = 5,
