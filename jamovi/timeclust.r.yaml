@@ -3,100 +3,152 @@ name:  timeclust
 title: Time Series Clustering
 jrs:   '1.1'
 refs: snowCluster
+
 items:
-    - name: instructions
-      title: Instructions
-      type: Html
-      visible: True
 
-    - name:  text
-      title: 'BIC information'
-      type:  Preformatted
+  - name: instructions
+    title: Instructions
+    type: Html
+    visible: True
 
-    - name: clust
-      title: Cluster 
-      type: Output
-      varTitle: Cluster
-      measureType: nominal
-      clearWith:
-        - item
-        - feature
-        - value
-        - k
+  - name: text
+    title: 'Clustering information'
+    type: Preformatted
 
-    - name: clusterTable
-      title: 'Cluster summary'
-      type: Table
-      rows: (k)
-      clearWith:
-        - item
-        - feature
-        - value
-        - k
-      columns:
-        - name: cluster
-          title: 'Cluster'
-          type: integer
-        - name: n_items
-          title: 'Items'
-          type: integer
-        - name: mean_value
-          title: 'Mean'
-          type: number
-        - name: sd_value
-          title: 'SD'
-          type: number
-        - name: min_value
-          title: 'Minimum'
-          type: number
-        - name: max_value
-          title: 'Maximum'
-          type: number
+  - name: clust
+    title: Cluster
+    type: Output
+    varTitle: Cluster
+    measureType: nominal
+    clearWith:
+      - item
+      - feature
+      - value
+      - k
+      - standardize
 
-    - name:  plot1
-      title: 'Elbow Plot Information'
-      type:  Image
-      width: 600
-      height: 450      
-      requiresData: true
-      visible: (plot1)
-      refs: mclust
-      renderFun: .plot1
-      clearWith:
-        - item
-        - feature
-        - value
-        - k 
+  - name: clusterTable
+    title: 'Cluster summary'
+    type: Table
+    rows: (k)
+    visible: (summary)
+    clearWith:
+      - item
+      - feature
+      - value
+      - k
+      - standardize
+    columns:
+      - name: cluster
+        title: 'Cluster'
+        type: integer
 
-    - name:  plot
-      title: 'Time series clustering'
-      type:  Image
-      width: 600
-      height: 450      
-      requiresData: true
-      visible: (plot)
-      refs: widyr
-      renderFun: .plot
-      clearWith:
-        - item
-        - feature
-        - value
-        - k 
-        - angle
+      - name: n_items
+        title: 'Items'
+        type: integer
 
-    - name:  plot3
-      title: 'Cluster mean time series'
-      type:  Image
-      width: 600
-      height: 450      
-      requiresData: true
-      visible: (plot3)
-      renderFun: .plot3
-      clearWith:
-        - item
-        - feature
-        - value
-        - k 
-        - angle
+      - name: mean_value
+        title: 'Mean'
+        type: number
+
+      - name: sd_value
+        title: 'SD'
+        type: number
+
+      - name: min_value
+        title: 'Minimum'
+        type: number
+
+      - name: max_value
+        title: 'Maximum'
+        type: number
+
+  - name: silhouetteTable
+    title: 'Silhouette analysis'
+    type: Table
+    rows: (k)
+    visible: (silhouette)
+    clearWith:
+      - item
+      - feature
+      - value
+      - k
+      - standardize
+    columns:
+      - name: cluster
+        title: 'Cluster'
+        type: integer
+
+      - name: n_items
+        title: 'Items'
+        type: integer
+
+      - name: mean_silhouette
+        title: 'Mean silhouette'
+        type: number
+
+  - name: plot1
+    title: 'Elbow Plot Information'
+    type: Image
+    width: 600
+    height: 450
+    requiresData: true
+    visible: (plot1)
+    refs: mclust
+    renderFun: .plot1
+    clearWith:
+      - item
+      - feature
+      - value
+      - k
+      - standardize
+
+  - name: plot
+    title: 'Time series clustering'
+    type: Image
+    width: 600
+    height: 450
+    requiresData: true
+    visible: (plot)
+    refs: widyr
+    renderFun: .plot
+    clearWith:
+      - item
+      - feature
+      - value
+      - k
+      - standardize
+      - angle
+
+  - name: plot3
+    title: 'Cluster mean time series'
+    type: Image
+    width: 600
+    height: 450
+    requiresData: true
+    visible: (plot3)
+    renderFun: .plot3
+    clearWith:
+      - item
+      - feature
+      - value
+      - k
+      - standardize
+      - angle
+
+  - name: silhouettePlot
+    title: 'Silhouette plot'
+    type: Image
+    width: 600
+    height: 450
+    requiresData: true
+    visible: (silhouettePlot)
+    renderFun: .silhouettePlot
+    clearWith:
+      - item
+      - feature
+      - value
+      - k
+      - standardize
 
 ...

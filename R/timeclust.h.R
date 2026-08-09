@@ -14,7 +14,10 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             plot1 = FALSE,
             summary = FALSE,
             plot3 = FALSE,
-            angle = 90, ...) {
+            angle = 90,
+            standardize = FALSE,
+            silhouette = FALSE,
+            silhouettePlot = FALSE, ...) {
 
             super$initialize(
                 package="snowCluster",
@@ -72,6 +75,18 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0,
                 max=90,
                 default=90)
+            private$..standardize <- jmvcore::OptionBool$new(
+                "standardize",
+                standardize,
+                default=FALSE)
+            private$..silhouette <- jmvcore::OptionBool$new(
+                "silhouette",
+                silhouette,
+                default=FALSE)
+            private$..silhouettePlot <- jmvcore::OptionBool$new(
+                "silhouettePlot",
+                silhouettePlot,
+                default=FALSE)
 
             self$.addOption(private$..k)
             self$.addOption(private$..feature)
@@ -83,6 +98,9 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..summary)
             self$.addOption(private$..plot3)
             self$.addOption(private$..angle)
+            self$.addOption(private$..standardize)
+            self$.addOption(private$..silhouette)
+            self$.addOption(private$..silhouettePlot)
         }),
     active = list(
         k = function() private$..k$value,
@@ -94,7 +112,10 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot1 = function() private$..plot1$value,
         summary = function() private$..summary$value,
         plot3 = function() private$..plot3$value,
-        angle = function() private$..angle$value),
+        angle = function() private$..angle$value,
+        standardize = function() private$..standardize$value,
+        silhouette = function() private$..silhouette$value,
+        silhouettePlot = function() private$..silhouettePlot$value),
     private = list(
         ..k = NA,
         ..feature = NA,
@@ -105,7 +126,10 @@ timeclustOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..plot1 = NA,
         ..summary = NA,
         ..plot3 = NA,
-        ..angle = NA)
+        ..angle = NA,
+        ..standardize = NA,
+        ..silhouette = NA,
+        ..silhouettePlot = NA)
 )
 
 timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -116,9 +140,11 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         text = function() private$.items[["text"]],
         clust = function() private$.items[["clust"]],
         clusterTable = function() private$.items[["clusterTable"]],
+        silhouetteTable = function() private$.items[["silhouetteTable"]],
         plot1 = function() private$.items[["plot1"]],
         plot = function() private$.items[["plot"]],
-        plot3 = function() private$.items[["plot3"]]),
+        plot3 = function() private$.items[["plot3"]],
+        silhouettePlot = function() private$.items[["silhouettePlot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -135,7 +161,7 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="text",
-                title="BIC information"))
+                title="Clustering information"))
             self$add(jmvcore::Output$new(
                 options=options,
                 name="clust",
@@ -146,17 +172,20 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "item",
                     "feature",
                     "value",
-                    "k")))
+                    "k",
+                    "standardize")))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="clusterTable",
                 title="Cluster summary",
                 rows="(k)",
+                visible="(summary)",
                 clearWith=list(
                     "item",
                     "feature",
                     "value",
-                    "k"),
+                    "k",
+                    "standardize"),
                 columns=list(
                     list(
                         `name`="cluster", 
@@ -182,6 +211,31 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `name`="max_value", 
                         `title`="Maximum", 
                         `type`="number"))))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="silhouetteTable",
+                title="Silhouette analysis",
+                rows="(k)",
+                visible="(silhouette)",
+                clearWith=list(
+                    "item",
+                    "feature",
+                    "value",
+                    "k",
+                    "standardize"),
+                columns=list(
+                    list(
+                        `name`="cluster", 
+                        `title`="Cluster", 
+                        `type`="integer"),
+                    list(
+                        `name`="n_items", 
+                        `title`="Items", 
+                        `type`="integer"),
+                    list(
+                        `name`="mean_silhouette", 
+                        `title`="Mean silhouette", 
+                        `type`="number"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot1",
@@ -196,7 +250,8 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "item",
                     "feature",
                     "value",
-                    "k")))
+                    "k",
+                    "standardize")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -212,6 +267,7 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "feature",
                     "value",
                     "k",
+                    "standardize",
                     "angle")))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -227,7 +283,23 @@ timeclustResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "feature",
                     "value",
                     "k",
-                    "angle")))}))
+                    "standardize",
+                    "angle")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="silhouettePlot",
+                title="Silhouette plot",
+                width=600,
+                height=450,
+                requiresData=TRUE,
+                visible="(silhouettePlot)",
+                renderFun=".silhouettePlot",
+                clearWith=list(
+                    "item",
+                    "feature",
+                    "value",
+                    "k",
+                    "standardize")))}))
 
 timeclustBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "timeclustBase",
@@ -263,15 +335,20 @@ timeclustBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param summary .
 #' @param plot3 .
 #' @param angle .
+#' @param standardize .
+#' @param silhouette .
+#' @param silhouettePlot .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$instructions} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$clust} \tab \tab \tab \tab \tab an output \cr
 #'   \code{results$clusterTable} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$silhouetteTable} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot1} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot3} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$silhouettePlot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -291,7 +368,10 @@ timeclust <- function(
     plot1 = FALSE,
     summary = FALSE,
     plot3 = FALSE,
-    angle = 90) {
+    angle = 90,
+    standardize = FALSE,
+    silhouette = FALSE,
+    silhouettePlot = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("timeclust requires jmvcore to be installed (restart may be required)")
@@ -318,7 +398,10 @@ timeclust <- function(
         plot1 = plot1,
         summary = summary,
         plot3 = plot3,
-        angle = angle)
+        angle = angle,
+        standardize = standardize,
+        silhouette = silhouette,
+        silhouettePlot = silhouettePlot)
 
     analysis <- timeclustClass$new(
         options = options,

@@ -31,6 +31,26 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       # ------------------------------------------------------------------
+      # Helper: Reset silhouette table rows
+      # ------------------------------------------------------------------
+      .resetSilhouetteTable = function(k) {
+        
+        if (is.null(k) || is.na(k) || k < 1)
+          return()
+        
+        for (i in seq_len(k)) {
+          self$results$silhouetteTable$setRow(
+            rowNo = i,
+            values = list(
+              cluster         = NA,
+              n_items         = NA,
+              mean_silhouette = NA
+            )
+          )
+        }
+      },
+      
+      # ------------------------------------------------------------------
       # Init
       # ------------------------------------------------------------------
       .init = function() {
@@ -47,6 +67,9 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
             '<li>Select variables representing <b>time</b>, <b>item</b>, and <b>value</b>.</li>',
             '<li>Each item should have a value for every time point.</li>',
             '<li>The Elbow plot is provided as a reference for selecting the number of clusters.</li>',
+            '<li><b>Standardize series</b> applies z-score standardization within each item before clustering. Use this option when the temporal pattern is more important than differences in the absolute level of the series.</li>',
+            '<li>When series are standardized, clustering, the Elbow plot, and Silhouette analysis use the standardized values, while the cluster summary and time-series plots remain on the original value scale.</li>',
+            '<li><b>Silhouette analysis</b> evaluates cluster cohesion and separation. Values closer to 1 indicate better clustering, values near 0 indicate overlapping clusters, and negative values suggest that an item may fit another cluster better.</li>',
             '<li>Report issues or requests on <a href="https://github.com/hyunsooseol/snowCluster/issues" target="_blank">GitHub</a>.</li>',
             '</ul>',
             '</div>',
@@ -58,6 +81,9 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         
         if (!isTRUE(self$options$summary))
           self$results$clusterTable$setVisible(FALSE)
+        
+        if (!isTRUE(self$options$silhouette))
+          self$results$silhouetteTable$setVisible(FALSE)
       },
       
       # ------------------------------------------------------------------
@@ -132,6 +158,12 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         # ------------------------------------------------------------------
         if (isTRUE(self$options$plot3))
           self$results$plot3$setState(all$cluster_mean_df)
+        
+        # ------------------------------------------------------------------
+        # Silhouette plot
+        # ------------------------------------------------------------------
+        if (isTRUE(self$options$silhouettePlot))
+          self$results$silhouettePlot$setState(all$silhouette_df)
         
         # ------------------------------------------------------------------
         # Cluster Summary Table
@@ -227,6 +259,68 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           
           private$.resetClusterTable(self$options$k)
         }
+        
+        # ------------------------------------------------------------------
+        # Silhouette Analysis Table
+        # ------------------------------------------------------------------
+        if (isTRUE(self$options$silhouette)) {
+          
+          self$results$silhouetteTable$setVisible(TRUE)
+          
+          private$.resetSilhouetteTable(self$options$k)
+          
+          silhouette_df <- all$silhouette_df
+          
+          if (!is.null(silhouette_df) &&
+              is.data.frame(silhouette_df) &&
+              nrow(silhouette_df) > 0) {
+            
+            silhouette_summary <- dplyr::group_by(
+              silhouette_df,
+              cluster
+            )
+            
+            silhouette_summary <- dplyr::summarise(
+              silhouette_summary,
+              n_items = dplyr::n(),
+              mean_silhouette = mean(
+                silhouette,
+                na.rm = TRUE
+              ),
+              .groups = "drop"
+            )
+            
+            silhouette_summary <- dplyr::arrange(
+              silhouette_summary,
+              cluster
+            )
+            
+            n_rows <- min(
+              nrow(silhouette_summary),
+              self$options$k
+            )
+            
+            if (n_rows > 0) {
+              
+              for (i in seq_len(n_rows)) {
+                
+                self$results$silhouetteTable$setRow(
+                  rowNo = i,
+                  values = list(
+                    cluster = silhouette_summary$cluster[i],
+                    n_items = silhouette_summary$n_items[i],
+                    mean_silhouette = silhouette_summary$mean_silhouette[i]
+                  )
+                )
+              }
+            }
+          }
+          
+        } else {
+          
+          self$results$silhouetteTable$setVisible(FALSE)
+          
+          }
       },
       
       # ------------------------------------------------------------------
@@ -442,6 +536,86 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
       },
       
       # ------------------------------------------------------------------
+      # Plot 4: Silhouette plot
+      # ------------------------------------------------------------------
+      .silhouettePlot = function(image, ggtheme, theme, ...) {
+        
+        if (is.null(image$state))
+          return(FALSE)
+        
+        dfs <- image$state
+        
+        if (!is.data.frame(dfs) || nrow(dfs) < 1)
+          return(FALSE)
+        
+        dfs <- dplyr::arrange(
+          dfs,
+          cluster,
+          silhouette
+        )
+        
+        dfs$item_order <- factor(
+          seq_len(nrow(dfs)),
+          levels = rev(seq_len(nrow(dfs)))
+        )
+        
+        mean_silhouette <- mean(
+          dfs$silhouette,
+          na.rm = TRUE
+        )
+        
+        p <- ggplot2::ggplot(
+          dfs,
+          ggplot2::aes(
+            x = silhouette,
+            y = item_order,
+            fill = factor(cluster)
+          )
+        ) +
+          ggplot2::geom_col(
+            show.legend = FALSE
+          ) +
+          ggplot2::geom_vline(
+            xintercept = mean_silhouette,
+            linetype = "dashed",
+            linewidth = 0.6
+          ) +
+          ggplot2::facet_grid(
+            rows = ggplot2::vars(cluster),
+            scales = "free_y",
+            space = "free_y"
+          ) +
+          ggplot2::labs(
+            title = "",
+            x = "Silhouette width",
+            y = NULL,
+            subtitle = paste0(
+              "Average silhouette width = ",
+              formatC(
+                mean_silhouette,
+                format = "f",
+                digits = 3
+              )
+            )
+          )
+        
+        # Apply jamovi theme first
+        p <- p + ggtheme
+        
+        # Remove item numbers and y-axis elements after ggtheme
+        p <- p +
+          ggplot2::theme(
+            axis.text.y = ggplot2::element_blank(),
+            axis.ticks.y = ggplot2::element_blank(),
+            axis.title.y = ggplot2::element_blank()
+          )
+        
+        print(p)
+        
+        TRUE
+      },
+      
+      # ------------------------------------------------------------------
       # Compute results
       # ------------------------------------------------------------------
       .computeRES = function() {
@@ -450,6 +624,7 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         feature <- self$options$feature
         value <- self$options$value
         k <- self$options$k
+        standardize <- isTRUE(self$options$standardize)
         
         # Use only the selected variables
         data <- as.data.frame(
@@ -485,10 +660,40 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           stop("The value variable must be numeric.")
         
         # ------------------------------------------------------------------
+        # Standardize each item series before clustering when requested
+        # ------------------------------------------------------------------
+        d2_cluster <- d2
+        
+        if (standardize) {
+          
+          standardize_series <- function(x) {
+            
+            s <- stats::sd(x)
+            
+            if (is.na(s) || s == 0)
+              return(rep(0, length(x)))
+            
+            (x - mean(x)) / s
+          }
+          
+          d2_cluster <- dplyr::group_by(
+            d2_cluster,
+            item
+          )
+          
+          d2_cluster <- dplyr::mutate(
+            d2_cluster,
+            value = standardize_series(value)
+          )
+          
+          d2_cluster <- dplyr::ungroup(d2_cluster)
+        }
+        
+        # ------------------------------------------------------------------
         # Create the same item-by-time structure used for clustering
         # ------------------------------------------------------------------
         wide_df <- tidyr::pivot_wider(
-          d2,
+          d2_cluster,
           id_cols = item,
           names_from = time,
           values_from = value
@@ -574,7 +779,7 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
         set.seed(1234)
         
         res <- widyr::widely_kmeans(
-          tbl = d2,
+          tbl = d2_cluster,
           item = item,
           feature = time,
           value = value,
@@ -586,6 +791,57 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           res,
           by = "item"
         )
+        
+        # ------------------------------------------------------------------
+        # Silhouette analysis
+        # ------------------------------------------------------------------
+        silhouette_df <- NULL
+        
+        if (isTRUE(self$options$silhouette) ||
+            isTRUE(self$options$silhouettePlot)) {
+          
+          if (k >= n_items) {
+            stop(
+              "Silhouette analysis requires fewer clusters than items."
+            )
+          }
+          
+          cluster_match <- match(
+            wide_df$item,
+            res$item
+          )
+          
+          cluster_assignment <- res$cluster[cluster_match]
+          
+          if (anyNA(cluster_assignment)) {
+            stop(
+              "Unable to match cluster assignments to all items."
+            )
+          }
+          
+          cluster_chr <- as.character(cluster_assignment)
+          cluster_num <- suppressWarnings(
+            as.integer(cluster_chr)
+          )
+          
+          if (anyNA(cluster_num)) {
+            cluster_num <- as.integer(
+              factor(cluster_chr)
+            )
+          }
+          
+          sil <- cluster::silhouette(
+            cluster_num,
+            stats::dist(wide_matrix)
+          )
+          
+          silhouette_df <- data.frame(
+            item = wide_df$item,
+            cluster = as.integer(sil[, "cluster"]),
+            silhouette = as.numeric(sil[, "sil_width"]),
+            stringsAsFactors = FALSE
+          )
+        }
         
         # ------------------------------------------------------------------
         # Cluster mean time-series
@@ -604,19 +860,30 @@ timeclustClass <- if (requireNamespace('jmvcore', quietly = TRUE))
           names(cluster_mean_df) == "x"
         ] <- "mean_value"
         
-        # Clear the previous BIC text output
-        self$results$text$setContent(
-          paste(
-            "The Elbow plot is based on the item-by-time matrix.",
-            "Lower within-cluster variation indicates more homogeneous clusters."
-          )
+        # Update clustering information text
+        clustering_info <- paste(
+          "The Elbow plot is based on the item-by-time matrix.",
+          "Lower within-cluster variation indicates more homogeneous clusters.",
+          sep = "\n"
         )
+        
+        if (standardize) {
+          clustering_info <- paste(
+            clustering_info,
+            "Series were standardized within each item using z-scores before clustering.",
+            "Summary statistics and time-series plots are shown on the original value scale.",
+            sep = "\n"
+          )
+        }
+        
+        self$results$text$setContent(clustering_info)
         
         list(
           res = res,
           df = df,
           elbow_df = elbow_df,
-          cluster_mean_df = cluster_mean_df
+          cluster_mean_df = cluster_mean_df,
+          silhouette_df = silhouette_df
         )
       }
     )

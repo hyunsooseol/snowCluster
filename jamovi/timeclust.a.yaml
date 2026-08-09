@@ -48,7 +48,7 @@ options:
       default: FALSE
 
     - name: clust
-      title: Cluster number
+      title: 'Cluster assignment'
       type: Output
 
     - name: plot1
@@ -72,5 +72,20 @@ options:
       min: 0
       max: 90
       default: 90
+
+    - name: standardize
+      title: 'Standardize series'
+      type: Bool
+      default: FALSE
+    
+    - name: silhouette
+      title: 'Silhouette analysis'
+      type: Bool
+      default: FALSE
+    
+    - name: silhouettePlot
+      title: 'Silhouette plot'
+      type: Bool
+      default: FALSE
 
 ...
