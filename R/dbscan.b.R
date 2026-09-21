@@ -1,6 +1,4 @@
 
-# This file is a generated template, your changes will not be overwritten
-
 dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
   R6::R6Class(
     "dbscanClass",
@@ -157,30 +155,14 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
         
         # ---------- kNN-distance vector ----------
         kdist <- NULL
-        if (!is.null(private$.X)) {
-          # fast path using data matrix
+        if (!is.null(private$.dist)) {
+          # Use the same precomputed distance as DBSCAN
+          kdist <- dbscan::kNNdist(private$.dist, k = knnK)
+        } else if (!is.null(private$.X)) {
+          # Euclidean fast path
           kdist <- dbscan::kNNdist(private$.X, k = knnK)
-        # } else if (!is.null(private$.dist)) {
-        #   # compute k-th positive distance from full matrix (OK for teaching-size n)
-        #   Dm <- as.matrix(private$.dist)
-        #   kdist <- apply(Dm, 1L, function(v) {
-        #     vv <- v[v > 0]
-        #     if (length(vv) < knnK) return(NA_real_)
-        #     sort(vv, partial = knnK)[knnK]
-        #   })
-        # }
-        } else if (!is.null(private$.dist)) {
-          # Exclude only the observation itself; retain zero-distance duplicates
-          Dm <- as.matrix(private$.dist)
-          kdist <- vapply(seq_len(nrow(Dm)), function(i) {
-            vv <- Dm[i, -i]
-            vv <- vv[is.finite(vv)]
-            if (length(vv) < knnK) return(NA_real_)
-            sort(vv, partial = knnK)[knnK]
-          }, numeric(1))
         }
-          
-
+        
         # ---------- choose eps (auto or user) ----------
         epsUsed <- self$options$eps
         autoFlag <- isTRUE(self$options$autoEps) && is.numeric(kdist) && !all(is.na(kdist))
