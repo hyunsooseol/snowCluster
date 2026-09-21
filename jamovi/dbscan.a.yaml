@@ -51,6 +51,8 @@ options:
             name: binary
           - title: "Gower"
             name: gower            
+          - title: "Bray-Curtis"
+            name: bray
       default: euclidean
 
     - name: cm
@@ -112,5 +114,6 @@ options:
         - { title: "None",              name: none }
         - { title: "Silhouette (mean)", name: sil }
         - { title: "Davies–Bouldin",    name: dbi }
+
 
 ...

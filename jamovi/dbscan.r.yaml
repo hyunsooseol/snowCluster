@@ -124,8 +124,8 @@ items:
           type: number
           format: zto.pct
         - name: k
-          title: "k (minPts)"
-          type: integer
+          title: "k (minPts - 1)"
+          type: integer 
         - name: n
           title: "N"
           type: integer

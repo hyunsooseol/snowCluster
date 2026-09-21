@@ -10,12 +10,12 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
       .X      = NULL,     # numeric matrix for PCA plotting (when applicable)
       .fit    = NULL,     # dbscan::dbscan() result
       .coords = NULL,     # 2D coordinates for plotting (PCA or MDS)
-      .dist   = NULL,     # distance object (for gower/binary; used for MDS & silhouette)
+      .dist   = NULL,     # distance object (for gower/binary/bray; used for MDS & silhouette)
       .kinfo  = NULL,     # list(kdist, k, epsUsed, auto, q) for kNN plot & auto-eps
       .profColsAdded = FALSE,
       .lastProfVars  = NULL,
       .htmlwidget = NULL,
- 
+      
       .init = function() {
         private$.htmlwidget <- HTMLWidget$new()
         
@@ -38,7 +38,7 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
         ))
         
       },
-
+      
       # ---------------------------------------------------------
       # Main entry
       # ---------------------------------------------------------
@@ -72,12 +72,17 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
         
         # 3) options
         metric <- self$options$dist
+        standardize <- isTRUE(self$options$standardize) && metric != "bray"
+        
         minPts <- max(1L, as.integer(self$options$minPts))
         n <- nrow(dat)
         if (minPts >= n) {
           minPts <- n - 1L
           if (minPts < 1L) jmvcore::reject("minPts must be < number of complete rows.")
         }
+        
+        # minPts includes the observation itself; kNN excludes it
+        knnK <- max(1L, minPts - 1L)
         
         # reset caches
         private$.fit  <- NULL
@@ -91,7 +96,7 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
           # Gower distance for mixed data
           if (!requireNamespace("cluster", quietly = TRUE))
             jmvcore::reject('The "cluster" package is required for Gower distance.')
-          d <- cluster::daisy(dat, metric = "gower", stand = isTRUE(self$options$standardize))
+          d <- cluster::daisy(dat, metric = "gower", stand = standardize)
           d <- stats::as.dist(d)
           private$.dist <- d
           
@@ -115,12 +120,29 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
           Xb <- as.matrix(dat_bin)
           private$.dist <- stats::dist(Xb, method = "binary")  # Hamming
           
+        } else if (metric == "bray") {
+          # Bray-Curtis dissimilarity for non-negative numeric variables
+          if (any(!vapply(dat, is.numeric, logical(1))))
+            jmvcore::reject("Selected variables must be numeric for Bray-Curtis distance.")
+          X <- as.matrix(dat)
+          if (any(!is.finite(X)))
+            jmvcore::reject("Bray-Curtis distance requires finite values.")
+          if (any(X < 0))
+            jmvcore::reject("Bray-Curtis distance requires non-negative values.")
+          if (any(rowSums(X) == 0))
+            jmvcore::reject("Bray-Curtis distance is undefined for rows containing only zeros.")
+          numerator <- as.matrix(stats::dist(X, method = "manhattan"))
+          denominator <- outer(rowSums(X), rowSums(X), "+")
+          bray <- numerator / denominator
+          diag(bray) <- 0
+          private$.dist <- stats::as.dist(bray)
+          
         } else if (metric %in% c("manhattan", "maximum")) {
           # Numeric-only distances
           if (any(!vapply(dat, is.numeric, logical(1))))
             jmvcore::reject("Selected variables must be numeric for Manhattan/Maximum.")
           X <- as.matrix(dat)
-          if (isTRUE(self$options$standardize)) X <- scale(X)
+          if (standardize) X <- scale(X)
           private$.X    <- X
           private$.dist <- stats::dist(X, method = metric)
           
@@ -128,7 +150,7 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
           if (any(!vapply(dat, is.numeric, logical(1))))
             jmvcore::reject("Selected variables must be numeric for Euclidean distance.")
           X <- as.matrix(dat)
-          if (isTRUE(self$options$standardize)) X <- scale(X)
+          if (standardize) X <- scale(X)
           private$.X <- X
           # we can skip building full dist for kNNdist on X
         }
@@ -137,27 +159,53 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
         kdist <- NULL
         if (!is.null(private$.X)) {
           # fast path using data matrix
-          kdist <- dbscan::kNNdist(private$.X, k = minPts)
+          kdist <- dbscan::kNNdist(private$.X, k = knnK)
+        # } else if (!is.null(private$.dist)) {
+        #   # compute k-th positive distance from full matrix (OK for teaching-size n)
+        #   Dm <- as.matrix(private$.dist)
+        #   kdist <- apply(Dm, 1L, function(v) {
+        #     vv <- v[v > 0]
+        #     if (length(vv) < knnK) return(NA_real_)
+        #     sort(vv, partial = knnK)[knnK]
+        #   })
+        # }
         } else if (!is.null(private$.dist)) {
-          # compute k-th positive distance from full matrix (OK for teaching-size n)
+          # Exclude only the observation itself; retain zero-distance duplicates
           Dm <- as.matrix(private$.dist)
-          kdist <- apply(Dm, 1L, function(v) {
-            vv <- v[v > 0]
-            if (length(vv) < minPts) return(NA_real_)
-            sort(vv, partial = minPts)[minPts]
-          })
+          kdist <- vapply(seq_len(nrow(Dm)), function(i) {
+            vv <- Dm[i, -i]
+            vv <- vv[is.finite(vv)]
+            if (length(vv) < knnK) return(NA_real_)
+            sort(vv, partial = knnK)[knnK]
+          }, numeric(1))
         }
-        
+          
+
         # ---------- choose eps (auto or user) ----------
         epsUsed <- self$options$eps
         autoFlag <- isTRUE(self$options$autoEps) && is.numeric(kdist) && !all(is.na(kdist))
         if (autoFlag) {
           q <- min(max(as.numeric(self$options$epsQuantile), 0.5), 0.999)
           epsUsed <- as.numeric(stats::quantile(kdist, probs = q, na.rm = TRUE))
-          private$.kinfo <- list(kdist = kdist, k = minPts, epsUsed = epsUsed, auto = TRUE, q = q)
+          private$.kinfo <- list(
+            kdist = kdist,
+            k = knnK,
+            epsUsed = epsUsed,
+            auto = TRUE,
+            q = q
+          )
+          
         } else {
-          private$.kinfo <- list(kdist = kdist, k = minPts, epsUsed = epsUsed, auto = FALSE, q = NA_real_)
+          private$.kinfo <- list(
+            kdist = kdist,
+            k = knnK,
+            epsUsed = epsUsed,
+            auto = FALSE,
+            q = NA_real_
+          )
         }
+        if (metric == "bray" && (epsUsed < 0 || epsUsed > 1))
+          jmvcore::reject("For Bray-Curtis distance, epsilon must be between 0 and 1.")
         
         # ---------- fit DBSCAN with epsUsed ----------
         if (!is.null(private$.dist)) {
@@ -213,7 +261,7 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
             "------------------------------\n",
             "N (complete) = ", sum(keep), ", p = ", ncol(dat), "\n",
             "eps (used) = ", signif(epsUsed, 6), autoLine, ", minPts = ", minPts, "\n",
-            "distance = ", metric, ", standardize = ", isTRUE(self$options$standardize), "\n",
+            "distance = ", metric, ", standardize = ", standardize, "\n",
             "clusters found = ", k, "\n",
             "noise points = ", noiseN, "\n\n",
             "Cluster sizes:\n", szStr
@@ -228,7 +276,7 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
           at$addRow(rowKey = 1, values = list(
             eps_used = as.numeric(if (!is.null(private$.kinfo$epsUsed)) private$.kinfo$epsUsed else self$options$eps),
             quantile = as.numeric(qv),
-            k        = as.integer(minPts),
+            k        = as.integer(private$.kinfo$k),
             n        = as.integer(sum(keep))
           ))
         }
@@ -318,8 +366,11 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
         # ---------- Coordinates for plotting ----------
         if (isTRUE(self$options$plot)) {
           if (!is.null(private$.dist)) {
-            # MDS on precomputed distance (gower/binary/manhattan/maximum path if no X)
-            coords <- try(stats::cmdscale(private$.dist, k = 2), silent = TRUE)
+            # MDS on precomputed distance (gower/binary/bray/manhattan/maximum path if no X)
+            coords <- if (metric == "bray")
+              try(stats::cmdscale(private$.dist, k = 2, add = TRUE, list. = FALSE), silent = TRUE)
+            else
+              try(stats::cmdscale(private$.dist, k = 2), silent = TRUE)
             if (!inherits(coords, "try-error"))
               private$.coords <- cbind(PC1 = coords[, 1], PC2 = coords[, 2])
           } else if (!is.null(private$.X)) {
@@ -426,6 +477,14 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
         coords$clusterLabel <- ifelse(cl == 0, "Noise", paste0("C", cl))
         coords$isNoise <- cl == 0
         
+        if (!is.null(private$.dist)) {
+          axisX <- "MDS1"
+          axisY <- "MDS2"
+        } else {
+          axisX <- "PC1"
+          axisY <- "PC2"
+        }
+        
         ggplot2::theme_set(ggplot2::theme_minimal())
         p <- ggplot2::ggplot(coords, ggplot2::aes(x = PC1, y = PC2)) +
           ggplot2::geom_point(
@@ -433,7 +492,7 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
             alpha = 0.9, size = 2.2, stroke = 0.6
           ) +
           ggplot2::scale_shape_manual(values = c(`TRUE` = 4, `FALSE` = 16), guide = "none") +
-          ggplot2::labs(x = "PC1", y = "PC2", color = "Cluster")
+          ggplot2::labs(x = axisX, y = axisY, color = "Cluster")
         
         print(p)
         TRUE

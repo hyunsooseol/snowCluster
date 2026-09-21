@@ -19,6 +19,7 @@ children:
     children:
       - name: standardize
         type: CheckBox
+        enable: (dist:euclidean || dist:manhattan || dist:maximum || dist:binary || dist:gower)
   - type: CollapseBox
     label: 'Analysis'
     margin: normal

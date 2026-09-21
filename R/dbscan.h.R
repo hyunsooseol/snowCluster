@@ -59,7 +59,8 @@ dbscanOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "manhattan",
                     "maximum",
                     "binary",
-                    "gower"),
+                    "gower",
+                    "bray"),
                 default="euclidean")
             private$..cm <- jmvcore::OptionOutput$new(
                 "cm")
@@ -308,7 +309,7 @@ dbscanResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `format`="zto.pct"),
                     list(
                         `name`="k", 
-                        `title`="k (minPts)", 
+                        `title`="k (minPts - 1)", 
                         `type`="integer"),
                     list(
                         `name`="n", 
