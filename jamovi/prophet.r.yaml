@@ -23,6 +23,7 @@ items:
       title: 'Model Accuracy'
       type: Table
       rows: 0
+      visible: (accuracy)
       clearWith:
           - dep
           - covs
@@ -58,7 +59,7 @@ items:
       height: 450      
       refs: prophet
       renderFun: .plotAcc
-      visible: (accuracy)
+      visible: (plotAcc)
       clearWith:
           - dep
           - covs

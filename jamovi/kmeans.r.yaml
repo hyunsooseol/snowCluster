@@ -175,6 +175,7 @@ items:
     - name: oc
       title: 'Silhouette index'
       type: Table
+      visible: (oc)
       clearWith:
         - vars
         - factors

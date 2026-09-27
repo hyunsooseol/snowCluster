@@ -24,7 +24,6 @@ children:
     children:
       - type: TextBox
         name: per
-        enable: (tra)
         format: number
   - type: CollapseBox
     label: 'Linear Discriminant'

@@ -360,6 +360,34 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
             private$.coords <- private$.makeCoords(private$.X)
           }
         }
+        
+        # ---------- Persist only the small data needed to redraw/export plots ----------
+        # Keep the private calculation objects above intact; image state is only the
+        # durable rendering payload used when jamovi redraws/exports a saved analysis.
+        if (isTRUE(self$options$plot) &&
+            !is.null(private$.coords) &&
+            !is.null(private$.fit)) {
+          coordsState <- as.data.frame(private$.coords)
+          clState <- private$.fit$cluster
+          coordsState$clusterLabel <- ifelse(clState == 0, "Noise", paste0("C", clState))
+          coordsState$isNoise <- clState == 0
+          
+          self$results$plot$setState(list(
+            coords = coordsState,
+            axisX = if (!is.null(private$.dist)) "MDS1" else "PC1",
+            axisY = if (!is.null(private$.dist)) "MDS2" else "PC2"
+          ))
+        }
+        
+        if (isTRUE(self$options$knnPlot) &&
+            !is.null(private$.kinfo) &&
+            !is.null(private$.kinfo$kdist)) {
+          self$results$knnPlot$setState(list(
+            kdist = private$.kinfo$kdist,
+            k = private$.kinfo$k,
+            epsUsed = private$.kinfo$epsUsed
+          ))
+        }
       },
       
       # ---------------------------------------------------------
@@ -449,22 +477,33 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
       .plot = function(image, ...) {
         if (!isTRUE(self$options$plot))
           return(FALSE)
-        if (is.null(private$.fit) || is.null(private$.coords))
-          return(FALSE)
         if (!requireNamespace("ggplot2", quietly = TRUE))
           jmvcore::reject('The "ggplot2" package is required but not installed.')
         
-        coords <- as.data.frame(private$.coords)
-        cl <- private$.fit$cluster
-        coords$clusterLabel <- ifelse(cl == 0, "Noise", paste0("C", cl))
-        coords$isNoise <- cl == 0
-        
-        if (!is.null(private$.dist)) {
-          axisX <- "MDS1"
-          axisY <- "MDS2"
+        # Prefer durable image state (works after save/reopen/export). Keep the
+        # private-object path as a compatibility fallback for the active run.
+        state <- image$state
+        if (!is.null(state) &&
+            !is.null(state$coords) &&
+            !is.null(state$axisX) &&
+            !is.null(state$axisY)) {
+          coords <- as.data.frame(state$coords)
+          axisX <- state$axisX
+          axisY <- state$axisY
         } else {
-          axisX <- "PC1"
-          axisY <- "PC2"
+          if (is.null(private$.fit) || is.null(private$.coords))
+            return(FALSE)
+          coords <- as.data.frame(private$.coords)
+          cl <- private$.fit$cluster
+          coords$clusterLabel <- ifelse(cl == 0, "Noise", paste0("C", cl))
+          coords$isNoise <- cl == 0
+          if (!is.null(private$.dist)) {
+            axisX <- "MDS1"
+            axisY <- "MDS2"
+          } else {
+            axisX <- "PC1"
+            axisY <- "PC2"
+          }
         }
         
         ggplot2::theme_set(ggplot2::theme_minimal())
@@ -484,12 +523,24 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
       # kNN-distance plot renderer
       # ---------------------------------------------------------
       .plotKNN = function(image, ...) {
-        if (is.null(private$.kinfo) || is.null(private$.kinfo$kdist))
-          return(FALSE)
         if (!requireNamespace("ggplot2", quietly = TRUE))
           jmvcore::reject('The "ggplot2" package is required but not installed.')
         
-        kd <- private$.kinfo$kdist
+        # Prefer durable image state; retain the current private cache path as
+        # a compatibility fallback during the active analysis session.
+        state <- image$state
+        if (!is.null(state) && !is.null(state$kdist)) {
+          kd <- state$kdist
+          kPlot <- state$k
+          epsPlot <- state$epsUsed
+        } else {
+          if (is.null(private$.kinfo) || is.null(private$.kinfo$kdist))
+            return(FALSE)
+          kd <- private$.kinfo$kdist
+          kPlot <- private$.kinfo$k
+          epsPlot <- private$.kinfo$epsUsed
+        }
+        
         if (!is.numeric(kd) || length(kd) == 0L || all(is.na(kd)))
           return(FALSE)
         
@@ -506,13 +557,13 @@ dbscanClass <- if (requireNamespace('jmvcore', quietly=TRUE))
           ggplot2::geom_line() +
           ggplot2::labs(
             x = "Points (sorted by kNN distance)",
-            y = paste0(private$.kinfo$k, "-NN distance")
+            y = paste0(kPlot, "-NN distance")
           )
         
-        if (!is.null(private$.kinfo$epsUsed) &&
-            is.finite(private$.kinfo$epsUsed)) {
+        if (!is.null(epsPlot) &&
+            is.finite(epsPlot)) {
           p <- p + ggplot2::geom_hline(
-            yintercept = private$.kinfo$epsUsed,
+            yintercept = epsPlot,
             linetype = "dashed"
           )
         }

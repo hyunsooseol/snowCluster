@@ -387,6 +387,7 @@ kmeansResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="oc",
                 title="Silhouette index",
+                visible="(oc)",
                 clearWith=list(
                     "vars",
                     "factors",

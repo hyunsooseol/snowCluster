@@ -234,6 +234,7 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="accuracy",
                 title="Model Accuracy",
                 rows=0,
+                visible="(accuracy)",
                 clearWith=list(
                     "dep",
                     "covs",
@@ -272,7 +273,7 @@ prophetResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 height=450,
                 refs="prophet",
                 renderFun=".plotAcc",
-                visible="(accuracy)",
+                visible="(plotAcc)",
                 clearWith=list(
                     "dep",
                     "covs",
